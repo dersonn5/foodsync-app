@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useState } from 'react'
 
-const menuItems = [
+export const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
     { icon: UtensilsCrossed, label: 'Cardápio', href: '/admin/menu' },
     { icon: ClipboardList, label: 'Pedidos', href: '/admin/orders' },
