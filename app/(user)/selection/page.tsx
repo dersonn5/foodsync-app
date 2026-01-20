@@ -303,18 +303,37 @@ export default function SelectionPage() {
             </main>
 
             {/* Confirm Floating Button (Only show if no order and selection made) */}
-            {!existingOrder && (
+            {/* Footer Action Buttons */}
+            {existingOrder ? (
+                <div className="fixed bottom-[100px] left-0 right-0 px-5 z-50 flex justify-center animate-in slide-in-from-bottom-4">
+                    <div className="w-full max-w-md bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 flex items-center justify-between gap-4">
+                        <div className="flex-1">
+                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-0.5">Pedido Confirmado</p>
+                            <p className="text-sm font-bold text-slate-900 line-clamp-1">
+                                {existingOrder.menu_items?.name || 'Prato Reservado'}
+                            </p>
+                        </div>
+                        <Button
+                            onClick={handleCancelOrder}
+                            variant="destructive"
+                            className="h-12 bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-700 border-0 font-bold rounded-xl active:scale-95 transition-all"
+                        >
+                            Cancelar
+                        </Button>
+                    </div>
+                </div>
+            ) : (
                 <div className={`
-                    fixed bottom-[90px] left-0 right-0 px-5 transition-all duration-300 z-30 flex justify-center
+                    fixed bottom-[100px] left-0 right-0 px-5 transition-all duration-300 z-50 flex justify-center
                     ${selectedId ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}
                 `}>
                     <Button
                         onClick={handleConfirm}
                         disabled={submitting}
-                        className="w-full max-w-md h-16 text-lg font-bold bg-slate-900 hover:bg-black text-white rounded-2xl shadow-2xl shadow-black/20 active:scale-95 transition-all flex items-center justify-between px-8 border border-slate-800"
+                        className="w-full max-w-md h-16 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-2xl shadow-2xl shadow-green-600/20 active:scale-95 transition-all flex items-center justify-between px-8 border border-green-500"
                     >
                         <span>Reservar Prato</span>
-                        {submitting ? <Loader2 className="animate-spin" /> : <ArrowRight className="w-6 h-6" />}
+                        {submitting ? <Loader2 className="animate-spin text-white/80" /> : <ArrowRight className="w-6 h-6 text-white/80" />}
                     </Button>
                 </div>
             )}
