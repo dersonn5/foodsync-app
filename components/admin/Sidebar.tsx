@@ -2,9 +2,11 @@
 
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { LayoutDashboard, UtensilsCrossed, ClipboardList, BarChart3, Settings, LogOut } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { LayoutDashboard, UtensilsCrossed, ClipboardList, BarChart3, Settings, LogOut, Menu } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { useState } from 'react'
 
 const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
@@ -14,7 +16,7 @@ const menuItems = [
     { icon: Settings, label: 'Configurações', href: '/admin/settings' },
 ]
 
-export function AdminSidebar() {
+function SidebarContent({ onClose }: { onClose?: () => void }) {
     const pathname = usePathname()
     const router = useRouter()
     const supabase = createClient()
@@ -26,7 +28,7 @@ export function AdminSidebar() {
     }
 
     return (
-        <aside className="fixed left-0 top-0 h-full w-64 bg-slate-900 text-slate-100 flex flex-col transition-all duration-300 z-50 shadow-xl">
+        <div className="flex flex-col h-full text-slate-100 bg-slate-900 border-r border-slate-800">
             {/* Brand */}
             <div className="h-16 flex items-center px-6 border-b border-slate-800">
                 <span className="text-xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
@@ -38,18 +40,18 @@ export function AdminSidebar() {
             <nav className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
                 {menuItems.map((item) => {
                     const isActive = pathname === item.href
-
                     return (
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={onClose}
                             className={`
-                flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
-                ${isActive
+                                flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+                                ${isActive
                                     ? 'bg-green-500/10 text-green-400 border border-green-500/20 shadow-[0_0_15px_-5px_rgb(74,222,128,0.2)]'
                                     : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
                                 }
-              `}
+                            `}
                         >
                             <item.icon className={`w-5 h-5 ${isActive ? 'text-green-400' : 'text-slate-500'}`} />
                             {item.label}
@@ -59,7 +61,7 @@ export function AdminSidebar() {
             </nav>
 
             {/* Footer / Logout */}
-            <div className="p-4 border-t border-slate-800">
+            <div className="p-4 border-t border-slate-800 mt-auto">
                 <button
                     onClick={handleLogout}
                     className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
@@ -68,6 +70,31 @@ export function AdminSidebar() {
                     Sair
                 </button>
             </div>
+        </div>
+    )
+}
+
+export function AdminSidebar() {
+    return (
+        <aside className="fixed left-0 top-0 h-full w-64 hidden md:flex flex-col z-50">
+            <SidebarContent />
         </aside>
+    )
+}
+
+export function MobileSidebar() {
+    const [open, setOpen] = useState(false)
+
+    return (
+        <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden text-slate-500">
+                    <Menu className="w-6 h-6" />
+                </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0 bg-slate-900 border-r-slate-800 w-72">
+                <SidebarContent onClose={() => setOpen(false)} />
+            </SheetContent>
+        </Sheet>
     )
 }

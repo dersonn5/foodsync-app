@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Loader2, Ticket, CalendarClock } from 'lucide-react'
+import QRCode from 'react-qr-code'
 
 // Basic order type for the list
 interface OrderHistoryItem {
@@ -53,6 +54,9 @@ export default function OrdersPage() {
         fetchHistory()
     }, [])
 
+    // State for selected order to show message
+    const [selectedOrder, setSelectedOrder] = useState<OrderHistoryItem | null>(null)
+
     return (
         <div className="min-h-screen bg-slate-50">
             <header className="bg-white px-6 py-6 pt-12 text-center sticky top-0 z-10 shadow-sm">
@@ -71,7 +75,8 @@ export default function OrdersPage() {
                     orders.map(order => (
                         <div
                             key={order.id}
-                            className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-all active:scale-95"
+                            onClick={() => setSelectedOrder(order)}
+                            className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-all active:scale-95 cursor-pointer hover:bg-slate-50"
                         >
                             <div className="h-12 w-12 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0 text-green-600 font-bold text-xs uppercase text-center leading-none">
                                 {format(new Date(order.consumption_date), "dd\nMMM", { locale: ptBR })}
@@ -101,6 +106,50 @@ export default function OrdersPage() {
                     </div>
                 )}
             </main>
+
+            {/* QR Modal Overlay */}
+            {selectedOrder && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6 animate-in fade-in"
+                    onClick={() => setSelectedOrder(null)}
+                >
+                    <div
+                        className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-in zoom-in-95 duration-200"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="text-center mb-6">
+                            <h2 className="text-xl font-bold text-slate-900 mb-1">Este é seu Ticket</h2>
+                            <p className="text-slate-400 text-sm">Apresente isso no balcão da cozinha.</p>
+                        </div>
+
+                        <div className="bg-slate-50 p-6 rounded-2xl border-2 border-dashed border-slate-200 mb-6 flex justify-center">
+                            {/* We need to import QRCode first! I noticed I missed adding the import in this block. 
+                               Wait, I need to check if QRCode is imported. 
+                               It WAS NOT imported in previous view_file. 
+                               I will add it now or in a separate edit if I can't do it here easily since I am replacing logic block.
+                               Actually I can verify imports. 
+                               I will assume I need to add import too. 
+                            */}
+                            {/* Fallback if QRCode not available or just render it assuming I fix imports next */}
+                            <QRCode value={selectedOrder.id} size={180} />
+                        </div>
+
+                        <div className="bg-green-50 p-4 rounded-xl mb-6 text-center">
+                            <h3 className="font-bold text-green-800 text-sm mb-1">{selectedOrder.menu_items?.name}</h3>
+                            <p className="text-green-600 text-xs">
+                                {format(new Date(selectedOrder.consumption_date), "dd 'de' MMMM, yyyy", { locale: ptBR })}
+                            </p>
+                        </div>
+
+                        <button
+                            onClick={() => setSelectedOrder(null)}
+                            className="w-full bg-slate-900 text-white font-bold h-12 rounded-xl active:scale-95 transition-all"
+                        >
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
