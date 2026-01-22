@@ -82,19 +82,4 @@ export function AdminSidebar() {
     )
 }
 
-export function MobileSidebar() {
-    const [open, setOpen] = useState(false)
 
-    return (
-        <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden text-slate-500">
-                    <Menu className="w-6 h-6" />
-                </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="p-0 bg-slate-900 border-r-slate-800 w-72">
-                <SidebarContent onClose={() => setOpen(false)} />
-            </SheetContent>
-        </Sheet>
-    )
-}
