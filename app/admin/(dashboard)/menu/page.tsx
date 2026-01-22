@@ -205,33 +205,33 @@ export default function AdminMenuPage() {
 
                     return (
                         // Individual Day Column: Flex Col + Internal Scroll
-                        <div key={dateStr} className={`flex flex-col h-full rounded-2xl border transition-colors ${isToday ? 'bg-blue-50/50 border-blue-200/60 shadow-sm' : 'bg-slate-50/50 border-slate-200/60'}`}>
+                        <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors ${isToday ? 'bg-blue-50/50 border-blue-200/60 shadow-sm' : 'bg-slate-50/50 border-slate-200/60'}`}>
 
-                            {/* Column Header */}
-                            <div className="flex-none p-4 pb-2 text-center border-b border-white/50">
-                                <span className={`text-[10px] font-bold uppercase tracking-[0.2em] block mb-0.5 ${isToday ? 'text-blue-600' : 'text-slate-400'}`}>
+                            {/* Column Header: Fixed */}
+                            <div className="flex-none p-3 border-b border-slate-100 flex items-center justify-between">
+                                <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isToday ? 'text-blue-600' : 'text-slate-400'}`}>
                                     {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
                                 </span>
-                                <span className={`text-2xl font-bold ${isToday ? 'text-blue-900' : 'text-slate-700'}`}>
+                                <span className={`text-xl font-bold ${isToday ? 'text-blue-900' : 'text-slate-700'}`}>
                                     {format(date, 'dd')}
                                 </span>
                             </div>
 
-                            {/* Cards Stack (Scrollable) */}
-                            <div className="flex-1 overflow-y-auto px-2 py-2 space-y-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+                            {/* Cards Stack (Scrollable Area) */}
+                            <div className="flex-1 overflow-y-auto p-2 space-y-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                                 {loading ? (
-                                    <div className="h-24 rounded-xl bg-white animate-pulse shadow-sm" />
+                                    <div className="h-24 rounded-lg bg-white animate-pulse shadow-sm" />
                                 ) : dayItems.map(item => (
-                                    <Card key={item.id} className="group border shadow-sm border-slate-200/60 bg-white hover:shadow-md hover:border-green-500/30 transition-all duration-300 cursor-pointer overflow-hidden rounded-xl">
+                                    <Card key={item.id} className="group border shadow-sm border-slate-200/60 bg-white hover:shadow-md hover:border-green-500/30 transition-all duration-300 cursor-pointer overflow-hidden rounded-lg">
                                         <CardContent className="p-3">
                                             {/* Image & Actions */}
-                                            <div className="relative h-20 rounded-lg overflow-hidden bg-slate-50 mb-3">
+                                            <div className="relative h-20 rounded-md overflow-hidden bg-slate-50 mb-2">
                                                 {item.photo_url ? (
                                                     // eslint-disable-next-line @next/next/no-img-element
                                                     <img src={item.photo_url} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                                 ) : (
                                                     <div className="h-full w-full flex items-center justify-center text-slate-300">
-                                                        <Utensils className="w-6 h-6" />
+                                                        <Utensils className="w-5 h-5" />
                                                     </div>
                                                 )}
 
@@ -265,28 +265,29 @@ export default function AdminMenuPage() {
                                                 <h4 className="font-bold text-slate-800 text-xs leading-tight line-clamp-2">
                                                     {item.name}
                                                 </h4>
-                                                <p className="text-[10px] text-slate-400 line-clamp-1">
-                                                    {item.description || "Sem descrição"}
-                                                </p>
+                                                <div className="overflow-hidden">
+                                                    <p className="text-[10px] text-slate-400 truncate">
+                                                        {item.description || "Sem descrição"}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </CardContent>
                                     </Card>
                                 ))}
                             </div>
 
-                            {/* Add Button (Fixed Footer in Column) */}
-                            <div className="flex-none p-3 pt-0">
-                                <Button
-                                    variant="ghost"
+                            {/* Column Footer: Fixed Add Button */}
+                            <div className="flex-none p-3 border-t border-slate-100 bg-white/40 backdrop-blur-sm rounded-b-xl">
+                                <button
                                     onClick={() => {
                                         setTargetDateForAdd(date)
                                         setIsDialogOpen(true)
                                     }}
-                                    className="w-full border border-dashed border-slate-300 text-slate-400 hover:bg-white hover:border-green-400 hover:text-green-600 hover:shadow-sm rounded-xl h-10 text-xs transition-all"
+                                    className="w-full py-3 border-2 border-dashed border-slate-300 rounded-lg text-slate-500 hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition-all flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wide"
                                 >
-                                    <Plus className="w-3.5 h-3.5 mr-1.5" />
+                                    <Plus className="w-4 h-4" />
                                     Adicionar
-                                </Button>
+                                </button>
                             </div>
                         </div>
                     )
@@ -317,7 +318,7 @@ export default function AdminMenuPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label>Tipo</Label>
+                            <Label>Type</Label>
                             <Select
                                 onValueChange={(val) => setValue('type', val)}
                                 defaultValue={editingItem?.type || 'main'}
