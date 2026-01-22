@@ -204,7 +204,7 @@ export default function AdminMenuPage() {
                     const isToday = isSameDay(date, new Date())
 
                     return (
-                        // Individual Day Column: Strictly 3 Layers (Header/Body/Footer)
+                        // Individual Day Column: Header + Body (No separate footer now)
                         <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}>
 
                             {/* Layer 1: HEADER (Fixed) */}
@@ -217,78 +217,83 @@ export default function AdminMenuPage() {
                                 </span>
                             </div>
 
-                            {/* Layer 2: BODY (Scrollable) */}
+                            {/* Layer 2: BODY (Scrollable including Button) */}
                             <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                                 {loading ? (
                                     <div className="h-24 rounded-lg bg-white animate-pulse shadow-sm" />
-                                ) : dayItems.map(item => (
-                                    <Card key={item.id} className="group border shadow-sm border-slate-200/60 bg-white hover:shadow-md hover:border-green-500/30 transition-all duration-300 cursor-pointer overflow-hidden rounded-lg">
-                                        <CardContent className="p-3">
-                                            {/* Image & Actions */}
-                                            <div className="relative h-20 rounded-md overflow-hidden bg-slate-50 mb-2">
-                                                {item.photo_url ? (
-                                                    // eslint-disable-next-line @next/next/no-img-element
-                                                    <img src={item.photo_url} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                                                ) : (
-                                                    <div className="h-full w-full flex items-center justify-center text-slate-300">
-                                                        <Utensils className="w-5 h-5" />
+                                ) : (
+                                    <>
+                                        {/* Existing Items */}
+                                        {dayItems.map(item => (
+                                            <Card key={item.id} className="group border shadow-sm border-slate-200/60 bg-white hover:shadow-md hover:border-green-500/30 transition-all duration-300 cursor-pointer overflow-hidden rounded-lg">
+                                                <CardContent className="p-3">
+                                                    {/* Image & Actions */}
+                                                    <div className="relative h-20 rounded-md overflow-hidden bg-slate-50 mb-2">
+                                                        {item.photo_url ? (
+                                                            // eslint-disable-next-line @next/next/no-img-element
+                                                            <img src={item.photo_url} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                                        ) : (
+                                                            <div className="h-full w-full flex items-center justify-center text-slate-300">
+                                                                <Utensils className="w-5 h-5" />
+                                                            </div>
+                                                        )}
+
+                                                        {/* Hover Actions */}
+                                                        <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                                            <Button
+                                                                size="icon"
+                                                                className="h-6 w-6 bg-white/90 backdrop-blur-sm text-slate-700 hover:bg-white shadow-sm rounded-full"
+                                                                onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsDialogOpen(true) }}
+                                                            >
+                                                                <Edit2 className="w-3 h-3" />
+                                                            </Button>
+                                                            <Button
+                                                                size="icon"
+                                                                className="h-6 w-6 bg-white/90 backdrop-blur-sm text-red-600 hover:bg-white hover:text-red-700 shadow-sm rounded-full"
+                                                                onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }}
+                                                            >
+                                                                <Trash2 className="w-3 h-3" />
+                                                            </Button>
+                                                        </div>
                                                     </div>
-                                                )}
 
-                                                {/* Hover Actions */}
-                                                <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                    <Button
-                                                        size="icon"
-                                                        className="h-6 w-6 bg-white/90 backdrop-blur-sm text-slate-700 hover:bg-white shadow-sm rounded-full"
-                                                        onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsDialogOpen(true) }}
-                                                    >
-                                                        <Edit2 className="w-3 h-3" />
-                                                    </Button>
-                                                    <Button
-                                                        size="icon"
-                                                        className="h-6 w-6 bg-white/90 backdrop-blur-sm text-red-600 hover:bg-white hover:text-red-700 shadow-sm rounded-full"
-                                                        onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }}
-                                                    >
-                                                        <Trash2 className="w-3 h-3" />
-                                                    </Button>
-                                                </div>
-                                            </div>
+                                                    {/* Info */}
+                                                    <div className="space-y-1">
+                                                        <Badge variant="secondary" className={`
+                                                            text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide border-0
+                                                            ${item.type === 'main' ? 'bg-blue-50 text-blue-700' : item.type === 'fit' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}
+                                                        `}>
+                                                            {item.type === 'main' ? 'Padrão' : item.type.toUpperCase()}
+                                                        </Badge>
+                                                        <h4 className="font-bold text-slate-800 text-xs leading-tight line-clamp-2">
+                                                            {item.name}
+                                                        </h4>
+                                                        <div className="overflow-hidden">
+                                                            <p className="text-[10px] text-slate-400 truncate">
+                                                                {item.description || "Sem descrição"}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        ))}
 
-                                            {/* Info */}
-                                            <div className="space-y-1">
-                                                <Badge variant="secondary" className={`
-                                                    text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide border-0
-                                                    ${item.type === 'main' ? 'bg-blue-50 text-blue-700' : item.type === 'fit' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}
-                                                `}>
-                                                    {item.type === 'main' ? 'Padrão' : item.type.toUpperCase()}
-                                                </Badge>
-                                                <h4 className="font-bold text-slate-800 text-xs leading-tight line-clamp-2">
-                                                    {item.name}
-                                                </h4>
-                                                <div className="overflow-hidden">
-                                                    <p className="text-[10px] text-slate-400 truncate">
-                                                        {item.description || "Sem descrição"}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                ))}
+                                        {/* Inline Add Button (Ghost Card) */}
+                                        <button
+                                            onClick={() => {
+                                                setTargetDateForAdd(date)
+                                                setIsDialogOpen(true)
+                                            }}
+                                            className="w-full h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center text-slate-400 hover:text-green-600 hover:border-green-500 hover:bg-green-50/50 transition-all cursor-pointer group"
+                                        >
+                                            <Plus className="w-8 h-8 group-hover:scale-110 transition-transform mb-1" />
+                                            <span className="text-xs font-medium">Adicionar</span>
+                                        </button>
+                                    </>
+                                )}
                             </div>
 
-                            {/* Layer 3: FOOTER (Fixed) */}
-                            <div className="flex-none p-3 border-t border-slate-200 bg-white">
-                                <button
-                                    onClick={() => {
-                                        setTargetDateForAdd(date)
-                                        setIsDialogOpen(true)
-                                    }}
-                                    className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border-2 border-dashed border-slate-300 text-slate-500 hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition-all font-medium text-xs uppercase tracking-wide"
-                                >
-                                    <Plus size={18} />
-                                    <span>Adicionar Prato</span>
-                                </button>
-                            </div>
+                            {/* Footer Removed - Button is now aligned with list */}
 
                         </div>
                     )
