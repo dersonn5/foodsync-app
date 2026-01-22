@@ -45,53 +45,78 @@ export default function ReportsPage() {
         return { start: startOfWeek(now, { weekStartsOn: 1 }), end: endOfWeek(now, { weekStartsOn: 1 }) }
     }, [period])
 
-    // Fetch Data
+    // Fetch Data (Last 100 Orders - Client Side Filter)
     useEffect(() => {
         async function fetchData() {
             setLoading(true)
+
+            // Debug: Fetch recent orders without strict filtering first
             const { data, error } = await supabase
                 .from('orders')
                 .select(`
                     id,
                     status,
-                    total_price,
-                    created_at,
+                    consumption_date,
                     menu_item:menu_items (
-                        id,
-                        name,
-                        type
+                        name
                     )
                 `)
-                .gte('created_at', start.toISOString())
-                .lte('created_at', end.toISOString())
+                .order('consumption_date', { ascending: false })
+                .limit(100)
 
-            if (data) setRawData(data)
+            if (data) {
+                console.log("📊 Relatórios - Dados Brutos:", data.length, "pedidos encontrados.")
+                if (data.length > 0) {
+                    console.log("Exemplo de data (consumption_date):", data[0]?.consumption_date)
+                    console.log("Exemplo de status:", data[0]?.status)
+                }
+                setRawData(data)
+            } else if (error) {
+                console.error("Erro ao buscar relatórios:", error)
+            }
+
             setLoading(false)
         }
         fetchData()
-    }, [start, end, supabase])
+    }, [supabase])
 
-    // Metrics Calculation
+    // Metrics Calculation (Client-Side Filtering)
     const metrics = useMemo(() => {
-        const totalOrders = rawData.length
+        // 1. Filter by Date Range (Javascript is safer for timezones)
+        const periodOrders = rawData.filter(o => {
+            if (!o.consumption_date) return false
+            const orderDate = parseISO(o.consumption_date)
+            return isWithinInterval(orderDate, { start, end })
+        })
+
+        console.log(`🔎 Filtrando: ${periodOrders.length} pedidos dentro do período selecionado (${period}).`)
+
+        const totalOrders = periodOrders.length
         if (totalOrders === 0) return null
 
-        const confirmed = rawData.filter(o => o.status !== 'cancelled')
-        const cancelled = rawData.filter(o => o.status === 'cancelled')
+        // 2. Normalize Status (Resilience)
+        const confirmed = periodOrders.filter(o =>
+            o.status && o.status.toUpperCase() !== 'CANCELLED'
+        )
+        const cancelled = periodOrders.filter(o =>
+            o.status && o.status.toUpperCase() === 'CANCELLED'
+        )
 
         const efficiency = (confirmed.length / totalOrders) * 100
         const wasteCount = cancelled.length
 
-        // Group by Item for Rejection Radar
+        // 3. Group by Item
         const itemStats: Record<string, { name: string, total: number, cancelled: number, confirmed: number }> = {}
 
-        rawData.forEach(order => {
-            const itemName = order.menu_item?.name || 'Item Desconhecido'
+        periodOrders.forEach(order => {
+            const itemName = order.menu_item?.name || 'Prato Desconhecido'
             if (!itemStats[itemName]) {
                 itemStats[itemName] = { name: itemName, total: 0, cancelled: 0, confirmed: 0 }
             }
             itemStats[itemName].total += 1
-            if (order.status === 'cancelled') itemStats[itemName].cancelled += 1
+
+            const isCancelled = order.status && order.status.toUpperCase() === 'CANCELLED'
+            if (isCancelled) itemStats[itemName].cancelled += 1
             else itemStats[itemName].confirmed += 1
         })
 
@@ -110,7 +135,7 @@ export default function ReportsPage() {
             rejectionList: sortedRejection,
             productionList: sortedProduction
         }
-    }, [rawData])
+    }, [rawData, start, end, period])
 
     return (
         <div className="h-[calc(100vh-1rem)] flex flex-col overflow-hidden p-6 gap-6 font-sans">
@@ -287,8 +312,11 @@ export default function ReportsPage() {
                     </div>
                 </>
             ) : (
-                <div className="flex-1 flex items-center justify-center text-slate-400">
-                    Sem dados para o período selecionado.
+                <div className="flex-1 flex flex-col items-center justify-center text-slate-400 gap-2">
+                    <p>Sem dados para o período!</p>
+                    <p className="text-xs text-slate-300">
+                        ({rawData.length} pedidos encontrados no total, mas {rawData.length > 0 ? 'nenhum neste range' : 'banco vazio'})
+                    </p>
                 </div>
             )}
         </div>
