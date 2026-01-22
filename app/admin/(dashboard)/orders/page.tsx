@@ -9,7 +9,7 @@ import {
     CheckCircle2,
     XCircle,
     Clock,
-    DollarSign,
+    Ban,
     ShoppingBag,
     Utensils,
     Search,
@@ -114,7 +114,7 @@ export default function AdminOrdersPage() {
 
     const stats = {
         total: orders.length,
-        revenue: orders.filter(o => o.status !== 'canceled').length * 25, // Assuming R$ 25 fixed
+        canceled: orders.filter(o => o.status === 'canceled').length,
         pending: orders.filter(o => o.status === 'pending').length
     }
 
@@ -162,14 +162,14 @@ export default function AdminOrdersPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-0 shadow-[0_2px_10px_rgba(0,0,0,0.03)] bg-gradient-to-br from-emerald-50 to-white">
+                    <Card className="border-0 shadow-[0_2px_10px_rgba(0,0,0,0.03)] bg-gradient-to-br from-rose-50 to-white">
                         <CardContent className="p-5 flex items-center justify-between">
                             <div>
-                                <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">Receita Estimada</p>
-                                <h3 className="text-3xl font-bold text-slate-900">R$ {stats.revenue},00</h3>
+                                <p className="text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">Cancelamentos</p>
+                                <h3 className="text-3xl font-bold text-slate-900">{stats.canceled}</h3>
                             </div>
-                            <div className="h-12 w-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
-                                <DollarSign className="w-6 h-6" />
+                            <div className="h-12 w-12 bg-rose-100 rounded-full flex items-center justify-center text-rose-600">
+                                <Ban className="w-6 h-6" />
                             </div>
                         </CardContent>
                     </Card>
