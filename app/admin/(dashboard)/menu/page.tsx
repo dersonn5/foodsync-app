@@ -16,7 +16,8 @@ import {
     Utensils,
     Loader2,
     Save,
-    MoreHorizontal
+    MoreHorizontal,
+    Image as ImageIcon
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -105,7 +106,6 @@ export default function AdminMenuPage() {
         } else if (targetDateForAdd) {
             dateStr = targetDateForAdd.toISOString().split('T')[0]
         } else {
-            // Fallback (shouldn't happen with UI flow)
             dateStr = new Date().toISOString().split('T')[0]
         }
 
@@ -164,36 +164,32 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        <div className="p-8 max-w-[1600px] mx-auto space-y-8">
+        <div className="p-8 max-w-[1800px] mx-auto space-y-8 font-sans animate-in fade-in duration-500">
             <Toaster position="top-right" richColors />
 
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-6 rounded-3xl shadow-[0_2px_15px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-                        <div className="p-2 bg-green-50 rounded-xl text-green-600">
-                            <Utensils className="w-6 h-6" />
-                        </div>
+                    <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3 tracking-tight">
                         Planejamento Semanal
                     </h1>
-                    <p className="text-slate-500 text-sm mt-1 ml-14">Organize o cardápio arrastando opções (em breve) ou editando as colunas.</p>
+                    <p className="text-slate-500 text-sm mt-1">
+                        Gerencie o cardápio arrastando opções ou adicionando novos pratos.
+                    </p>
                 </div>
 
-                <div className="flex items-center gap-4 bg-slate-50 p-1.5 rounded-2xl border border-slate-200">
-                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(-1)} className="hover:bg-white rounded-xl">
+                <div className="bg-white shadow-sm border border-slate-200 rounded-full px-2 py-1.5 flex items-center gap-4">
+                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(-1)} className="hover:bg-slate-50 rounded-full w-8 h-8">
                         <ChevronLeft className="w-5 h-5 text-slate-600" />
                     </Button>
 
-                    <div className="text-center min-w-[200px]">
+                    <div className="text-center min-w-[140px]">
                         <span className="block text-sm font-bold text-slate-900 uppercase tracking-wide">
                             {format(currentWeekStart, "dd MMM", { locale: ptBR })} - {format(addDays(currentWeekStart, 4), "dd MMM", { locale: ptBR })}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                            Semana Atual
-                        </span>
                     </div>
 
-                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(1)} className="hover:bg-white rounded-xl">
+                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(1)} className="hover:bg-slate-50 rounded-full w-8 h-8">
                         <ChevronRight className="w-5 h-5 text-slate-600" />
                     </Button>
                 </div>
@@ -207,95 +203,85 @@ export default function AdminMenuPage() {
                     const isToday = isSameDay(date, new Date())
 
                     return (
-                        <div key={dateStr} className={`flex flex-col gap-4 rounded-3xl p-4 min-h-[500px] transition-colors ${isToday ? 'bg-blue-50/50 border-2 border-blue-100/50' : 'bg-gray-50/50 border border-gray-100'}`}>
+                        <div key={dateStr} className={`flex flex-col gap-4 rounded-[1.5rem] p-4 min-h-[600px] transition-colors ${isToday ? 'bg-blue-50/60 ring-1 ring-blue-100' : 'bg-slate-100/50'}`}>
                             {/* Column Header */}
-                            <div className="flex items-center justify-between pb-2 border-b border-black/5 mx-1">
-                                <div>
-                                    <span className={`text-xs font-bold uppercase tracking-wider block ${isToday ? 'text-blue-600' : 'text-gray-400'}`}>
-                                        {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
-                                    </span>
-                                    <span className={`text-xl font-bold ${isToday ? 'text-blue-900' : 'text-gray-700'}`}>
-                                        {format(date, 'dd')}
-                                    </span>
-                                </div>
-                                <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    className="h-8 w-8 rounded-full hover:bg-black/5"
-                                    onClick={() => {
-                                        setTargetDateForAdd(date)
-                                        setIsDialogOpen(true)
-                                    }}
-                                >
-                                    <Plus className="w-4 h-4 text-gray-500" />
-                                </Button>
+                            <div className="flex flex-col items-center pb-2 border-b border-slate-200/50 mx-2 mb-2">
+                                <span className={`text-[10px] font-bold uppercase tracking-[0.2em] mb-0.5 ${isToday ? 'text-blue-600' : 'text-slate-400'}`}>
+                                    {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
+                                </span>
+                                <span className={`text-3xl font-bold ${isToday ? 'text-blue-900' : 'text-slate-700'}`}>
+                                    {format(date, 'dd')}
+                                </span>
                             </div>
 
                             {/* Cards Stack */}
                             <div className="flex-1 space-y-3">
                                 {loading ? (
-                                    <div className="h-24 rounded-2xl bg-white/50 animate-pulse" />
-                                ) : dayItems.length > 0 ? (
-                                    dayItems.map(item => (
-                                        <Card key={item.id} className="border-0 shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden bg-white">
-                                            <CardContent className="p-3">
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <Badge variant="secondary" className={`
-                                                        text-[10px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide border-0
-                                                        ${item.type === 'main' ? 'bg-blue-50 text-blue-700' : item.type === 'fit' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}
-                                                    `}>
-                                                        {item.type === 'main' ? 'Padrão' : item.type.toUpperCase()}
-                                                    </Badge>
-
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="icon" className="h-6 w-6 -mr-1 -mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                <MoreHorizontal className="w-4 h-4 text-gray-400" />
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuItem onClick={() => { setEditingItem(item); setIsDialogOpen(true) }}>
-                                                                <Edit2 className="w-4 h-4 mr-2" /> Editar
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem onClick={() => handleDelete(item.id)} className="text-red-600">
-                                                                <Trash2 className="w-4 h-4 mr-2" /> Excluir
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
-                                                </div>
-
-                                                <div className="flex gap-3 items-center">
-                                                    <div className="h-10 w-10 bg-gray-100 rounded-lg flex-shrink-0 overflow-hidden">
-                                                        {item.photo_url ? (
-                                                            // eslint-disable-next-line @next/next/no-img-element
-                                                            <img src={item.photo_url} alt="" className="h-full w-full object-cover" />
-                                                        ) : (
-                                                            <div className="h-full w-full flex items-center justify-center text-gray-300">
-                                                                <Utensils className="w-5 h-5" />
-                                                            </div>
-                                                        )}
+                                    <div className="h-24 rounded-2xl bg-white animate-pulse shadow-sm" />
+                                ) : dayItems.map(item => (
+                                    <Card key={item.id} className="group border shadow-sm border-slate-200/60 bg-white hover:shadow-md hover:border-green-500/30 transition-all duration-300 cursor-pointer overflow-hidden rounded-xl">
+                                        <CardContent className="p-3">
+                                            {/* Image & Actions */}
+                                            <div className="relative h-24 rounded-lg overflow-hidden bg-slate-50 mb-3">
+                                                {item.photo_url ? (
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    <img src={item.photo_url} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                                ) : (
+                                                    <div className="h-full w-full flex items-center justify-center text-slate-300">
+                                                        <Utensils className="w-8 h-8" />
                                                     </div>
-                                                    <div className="min-w-0">
-                                                        <p className="text-sm font-bold text-gray-900 truncate leading-tight">{item.name}</p>
-                                                        <p className="text-[10px] text-gray-400 truncate mt-0.5">{item.description || 'Sem descrição'}</p>
-                                                    </div>
+                                                )}
+
+                                                {/* Hover Actions */}
+                                                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                                    <Button
+                                                        size="icon"
+                                                        className="h-7 w-7 bg-white/90 backdrop-blur-sm text-slate-700 hover:bg-white shadow-sm rounded-full"
+                                                        onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsDialogOpen(true) }}
+                                                    >
+                                                        <Edit2 className="w-3.5 h-3.5" />
+                                                    </Button>
+                                                    <Button
+                                                        size="icon"
+                                                        className="h-7 w-7 bg-white/90 backdrop-blur-sm text-red-600 hover:bg-white hover:text-red-700 shadow-sm rounded-full"
+                                                        onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }}
+                                                    >
+                                                        <Trash2 className="w-3.5 h-3.5" />
+                                                    </Button>
                                                 </div>
-                                            </CardContent>
-                                        </Card>
-                                    ))
-                                ) : (
-                                    <div className="h-full border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-4 text-center cursor-pointer hover:border-green-300 hover:bg-green-50/30 transition-all group"
-                                        onClick={() => {
-                                            setTargetDateForAdd(date)
-                                            setIsDialogOpen(true)
-                                        }}
-                                    >
-                                        <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-green-100 group-hover:text-green-600 transition-colors mb-2">
-                                            <Plus className="w-5 h-5" />
-                                        </div>
-                                        <span className="text-xs font-bold text-gray-400 group-hover:text-green-700">Adicionar Prato</span>
-                                    </div>
-                                )}
+                                            </div>
+
+                                            {/* Info */}
+                                            <div className="space-y-1.5">
+                                                <Badge variant="secondary" className={`
+                                                    text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide border-0
+                                                    ${item.type === 'main' ? 'bg-blue-50 text-blue-700' : item.type === 'fit' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}
+                                                `}>
+                                                    {item.type === 'main' ? 'Padrão' : item.type.toUpperCase()}
+                                                </Badge>
+                                                <h4 className="font-bold text-slate-800 text-sm leading-tight line-clamp-2">
+                                                    {item.name}
+                                                </h4>
+                                                <p className="text-[10px] text-slate-400 line-clamp-1">
+                                                    {item.description || "Sem descrição"}
+                                                </p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+
+                                {/* Add Button (Ghost) */}
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => {
+                                        setTargetDateForAdd(date)
+                                        setIsDialogOpen(true)
+                                    }}
+                                    className="w-full border border-dashed border-slate-300 text-slate-400 hover:bg-white hover:border-green-400 hover:text-green-600 hover:shadow-sm rounded-xl h-12 transition-all mt-2"
+                                >
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Adicionar
+                                </Button>
                             </div>
                         </div>
                     )
@@ -304,7 +290,7 @@ export default function AdminMenuPage() {
 
             {/* Dialog Form */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>{editingItem ? 'Editar Prato' : 'Adicionar ao Cardápio'}</DialogTitle>
                     </DialogHeader>
@@ -321,6 +307,7 @@ export default function AdminMenuPage() {
                             <Input
                                 {...register('name', { required: true })}
                                 placeholder="Ex: Strogonoff de Frango"
+                                className="rounded-xl"
                             />
                         </div>
 
@@ -330,7 +317,7 @@ export default function AdminMenuPage() {
                                 onValueChange={(val) => setValue('type', val)}
                                 defaultValue={editingItem?.type || 'main'}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger className="rounded-xl">
                                     <SelectValue placeholder="Selecione o tipo" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -346,22 +333,27 @@ export default function AdminMenuPage() {
                             <Textarea
                                 {...register('description')}
                                 placeholder="Ex: Arroz, batata palha e salada..."
+                                className="rounded-xl"
                             />
                         </div>
 
                         <div className="space-y-2">
                             <Label>URL da Foto (Opcional)</Label>
-                            <Input
-                                {...register('photo_url')}
-                                placeholder="https://..."
-                            />
+                            <div className="relative">
+                                <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                                <Input
+                                    {...register('photo_url')}
+                                    placeholder="https://..."
+                                    className="pl-9 rounded-xl"
+                                />
+                            </div>
                         </div>
 
                         <div className="flex gap-2 justify-end pt-4">
-                            <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                            <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="rounded-xl">
                                 Cancelar
                             </Button>
-                            <Button type="submit" disabled={isSubmitting} className="bg-green-600 text-white hover:bg-green-700">
+                            <Button type="submit" disabled={isSubmitting} className="bg-green-600 text-white hover:bg-green-700 rounded-xl">
                                 {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
                                 Salvar
                             </Button>
