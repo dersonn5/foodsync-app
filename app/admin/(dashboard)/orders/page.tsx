@@ -88,7 +88,7 @@ function AdminOrdersPageContent() {
                   consumption_date,
                   created_at,
                   users ( name, phone ),
-                  menu_items ( name, image_url )
+                  menu_items ( name )
                 `)
                 .eq('consumption_date', date) // STRICT FILTER
                 .order('id', { ascending: false }) // Safe sort
