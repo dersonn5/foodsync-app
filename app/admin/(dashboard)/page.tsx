@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import {
     Utensils,
@@ -15,15 +15,29 @@ import {
     ShoppingBag,
     ArrowUpRight,
     Coffee,
-    CalendarOff
+    CalendarOff,
+    ChevronLeft,
+    ChevronRight,
+    Calendar as CalendarIcon
 } from 'lucide-react'
-import { format, subDays, startOfDay, endOfDay } from 'date-fns'
+import { format, subDays, addDays, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { Toaster, toast } from 'sonner'
+import { formatDateDisplay } from '@/lib/utils'
 
-export default function AdminPage() {
+// Componente wrapper para usar useSearchParams com Suspense
+export default function AdminPageWrapper() {
+    return (
+        <Suspense fallback={<div className="p-8">Carregando dashboard...</div>}>
+            <AdminPageContent />
+        </Suspense>
+    )
+}
+
+function AdminPageContent() {
     const router = useRouter()
+    const searchParams = useSearchParams()
     const supabase = createClient()
     const [user, setUser] = useState<any>(null)
     const [loading, setLoading] = useState(true)
@@ -32,6 +46,10 @@ export default function AdminPage() {
     const [stats, setStats] = useState({ total_today: 0, canceled_today: 0, pending_today: 0 })
     const [recentOrders, setRecentOrders] = useState<any[]>([])
     const [weeklyData, setWeeklyData] = useState<any[]>([])
+
+    // Determine current date from URL or default to Today
+    const dateParam = searchParams.get('date')
+    const currentDateStr = dateParam || format(new Date(), 'yyyy-MM-dd')
 
     // 1. Auth Check
     useEffect(() => {
@@ -42,49 +60,67 @@ export default function AdminPage() {
                 return
             }
             setUser({ ...user, name: user.user_metadata?.name || 'Administrador' })
-            fetchDashboardData()
+            fetchDashboardData(currentDateStr)
         }
         checkAuth()
-    }, [])
+    }, [currentDateStr])
 
-    async function fetchDashboardData() {
+    // Navigation Handlers
+    const handlePrevDay = () => {
+        const prev = subDays(parseISO(currentDateStr), 1)
+        router.push(`/admin?date=${format(prev, 'yyyy-MM-dd')}`)
+    }
+
+    const handleNextDay = () => {
+        const next = addDays(parseISO(currentDateStr), 1)
+        router.push(`/admin?date=${format(next, 'yyyy-MM-dd')}`)
+    }
+
+    const handleToday = () => {
+        router.push('/admin')
+    }
+
+    async function fetchDashboardData(targetDate: string) {
         setLoading(true)
         try {
-            const todayStr = format(new Date(), 'yyyy-MM-dd')
+            console.log("Fetching dashboard for:", targetDate)
 
-            // A. Fetch Today's Orders (KPIs + Feed)
-            // Filtering by 'consumption_date' to show what needs to be cooked/served today
-            const { data: todayOrders, error: kpiError } = await supabase
+            // A. Fetch Orders for the Selected Date (KPIs + Feed)
+            // STRICTLY filtering by 'consumption_date'
+            const { data: dailyOrders, error: kpiError } = await supabase
                 .from('orders')
                 .select('id, created_at, status, users(name, email), menu_items(name, type)')
-                .eq('consumption_date', todayStr)
+                .eq('consumption_date', targetDate) // Critical Fix: use consumption_date
                 .order('created_at', { ascending: false })
 
             if (kpiError) throw kpiError
 
             // Calculate KPIs
-            const total = todayOrders?.length || 0
-            const pending = todayOrders?.filter((o: any) => o.status === 'pending').length || 0
-            const canceled = todayOrders?.filter((o: any) => o.status === 'canceled').length || 0
+            const total = dailyOrders?.length || 0
+            const pending = dailyOrders?.filter((o: any) => o.status === 'pending').length || 0
+            const canceled = dailyOrders?.filter((o: any) => o.status === 'canceled').length || 0
 
             setStats({ total_today: total, canceled_today: canceled, pending_today: pending })
-            setRecentOrders(todayOrders || [])
+            setRecentOrders(dailyOrders || [])
 
-            // B. Fetch Weekly Data (Last 5 Days)
+            // B. Fetch Weekly Data (Last 5 Days ending on Selected Date)
+            // Context chart relative to the day being viewed
             const chartData = []
-            for (let i = 4; i >= 0; i--) {
-                const d = subDays(new Date(), i)
-                const dStart = startOfDay(d).toISOString()
-                const dEnd = endOfDay(d).toISOString()
+            const targetDateObj = parseISO(targetDate)
 
+            for (let i = 4; i >= 0; i--) {
+                const d = subDays(targetDateObj, i)
+                const dStr = format(d, 'yyyy-MM-dd')
+
+                // Count orders for that specific consumption date
                 const { count } = await supabase
                     .from('orders')
                     .select('*', { count: 'exact', head: true })
-                    .gte('created_at', dStart)
-                    .lte('created_at', dEnd)
+                    .eq('consumption_date', dStr)
 
                 chartData.push({
-                    name: format(d, 'EEE', { locale: ptBR }),
+                    name: format(d, 'EEE', { locale: ptBR }), // "seg", "ter"
+                    fullDate: format(d, 'dd/MM'),
                     orders: count || 0
                 })
             }
@@ -104,15 +140,40 @@ export default function AdminPage() {
         <div className="p-8 max-w-[1600px] mx-auto space-y-8 font-sans animate-in fade-in duration-500">
             <Toaster position="top-right" richColors />
 
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            {/* Header with Navigation */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Live Operations</h1>
-                    <p className="text-slate-500 text-sm">
-                        Visão em tempo real de <span className="font-semibold text-slate-700">{format(new Date(), "dd 'de' MMMM", { locale: ptBR })}</span>
+                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                        Live Operations
+                        <span className="text-slate-300 font-light hidden md:inline">|</span>
+
+                        {/* Date Navigation Controls */}
+                        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-base">
+                            <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-8 w-8 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
+                                <ChevronLeft className="w-5 h-5" />
+                            </Button>
+
+                            <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[140px] justify-center cursor-pointer hover:bg-white/50 py-1 rounded-md transition-all" onClick={() => document.getElementById('date-picker')?.click()}>
+                                <CalendarIcon className="w-4 h-4 text-slate-400" />
+                                <span className="capitalize">{formatDateDisplay(currentDateStr)}</span>
+                            </div>
+
+                            <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-8 w-8 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
+                                <ChevronRight className="w-5 h-5" />
+                            </Button>
+                        </div>
+                    </h1>
+                    <p className="text-slate-500 text-sm mt-2 ml-1">
+                        Gerenciando pedidos para o dia <span className="font-semibold text-slate-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        {dateParam && (
+                            <button onClick={handleToday} className="ml-3 text-xs text-green-600 hover:underline font-medium">
+                                Voltar para Hoje
+                            </button>
+                        )}
                     </p>
                 </div>
-                <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-xl px-6 h-11 pointer-events-none">
+
+                <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-xl px-6 h-11 pointer-events-none shadow-lg">
                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse mr-2" />
                     Sistema Operando
                 </Button>
@@ -127,12 +188,12 @@ export default function AdminPage() {
                                 <ShoppingBag className="w-6 h-6" />
                             </div>
                             <Badge variant="outline" className="bg-white text-green-700 border-green-200 font-bold">
-                                HOJE
+                                {format(parseISO(currentDateStr), 'dd/MM')}
                             </Badge>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-4xl font-bold text-slate-900 tracking-tight">{stats.total_today}</h3>
-                            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">Pedidos Realizados</p>
+                            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">Pedidos do Dia</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -144,7 +205,7 @@ export default function AdminPage() {
                                 <Ban className="w-6 h-6" />
                             </div>
                             <Badge variant="outline" className="bg-white text-rose-700 border-rose-200 font-bold">
-                                HOJE
+                                {format(parseISO(currentDateStr), 'dd/MM')}
                             </Badge>
                         </div>
                         <div className="space-y-1">
@@ -181,7 +242,7 @@ export default function AdminPage() {
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                             <Utensils className="w-5 h-5 text-slate-400" />
-                            Feed de Pedidos
+                            Feed de Pedidos ({currentDateStr})
                         </h2>
                         <Button variant="ghost" className="text-sm text-green-600 hover:text-green-700 hover:bg-green-50" onClick={() => router.push('/admin/orders')}>
                             Ver Todos <ArrowUpRight className="w-4 h-4 ml-1" />
@@ -228,7 +289,7 @@ export default function AdminPage() {
                             <div className="flex flex-col items-center justify-center py-16 bg-white rounded-3xl border border-dashed border-slate-200">
                                 <Coffee className="w-12 h-12 text-slate-200 mb-3" />
                                 <h3 className="text-lg font-bold text-slate-400">Tudo calmo por aqui</h3>
-                                <p className="text-sm text-slate-300">Nenhum pedido registrado hoje ainda.</p>
+                                <p className="text-sm text-slate-300">Nenhum pedido para consumo nesta data.</p>
                             </div>
                         )}
                     </div>
@@ -238,7 +299,7 @@ export default function AdminPage() {
                 <div className="space-y-6">
                     <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-slate-400" />
-                        Performance
+                        Performance (5 Dias)
                     </h2>
 
                     <Card className="border-0 shadow-sm bg-slate-50/50">
@@ -270,7 +331,7 @@ export default function AdminPage() {
                             ) : (
                                 <div className="h-[300px] flex flex-col items-center justify-center text-center p-4">
                                     <CalendarOff className="w-10 h-10 text-slate-300 mb-3" />
-                                    <p className="text-sm font-medium text-slate-400">Sem dados suficientes na semana</p>
+                                    <p className="text-sm font-medium text-slate-400">Sem dados no período.</p>
                                 </div>
                             )}
                         </CardContent>
@@ -279,13 +340,10 @@ export default function AdminPage() {
                     <Card className="bg-slate-900 text-white border-0 shadow-lg overflow-hidden relative">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/20 rounded-full blur-3xl -mr-10 -mt-10" />
                         <CardContent className="p-6 relative z-10">
-                            <h3 className="font-bold text-lg mb-2">Dica do Chef 💡</h3>
+                            <h3 className="font-bold text-lg mb-2">Painel de Controle 🎛️</h3>
                             <p className="text-slate-300 text-sm leading-relaxed">
-                                Dias com pratos "Fit" tendem a ter 15% mais pedidos nas terças e quintas. Tente planejar o cardápio com antecedência nos dias de pico.
+                                Use as setas acima para navegar entre os dias. Os dados mostrados refletem apenas o que deve ser servido (consumido) na data selecionada.
                             </p>
-                            <Button variant="outline" className="mt-4 border-white/20 text-white hover:bg-white/10 hover:text-white w-full">
-                                Ver Relatórios Detalhados
-                            </Button>
                         </CardContent>
                     </Card>
                 </div>
