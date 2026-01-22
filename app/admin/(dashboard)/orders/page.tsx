@@ -83,30 +83,24 @@ function AdminOrdersPageContent() {
             const { data, error } = await supabase
                 .from('orders')
                 .select(`
-                    id,
-                    created_at,
-                    consumption_date,
-                    status,
-                    users (
-                        name,
-                        email
-                    ),
-                    menu_items (
-                        name,
-                        type
-                    )
+                  id,
+                  status,
+                  consumption_date,
+                  created_at,
+                  users ( name, avatar_url, phone ),
+                  menu_items ( name, image_url )
                 `)
                 .eq('consumption_date', date) // STRICT FILTER
                 .order('id', { ascending: false }) // Safe sort
 
             if (error) {
-                console.error("❌ Orders Query Error:", JSON.stringify(error, null, 2))
+                console.error("❌ ERRO CRÍTICO PEDIDOS:", JSON.stringify(error, null, 2))
                 throw error
             }
 
             setOrders(data as any || [])
         } catch (error: any) {
-            console.error("❌ Orders Page Error:", JSON.stringify(error, null, 2))
+            console.error("❌ ERRO CRÍTICO PEDIDOS:", JSON.stringify(error, null, 2))
             toast.error('Erro ao carregar pedidos')
         } finally {
             setLoading(false)
