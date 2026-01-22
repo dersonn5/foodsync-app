@@ -3,10 +3,8 @@
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, UtensilsCrossed, ClipboardList, BarChart3, Settings, LogOut, Menu } from 'lucide-react'
+import { LayoutDashboard, UtensilsCrossed, ClipboardList, BarChart3, Settings, LogOut, ChefHat } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { useState } from 'react'
 
 export const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
@@ -28,47 +26,79 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
     }
 
     return (
-        <div className="flex flex-col h-full text-slate-100 bg-slate-900 border-r border-slate-800">
+        <div className="flex flex-col h-full text-white bg-slate-950 border-r border-slate-900/50 shadow-2xl relative overflow-hidden">
+            {/* Ambient Background Effect */}
+            <div className="absolute top-0 left-0 w-full h-[300px] bg-green-900/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+
             {/* Brand */}
-            <div className="h-16 flex items-center px-6 border-b border-slate-800">
-                <span className="text-xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                    FoodSync Admin
-                </span>
+            <div className="h-24 flex items-center px-6 relative z-10">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-900/20">
+                        <ChefHat className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                        <span className="text-lg font-bold tracking-tight block leading-none">FoodSync</span>
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest pl-0.5">Admin</span>
+                    </div>
+                </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
+            <nav className="flex-1 px-4 space-y-1.5 overflow-y-auto relative z-10 py-4">
                 {menuItems.map((item) => {
-                    const isActive = pathname === item.href
+                    // Exact match for dashboard, startsWith for others to handle subpages
+                    const isActive = item.href === '/admin'
+                        ? pathname === '/admin'
+                        : pathname.startsWith(item.href)
+
                     return (
                         <Link
                             key={item.href}
                             href={item.href}
                             onClick={onClose}
                             className={`
-                                flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+                                group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium transition-all duration-200 relative overflow-hidden
                                 ${isActive
-                                    ? 'bg-green-500/10 text-green-400 border border-green-500/20 shadow-[0_0_15px_-5px_rgb(74,222,128,0.2)]'
-                                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+                                    ? 'bg-green-600 text-white shadow-lg shadow-green-900/20 font-bold'
+                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
                                 }
                             `}
                         >
-                            <item.icon className={`w-5 h-5 ${isActive ? 'text-green-400' : 'text-slate-500'}`} />
+                            <item.icon className={`
+                                w-5 h-5 transition-transform duration-300 group-hover:scale-110 
+                                ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-white'}
+                             `} />
                             {item.label}
+
+                            {/* Active Shine */}
+                            {isActive && (
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 opacity-50" />
+                            )}
                         </Link>
                     )
                 })}
             </nav>
 
             {/* Footer / Logout */}
-            <div className="p-4 border-t border-slate-800 mt-auto">
-                <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                >
-                    <LogOut className="w-5 h-5" />
-                    Sair
-                </button>
+            <div className="p-4 mt-auto relative z-10">
+                <div className="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-400">
+                            ADM
+                        </div>
+                        <div className="flex-1 overflow-hidden">
+                            <p className="text-xs font-bold text-white truncate">Administrador</p>
+                            <p className="text-[10px] text-slate-500 truncate">admin@foodsync.com</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-xs font-bold text-red-400 bg-red-500/10 hover:bg-red-500/20 active:scale-95 transition-all"
+                    >
+                        <LogOut className="w-3.5 h-3.5" />
+                        Sair do Sistema
+                    </button>
+                </div>
             </div>
         </div>
     )
@@ -76,7 +106,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
 export function AdminSidebar() {
     return (
-        <aside className="fixed left-0 top-0 h-full w-64 hidden md:flex flex-col z-50">
+        <aside className="fixed left-0 top-0 h-full w-72 hidden md:flex flex-col z-50">
             <SidebarContent />
         </aside>
     )

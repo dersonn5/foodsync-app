@@ -3,6 +3,23 @@
 import { AdminSidebar, menuItems } from '@/components/admin/Sidebar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Bell } from 'lucide-react'
+
+// Header Component (Local for simplicity, or extract later)
+function AdminHeader() {
+    return (
+        <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-8 py-4 flex items-center justify-between">
+            <div>
+                <h1 className="text-xl font-bold text-gray-900 tracking-tight">Bom dia, Anderson</h1>
+                <p className="text-xs text-gray-500 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
+            </div>
+            <button className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:shadow-md transition-all active:scale-95 relative">
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white" />
+            </button>
+        </header>
+    )
+}
 
 export default function AdminLayout({
     children,
@@ -10,13 +27,16 @@ export default function AdminLayout({
     children: React.ReactNode
 }) {
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
+        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans">
             {/* Desktop Sidebar (Fixed) */}
             <AdminSidebar />
 
             {/* Main Content Wrapper */}
-            <div className="flex-1 md:ml-64 min-h-screen flex flex-col transition-all duration-300 pb-24 md:pb-0">
-                {children}
+            <div className="flex-1 md:ml-72 min-h-screen flex flex-col transition-all duration-300 pb-24 md:pb-0">
+                <AdminHeader />
+                <main className="p-8">
+                    {children}
+                </main>
             </div>
 
             {/* Mobile Bottom Navigation */}
