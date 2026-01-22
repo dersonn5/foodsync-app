@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { Toaster, toast } from 'sonner'
-import { format, isSameDay } from 'date-fns'
+import { format, subDays, addDays, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import {
     CheckCircle2,
@@ -14,7 +15,10 @@ import {
     Utensils,
     Search,
     Filter,
-    MoreHorizontal
+    MoreHorizontal,
+    ChevronLeft,
+    ChevronRight,
+    Calendar as CalendarIcon
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -27,10 +31,12 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { formatDateDisplay } from '@/lib/utils'
 
 interface Order {
     id: string
     created_at: string
+    consumption_date: string
     status: 'pending' | 'confirmed' | 'canceled'
     users: {
         name: string
@@ -42,27 +48,38 @@ interface Order {
     } | null
 }
 
-export default function AdminOrdersPage() {
+export default function AdminOrdersPageWrapper() {
+    return (
+        <Suspense fallback={<div className="p-8">Carregando pedidos...</div>}>
+            <AdminOrdersPageContent />
+        </Suspense>
+    )
+}
+
+function AdminOrdersPageContent() {
     const supabase = createClient()
+    const router = useRouter()
+    const searchParams = useSearchParams()
+
     const [orders, setOrders] = useState<Order[]>([])
     const [loading, setLoading] = useState(true)
     const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'confirmed'>('all')
     const [searchQuery, setSearchQuery] = useState('')
 
-    // Mock Date State (In real app, could be a date picker, default to today)
-    const [selectedDate, setSelectedDate] = useState(new Date())
+    // Identify Date from URL or Default to Today
+    const dateParam = searchParams.get('date')
+    const currentDateStr = dateParam || format(new Date(), 'yyyy-MM-dd')
 
     useEffect(() => {
-        fetchOrders()
-    }, [selectedDate])
+        fetchOrders(currentDateStr)
+    }, [currentDateStr])
 
-    async function fetchOrders() {
+    async function fetchOrders(date: string) {
         setLoading(true)
-        // Adjust for timezone or just use string comparison for simplicity in this demo
-        // For accurate daily query, normally we'd do range: start of day to end of day
-        // Here assuming we query 'consumption_date' or just all for now to show UI
         try {
-            console.log("Fetching orders list...")
+            console.log(`Fetching orders for ${date}...`)
+
+            // Explicit Query with Filter by Consumption Date
             const { data, error } = await supabase
                 .from('orders')
                 .select(`
@@ -79,10 +96,11 @@ export default function AdminOrdersPage() {
                         type
                     )
                 `)
-                .order('id', { ascending: false })
+                .eq('consumption_date', date) // STRICT FILTER
+                .order('id', { ascending: false }) // Safe sort
 
             if (error) {
-                console.error("❌ Stats Query Error:", JSON.stringify(error, null, 2))
+                console.error("❌ Orders Query Error:", JSON.stringify(error, null, 2))
                 throw error
             }
 
@@ -109,11 +127,16 @@ export default function AdminOrdersPage() {
             toast.success(`Pedido ${newStatus === 'confirmed' ? 'confirmado' : 'cancelado'}`)
         } catch (error) {
             toast.error('Erro ao atualizar')
-            fetchOrders() // Revert
+            fetchOrders(currentDateStr) // Revert
         }
     }
 
-    // Calculations
+    // Handlers for Navigation
+    const handlePrevDay = () => router.push(`/admin/orders?date=${format(subDays(parseISO(currentDateStr), 1), 'yyyy-MM-dd')}`)
+    const handleNextDay = () => router.push(`/admin/orders?date=${format(addDays(parseISO(currentDateStr), 1), 'yyyy-MM-dd')}`)
+    const handleToday = () => router.push('/admin/orders')
+
+    // Local Filters (Status + Search)
     const filteredOrders = orders.filter(order => {
         const matchesStatus = filterStatus === 'all' ? true : order.status === filterStatus
         const matchesSearch = order.users?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -131,13 +154,39 @@ export default function AdminOrdersPage() {
         <div className="p-8 max-w-[1600px] mx-auto space-y-8 font-sans">
             <Toaster position="top-right" richColors />
 
-            {/* Header & KPIs */}
+            {/* Header & Date Navigation */}
             <div className="space-y-6">
                 <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Painel de Operações</h1>
-                        <p className="text-slate-500 text-sm">Gerencie o fluxo de pedidos em tempo real.</p>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                            Painel de Operações
+
+                            {/* Date Controls */}
+                            <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-base ml-2">
+                                <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-7 w-7 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
+                                    <ChevronLeft className="w-4 h-4" />
+                                </Button>
+
+                                <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[120px] justify-center cursor-pointer hover:bg-white/50 py-1 rounded-md transition-all">
+                                    <CalendarIcon className="w-3.5 h-3.5 text-slate-400" />
+                                    <span className="capitalize text-sm">{formatDateDisplay(currentDateStr)}</span>
+                                </div>
+
+                                <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-7 w-7 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
+                                    <ChevronRight className="w-4 h-4" />
+                                </Button>
+                            </div>
+                        </h1>
+                        <p className="text-slate-500 text-sm mt-1 flex items-center gap-2">
+                            Gerencie o fluxo de pedidos para <span className="font-semibold text-slate-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                            {dateParam && (
+                                <button onClick={handleToday} className="text-xs text-green-600 hover:underline font-medium">
+                                    (Voltar para Hoje)
+                                </button>
+                            )}
+                        </p>
                     </div>
+
                     <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
                         {(['all', 'pending', 'confirmed'] as const).map((status) => (
                             <button
@@ -201,7 +250,7 @@ export default function AdminOrdersPage() {
                 </div>
             </div>
 
-            {/* Smart List (Feed) */}
+            {/* Orders Feed */}
             <div className="space-y-4">
                 <div className="flex items-center gap-4 bg-white p-2 rounded-xl border border-slate-100 shadow-sm max-w-md">
                     <Search className="w-5 h-5 text-slate-400 ml-2" />
@@ -311,8 +360,8 @@ export default function AdminOrdersPage() {
                     ) : (
                         <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
                             <ShoppingBag className="w-16 h-16 mx-auto mb-4 text-slate-200" />
-                            <h3 className="text-lg font-bold text-slate-400">Nenhum pedido encontrado</h3>
-                            <p className="text-slate-300 max-w-xs mx-auto mt-1">Ajuste os filtros ou aguarde novas solicitações.</p>
+                            <h3 className="text-lg font-bold text-slate-400">Nenhum pedido para {formatDateDisplay(currentDateStr)}</h3>
+                            <p className="text-slate-300 max-w-xs mx-auto mt-1">Use as setas acima para navegar para outros dias.</p>
                         </div>
                     )}
                 </div>
