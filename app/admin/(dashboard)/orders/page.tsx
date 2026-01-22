@@ -87,7 +87,7 @@ function AdminOrdersPageContent() {
                   status,
                   consumption_date,
                   created_at,
-                  users ( name, avatar_url, phone ),
+                  users ( name, phone ),
                   menu_items ( name, image_url )
                 `)
                 .eq('consumption_date', date) // STRICT FILTER
