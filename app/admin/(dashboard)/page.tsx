@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState, Suspense, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { Card, CardContent } from '@/components/ui/card'
@@ -19,11 +19,11 @@ import {
     ChevronLeft,
     ChevronRight,
     Calendar as CalendarIcon,
-    AlertCircle
+    AlertCircle,
+    ChefHat,
+    ListChecks
 } from 'lucide-react'
 import { format, subDays, addDays, parseISO } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { Toaster } from 'sonner'
 import { formatDateDisplay } from '@/lib/utils'
 
@@ -44,17 +44,14 @@ function AdminPageContent() {
     // Independent Loading States
     const [loadingKPIs, setLoadingKPIs] = useState(true)
     const [loadingFeed, setLoadingFeed] = useState(true)
-    const [loadingChart, setLoadingChart] = useState(true)
 
     // Independent Error States
     const [errorKPIs, setErrorKPIs] = useState<string | null>(null)
     const [errorFeed, setErrorFeed] = useState<string | null>(null)
-    const [errorChart, setErrorChart] = useState<string | null>(null)
 
     // Data States
     const [stats, setStats] = useState({ total_today: 0, canceled_today: 0, pending_today: 0 })
     const [recentOrders, setRecentOrders] = useState<any[]>([])
-    const [weeklyData, setWeeklyData] = useState<any[]>([])
 
     const dateParam = searchParams.get('date')
     const currentDateStr = dateParam || format(new Date(), 'yyyy-MM-dd')
@@ -72,7 +69,6 @@ function AdminPageContent() {
             // Trigger Isolated Fetches
             fetchKPIs(currentDateStr)
             fetchFeed(currentDateStr)
-            fetchChart(currentDateStr)
         }
         checkAuth()
     }, [currentDateStr])
@@ -139,45 +135,22 @@ function AdminPageContent() {
         }
     }
 
-    /**
-     * 3. Chart Fetch (Analytical)
-     */
-    async function fetchChart(date: string) {
-        setLoadingChart(true)
-        setErrorChart(null)
-        try {
-            console.log("📈 Fetching Chart for:", date)
-            const chartData = []
-            const targetDateObj = parseISO(date)
+    // --- Derived State: Production Breakdown ---
+    const productionList = useMemo(() => {
+        const activeOrders = recentOrders.filter(o => o.status !== 'canceled') // Don't cook canceled orders
+        const counts: Record<string, number> = {}
 
-            for (let i = 4; i >= 0; i--) {
-                const d = subDays(targetDateObj, i)
-                const dStr = format(d, 'yyyy-MM-dd')
+        activeOrders.forEach(order => {
+            const dishName = order.menu_items?.name || 'Item Desconhecido'
+            counts[dishName] = (counts[dishName] || 0) + 1
+        })
 
-                const { count, error } = await supabase
-                    .from('orders')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('consumption_date', dStr)
+        return Object.entries(counts)
+            .map(([name, count]) => ({ name, count }))
+            .sort((a, b) => b.count - a.count)
+    }, [recentOrders])
 
-                if (error) {
-                    console.error(`❌ Erro no dia ${dStr}:`, error.message)
-                    continue
-                }
-
-                chartData.push({
-                    name: format(d, 'EEE', { locale: ptBR }),
-                    fullDate: format(d, 'dd/MM'),
-                    orders: count || 0
-                })
-            }
-            setWeeklyData(chartData)
-        } catch (err: any) {
-            console.error("❌ Erro Gráfico:", err.message)
-            setErrorChart("Falha ao carregar métricas")
-        } finally {
-            setLoadingChart(false)
-        }
-    }
+    const totalProduction = productionList.reduce((acc, item) => acc + item.count, 0)
 
 
     // Navigation Handlers
@@ -211,7 +184,7 @@ function AdminPageContent() {
                             <ChevronLeft className="w-4 h-4" />
                         </Button>
 
-                        <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[100px] justify-center cursor-pointer hover:bg-white/50 py-1 rounded-md transition-all" onClick={() => document.getElementById('date-picker')?.click()}>
+                        <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[100px] justify-center cursor-pointer hover:bg-white/50 py-1 rounded-md transition-all">
                             <CalendarIcon className="w-3.5 h-3.5 text-slate-400" />
                             <span className="capitalize">{formatDateDisplay(currentDateStr)}</span>
                         </div>
@@ -232,7 +205,6 @@ function AdminPageContent() {
                     <div className="flex gap-1.5">
                         <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-green-300'}`} title="Status KPIs" />
                         <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-green-300'}`} title="Status Feed" />
-                        <div className={`w-2 h-2 rounded-full ${loadingChart ? 'bg-amber-400 animate-pulse' : errorChart ? 'bg-red-500' : 'bg-green-300'}`} title="Status Chart" />
                     </div>
                 </div>
             </div>
@@ -358,48 +330,52 @@ function AdminPageContent() {
                     </div>
                 </div>
 
-                {/* Right: Chart (Fixed Height) */}
+                {/* Right: Production Breakdown (Replaces Chart) */}
                 <div className="flex flex-col h-full min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm">
                     <div className="p-4 border-b border-slate-100 shrink-0">
                         <h2 className="font-bold text-slate-900 flex items-center gap-2 text-sm">
-                            <TrendingUp className="w-4 h-4 text-slate-400" />
-                            Tendência
+                            <ChefHat className="w-4 h-4 text-slate-400" />
+                            Resumo de Produção
+                            <Badge variant="secondary" className="bg-slate-100 text-slate-600 ml-auto font-mono text-xs">
+                                {totalProduction} un
+                            </Badge>
                         </h2>
                     </div>
 
-                    <div className="flex-1 p-4 min-h-0">
-                        {errorChart ? (
-                            <div className="h-full flex items-center justify-center text-red-400 text-xs">
-                                {errorChart}
+                    <div className="flex-1 overflow-y-auto p-4 min-h-0">
+                        {loadingFeed ? (
+                            <div className="space-y-3">
+                                {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-slate-50 animate-pulse rounded-lg" />)}
                             </div>
-                        ) : loadingChart ? (
-                            <div className="h-full w-full bg-slate-50 animate-pulse rounded-xl" />
-                        ) : weeklyData.reduce((acc, curr) => acc + curr.orders, 0) > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={weeklyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                    <Tooltip
-                                        cursor={{ fill: '#f8fafc' }}
-                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', fontSize: '12px' }}
-                                    />
-                                    <XAxis
-                                        dataKey="name"
-                                        axisLine={false}
-                                        tickLine={false}
-                                        tick={{ fill: '#94a3b8', fontSize: 10 }}
-                                        dy={5}
-                                    />
-                                    <Bar
-                                        dataKey="orders"
-                                        fill="#22c55e"
-                                        radius={[4, 4, 4, 4]}
-                                        barSize={24}
-                                    />
-                                </BarChart>
-                            </ResponsiveContainer>
+                        ) : productionList.length > 0 ? (
+                            <div className="space-y-3">
+                                {productionList.map((item, index) => {
+                                    const percentage = Math.round((item.count / totalProduction) * 100)
+
+                                    return (
+                                        <div key={index} className="group">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <span className="text-sm font-semibold text-slate-700 truncate pr-2 max-w-[70%]">
+                                                    {item.name}
+                                                </span>
+                                                <Badge className="bg-slate-900 text-white font-mono text-xs px-2 h-6">
+                                                    {item.count}
+                                                </Badge>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-green-500 rounded-full transition-all duration-500"
+                                                    style={{ width: `${percentage}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         ) : (
                             <div className="h-full flex flex-col items-center justify-center text-center text-slate-300">
-                                <CalendarOff className="w-8 h-8 mb-2 opacity-50" />
-                                <p className="text-xs">Sem dados</p>
+                                <ListChecks className="w-8 h-8 mb-2 opacity-50" />
+                                <p className="text-xs">Produção zerada</p>
                             </div>
                         )}
                     </div>
