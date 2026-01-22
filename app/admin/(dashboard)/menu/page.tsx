@@ -164,8 +164,8 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        // Main Container: Fixed Height, No Window Scroll
-        <div className="h-[calc(100vh-2rem)] flex flex-col p-6 max-w-[1800px] mx-auto font-sans overflow-hidden">
+        // Main Container: Fixed Height, No Window Scroll, Padded
+        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden">
             <Toaster position="top-right" richColors />
 
             {/* Compact Header: Fixed */}
@@ -197,18 +197,18 @@ export default function AdminMenuPage() {
             </div>
 
             {/* Weekly Grid (Columns occupy remaining space) */}
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 min-h-0">
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 w-full min-h-0">
                 {weekDays.map((date) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
                     const isToday = isSameDay(date, new Date())
 
                     return (
-                        // Individual Day Column: Flex Col + Internal Scroll
-                        <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors ${isToday ? 'bg-blue-50/50 border-blue-200/60 shadow-sm' : 'bg-slate-50/50 border-slate-200/60'}`}>
+                        // Individual Day Column: Strictly 3 Layers (Header/Body/Footer)
+                        <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}>
 
-                            {/* Column Header: Fixed */}
-                            <div className="flex-none p-3 border-b border-slate-100 flex items-center justify-between">
+                            {/* Layer 1: HEADER (Fixed) */}
+                            <div className="flex-none p-4 border-b border-slate-200/50 bg-white/50 backdrop-blur flex items-center justify-between">
                                 <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isToday ? 'text-blue-600' : 'text-slate-400'}`}>
                                     {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
                                 </span>
@@ -217,8 +217,8 @@ export default function AdminMenuPage() {
                                 </span>
                             </div>
 
-                            {/* Cards Stack (Scrollable Area) */}
-                            <div className="flex-1 overflow-y-auto p-2 space-y-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+                            {/* Layer 2: BODY (Scrollable) */}
+                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                                 {loading ? (
                                     <div className="h-24 rounded-lg bg-white animate-pulse shadow-sm" />
                                 ) : dayItems.map(item => (
@@ -276,19 +276,20 @@ export default function AdminMenuPage() {
                                 ))}
                             </div>
 
-                            {/* Column Footer: Fixed Add Button */}
-                            <div className="flex-none p-3 border-t border-slate-100 bg-white/40 backdrop-blur-sm rounded-b-xl">
+                            {/* Layer 3: FOOTER (Fixed) */}
+                            <div className="flex-none p-3 border-t border-slate-200 bg-white">
                                 <button
                                     onClick={() => {
                                         setTargetDateForAdd(date)
                                         setIsDialogOpen(true)
                                     }}
-                                    className="w-full py-3 border-2 border-dashed border-slate-300 rounded-lg text-slate-500 hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition-all flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wide"
+                                    className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border-2 border-dashed border-slate-300 text-slate-500 hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition-all font-medium text-xs uppercase tracking-wide"
                                 >
-                                    <Plus className="w-4 h-4" />
-                                    Adicionar
+                                    <Plus size={18} />
+                                    <span>Adicionar Prato</span>
                                 </button>
                             </div>
+
                         </div>
                     )
                 })}
