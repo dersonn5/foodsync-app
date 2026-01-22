@@ -62,24 +62,33 @@ export default function AdminOrdersPage() {
         // For accurate daily query, normally we'd do range: start of day to end of day
         // Here assuming we query 'consumption_date' or just all for now to show UI
         try {
+            console.log("Fetching orders list...")
             const { data, error } = await supabase
                 .from('orders')
                 .select(`
                     id,
                     created_at,
+                    consumption_date,
                     status,
-                    users (name, email),
-                    menu_items (name, type)
+                    users (
+                        name,
+                        email
+                    ),
+                    menu_items (
+                        name,
+                        type
+                    )
                 `)
-                .order('created_at', { ascending: false })
+                .order('id', { ascending: false })
 
-            // Filter locally for the selected date if needed, or query parameter
-            // For now, let's just show all to ensure data appears, assuming 'feed' style
+            if (error) {
+                console.error("❌ Stats Query Error:", JSON.stringify(error, null, 2))
+                throw error
+            }
 
-            if (error) throw error
             setOrders(data as any || [])
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            console.error("❌ Orders Page Error:", JSON.stringify(error, null, 2))
             toast.error('Erro ao carregar pedidos')
         } finally {
             setLoading(false)
