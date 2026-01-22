@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import {
     Utensils,
     TrendingUp,
-    DollarSign,
+    Ban,
     Clock,
     ShoppingBag,
     ArrowUpRight,
@@ -29,7 +29,7 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(true)
 
     // Data States
-    const [stats, setStats] = useState({ total_today: 0, revenue_today: 0, pending_today: 0 })
+    const [stats, setStats] = useState({ total_today: 0, canceled_today: 0, pending_today: 0 })
     const [recentOrders, setRecentOrders] = useState<any[]>([])
     const [weeklyData, setWeeklyData] = useState<any[]>([])
 
@@ -72,22 +72,18 @@ export default function AdminPage() {
             // Calculate KPIs
             const total = todayOrders?.length || 0
             const pending = todayOrders?.filter((o: any) => o.status === 'pending').length || 0
-            const revenue = todayOrders?.filter((o: any) => o.status !== 'canceled').length * 25 // R$25 est
+            const canceled = todayOrders?.filter((o: any) => o.status === 'canceled').length || 0
 
-            setStats({ total_today: total, revenue_today: revenue, pending_today: pending })
+            setStats({ total_today: total, canceled_today: canceled, pending_today: pending })
             setRecentOrders(todayOrders || [])
 
             // B. Fetch Weekly Data (Last 5 Days)
-            // Note: For a real app, use a proper grouped query or RPC. 
-            // Here we mock slightly for the chart structure using local generation if DB is empty for past days
             const chartData = []
             for (let i = 4; i >= 0; i--) {
                 const d = subDays(new Date(), i)
                 const dStart = startOfDay(d).toISOString()
                 const dEnd = endOfDay(d).toISOString()
 
-                // We're doing individual queries here for simplicity in this generated code.
-                // In production, fetch range and grouped in JS or SQL.
                 const { count } = await supabase
                     .from('orders')
                     .select('*', { count: 'exact', head: true })
@@ -109,7 +105,7 @@ export default function AdminPage() {
         }
     }
 
-    if (!user) return null // Or loading spinner
+    if (!user) return null
 
     return (
         <div className="p-8 max-w-[1600px] mx-auto space-y-8 font-sans animate-in fade-in duration-500">
@@ -148,19 +144,20 @@ export default function AdminPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] bg-gradient-to-br from-blue-50/50 to-white">
+                <Card className="border-0 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] bg-gradient-to-br from-rose-50/50 to-white">
                     <CardContent className="p-6">
                         <div className="flex justify-between items-start mb-4">
-                            <div className="p-3 bg-blue-100 rounded-2xl text-blue-700">
-                                <DollarSign className="w-6 h-6" />
+                            <div className="p-3 bg-rose-100 rounded-2xl text-rose-700">
+                                <Ban className="w-6 h-6" />
                             </div>
-                            <Badge variant="outline" className="bg-white text-blue-700 border-blue-200 font-bold">
-                                EST.
+                            <Badge variant="outline" className="bg-white text-rose-700 border-rose-200 font-bold">
+                                HOJE
                             </Badge>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-4xl font-bold text-slate-900 tracking-tight">R$ {stats.revenue_today}</h3>
-                            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">Receita do Dia</p>
+                            <h3 className="text-4xl font-bold text-slate-900 tracking-tight">{stats.canceled_today}</h3>
+                            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">Cancelamentos</p>
+                            <p className="text-xs text-rose-600/80 font-medium">Refeições não servidas</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -216,7 +213,6 @@ export default function AdminPage() {
                                         <div className="flex justify-between items-start">
                                             <h4 className="font-bold text-slate-900 truncate">{order.users?.name}</h4>
                                             <span className="text-xs font-medium text-slate-400 whitespace-nowrap">
-                                                {/* Mock relative time for demo, normally calculate distance */}
                                                 {format(new Date(order.created_at), 'HH:mm')}
                                             </span>
                                         </div>
