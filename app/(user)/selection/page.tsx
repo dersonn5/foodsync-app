@@ -5,14 +5,13 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { MenuItem } from '@/types'
 import { Button } from '@/components/ui/button'
-import { Check, Utensils, Clock, CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
+import { Check, Utensils, Clock, Loader2, ArrowRight } from 'lucide-react'
 import { format, addDays, startOfToday } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import QRCode from 'react-qr-code'
 import { sendConfirmationMessage } from '@/app/actions/whatsapp'
 import SignOutButton from '@/components/SignOutButton'
 import DateStrip from '@/components/DateStrip'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // Helper to standardise date string for DB (YYYY-MM-DD)
 const getDateStr = (date: Date) => date.toISOString().split('T')[0]
@@ -21,10 +20,6 @@ export default function SelectionPage() {
     const [user, setUser] = useState<any>(null)
     const router = useRouter()
 
-    // Date State - Default to today or tomorrow? 
-    // Usually systems like this default to tomorrow for ordering lunch, 
-    // but if we show history, we might want today. Let's start with Tomorrow as default like before, 
-    // but allow selecting others.
     const [selectedDate, setSelectedDate] = useState<Date>(addDays(startOfToday(), 1))
 
     const [menuItems, setMenuItems] = useState<MenuItem[]>([])
@@ -72,23 +67,13 @@ export default function SelectionPage() {
         fetchOrderForDate()
     }, [user, selectedDate])
 
-    // 3. Fetch Menu Items (General fetch, assumed same menu for all days for MVP, 
-    // or we could filter by date if menu_items had date. 
-    // Prompt "Fetch menu_items available *only for selected date*" -> Implies menu has dates?
-    // Looking at previous schema/code, `menu_items` table didn't seem to have dates, just filtered by type.
-    // If table doesn't have dates, we assume static menu for now. 
-    // If prompt implies specific logic, I should check schema. 
-    // I will assume static menu for MVP unless I see a date field in schema.
-    // Let's assume static menu for now to avoid breaking if column missing.)
-
+    // 3. Fetch Menu Items
     useEffect(() => {
         if (!user) return
 
         async function fetchMenu() {
             setLoadingMenu(true)
             try {
-                // Ideally filtering by date here if schema supported it.
-                // For now, fetching all active items.
                 const { data, error } = await supabase
                     .from('menu_items')
                     .select('*')
@@ -104,7 +89,7 @@ export default function SelectionPage() {
         }
 
         fetchMenu()
-    }, [user]) // Only fetch menu once or when user loads, not every date change if static
+    }, [user])
 
     const handleConfirm = async () => {
         if (!user || !selectedId) return
@@ -124,13 +109,10 @@ export default function SelectionPage() {
                 .single()
 
             if (data) {
-                // Fire notification
                 if (user.phone) {
                     const dishName = menuItems.find(i => i.id === selectedId)?.name || 'Prato do dia'
-                    // Ensure date is formatted for message
                     sendConfirmationMessage({ phone: user.phone, dishName })
                 }
-
                 setExistingOrder(data)
                 setSelectedId(null)
             }
@@ -159,48 +141,39 @@ export default function SelectionPage() {
 
     if (!user) return <div className="h-screen bg-slate-50" />
 
-    const dateDisplay = format(selectedDate, "dd/MM", { locale: ptBR })
-
     // --- VIEW: MENU SELECTION ---
     return (
         <div className="min-h-screen bg-slate-50 pb-32 font-sans selection:bg-green-100">
-            {/* 1. Modern Header */}
-            <header className="bg-white/80 backdrop-blur-md px-5 py-6 pt-12 sticky top-0 z-20 shadow-sm border-b border-slate-100 transition-all">
-                <div className="flex justify-between items-start mb-4">
+            {/* 1. Elite Header */}
+            <header className="bg-white/80 backdrop-blur-xl px-6 pt-14 pb-4 sticky top-0 z-30 shadow-[0_4px_30px_-5px_rgba(0,0,0,0.03)] border-b border-gray-100/50">
+                <div className="flex justify-between items-start mb-6">
                     <div className="animate-in slide-in-from-left-2 duration-500">
-                        <p className="text-sm text-slate-400 font-medium">Olá, <span className="text-green-600 font-extrabold text-base tracking-tight">{user.name.split(' ')[0]}</span></p>
-                        <h1 className="text-2xl font-bold text-slate-900 mt-0.5 tracking-tight">O que vamos comer?</h1>
-                        <p className="text-xs text-slate-400 mt-1 flex items-center gap-1 font-medium bg-slate-100 w-fit px-2 py-1 rounded-full">
-                            <Clock className="w-3 h-3" />
-                            Planejamento Semanal
-                        </p>
+                        <p className="text-sm text-gray-400 font-medium">Olá, <span className="text-green-600 font-bold text-base tracking-tight">{user.name.split(' ')[0]}</span></p>
+                        <h1 className="text-2xl font-bold text-gray-900 mt-0.5 tracking-tight leading-tight">O que vamos comer?</h1>
+                        <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs text-gray-500 font-medium bg-gray-100 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                                <Clock className="w-3 h-3" />
+                                Planejamento
+                            </span>
+                        </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 bg-gradient-to-br from-green-50 to-emerald-100 rounded-full flex items-center justify-center text-green-700 font-bold border border-green-200 shadow-sm">
+                        <div className="h-11 w-11 bg-white rounded-full flex items-center justify-center text-green-700 font-bold shadow-md shadow-gray-200 ring-2 ring-gray-50">
                             {user.name.charAt(0)}
                         </div>
-                        {/* Logout Button */}
                         <SignOutButton />
                     </div>
                 </div>
-                {/* Date Strip Component */}
-                <div className="mt-4 -mx-5 px-5">
+
+                {/* Date Strip */}
+                <div className="-mx-1">
                     <DateStrip selectedDate={selectedDate} onSelectDate={setSelectedDate} />
                 </div>
             </header>
 
-
-            {/* Note: I moved DateStrip inside header for sticky behavior or keep outside? 
-               The previous code had DateStrip separate. Let's keep it clean.
-               Actually, merging them makes the sticky header nicer. 
-               But DateStrip is its own sticky component in previous code.
-               Let's respect structure but use motion div.
-            */}
-
-
             {/* 2. Category Tabs */}
-            <div className="sticky top-[180px] z-10 bg-slate-50/95 backdrop-blur-sm py-2 px-4 shadow-sm">
-                <div className="flex justify-center items-center w-full gap-2">
+            <div className="sticky top-[240px] z-20 bg-slate-50/95 backdrop-blur-sm py-4 px-6">
+                <div className="flex justify-start items-center w-full gap-2 overflow-x-auto scrollbar-hide">
                     {[
                         { id: 'all', label: 'Todos' },
                         { id: 'main', label: 'Padrão' },
@@ -211,10 +184,10 @@ export default function SelectionPage() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`
-                                flex-1 flex justify-center items-center px-2 py-2 rounded-xl text-xs font-bold transition-all
+                                flex-shrink-0 px-4 py-2.5 rounded-full text-xs font-bold transition-all duration-300
                                 ${activeTab === tab.id
-                                    ? 'bg-slate-900 text-white shadow-md scale-100'
-                                    : 'bg-white text-slate-500 hover:bg-slate-100 border border-slate-200'
+                                    ? 'bg-gray-900 text-white shadow-lg shadow-gray-200 scale-100 ring-2 ring-white'
+                                    : 'bg-white text-gray-400 hover:bg-gray-50 border border-transparent shadow-sm'
                                 }
                             `}
                         >
@@ -225,118 +198,134 @@ export default function SelectionPage() {
             </div>
 
             {/* 3. Meal Cards Grid */}
-            <main className="px-5 space-y-4 min-h-[50vh]">
-                {loadingMenu ? (
-                    <div className="space-y-4 py-8">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="h-32 bg-white rounded-2xl animate-pulse" />
-                        ))}
-                    </div>
-                ) : filteredItems.length > 0 ? (
-                    <div className="space-y-4">
-                        {filteredItems.map((item, index) => {
-                            const isSelected = selectedId === item.id
-                            return (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    key={item.id}
-                                    onClick={() => setSelectedId(item.id)}
-                                    className={`
-                                    bg-white rounded-3xl p-4 shadow-sm border transition-all duration-300 cursor-pointer flex gap-4 overflow-hidden relative group
-                                    ${isSelected
-                                            ? 'border-green-500 ring-4 ring-green-100 shadow-xl shadow-green-500/10 scale-[1.02] z-10'
-                                            : 'border-slate-100 hover:border-slate-200 hover:shadow-md'
-                                        }
-                                `}
-                                >
-                                    {/* Image Placeholder */}
-                                    <div className="w-24 h-24 bg-slate-100 rounded-2xl flex-shrink-0 overflow-hidden shadow-inner relative">
-                                        {item.name.toLowerCase().includes('feijoada') ? (
-                                            <img src="/images/feijoada.png" alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                        ) : item.photo_url ? (
-                                            // eslint-disable-next-line @next/next/no-img-element
-                                            <img src={item.photo_url} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                        ) : (
-                                            // eslint-disable-next-line @next/next/no-img-element
-                                            <img
-                                                src={`https://source.unsplash.com/200x200/?${item.type === 'fit' ? 'salad' : 'lunch'},food`}
-                                                alt="Food"
-                                                className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
-                                            />
-                                        )}
-                                        <div className={`absolute inset-0 bg-black/10 ${isSelected ? 'opacity-0' : 'opacity-0 group-hover:opacity-10'} transition-opacity`} />
-                                    </div>
+            <main className="px-5 space-y-5 min-h-[50vh]">
+                <AnimatePresence mode="wait">
+                    {loadingMenu ? (
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4 pt-2">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="h-36 bg-white rounded-3xl animate-pulse shadow-sm" />
+                            ))}
+                        </motion.div>
+                    ) : filteredItems.length > 0 ? (
+                        <div className="space-y-5">
+                            {filteredItems.map((item, index) => {
+                                const isSelected = selectedId === item.id
+                                return (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.05, duration: 0.4 }}
+                                        key={item.id}
+                                        onClick={() => setSelectedId(item.id)}
+                                        className={`
+                                            group relative overflow-hidden rounded-[2rem] bg-white p-3 shadow-[0_2px_15px_-4px_rgba(0,0,0,0.05)] border transition-all duration-300 cursor-pointer w-full
+                                            ${isSelected
+                                                ? 'border-green-500/50 shadow-[0_10px_40px_-10px_rgba(22,163,74,0.15)] ring-1 ring-green-500/20'
+                                                : 'border-white hover:border-gray-100 hover:shadow-lg'
+                                            }
+                                        `}
+                                    >
+                                        <div className="flex gap-4">
+                                            {/* Image with zoom effect */}
+                                            <div className="w-28 h-28 rounded-2xl overflow-hidden shadow-inner relative flex-shrink-0 bg-gray-50">
+                                                {item.photo_url ? (
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    <img src={item.photo_url} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                                ) : (
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    <img
+                                                        src={`https://source.unsplash.com/200x200/?${item.type === 'fit' ? 'salad' : 'lunch'},food`}
+                                                        alt="Food"
+                                                        className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110"
+                                                    />
+                                                )}
+                                                {/* Selected overlay */}
+                                                <div className={`absolute inset-0 bg-green-900/10 backdrop-blur-[1px] transition-opacity duration-300 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
+                                            </div>
 
-                                    {/* Content */}
-                                    <div className="flex-1 flex flex-col justify-center py-1">
-                                        <div className="flex justify-between items-start">
-                                            <h3 className={`font-bold text-lg leading-tight mb-1.5 ${isSelected ? 'text-green-700' : 'text-slate-900'}`}>
-                                                {item.name}
-                                            </h3>
+                                            {/* Content */}
+                                            <div className="flex-1 flex flex-col justify-center py-1 pr-2">
+                                                <h3 className={`font-bold text-lg leading-tight mb-2 tracking-tight transition-colors ${isSelected ? 'text-green-700' : 'text-gray-900'}`}>
+                                                    {item.name}
+                                                </h3>
+                                                <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed font-medium">
+                                                    {item.description || "Uma opção deliciosa preparada pelos nossos chefs."}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed font-medium">
-                                            {item.description || "Uma opção deliciosa preparada pelos nossos chefs."}
-                                        </p>
-                                    </div>
 
-                                    {/* Check Icon */}
-                                    {isSelected && (
-                                        <div className="absolute top-4 right-4 bg-green-500 text-white p-1.5 rounded-full animate-in zoom-in shadow-lg shadow-green-500/30">
-                                            <Check className="w-4 h-4" />
-                                        </div>
-                                    )}
-                                </motion.div>
-                            )
-                        })}
-                    </div>
-                ) : (
-                    <div className="text-center py-20 opacity-50 flex flex-col items-center">
-                        <div className="bg-slate-100 p-6 rounded-full mb-4">
-                            <Utensils className="w-10 h-10 text-slate-300" />
+                                        {/* Check Icon ABSOLUTE */}
+                                        <AnimatePresence>
+                                            {isSelected && (
+                                                <motion.div
+                                                    initial={{ scale: 0, rotate: -45 }}
+                                                    animate={{ scale: 1, rotate: 0 }}
+                                                    exit={{ scale: 0 }}
+                                                    className="absolute top-3 right-3 bg-green-500 text-white p-2 rounded-full shadow-lg shadow-green-500/30"
+                                                >
+                                                    <Check className="w-4 h-4" />
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </motion.div>
+                                )
+                            })}
                         </div>
-                        <h3 className="font-bold text-slate-700 text-lg">Cardápio Vazio</h3>
-                        <p className="max-w-[200px] text-sm mt-1">Nenhuma opção disponível para esta categoria hoje.</p>
-                    </div>
-                )}
+                    ) : (
+                        <div className="text-center py-20 opacity-60 flex flex-col items-center">
+                            <div className="bg-white p-6 rounded-full mb-4 shadow-sm">
+                                <Utensils className="w-10 h-10 text-gray-300" />
+                            </div>
+                            <h3 className="font-bold text-gray-700 text-lg">Cardápio Vazio</h3>
+                            <p className="max-w-[200px] text-sm mt-1 text-gray-400">Nenhuma opção disponível para esta categoria.</p>
+                        </div>
+                    )}
+                </AnimatePresence>
             </main>
 
-            {/* Confirm Floating Button (Only show if no order and selection made) */}
-            {/* Footer Action Buttons */}
-            {existingOrder ? (
-                <div className="fixed bottom-[100px] left-0 right-0 px-5 z-50 flex justify-center animate-in slide-in-from-bottom-4">
-                    <div className="w-full max-w-md bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 flex items-center justify-between gap-4">
-                        <div className="flex-1">
-                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-0.5">Pedido Confirmado</p>
-                            <p className="text-sm font-bold text-slate-900 line-clamp-1">
-                                {existingOrder.menu_items?.name || 'Prato Reservado'}
-                            </p>
-                        </div>
-                        <Button
-                            onClick={handleCancelOrder}
-                            variant="destructive"
-                            className="h-12 bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-700 border-0 font-bold rounded-xl active:scale-95 transition-all"
-                        >
-                            Cancelar
-                        </Button>
-                    </div>
-                </div>
-            ) : (
-                <div className={`
-                    fixed bottom-[100px] left-0 right-0 px-5 transition-all duration-300 z-50 flex justify-center
-                    ${selectedId ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}
-                `}>
-                    <Button
-                        onClick={handleConfirm}
-                        disabled={submitting}
-                        className="w-full max-w-md h-16 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-2xl shadow-2xl shadow-green-600/20 active:scale-95 transition-all flex items-center justify-between px-8 border border-green-500"
+            {/* Confirm Floating Button */}
+            <AnimatePresence>
+                {existingOrder ? (
+                    <motion.div
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 100, opacity: 0 }}
+                        className="fixed bottom-[110px] left-0 right-0 px-6 z-40 flex justify-center"
                     >
-                        <span>Reservar Prato</span>
-                        {submitting ? <Loader2 className="animate-spin text-white/80" /> : <ArrowRight className="w-6 h-6 text-white/80" />}
-                    </Button>
-                </div>
-            )}
+                        <div className="w-full max-w-md bg-white/90 backdrop-blur-md p-4 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 flex items-center justify-between gap-4">
+                            <div className="flex-1 pl-2">
+                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Pedido Confirmado</p>
+                                <p className="text-sm font-bold text-gray-900 line-clamp-1">
+                                    {existingOrder.menu_items?.name || 'Prato Reservado'}
+                                </p>
+                            </div>
+                            <Button
+                                onClick={handleCancelOrder}
+                                variant="destructive"
+                                className="h-12 px-6 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border-0 font-bold rounded-2xl active:scale-95 transition-all shadow-none"
+                            >
+                                Cancelar
+                            </Button>
+                        </div>
+                    </motion.div>
+                ) : selectedId && (
+                    <motion.div
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 100, opacity: 0 }}
+                        className="fixed bottom-[110px] left-0 right-0 px-6 z-40 flex justify-center"
+                    >
+                        <Button
+                            onClick={handleConfirm}
+                            disabled={submitting}
+                            className="w-full max-w-md h-16 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-3xl shadow-[0_8px_30px_rgb(22,163,74,0.35)] active:scale-95 transition-all flex items-center justify-between px-8 border-t border-white/20"
+                        >
+                            <span>Reservar Prato</span>
+                            {submitting ? <Loader2 className="animate-spin text-white/90" /> : <ArrowRight className="w-6 h-6 text-white/90" />}
+                        </Button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

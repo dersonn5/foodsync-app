@@ -1,9 +1,9 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Utensils, Ticket, User, Home } from 'lucide-react'
-import { cn } from '@/lib/utils' // Assuming standard shadcn utils, or I can implement minimal inline
+import { Utensils, Ticket, User } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
@@ -15,26 +15,26 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
             icon: Utensils
         },
         {
-            label: 'Meus Pedidos',
+            label: 'Pedidos',
             href: '/orders',
             icon: Ticket
         },
         {
             label: 'Perfil',
-            href: '/profile', // Placeholder
+            href: '/profile',
             icon: User
         }
     ]
 
     return (
-        <div className="min-h-screen bg-slate-50 relative">
+        <div className="min-h-screen relative">
             {/* Main Content Area - Padding bottom for nav bar */}
-            <div className="pb-24">
+            <div className="pb-28">
                 {children}
             </div>
 
-            {/* Bottom Navigation Web App Style */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 px-6 py-3 pb-6 z-40 grid grid-cols-3 items-center shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.1)] pb-safe">
+            {/* Bottom Navigation - Elite UI/UX Glassmorphism */}
+            <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t-0 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] px-6 py-4 pb-6 z-50 grid grid-cols-3 items-center">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href || (item.href !== '/selection' && pathname.startsWith(item.href))
                     const Icon = item.icon
@@ -43,27 +43,21 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={cn(
-                                "flex flex-col items-center justify-center gap-1 transition-all duration-300 w-full active:scale-95",
-                                isActive ? "text-green-600" : "text-slate-300 hover:text-slate-500"
-                            )}
+                            className="flex flex-col items-center justify-center gap-1 group active:scale-95 transition-transform duration-200"
                         >
                             <div className={cn(
-                                "p-1.5 rounded-full transition-all duration-300 relative",
-                                isActive ? "bg-green-50 -translate-y-2 shadow-lg shadow-green-100 ring-2 ring-white" : ""
+                                "transition-colors duration-300",
+                                isActive ? "text-green-600 drop-shadow-sm" : "text-gray-400 group-hover:text-green-600"
                             )}>
-                                <Icon className={cn("w-6 h-6", isActive ? "fill-green-600" : "fill-transparent")} />
-                                {isActive && (
-                                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold tracking-wide animate-in fade-in slide-in-from-bottom-2">
-                                        {item.label}
-                                    </span>
-                                )}
+                                <Icon className={cn("w-7 h-7", isActive && "fill-current/10")} strokeWidth={isActive ? 2.5 : 2} />
                             </div>
-                            {!isActive && (
-                                <span className="text-[10px] font-bold tracking-wide">
-                                    {item.label}
-                                </span>
-                            )}
+
+                            <span className={cn(
+                                "text-[10px] font-bold tracking-wide transition-colors duration-300",
+                                isActive ? "text-green-700" : "text-gray-400 group-hover:text-green-600"
+                            )}>
+                                {item.label}
+                            </span>
                         </Link>
                     )
                 })}

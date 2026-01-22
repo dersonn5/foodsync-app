@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { Loader2, Ticket, CalendarClock } from 'lucide-react'
-import QRCode from 'react-qr-code'
+import { Loader2, Ticket as TicketIcon, CalendarClock, UtensilsCrossed, Sparkles } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import Ticket from '@/components/Ticket'
 
 // Basic order type for the list
 interface OrderHistoryItem {
@@ -20,33 +21,31 @@ interface OrderHistoryItem {
 export default function OrdersPage() {
     const [orders, setOrders] = useState<OrderHistoryItem[]>([])
     const [loading, setLoading] = useState(true)
+    const [userName, setUserName] = useState('')
+    const [selectedOrder, setSelectedOrder] = useState<OrderHistoryItem | null>(null)
 
     useEffect(() => {
         async function fetchHistory() {
-            // Get user from local storage (or context)
+            // Get user from local storage
             const stored = localStorage.getItem('foodsync_user')
             if (!stored) return
 
             const user = JSON.parse(stored)
+            setUserName(user.name.split(' ')[0]) // First name for ticket
 
             const { data, error } = await supabase
                 .from('orders')
                 .select('id, consumption_date, status, menu_items(name)')
                 .eq('user_id', user.id)
-                .order('consumption_date', { ascending: false }) // Newest first
+                .order('consumption_date', { ascending: false })
 
             if (data) {
-                // Filter out past orders (keep today + future)
-                // "Remove 18... only from 19".
-                // We'll standardise "today" as YYYY-MM-DD text comparison for simplicity.
-                // Fix: use local date string, not UTC, to ensure we don't skip today if late night.
+                // Filter out past orders (today + future)
+                // Use local date string comparison
                 const todayStr = format(new Date(), 'yyyy-MM-dd')
-
                 const upcomingOrders = (data as any).filter((o: OrderHistoryItem) => {
-                    // Assuming consumption_date is YYYY-MM-DD or ISO
                     return o.consumption_date >= todayStr
                 })
-
                 setOrders(upcomingOrders)
             }
             setLoading(false)
@@ -54,102 +53,104 @@ export default function OrdersPage() {
         fetchHistory()
     }, [])
 
-    // State for selected order to show message
-    const [selectedOrder, setSelectedOrder] = useState<OrderHistoryItem | null>(null)
-
     return (
-        <div className="min-h-screen bg-slate-50">
-            <header className="bg-white px-6 py-6 pt-12 text-center sticky top-0 z-10 shadow-sm">
-                <h1 className="text-xl font-bold text-slate-900 flex items-center justify-center gap-2">
-                    <Ticket className="w-5 h-5 text-green-600" />
-                    Meus Pedidos
-                </h1>
+        <div className="min-h-screen bg-slate-50 font-sans">
+            {/* Header */}
+            <header className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-[0_4px_30px_-5px_rgba(0,0,0,0.03)] border-b border-gray-100/50">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Meus Pedidos</h1>
+                        <p className="text-sm text-gray-400 font-medium">Sua carteira de refeições</p>
+                    </div>
+                    <div className="bg-green-50 p-2.5 rounded-xl text-green-600">
+                        <TicketIcon className="w-6 h-6" />
+                    </div>
+                </div>
             </header>
 
-            <main className="p-6 pb-32 space-y-4">
+            <main className="p-6 pb-32 space-y-5">
                 {loading ? (
-                    <div className="flex justify-center py-10">
-                        <Loader2 className="animate-spin text-slate-300" />
+                    <div className="space-y-4 pt-4">
+                        {[1, 2].map(i => (
+                            <div key={i} className="h-28 bg-white rounded-2xl animate-pulse shadow-sm" />
+                        ))}
                     </div>
                 ) : orders.length > 0 ? (
-                    orders.map(order => (
-                        <div
-                            key={order.id}
-                            onClick={() => setSelectedOrder(order)}
-                            className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 transition-all active:scale-95 cursor-pointer hover:bg-slate-50"
-                        >
-                            <div className="h-12 w-12 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0 text-green-600 font-bold text-xs uppercase text-center leading-none">
-                                {format(new Date(order.consumption_date), "dd\nMMM", { locale: ptBR })}
-                            </div>
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: {
+                                opacity: 1,
+                                transition: { staggerChildren: 0.1 }
+                            }
+                        }}
+                        className="space-y-4"
+                    >
+                        {orders.map(order => (
+                            <motion.div
+                                key={order.id}
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0 }
+                                }}
+                                onClick={() => setSelectedOrder(order)}
+                                whileTap={{ scale: 0.98 }}
+                                className="bg-white p-5 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100/80 cursor-pointer group active:border-green-200 transition-all flex items-center gap-5 relative overflow-hidden"
+                            >
+                                {/* Active Strip Indicator */}
+                                <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${order.status === 'confirmed' ? 'bg-green-500' : 'bg-amber-400'}`} />
 
-                            <div className="flex-1 min-w-0">
-                                <h3 className="font-bold text-slate-900 truncate">{order.menu_items?.name || 'Prato Desconhecido'}</h3>
-                                <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                                    <CalendarClock className="w-3 h-3" />
-                                    {format(new Date(order.consumption_date), "EEEE", { locale: ptBR })}
-                                </p>
-                            </div>
+                                <div className="h-14 w-14 bg-gray-50 rounded-2xl flex flex-col items-center justify-center flex-shrink-0 border border-gray-100 group-hover:bg-white group-hover:shadow-md transition-all">
+                                    <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                                        {format(new Date(order.consumption_date), "MMM", { locale: ptBR })}
+                                    </span>
+                                    <span className="text-xl font-bold text-gray-900 leading-none">
+                                        {format(new Date(order.consumption_date), "dd")}
+                                    </span>
+                                </div>
 
-                            <div className={`
-                                px-2 py-1 rounded-full text-[10px] font-bold uppercase
-                                ${order.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}
-                            `}>
-                                {order.status === 'confirmed' ? 'Confirmado' : 'Pendente'}
-                            </div>
-                        </div>
-                    ))
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-bold text-gray-900 truncate leading-tight mb-1">{order.menu_items?.name || 'Prato Desconhecido'}</h3>
+                                    <div className="flex items-center gap-2">
+                                        {order.status === 'confirmed' ? (
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wide border border-green-100">
+                                                <Sparkles className="w-3 h-3" />
+                                                Confirmado
+                                            </span>
+                                        ) : (
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide border border-amber-100">
+                                                <CalendarClock className="w-3 h-3" />
+                                                Pendente
+                                            </span>
+                                        )}
+                                        <span className="text-xs text-gray-400 border-l pl-2 border-gray-200 capitalize">
+                                            {format(new Date(order.consumption_date), "EEEE", { locale: ptBR })}
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
                 ) : (
-                    <div className="text-center py-20 opacity-50">
-                        <Ticket className="w-16 h-16 mx-auto mb-4 text-slate-200" />
-                        <h3 className="text-lg font-bold text-slate-400">Nenhum pedido</h3>
-                        <p className="text-sm text-slate-300">Seus agendamentos aparecerão aqui.</p>
+                    <div className="text-center py-24 opacity-60 flex flex-col items-center">
+                        <div className="bg-gray-100 p-6 rounded-full mb-4">
+                            <UtensilsCrossed className="w-10 h-10 text-gray-300" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-600 tracking-tight">Vazio por aqui</h3>
+                        <p className="text-sm text-gray-400 mt-1 max-w-[200px]">Você ainda não reservou nenhuma refeição futura.</p>
                     </div>
                 )}
             </main>
 
-            {/* QR Modal Overlay */}
-            {selectedOrder && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6 animate-in fade-in"
-                    onClick={() => setSelectedOrder(null)}
-                >
-                    <div
-                        className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-in zoom-in-95 duration-200"
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <div className="text-center mb-6">
-                            <h2 className="text-xl font-bold text-slate-900 mb-1">Este é seu Ticket</h2>
-                            <p className="text-slate-400 text-sm">Apresente isso no balcão da cozinha.</p>
-                        </div>
-
-                        <div className="bg-slate-50 p-6 rounded-2xl border-2 border-dashed border-slate-200 mb-6 flex justify-center">
-                            {/* We need to import QRCode first! I noticed I missed adding the import in this block. 
-                               Wait, I need to check if QRCode is imported. 
-                               It WAS NOT imported in previous view_file. 
-                               I will add it now or in a separate edit if I can't do it here easily since I am replacing logic block.
-                               Actually I can verify imports. 
-                               I will assume I need to add import too. 
-                            */}
-                            {/* Fallback if QRCode not available or just render it assuming I fix imports next */}
-                            <QRCode value={selectedOrder.id} size={180} />
-                        </div>
-
-                        <div className="bg-green-50 p-4 rounded-xl mb-6 text-center">
-                            <h3 className="font-bold text-green-800 text-sm mb-1">{selectedOrder.menu_items?.name}</h3>
-                            <p className="text-green-600 text-xs">
-                                {format(new Date(selectedOrder.consumption_date), "dd 'de' MMMM, yyyy", { locale: ptBR })}
-                            </p>
-                        </div>
-
-                        <button
-                            onClick={() => setSelectedOrder(null)}
-                            className="w-full bg-slate-900 text-white font-bold h-12 rounded-xl active:scale-95 transition-all"
-                        >
-                            Fechar
-                        </button>
-                    </div>
-                </div>
-            )}
+            {/* Ticket Modal Component */}
+            <Ticket
+                isOpen={!!selectedOrder}
+                onClose={() => setSelectedOrder(null)}
+                order={selectedOrder}
+                userName={userName}
+            />
         </div>
     )
 }
