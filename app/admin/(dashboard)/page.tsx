@@ -90,11 +90,26 @@ function AdminPageContent() {
 
             if (error) throw error
 
-            const total = data?.length || 0
-            const pending = data?.filter((o: any) => o.status === 'pending').length || 0
-            const canceled = data?.filter((o: any) => o.status === 'canceled').length || 0
+            // Robust Counting Logic (Fix for status variations)
+            const rows = data || []
 
-            setStats({ total_today: total, canceled_today: canceled, pending_today: pending })
+            const canceledCount = rows.filter((o: any) => {
+                const s = (o.status || '').toLowerCase().trim()
+                return s === 'cancelled' || s === 'canceled'
+            }).length
+
+            const pendingCount = rows.filter((o: any) => {
+                const s = (o.status || '').toLowerCase().trim()
+                return s === 'pending'
+            }).length
+
+            const totalCount = rows.length
+
+            setStats({
+                total_today: totalCount,
+                canceled_today: canceledCount,
+                pending_today: pendingCount
+            })
         } catch (err: any) {
             console.error("❌ Erro KPI:", err.message)
             setErrorKPIs("Erro ao carregar totais")
@@ -137,7 +152,11 @@ function AdminPageContent() {
 
     // --- Derived State: Production Breakdown ---
     const productionList = useMemo(() => {
-        const activeOrders = recentOrders.filter(o => o.status !== 'canceled') // Don't cook canceled orders
+        const activeOrders = recentOrders.filter(o => {
+            const s = (o.status || '').toLowerCase()
+            return s !== 'cancelled' && s !== 'canceled'
+        })
+
         const counts: Record<string, number> = {}
 
         activeOrders.forEach(order => {
@@ -214,7 +233,7 @@ function AdminPageContent() {
                 <Card className="border-0 shadow-sm bg-gradient-to-br from-green-50/50 to-white">
                     <CardContent className="p-4 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">Pedidos do Dia</p>
+                            <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">Total de Pedidos</p>
                             {loadingKPIs ? (
                                 <div className="h-8 w-16 bg-green-100/50 animate-pulse rounded-lg" />
                             ) : (
@@ -289,6 +308,7 @@ function AdminPageContent() {
                             recentOrders.map((order) => {
                                 const userName = order.users?.name || 'Cliente'
                                 const menuItemName = order.menu_items?.name || 'Item'
+                                const status = (order.status || '').toLowerCase()
 
                                 return (
                                     <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors">
@@ -308,10 +328,10 @@ function AdminPageContent() {
                                             <div className="flex items-center gap-2">
                                                 <Badge variant="secondary" className={`
                                                     text-[10px] font-bold px-1 py-0 rounded
-                                                    ${order.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                                                        order.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}
+                                                    ${status === 'pending' ? 'bg-amber-100 text-amber-700' :
+                                                        status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}
                                                 `}>
-                                                    {order.status === 'pending' ? 'PENDENTE' : order.status === 'confirmed' ? 'CONFIRMADO' : 'CANCELADO'}
+                                                    {status === 'pending' ? 'PENDENTE' : status === 'confirmed' ? 'CONFIRMADO' : 'CANCELADO'}
                                                 </Badge>
                                                 <span className="text-xs text-slate-500 truncate max-w-[150px]">
                                                     {menuItemName}
