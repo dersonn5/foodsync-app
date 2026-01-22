@@ -56,14 +56,7 @@ export default function AdminPage() {
             // Filtering by 'consumption_date' to show what needs to be cooked/served today
             const { data: todayOrders, error: kpiError } = await supabase
                 .from('orders')
-                .select(`
-                    id, 
-                    created_at, 
-                    consumption_date,
-                    status, 
-                    users (name, email), 
-                    menu_items (name, type)
-                `)
+                .select('id, created_at, status, users(name, email), menu_items(name, type)')
                 .eq('consumption_date', todayStr)
                 .order('created_at', { ascending: false })
 
