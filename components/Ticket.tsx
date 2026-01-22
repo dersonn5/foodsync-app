@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { formatDateUTC } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChefHat, QrCode } from 'lucide-react'
 import QRCode from 'react-qr-code'
@@ -70,7 +71,7 @@ export default function Ticket({ isOpen, onClose, order, userName }: TicketProps
                                     <div className="bg-gray-50 p-3 rounded-xl">
                                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Data</p>
                                         <p className="font-bold text-gray-900">
-                                            {format(new Date(order.consumption_date), "dd/MM", { locale: ptBR })}
+                                            {formatDateUTC(order.consumption_date, "dd/MM")}
                                         </p>
                                     </div>
                                 </div>

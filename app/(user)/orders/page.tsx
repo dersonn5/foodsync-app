@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { formatDateUTC } from '@/lib/utils'
 import { Loader2, Ticket as TicketIcon, CalendarClock, UtensilsCrossed, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Ticket from '@/components/Ticket'
@@ -104,10 +105,10 @@ export default function OrdersPage() {
 
                                 <div className="h-14 w-14 bg-gray-50 rounded-2xl flex flex-col items-center justify-center flex-shrink-0 border border-gray-100 group-hover:bg-white group-hover:shadow-md transition-all">
                                     <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
-                                        {format(new Date(order.consumption_date), "MMM", { locale: ptBR })}
+                                        {formatDateUTC(order.consumption_date, "MMM")}
                                     </span>
                                     <span className="text-xl font-bold text-gray-900 leading-none">
-                                        {format(new Date(order.consumption_date), "dd")}
+                                        {formatDateUTC(order.consumption_date, "dd")}
                                     </span>
                                 </div>
 
@@ -126,7 +127,7 @@ export default function OrdersPage() {
                                             </span>
                                         )}
                                         <span className="text-xs text-gray-400 border-l pl-2 border-gray-200 capitalize">
-                                            {format(new Date(order.consumption_date), "EEEE", { locale: ptBR })}
+                                            {formatDateUTC(order.consumption_date, "EEEE")}
                                         </span>
                                     </div>
                                 </div>
@@ -142,15 +143,16 @@ export default function OrdersPage() {
                         <p className="text-sm text-gray-400 mt-1 max-w-[200px]">Você ainda não reservou nenhuma refeição futura.</p>
                     </div>
                 )}
-            </main>
+                )}
+            </main >
 
             {/* Ticket Modal Component */}
-            <Ticket
+            < Ticket
                 isOpen={!!selectedOrder}
                 onClose={() => setSelectedOrder(null)}
                 order={selectedOrder}
                 userName={userName}
             />
-        </div>
+        </div >
     )
 }

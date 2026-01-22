@@ -50,21 +50,21 @@ export default function AdminPage() {
     async function fetchDashboardData() {
         setLoading(true)
         try {
-            const todayStart = startOfDay(new Date()).toISOString()
-            const todayEnd = endOfDay(new Date()).toISOString()
+            const todayStr = format(new Date(), 'yyyy-MM-dd')
 
             // A. Fetch Today's Orders (KPIs + Feed)
+            // Filtering by 'consumption_date' to show what needs to be cooked/served today
             const { data: todayOrders, error: kpiError } = await supabase
                 .from('orders')
                 .select(`
                     id, 
                     created_at, 
+                    consumption_date,
                     status, 
                     users (name, email), 
                     menu_items (name, type)
                 `)
-                .gte('created_at', todayStart)
-                .lte('created_at', todayEnd)
+                .eq('consumption_date', todayStr)
                 .order('created_at', { ascending: false })
 
             if (kpiError) throw kpiError
