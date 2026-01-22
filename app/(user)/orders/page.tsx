@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { formatDateUTC } from '@/lib/utils'
+import { formatDateUTC, formatDateDisplay } from '@/lib/utils'
 import { Loader2, Ticket as TicketIcon, CalendarClock, UtensilsCrossed, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Ticket from '@/components/Ticket'
@@ -103,12 +103,9 @@ export default function OrdersPage() {
                                 {/* Active Strip Indicator */}
                                 <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${order.status === 'confirmed' ? 'bg-green-500' : 'bg-amber-400'}`} />
 
-                                <div className="h-14 w-14 bg-gray-50 rounded-2xl flex flex-col items-center justify-center flex-shrink-0 border border-gray-100 group-hover:bg-white group-hover:shadow-md transition-all">
-                                    <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
-                                        {formatDateUTC(order.consumption_date, "MMM")}
-                                    </span>
-                                    <span className="text-xl font-bold text-gray-900 leading-none">
-                                        {formatDateUTC(order.consumption_date, "dd")}
+                                <div className="h-14 w-auto px-3 bg-gray-50 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-100 group-hover:bg-white group-hover:shadow-md transition-all">
+                                    <span className="text-sm font-bold text-gray-900 capitalize leading-none">
+                                        {formatDateDisplay(order.consumption_date)}
                                     </span>
                                 </div>
 
@@ -126,9 +123,7 @@ export default function OrdersPage() {
                                                 Pendente
                                             </span>
                                         )}
-                                        <span className="text-xs text-gray-400 border-l pl-2 border-gray-200 capitalize">
-                                            {formatDateUTC(order.consumption_date, "EEEE")}
-                                        </span>
+                                        {/* Weekday removed as it is now in the main date display */}
                                     </div>
                                 </div>
                             </motion.div>
@@ -143,7 +138,7 @@ export default function OrdersPage() {
                         <p className="text-sm text-gray-400 mt-1 max-w-[200px]">Você ainda não reservou nenhuma refeição futura.</p>
                     </div>
                 )}
-                )}
+
             </main >
 
             {/* Ticket Modal Component */}
