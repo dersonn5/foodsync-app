@@ -151,28 +151,14 @@ function AdminOrdersPageContent() {
 
             {/* Fixed Header Section (Flex None) */}
             <div className="flex-none space-y-4 mb-4">
-                <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-                    <div>
+                <div className="flex flex-col gap-4 mb-2 md:flex-row md:items-center md:justify-between">
+
+                    {/* Bloco de Título e Subtítulo */}
+                    <div className="space-y-1">
                         <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
                             Gestão de Pedidos
-
-                            {/* Date Controls */}
-                            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg text-sm ml-2">
-                                <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-6 w-6 hover:bg-white hover:text-slate-900 rounded-md text-slate-500">
-                                    <ChevronLeft className="w-4 h-4" />
-                                </Button>
-
-                                <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[110px] justify-center cursor-pointer hover:bg-white/50 py-0.5 rounded transition-all">
-                                    <CalendarIcon className="w-3 h-3 text-slate-400" />
-                                    <span className="capitalize">{formatDateDisplay(currentDateStr)}</span>
-                                </div>
-
-                                <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-6 w-6 hover:bg-white hover:text-slate-900 rounded-md text-slate-500">
-                                    <ChevronRight className="w-4 h-4" />
-                                </Button>
-                            </div>
                         </h1>
-                        <p className="text-slate-500 text-xs mt-1 flex items-center gap-2">
+                        <p className="text-slate-500 text-xs flex items-center gap-2">
                             Fila para <span className="font-semibold text-slate-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
                             {dateParam && (
                                 <button onClick={handleToday} className="text-xs text-green-600 hover:underline font-medium">
@@ -182,22 +168,42 @@ function AdminOrdersPageContent() {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-2 bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
-                        {(['all', 'pending', 'confirmed'] as const).map((status) => (
-                            <button
-                                key={status}
-                                onClick={() => setFilterStatus(status)}
-                                className={`
-                                    px-3 py-1 rounded-md text-xs font-medium transition-all
-                                    ${filterStatus === status
-                                        ? 'bg-slate-900 text-white shadow-sm'
-                                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
-                                    }
-                                `}
-                            >
-                                {status === 'all' ? 'Todos' : status === 'pending' ? 'Pendentes' : 'Confirmados'}
-                            </button>
-                        ))}
+                    {/* Bloco de Ações (DateNav + Filters) */}
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center">
+                        {/* Date Controls */}
+                        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg text-sm self-start md:self-auto">
+                            <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-6 w-6 hover:bg-white hover:text-slate-900 rounded-md text-slate-500">
+                                <ChevronLeft className="w-4 h-4" />
+                            </Button>
+
+                            <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[110px] justify-center cursor-pointer hover:bg-white/50 py-0.5 rounded transition-all">
+                                <CalendarIcon className="w-3 h-3 text-slate-400" />
+                                <span className="capitalize">{formatDateDisplay(currentDateStr)}</span>
+                            </div>
+
+                            <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-6 w-6 hover:bg-white hover:text-slate-900 rounded-md text-slate-500">
+                                <ChevronRight className="w-4 h-4" />
+                            </Button>
+                        </div>
+
+                        {/* Status Filter */}
+                        <div className="flex items-center gap-2 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start md:self-auto">
+                            {(['all', 'pending', 'confirmed'] as const).map((status) => (
+                                <button
+                                    key={status}
+                                    onClick={() => setFilterStatus(status)}
+                                    className={`
+                                        px-3 py-1 rounded-md text-xs font-medium transition-all
+                                        ${filterStatus === status
+                                            ? 'bg-slate-900 text-white shadow-sm'
+                                            : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                                        }
+                                    `}
+                                >
+                                    {status === 'all' ? 'Todos' : status === 'pending' ? 'Pendentes' : 'Confirmados'}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 

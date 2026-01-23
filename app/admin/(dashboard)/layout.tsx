@@ -51,33 +51,59 @@ export default function AdminLayout({
     )
 }
 
+import { LayoutDashboard, ListChecks, ScanLine, UtensilsCrossed, BarChart3 } from 'lucide-react'
+
 function AdminBottomNav() {
     const pathname = usePathname()
 
     return (
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 px-6 py-3 pb-6 z-50 grid grid-cols-5 items-center shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.1)] pb-safe">
-            {menuItems.map((item) => {
-                const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))
-                const Icon = item.icon
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.1)]">
 
-                return (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`
-                            flex flex-col items-center justify-center gap-1 transition-all duration-300 w-full active:scale-95
-                            ${isActive ? "text-green-600" : "text-slate-300 hover:text-slate-500"}
-                        `}
-                    >
-                        <div className={`
-                            p-1.5 rounded-full transition-all duration-300 relative
-                            ${isActive ? "bg-green-50 -translate-y-2 shadow-lg shadow-green-100 ring-2 ring-white" : ""}
-                        `}>
-                            <Icon className={`w-5 h-5 ${isActive ? "fill-green-600" : "fill-transparent"}`} />
-                        </div>
-                    </Link>
-                )
-            })}
-        </nav>
+            {/* Link 1: Dashboard */}
+            <Link
+                href="/admin"
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname === '/admin' ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+            >
+                <LayoutDashboard size={20} className={pathname === '/admin' ? 'fill-green-600/20' : ''} />
+                <span className="text-[10px] font-medium">Home</span>
+            </Link>
+
+            {/* Link 2: Pedidos */}
+            <Link
+                href="/admin/orders"
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/orders') ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+            >
+                <ListChecks size={20} />
+                <span className="text-[10px] font-medium">Pedidos</span>
+            </Link>
+
+            {/* 🌟 BOTÃO CENTRAL DE SCAN (Destaque) */}
+            <div className="relative -top-5">
+                <Link href="/admin/scan">
+                    <div className="h-14 w-14 bg-slate-900 rounded-full flex items-center justify-center shadow-lg shadow-slate-900/30 text-white hover:scale-105 transition-transform border-4 border-slate-50">
+                        <ScanLine size={24} />
+                    </div>
+                </Link>
+            </div>
+
+            {/* Link 3: Cardápio */}
+            <Link
+                href="/admin/menu"
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/menu') ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+            >
+                <UtensilsCrossed size={20} />
+                <span className="text-[10px] font-medium">Menu</span>
+            </Link>
+
+            {/* Link 4: Relatórios */}
+            <Link
+                href="/admin/reports"
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/reports') ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+            >
+                <BarChart3 size={20} />
+                <span className="text-[10px] font-medium">Gestão</span>
+            </Link>
+
+        </div>
     )
 }
