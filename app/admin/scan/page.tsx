@@ -40,22 +40,35 @@ export default function ScanPage() {
     }
 
     // Busca os dados no banco
-    const fetchOrderDetails = async (orderId: string) => {
+    const fetchOrderDetails = async (scannedText: string) => {
         setLoading(true)
         setError(null)
 
-        // Tenta validar se é um UUID válido
+        // --- NOVA LÓGICA DE LIMPEZA ---
+        let orderId = scannedText;
+
+        // Se o texto lido for uma URL (contiver "/"), tenta pegar só a última parte
+        if (scannedText.includes('/')) {
+            const parts = scannedText.split('/');
+            // Pega o último item após a última barra, e remove possíveis parâmetros de query (?foo=bar)
+            orderId = parts[parts.length - 1].split('?')[0];
+            console.log("URL detectada. ID extraído:", orderId);
+        }
+        // -----------------------------
+
+        // Validação Regex (Agora usa o ID limpo)
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         if (!uuidRegex.test(orderId)) {
             setLoading(false)
-            setError("QR Code inválido (Não é um ID de pedido)")
+            // Mostra o texto original no erro para debug, mas avisa do formato
+            setError("QR Code inválido. O formato não é um ID de pedido.")
             return
         }
 
         try {
+            // Use o 'orderId' limpo aqui na busca
             const { data, error } = await supabase
-                .from('orders')
-                .select(`
+                .from('orders').select(`
           id, status, consumption_date,
           users ( email ),
           menu_items ( name, image_url )
@@ -113,10 +126,8 @@ export default function ScanPage() {
                                         handleScan(result[0].rawValue)
                                     }
                                 }}
-                                onError={(error) => console.log(error?.message)}
-                                options={{
-                                    delayBetweenScanAttempts: 500,
-                                }}
+                                onError={(error: any) => console.log(error?.message || error)}
+                                scanDelay={500}
                                 styles={{
                                     container: { width: '100%', height: '100%' }
                                 }}
