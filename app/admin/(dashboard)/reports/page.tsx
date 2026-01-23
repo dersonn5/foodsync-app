@@ -142,19 +142,19 @@ export default function ReportsPage() {
         <div className="h-auto min-h-screen flex flex-col overflow-y-auto p-4 pb-32 gap-6 md:h-[calc(100vh-1rem)] md:overflow-hidden md:p-6 md:pb-0 font-sans">
 
             {/* Header */}
-            <div className="flex-none flex items-center justify-between">
-                <div>
+            <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+                <div className="space-y-1">
                     <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
                         <BarChart3 className="w-6 h-6 text-slate-400" />
                         Relatórios de Eficiência
                     </h1>
-                    <p className="text-slate-500 text-sm mt-1">
+                    <p className="text-slate-500 text-sm">
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 w-full md:w-auto">
                     <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger className="w-[180px] bg-white">
+                        <SelectTrigger className="w-full md:w-[180px] bg-white">
                             <Calendar className="w-4 h-4 mr-2 text-slate-400" />
                             <SelectValue />
                         </SelectTrigger>
