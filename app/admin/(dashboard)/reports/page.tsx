@@ -138,7 +138,8 @@ export default function ReportsPage() {
     }, [rawData, start, end, period])
 
     return (
-        <div className="h-[calc(100vh-1rem)] flex flex-col overflow-hidden p-6 gap-6 font-sans">
+        // Main Container: Mobile = Auto Height + Scroll + Padding / Desktop = Screen Height + Lock
+        <div className="h-auto min-h-screen flex flex-col overflow-y-auto p-4 pb-32 gap-6 md:h-[calc(100vh-1rem)] md:overflow-hidden md:p-6 md:pb-0 font-sans">
 
             {/* Header */}
             <div className="flex-none flex items-center justify-between">
@@ -228,11 +229,11 @@ export default function ReportsPage() {
                         </Card>
                     </div>
 
-                    {/* Main Split Grid */}
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 min-h-0">
+                    {/* Main Split Grid (Mobile: Stack / Desktop: Grid) */}
+                    <div className="flex-none flex flex-col gap-6 md:flex-1 md:grid md:grid-cols-2 md:min-h-0">
 
                         {/* Radar de Rejeição */}
-                        <Card className="flex flex-col border-slate-200 shadow-sm overflow-hidden">
+                        <Card className="flex flex-col border-slate-200 shadow-sm overflow-hidden h-[400px] md:h-auto">
                             <CardHeader className="bg-red-50/30 border-b border-red-100 pb-3">
                                 <CardTitle className=" text-red-900 flex items-center gap-2 text-md">
                                     <TrendingDown className="w-5 h-5" />
@@ -259,7 +260,7 @@ export default function ReportsPage() {
                                                     </Badge>
                                                 </div>
                                                 <div className="flex items-center gap-3">
-                                                    <Progress value={(item.cancelled / item.total) * 100} className="h-2 bg-slate-100" indicatorColor="bg-red-500" />
+                                                    <Progress value={(item.cancelled / item.total) * 100} className="h-2 bg-slate-100 [&>div]:bg-red-500" />
                                                     <span className="text-xs text-slate-500 w-12 text-right">
                                                         {Math.round((item.cancelled / item.total) * 100)}%
                                                     </span>
@@ -272,7 +273,7 @@ export default function ReportsPage() {
                         </Card>
 
                         {/* Guia de Compras */}
-                        <Card className="flex flex-col border-slate-200 shadow-sm overflow-hidden">
+                        <Card className="flex flex-col border-slate-200 shadow-sm overflow-hidden h-[400px] md:h-auto">
                             <CardHeader className="bg-blue-50/30 border-b border-blue-100 pb-3 flex flex-row items-center justify-between space-y-0">
                                 <CardTitle className="text-blue-900 flex items-center gap-2 text-md">
                                     <Utensils className="w-5 h-5" />
