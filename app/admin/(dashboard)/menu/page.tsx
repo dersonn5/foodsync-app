@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useForm } from 'react-hook-form'
 import { Toaster, toast } from 'sonner'
@@ -47,12 +47,37 @@ export default function AdminMenuPage() {
     const [editingItem, setEditingItem] = useState<MenuItem | null>(null)
     const [targetDateForAdd, setTargetDateForAdd] = useState<Date | null>(null)
 
+    // Day Refs for Auto-Scroll
+    const dayRefs = useRef<(HTMLDivElement | null)[]>([])
+
     const { register, handleSubmit, reset, setValue, formState: { isSubmitting } } = useForm<any>()
 
     // Fetch items when week changes
     useEffect(() => {
         fetchWeekItems()
     }, [currentWeekStart])
+
+    // Auto-Scroll to Today on Mount
+    useEffect(() => {
+        // 0 = Sunday, 1 = Monday... 6 = Saturday
+        // We show Mon-Fri (1-5). Array Index 0-4.
+        const dayOfWeek = new Date().getDay()
+        const todayIndex = dayOfWeek - 1 // Mon(1) -> 0, Fri(5) -> 4
+
+        if (todayIndex >= 0 && todayIndex <= 4) {
+            const currentDayElement = dayRefs.current[todayIndex];
+            // Small timeout to ensure layout is ready
+            setTimeout(() => {
+                if (currentDayElement) {
+                    currentDayElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'center'
+                    });
+                }
+            }, 100)
+        }
+    }, [])
 
     // Reset form
     useEffect(() => {
@@ -179,7 +204,7 @@ export default function AdminMenuPage() {
                     </p>
                 </div>
 
-                <div className="bg-white shadow-sm border border-slate-200 rounded-full px-2 py-1.5 flex items-center gap-4">
+                <div className="bg-white shadow-sm border border-slate-200 rounded-full px-2 py-1.5 hidden md:flex items-center gap-4">
                     <Button variant="ghost" size="icon" onClick={() => navigateWeek(-1)} className="hover:bg-slate-50 rounded-full w-8 h-8">
                         <ChevronLeft className="w-5 h-5 text-slate-600" />
                     </Button>
@@ -198,17 +223,21 @@ export default function AdminMenuPage() {
 
             {/* Weekly Grid (Mobile: Horizontal Scroll / Desktop: Grid) */}
             <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 md:px-0 md:pb-0 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
-                {weekDays.map((date) => {
+                {weekDays.map((date, index) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
                     const isToday = isSameDay(date, new Date())
 
                     return (
-                        // Individual Day Column: Fixed width on mobile (85vw) for carousel effect
-                        <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden shrink-0 min-w-[85vw] snap-center md:min-w-0 md:w-auto md:shrink ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}>
+                        // Individual Day Column: Full width on mobile for focus
+                        <div
+                            key={dateStr}
+                            ref={(el) => { dayRefs.current[index] = el }}
+                            className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden shrink-0 min-w-full snap-center md:min-w-0 md:w-auto md:shrink ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}
+                        >
 
                             {/* Layer 1: HEADER (Fixed) */}
-                            <div className="flex-none p-4 border-b border-slate-200/50 bg-white/50 backdrop-blur flex items-center justify-between">
+                            <div className="flex-none p-4 border-b border-slate-200/50 bg-white/50 backdrop-blur flex items-center justify-center gap-2 md:justify-between">
                                 <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isToday ? 'text-blue-600' : 'text-slate-400'}`}>
                                     {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
                                 </span>
