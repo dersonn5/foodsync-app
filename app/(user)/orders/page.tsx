@@ -7,7 +7,7 @@ import { ptBR } from 'date-fns/locale'
 import { formatDateUTC, formatDateDisplay } from '@/lib/utils'
 import { Loader2, Ticket as TicketIcon, CalendarClock, UtensilsCrossed, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Ticket from '@/components/Ticket'
+import { OrderTicketDialog } from "@/components/app/order-ticket-dialog"
 
 // Basic order type for the list
 interface OrderHistoryItem {
@@ -22,8 +22,8 @@ interface OrderHistoryItem {
 export default function OrdersPage() {
     const [orders, setOrders] = useState<OrderHistoryItem[]>([])
     const [loading, setLoading] = useState(true)
-    const [userName, setUserName] = useState('')
     const [selectedOrder, setSelectedOrder] = useState<OrderHistoryItem | null>(null)
+    const [isTicketOpen, setIsTicketOpen] = useState(false)
 
     useEffect(() => {
         async function fetchHistory() {
@@ -32,7 +32,6 @@ export default function OrdersPage() {
             if (!stored) return
 
             const user = JSON.parse(stored)
-            setUserName(user.name.split(' ')[0]) // First name for ticket
 
             const { data, error } = await supabase
                 .from('orders')
@@ -96,7 +95,10 @@ export default function OrdersPage() {
                                     hidden: { opacity: 0, y: 20 },
                                     visible: { opacity: 1, y: 0 }
                                 }}
-                                onClick={() => setSelectedOrder(order)}
+                                onClick={() => {
+                                    setSelectedOrder(order)
+                                    setIsTicketOpen(true)
+                                }}
                                 whileTap={{ scale: 0.98 }}
                                 className="bg-white p-5 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100/80 cursor-pointer group active:border-green-200 transition-all flex items-center gap-5 relative overflow-hidden"
                             >
@@ -142,11 +144,10 @@ export default function OrdersPage() {
             </main >
 
             {/* Ticket Modal Component */}
-            < Ticket
-                isOpen={!!selectedOrder}
-                onClose={() => setSelectedOrder(null)}
+            < OrderTicketDialog
+                isOpen={isTicketOpen}
+                onClose={() => setIsTicketOpen(false)}
                 order={selectedOrder}
-                userName={userName}
             />
         </div >
     )
