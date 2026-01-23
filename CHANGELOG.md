@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1] - 2026-01-23
+### ✨ Melhora Visual
+- **Mobile Header:** Novo layout limpo com saudação e avatar.
+- **Calendário:** Estilo cápsula horizontal simplificado.
+
+### 🐛 Corrigido
+- **Layout Mobile:** Botão de ação sobrepondo menu de navegação.
+
 ## [1.1.0] - 2026-01-22
 ### ✨ Adicionado
 - **Elite UI/UX:** Refatoração visual completa (Login, Dashboard, Pedidos).

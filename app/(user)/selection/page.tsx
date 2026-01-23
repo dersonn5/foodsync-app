@@ -149,33 +149,35 @@ function SelectionContent() {
 
     return (
         <div className="min-h-screen bg-slate-50 pb-32 font-sans selection:bg-green-100">
-            {/* 1. Elite Header */}
-            <header className="bg-white/80 backdrop-blur-xl px-6 pt-14 pb-4 sticky top-0 z-30 shadow-[0_4px_30px_-5px_rgba(0,0,0,0.03)] border-b border-gray-100/50">
-                <div className="flex justify-between items-start mb-6">
-                    <div className="animate-in slide-in-from-left-2 duration-500">
-                        <p className="text-sm text-gray-400 font-medium">Olá, <span className="text-green-600 font-bold text-base tracking-tight">{user.name.split(' ')[0]}</span></p>
-                        <h1 className="text-2xl font-bold text-gray-900 mt-0.5 tracking-tight leading-tight">O que vamos comer?</h1>
-                        {existingOrder && (
-                            <div className="flex items-center gap-2 mt-2">
-                                <span className="text-xs text-green-700 font-bold bg-green-50 px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-green-100">
-                                    <Check className="w-3 h-3" />
-                                    Pedido Confirmado
-                                </span>
-                            </div>
-                        )}
-                    </div>
+            {/* 1. Header & Calendar (Sticky) */}
+            <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+                {/* Profile Section */}
+                <div className="flex justify-between items-center p-6 pb-2">
                     <div className="flex items-center gap-3">
-                        <div className="h-11 w-11 bg-white rounded-full flex items-center justify-center text-green-700 font-bold shadow-md shadow-gray-200 ring-2 ring-gray-50">
-                            {user.name.charAt(0)}
+                        {/* Avatar */}
+                        <div className="h-12 w-12 rounded-full bg-slate-100 border-2 border-slate-50 flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden">
+                            {user.avatar_url ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={user.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <span className="text-lg font-bold text-slate-400">{user.name.charAt(0)}</span>
+                            )}
                         </div>
+                        {/* Greeting */}
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium text-slate-500">Olá, {user.name.split(' ')[0]} 👋</span>
+                            <span className="text-xl font-bold text-slate-800 tracking-tight">Hora de comer!</span>
+                        </div>
+                    </div>
+
+                    {/* Logout */}
+                    <div className="text-gray-400 hover:text-red-500 transition-colors">
                         <SignOutButton />
                     </div>
                 </div>
 
-                {/* Date Strip */}
-                <div className="-mx-1">
-                    <DateStrip selectedDate={selectedDate} onSelectDate={handleDateChange} />
-                </div>
+                {/* Calendar Strip */}
+                <DateStrip selectedDate={selectedDate} onSelectDate={handleDateChange} />
             </header>
 
             {/* 2. Category Tabs */}
@@ -315,9 +317,9 @@ function SelectionContent() {
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-[40px] left-0 right-0 px-6 z-40 flex justify-center"
+                        className="fixed bottom-24 left-4 right-4 z-40 flex justify-center"
                     >
-                        <div className="w-full max-w-md bg-white/95 backdrop-blur-xl p-4 rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200/50 flex items-center justify-between gap-4 ring-1 ring-black/5">
+                        <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200/50 flex items-center justify-between gap-4 ring-1 ring-black/5">
                             <div className="flex-1 pl-2">
                                 <p className="text-[10px] text-green-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
                                     <Check className="w-3 h-3" /> Confirmado para {format(selectedDate, 'dd/MM')}
@@ -341,12 +343,12 @@ function SelectionContent() {
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-[40px] left-0 right-0 px-6 z-40 flex justify-center"
+                        className="fixed bottom-24 left-4 right-4 z-40 flex justify-center"
                     >
                         <Button
                             onClick={handleConfirm}
                             disabled={submitting}
-                            className="w-full max-w-md h-16 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-[2rem] shadow-[0_20px_40px_-12px_rgba(22,163,74,0.5)] active:scale-95 transition-all flex items-center justify-between px-8 border-t border-white/20"
+                            className="w-full h-14 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-between px-6"
                         >
                             <span>Reservar este Prato</span>
                             {submitting ? <Loader2 className="animate-spin text-white/90" /> : <ArrowRight className="w-6 h-6 text-white/90" />}
