@@ -5,14 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { MenuItem } from '@/types'
 import { Button } from '@/components/ui/button'
-import { Check, Utensils, Clock, Loader2, ArrowRight, CalendarX } from 'lucide-react'
-import { format, startOfToday, parseISO, isValid } from 'date-fns'
+import { Check, Utensils, Loader2, ArrowRight, CalendarX, Plus, LogOut } from 'lucide-react'
+import { format, startOfToday, parseISO, isValid, addDays, isSameDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { sendConfirmationMessage } from '@/app/actions/whatsapp'
 import SignOutButton from '@/components/SignOutButton'
-import DateStrip from '@/components/DateStrip'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 // Helper to standardise date string for DB (YYYY-MM-DD)
 const getDateStr = (date: Date) => format(date, 'yyyy-MM-dd')
@@ -24,20 +24,22 @@ function SelectionContent() {
     // Auth State
     const [user, setUser] = useState<any>(null)
 
-    // Date State - synced with URL or default to Today
+    // Date State
     const dateParam = searchParams.get('date')
     const initialDate = dateParam && isValid(parseISO(dateParam))
         ? parseISO(dateParam)
         : startOfToday()
 
     const [selectedDate, setSelectedDate] = useState<Date>(initialDate)
-
     const [menuItems, setMenuItems] = useState<MenuItem[]>([])
     const [loadingMenu, setLoadingMenu] = useState(true)
     const [selectedId, setSelectedId] = useState<string | null>(null)
     const [submitting, setSubmitting] = useState(false)
     const [existingOrder, setExistingOrder] = useState<any>(null)
     const [activeTab, setActiveTab] = useState<'all' | 'main' | 'fit' | 'snack'>('all')
+
+    // Generate next 14 days for calendar
+    const calendarDays = Array.from({ length: 14 }, (_, i) => addDays(startOfToday(), i))
 
     // 0. Sync URL on Date Change
     const handleDateChange = (date: Date) => {
@@ -80,7 +82,7 @@ function SelectionContent() {
                 const { data: menuData, error: menuError } = await supabase
                     .from('menu_items')
                     .select('*')
-                    .eq('date', dateStr) // Filter by specific date
+                    .eq('date', dateStr)
                     .order('created_at')
 
                 if (menuError) throw menuError
@@ -116,7 +118,6 @@ function SelectionContent() {
             if (data) {
                 if (user.phone) {
                     const dishName = menuItems.find(i => i.id === selectedId)?.name || 'Prato do dia'
-                    // Fire and forget whatsapp
                     sendConfirmationMessage({ phone: user.phone, dishName }).catch(console.error)
                 }
                 setExistingOrder(data)
@@ -140,7 +141,6 @@ function SelectionContent() {
         }
     }
 
-    // Filtering logic (Client side for category)
     const filteredItems = activeTab === 'all'
         ? menuItems
         : menuItems.filter(i => i.type === activeTab)
@@ -148,169 +148,177 @@ function SelectionContent() {
     if (!user) return <div className="h-screen bg-slate-50 flex items-center justify-center"><Loader2 className="animate-spin text-green-600" /></div>
 
     return (
-        <div className="min-h-screen bg-slate-50 pb-32 font-sans selection:bg-green-100">
-            {/* 1. Header & Calendar (Sticky) */}
-            <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
-                {/* Profile Section */}
-                <div className="flex justify-between items-center p-6 pb-2">
-                    <div className="flex items-center gap-3">
-                        {/* Avatar */}
-                        <div className="h-12 w-12 rounded-full bg-slate-100 border-2 border-slate-50 flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden">
-                            {user.avatar_url ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img src={user.avatar_url} alt="Profile" className="w-full h-full object-cover" />
-                            ) : (
-                                <span className="text-lg font-bold text-slate-400">{user.name.charAt(0)}</span>
-                            )}
-                        </div>
-                        {/* Greeting */}
-                        <div className="flex flex-col">
-                            <span className="text-sm font-medium text-slate-500">Olá, {user.name.split(' ')[0]} 👋</span>
-                            <span className="text-xl font-bold text-slate-800 tracking-tight">Hora de comer!</span>
-                        </div>
+        <div className="flex flex-col h-[100dvh] bg-slate-50">
+
+            {/* BLOCO 1: HEADER FIXO */}
+            <header className="flex-none bg-white shadow-[0_4px_20px_-12px_rgba(0,0,0,0.1)] z-20 relative">
+                {/* Perfil & Saudação */}
+                <div className="px-6 pt-12 pb-4 flex justify-between items-center">
+                    <div>
+                        <span className="text-sm text-slate-400 font-medium">Bom almoço,</span>
+                        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{user.name.split(' ')[0]} 👋</h1>
                     </div>
 
-                    {/* Logout */}
-                    <div className="text-gray-400 hover:text-red-500 transition-colors">
+                    <div className="text-slate-400">
                         <SignOutButton />
                     </div>
                 </div>
 
-                {/* Calendar Strip */}
-                <DateStrip selectedDate={selectedDate} onSelectDate={handleDateChange} />
+                {/* Calendário (Cápsulas Modernas) */}
+                <div className="pb-6 pl-6 overflow-x-auto hide-scrollbar flex gap-3 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    {calendarDays.map((date) => {
+                        const isSelected = isSameDay(date, selectedDate)
+
+                        return (
+                            <button
+                                key={date.toISOString()}
+                                onClick={() => handleDateChange(date)}
+                                className={cn(
+                                    "flex flex-col items-center justify-center min-w-[60px] h-[72px] rounded-2xl border transition-all duration-300 active:scale-95 flex-shrink-0",
+                                    isSelected
+                                        ? "bg-slate-800 border-slate-800 text-white shadow-lg shadow-slate-900/20"
+                                        : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
+                                )}
+                            >
+                                <span className={cn(
+                                    "text-[10px] font-bold uppercase tracking-widest mb-1",
+                                    isSelected ? "text-slate-400" : "text-slate-400"
+                                )}>
+                                    {format(date, 'EEE', { locale: ptBR }).replace('.', '')}
+                                </span>
+                                <span className={cn(
+                                    "text-xl font-black",
+                                    isSelected ? "text-white" : "text-slate-800"
+                                )}>
+                                    {format(date, 'd')}
+                                </span>
+                            </button>
+                        )
+                    })}
+                </div>
             </header>
 
-            {/* 2. Category Tabs */}
-            <div className="sticky top-[240px] z-20 bg-slate-50/95 backdrop-blur-sm py-4 px-6">
-                <div className="flex justify-start items-center w-full gap-2 overflow-x-auto scrollbar-hide">
-                    {[
-                        { id: 'all', label: 'Todos' },
-                        { id: 'main', label: 'Padrão' },
-                        { id: 'fit', label: 'Fit' },
-                        { id: 'snack', label: 'Lanche' }
-                    ].map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id as any)}
-                            className={`
-                                flex-shrink-0 px-4 py-2.5 rounded-full text-xs font-bold transition-all duration-300
-                                ${activeTab === tab.id
-                                    ? 'bg-gray-900 text-white shadow-lg shadow-gray-200 scale-100 ring-2 ring-white'
-                                    : 'bg-white text-gray-400 hover:bg-gray-50 border border-transparent shadow-sm'
-                                }
-                            `}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            {/* BLOCO 2: CORPO COM SCROLL */}
+            <main className="flex-1 overflow-y-auto scroll-smooth">
+                <div className="px-6 py-6 pb-32 space-y-8">
 
-            {/* 3. Meal Cards Grid */}
-            <main className="px-5 space-y-5 min-h-[50vh]">
-                <AnimatePresence mode="wait">
-                    {loadingMenu ? (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4 pt-2">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="h-36 bg-white rounded-3xl animate-pulse shadow-sm" />
-                            ))}
-                        </motion.div>
-                    ) : filteredItems.length > 0 ? (
-                        <div className="space-y-5 pb-20">
-                            {filteredItems.map((item, index) => {
-                                const isSelected = selectedId === item.id
-                                const isOrdered = existingOrder?.menu_item_id === item.id
-                                return (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: index * 0.05, duration: 0.4 }}
-                                        key={item.id}
-                                        onClick={() => !existingOrder && setSelectedId(item.id)}
-                                        className={`
-                                            group relative overflow-hidden rounded-[2rem] bg-white p-3 shadow-[0_2px_15px_-4px_rgba(0,0,0,0.05)] border transition-all duration-300 w-full
-                                            ${isSelected
-                                                ? 'border-green-500/50 shadow-[0_10px_40px_-10px_rgba(22,163,74,0.15)] ring-1 ring-green-500/20'
-                                                : existingOrder
-                                                    ? isOrdered ? 'border-green-500 ring-2 ring-green-100 opacity-100' : 'opacity-50 grayscale-[0.5]'
-                                                    : 'border-white hover:border-gray-100 hover:shadow-lg cursor-pointer'
-                                            }
-                                        `}
-                                    >
-                                        <div className="flex gap-4">
-                                            {/* Image with zoom effect */}
-                                            <div className="w-28 h-28 rounded-2xl overflow-hidden shadow-inner relative flex-shrink-0 bg-gray-50">
-                                                {item.photo_url ? (
-                                                    // eslint-disable-next-line @next/next/no-img-element
-                                                    <img src={item.photo_url} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                                ) : (
-                                                    <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                    {/* Filtros (Chips) */}
+                    <div className="flex gap-3 overflow-x-auto hide-scrollbar -mx-6 px-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        {[
+                            { id: 'all', label: 'Todos' },
+                            { id: 'main', label: 'Padrão' },
+                            { id: 'fit', label: 'Fit' },
+                            { id: 'snack', label: 'Lanche' }
+                        ].map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id as any)}
+                                className={cn(
+                                    "px-6 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all flex-shrink-0",
+                                    activeTab === tab.id
+                                        ? "bg-slate-800 text-white shadow-lg shadow-slate-200"
+                                        : "bg-white text-slate-600 border border-slate-100 hover:bg-slate-50"
+                                )}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Título da Seção */}
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-lg font-bold text-slate-800">Cardápio do Dia</h2>
+                        <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                            {filteredItems.length} {filteredItems.length === 1 ? 'Opção' : 'Opções'}
+                        </span>
+                    </div>
+
+                    {/* Lista de Cards */}
+                    <div className="space-y-5">
+                        <AnimatePresence mode="wait">
+                            {loadingMenu ? (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4 pt-2">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="h-32 bg-white rounded-[2rem] animate-pulse shadow-sm" />
+                                    ))}
+                                </motion.div>
+                            ) : filteredItems.length > 0 ? (
+                                filteredItems.map((item) => {
+                                    const isSelected = selectedId === item.id
+                                    const isOrdered = existingOrder?.menu_item_id === item.id
+                                    return (
+                                        <motion.div
+                                            key={item.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className={cn(
+                                                "group bg-white rounded-[2rem] p-4 shadow-sm border flex gap-4 active:scale-[0.98] transition-all duration-200",
+                                                isSelected ? "border-green-500 ring-1 ring-green-500 shadow-md" : "border-slate-100/50"
+                                            )}
+                                            onClick={() => !existingOrder && setSelectedId(item.id)}
+                                        >
+                                            {/* Imagem */}
+                                            <div
+                                                className="h-28 w-28 flex-none rounded-2xl bg-slate-100 bg-cover bg-center shadow-inner relative overflow-hidden"
+                                                style={{ backgroundImage: item.photo_url ? `url(${item.photo_url})` : 'none' }}
+                                            >
+                                                {!item.photo_url && (
+                                                    <div className="w-full h-full flex items-center justify-center text-slate-300">
                                                         <Utensils className="w-8 h-8" />
                                                     </div>
                                                 )}
-                                                {/* Selected overlay */}
-                                                <div className={`absolute inset-0 bg-green-900/10 backdrop-blur-[1px] transition-opacity duration-300 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
+                                                {isOrdered && (
+                                                    <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center backdrop-blur-[1px]">
+                                                        <Check className="text-white w-8 h-8 drop-shadow-md" />
+                                                    </div>
+                                                )}
                                             </div>
 
-                                            {/* Content */}
-                                            <div className="flex-1 flex flex-col justify-center py-1 pr-2">
-                                                <div className="flex justify-between items-start">
-                                                    <Badge variant="secondary" className="mb-2 text-[10px] font-bold uppercase tracking-wider bg-gray-50 text-gray-500 border border-gray-100">
+                                            <div className="flex flex-col justify-between flex-1 py-1">
+                                                <div>
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                                                         {item.type === 'main' ? 'Padrão' : item.type}
-                                                    </Badge>
-                                                    {isOrdered && (
-                                                        <Badge className="bg-green-100 text-green-700 border-green-200">Escolhido</Badge>
-                                                    )}
+                                                    </span>
+                                                    <h3 className="font-bold text-slate-800 leading-tight mt-1 text-lg line-clamp-2">
+                                                        {item.name}
+                                                    </h3>
+                                                    <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                                                        {item.description || "Sem descrição disponível."}
+                                                    </p>
                                                 </div>
-                                                <h3 className={`font-bold text-lg leading-tight mb-2 tracking-tight transition-colors ${isSelected ? 'text-green-700' : 'text-gray-900'}`}>
-                                                    {item.name}
-                                                </h3>
-                                                <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed font-medium">
-                                                    {item.description || "Uma opção deliciosa preparada pelos nossos chefs."}
-                                                </p>
-                                            </div>
-                                        </div>
 
-                                        {/* Check Icon ABSOLUTE */}
-                                        <AnimatePresence>
-                                            {isSelected && (
-                                                <motion.div
-                                                    initial={{ scale: 0, rotate: -45 }}
-                                                    animate={{ scale: 1, rotate: 0 }}
-                                                    exit={{ scale: 0 }}
-                                                    className="absolute top-3 right-3 bg-green-500 text-white p-2 rounded-full shadow-lg shadow-green-500/30"
-                                                >
-                                                    <Check className="w-4 h-4" />
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </motion.div>
-                                )
-                            })}
-                        </div>
-                    ) : (
-                        <div className="flex flex-col items-center justify-center py-20 px-4 text-center animate-in fade-in zoom-in duration-500">
-                            <div className="w-24 h-24 bg-white rounded-full shadow-sm flex items-center justify-center mb-6">
-                                <CalendarX className="w-10 h-10 text-gray-300" />
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">Cardápio Indefinido</h3>
-                            <p className="text-gray-500 max-w-xs mx-auto leading-relaxed">
-                                Ainda não temos pratos cadastrados para <br />
-                                <span className="font-bold text-gray-700">{format(selectedDate, "dd 'de' MMMM", { locale: ptBR })}</span>.
-                            </p>
-                            <Button
-                                variant="outline"
-                                className="mt-8 rounded-xl"
-                                onClick={() => handleDateChange(startOfToday())}
-                            >
-                                Voltar para Hoje
-                            </Button>
-                        </div>
-                    )}
-                </AnimatePresence>
+                                                <div className="flex items-center justify-between mt-2">
+                                                    <span className="text-xs font-medium text-slate-400">
+                                                        450kcal
+                                                    </span>
+                                                    <button
+                                                        className={cn(
+                                                            "h-8 w-8 rounded-full flex items-center justify-center transition-colors",
+                                                            isSelected ? "bg-green-500 text-white" : "bg-slate-50 text-green-600 hover:bg-green-500 hover:text-white"
+                                                        )}
+                                                    >
+                                                        {isSelected ? <Check size={18} /> : <Plus size={18} />}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )
+                                })
+                            ) : (
+                                <div className="flex flex-col items-center justify-center py-10 text-center">
+                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                                        <CalendarX className="text-slate-400 w-8 h-8" />
+                                    </div>
+                                    <p className="text-slate-500 text-sm">Nenhum prato disponível para esta data.</p>
+                                </div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                </div>
             </main>
 
-            {/* Confirm Floating Button */}
+            {/* Floating Action Button for Confirmation */}
             <AnimatePresence>
                 {existingOrder ? (
                     <motion.div
@@ -322,17 +330,16 @@ function SelectionContent() {
                         <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200/50 flex items-center justify-between gap-4 ring-1 ring-black/5">
                             <div className="flex-1 pl-2">
                                 <p className="text-[10px] text-green-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
-                                    <Check className="w-3 h-3" /> Confirmado para {format(selectedDate, 'dd/MM')}
+                                    <Check className="w-3 h-3" /> Confirmado
                                 </p>
                                 <p className="text-sm font-bold text-gray-900 line-clamp-1">
                                     {existingOrder.menu_items?.name || 'Prato Reservado'}
                                 </p>
                             </div>
-                            {/* Allow cancel only if future or today? Logic can be refined */}
                             <Button
                                 onClick={handleCancelOrder}
                                 variant="destructive"
-                                className="h-11 px-5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border-0 font-bold rounded-xl active:scale-95 transition-all shadow-none"
+                                className="h-10 px-4 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border-0 font-bold rounded-lg active:scale-95 transition-all shadow-none text-xs"
                             >
                                 Trocar
                             </Button>
@@ -350,7 +357,7 @@ function SelectionContent() {
                             disabled={submitting}
                             className="w-full h-14 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-between px-6"
                         >
-                            <span>Reservar este Prato</span>
+                            <span>Confirmar Reserva</span>
                             {submitting ? <Loader2 className="animate-spin text-white/90" /> : <ArrowRight className="w-6 h-6 text-white/90" />}
                         </Button>
                     </motion.div>
@@ -360,7 +367,6 @@ function SelectionContent() {
     )
 }
 
-// Wrap in Suspense boundary for useSearchParams
 export default function SelectionPage() {
     return (
         <Suspense fallback={<div className="h-screen bg-slate-50 flex items-center justify-center"><Loader2 className="animate-spin text-green-600" /></div>}>
