@@ -55,13 +55,15 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
                 <div className="flex flex-col items-center gap-6 py-4">
 
                     {/* O QR CODE MÁGICO */}
-                    <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm">
+                    <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm flex justify-center">
                         <QRCode
                             value={order.id}
-                            size={180}
-                            fgColor="#1e293b" // Slate-800
+                            size={220}
+                            fgColor="#000000"
                             bgColor="#ffffff"
-                            level="M"
+                            level="H"
+                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                            viewBox={`0 0 256 256`}
                         />
                     </div>
 

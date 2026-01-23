@@ -33,8 +33,21 @@ export default function ScanPage() {
     const router = useRouter()
 
     // Função disparada ao ler um QR Code
+    // Função disparada ao ler um QR Code
+    // SUBSTITUA A FUNÇÃO handleScan POR ESTA VERSÃO BLINDADA:
     const handleScan = async (text: string) => {
-        if (scannedResult === text) return // Evita leituras duplicadas rápidas
+        // 🛡️ TRAVA DE SEGURANÇA 1: Ignora leituras repetidas rápidas
+        if (scannedResult === text) return
+
+        // 🛡️ TRAVA DE SEGURANÇA 2 (ANTI-CÓDIGO DE BARRAS):
+        // IDs do Supabase (UUID) SEMPRE têm traços (ex: a1b2-c3d4...).
+        // Se o texto não tiver "-", é lixo ou código de barras. Ignora silenciosamente.
+        if (!text.includes('-')) {
+            console.log("Leitura ignorada (Provável código de barras/lixo):", text)
+            return
+        }
+
+        // Se passou, é um potencial ID ou Link válido.
         setScannedResult(text)
         fetchOrderDetails(text)
     }
@@ -122,12 +135,13 @@ export default function ScanPage() {
                         ) : (
                             <Scanner
                                 onScan={(result) => {
-                                    if (result && result.length > 0) {
+                                    if (result && result[0] && result[0].rawValue) {
                                         handleScan(result[0].rawValue)
                                     }
                                 }}
+                                formats={['qr_code']}
                                 onError={(error: any) => console.log(error?.message || error)}
-                                scanDelay={500}
+                                scanDelay={300}
                                 styles={{
                                     container: { width: '100%', height: '100%' }
                                 }}
