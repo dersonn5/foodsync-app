@@ -196,16 +196,16 @@ export default function AdminMenuPage() {
                 </div>
             </div>
 
-            {/* Weekly Grid (Columns occupy remaining space) */}
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 w-full min-h-0">
+            {/* Weekly Grid (Mobile: Horizontal Scroll / Desktop: Grid) */}
+            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 md:px-0 md:pb-0 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
                 {weekDays.map((date) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
                     const isToday = isSameDay(date, new Date())
 
                     return (
-                        // Individual Day Column: Header + Body (No separate footer now)
-                        <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}>
+                        // Individual Day Column: Fixed width on mobile (85vw) for carousel effect
+                        <div key={dateStr} className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden shrink-0 min-w-[85vw] snap-center md:min-w-0 md:w-auto md:shrink ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}>
 
                             {/* Layer 1: HEADER (Fixed) */}
                             <div className="flex-none p-4 border-b border-slate-200/50 bg-white/50 backdrop-blur flex items-center justify-between">

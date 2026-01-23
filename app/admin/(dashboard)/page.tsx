@@ -180,13 +180,14 @@ function AdminPageContent() {
     if (!user) return null
 
     return (
-        // Main Container: Screen Height, No Page Scroll
-        <div className="h-[calc(100vh-2rem)] flex flex-col p-6 max-w-[1600px] mx-auto font-sans overflow-hidden">
+        // Main Container: Mobile = Scrollable Stack, Desktop = Screen Height Locked
+        // Uses p-4 md:p-8 as requested, h-full to fill layout main
+        <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden">
             <Toaster position="top-right" richColors />
 
             {/* Compact Header: Single Row */}
-            <div className="flex items-center justify-between mb-6 shrink-0">
-                <div className="flex items-center gap-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
+                <div className="flex flex-wrap items-center gap-4 md:gap-6">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
                             Cockpit Operacional
@@ -198,7 +199,7 @@ function AdminPageContent() {
                     </div>
 
                     {/* Date Navigation (Inline) */}
-                    <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-sm">
+                    <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-sm self-start md:self-auto">
                         <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-7 w-7 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
                             <ChevronLeft className="w-4 h-4" />
                         </Button>
@@ -220,7 +221,7 @@ function AdminPageContent() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 self-end md:self-auto">
                     <div className="flex gap-1.5">
                         <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-green-300'}`} title="Status KPIs" />
                         <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-green-300'}`} title="Status Feed" />
@@ -228,8 +229,8 @@ function AdminPageContent() {
                 </div>
             </div>
 
-            {/* Slim KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 shrink-0">
+            {/* Slim KPI Cards - Mobile: 1 Col, Desktop: 3 Col */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2 shrink-0">
                 <Card className="border-0 shadow-sm bg-gradient-to-br from-green-50/50 to-white">
                     <CardContent className="p-4 flex items-center justify-between">
                         <div>
@@ -279,11 +280,11 @@ function AdminPageContent() {
                 </Card>
             </div>
 
-            {/* Split View Area (Flex Grow to fill remaining height) */}
-            <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-0">
+            {/* Split View Area (Stack on Mobile, Row on Desktop) */}
+            <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:h-full md:min-h-0 flex-1">
 
                 {/* Left: Feed (Scrollable) */}
-                <div className="lg:col-span-2 flex flex-col h-full min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm md:flex-1">
                     <div className="p-4 border-b border-slate-100 flex items-center justify-between shrink-0">
                         <h2 className="font-bold text-slate-900 flex items-center gap-2 text-sm">
                             <Utensils className="w-4 h-4 text-slate-400" />
@@ -350,8 +351,8 @@ function AdminPageContent() {
                     </div>
                 </div>
 
-                {/* Right: Production Breakdown (Replaces Chart) */}
-                <div className="flex flex-col h-full min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                {/* Right: Production Breakdown (Stack on mobile below feed) */}
+                <div className="order-2 md:order-none w-full md:w-80 lg:w-96 flex flex-col h-auto min-h-[300px] md:h-full md:min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm">
                     <div className="p-4 border-b border-slate-100 shrink-0">
                         <h2 className="font-bold text-slate-900 flex items-center gap-2 text-sm">
                             <ChefHat className="w-4 h-4 text-slate-400" />
@@ -362,7 +363,7 @@ function AdminPageContent() {
                         </h2>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 min-h-0">
+                    <div className="flex-1 overflow-y-auto p-4 min-h-0 relative">
                         {loadingFeed ? (
                             <div className="space-y-3">
                                 {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-slate-50 animate-pulse rounded-lg" />)}
@@ -393,7 +394,7 @@ function AdminPageContent() {
                                 })}
                             </div>
                         ) : (
-                            <div className="h-full flex flex-col items-center justify-center text-center text-slate-300">
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-slate-300">
                                 <ListChecks className="w-8 h-8 mb-2 opacity-50" />
                                 <p className="text-xs">Produção zerada</p>
                             </div>

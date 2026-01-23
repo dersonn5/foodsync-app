@@ -28,14 +28,18 @@ export default function AdminLayout({
 }) {
     return (
         <NotificationProvider>
-            <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans">
-                {/* Desktop Sidebar (Fixed) */}
-                <AdminSidebar />
+            {/* Main Container: Mobile = min-h-screen (scroll), Desktop = h-screen (fixed/hidden scroll) */}
+            <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans md:h-screen md:overflow-hidden">
+                {/* Desktop Sidebar (Fixed & Hidden on Mobile) */}
+                <div className="hidden md:flex">
+                    <AdminSidebar />
+                </div>
 
-                {/* Main Content Wrapper */}
-                <div className="flex-1 md:ml-72 min-h-screen flex flex-col transition-all duration-300 pb-24 md:pb-0">
+                {/* Main Content Wrapper: Mobile = auto height + padding, Desktop = full height + locked */}
+                <div className="flex-1 md:ml-72 flex flex-col transition-all duration-300 pb-24 md:pb-0 h-auto md:h-screen overflow-visible md:overflow-y-auto">
                     <AdminHeader />
-                    <main className="p-8">
+                    {/* Content Area: Remove padding here, handled in page.tsx. Ensure full height. */}
+                    <main className="flex-1 h-full w-full">
                         {children}
                     </main>
                 </div>
