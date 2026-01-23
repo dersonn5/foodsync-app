@@ -1,27 +1,20 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Scanner } from "@yudiel/react-qr-scanner"
+import { useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, XCircle, Loader2, ScanLine } from "lucide-react"
-import { toast } from "sonner"
+import { CheckCircle2, XCircle, ScanLine, AlertTriangle } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Html5QrcodePlugin } from "@/components/admin/html5-qrcode-plugin" // Importe o novo componente
 
-// Tipo do Pedido Completo
+// Tipo do Pedido
 type OrderDetail = {
     id: string
     status: string
     consumption_date: string
-    users: {
-        email: string
-        // Adicione 'name' se tiver na tabela users, caso contrário usa email
-    }
-    menu_items: {
-        name: string
-        image_url: string
-    }
+    users: { email: string }
+    menu_items: { name: string; image_url: string }
 }
 
 export default function ScanPage() {
@@ -32,56 +25,38 @@ export default function ScanPage() {
     const supabase = createClient()
     const router = useRouter()
 
-    // Função disparada ao ler um QR Code
-    // Função disparada ao ler um QR Code
-    // SUBSTITUA A FUNÇÃO handleScan POR ESTA VERSÃO BLINDADA:
-    const handleScan = async (text: string) => {
-        // 🛡️ TRAVA DE SEGURANÇA 1: Ignora leituras repetidas rápidas
-        if (scannedResult === text) return
+    const onNewScanResult = (decodedText: string, decodedResult: any) => {
+        // 🛡️ Lógica de Proteção (Anti-Código de Barras)
+        // Se já leu este mesmo código agora, ignora
+        if (scannedResult === decodedText) return
 
-        // 🛡️ TRAVA DE SEGURANÇA 2 (ANTI-CÓDIGO DE BARRAS):
-        // IDs do Supabase (UUID) SEMPRE têm traços (ex: a1b2-c3d4...).
-        // Se o texto não tiver "-", é lixo ou código de barras. Ignora silenciosamente.
-        if (!text.includes('-')) {
-            console.log("Leitura ignorada (Provável código de barras/lixo):", text)
+        // Se não tiver traço '-', não é UUID (ignora silenciosamente)
+        if (!decodedText.includes('-')) {
+            console.log("Ignorado (Formato inválido):", decodedText)
             return
         }
 
-        // Se passou, é um potencial ID ou Link válido.
-        setScannedResult(text)
-        fetchOrderDetails(text)
+        // Se passou, processa!
+        console.log("Lido:", decodedText)
+        setScannedResult(decodedText)
+        fetchOrderDetails(decodedText)
     }
 
-    // Busca os dados no banco
-    const fetchOrderDetails = async (scannedText: string) => {
+    const fetchOrderDetails = async (rawId: string) => {
         setLoading(true)
         setError(null)
 
-        // --- NOVA LÓGICA DE LIMPEZA ---
-        let orderId = scannedText;
-
-        // Se o texto lido for uma URL (contiver "/"), tenta pegar só a última parte
-        if (scannedText.includes('/')) {
-            const parts = scannedText.split('/');
-            // Pega o último item após a última barra, e remove possíveis parâmetros de query (?foo=bar)
-            orderId = parts[parts.length - 1].split('?')[0];
-            console.log("URL detectada. ID extraído:", orderId);
-        }
-        // -----------------------------
-
-        // Validação Regex (Agora usa o ID limpo)
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        if (!uuidRegex.test(orderId)) {
-            setLoading(false)
-            // Mostra o texto original no erro para debug, mas avisa do formato
-            setError("QR Code inválido. O formato não é um ID de pedido.")
-            return
+        // Limpeza de URL (caso leia o link completo)
+        let orderId = rawId
+        if (rawId.includes('/')) {
+            const parts = rawId.split('/')
+            orderId = parts[parts.length - 1].split('?')[0]
         }
 
         try {
-            // Use o 'orderId' limpo aqui na busca
             const { data, error } = await supabase
-                .from('orders').select(`
+                .from('orders')
+                .select(`
           id, status, consumption_date,
           users ( email ),
           menu_items ( name, image_url )
@@ -92,135 +67,96 @@ export default function ScanPage() {
             if (error) throw error
 
             if (!data) {
-                setError("Pedido não encontrado.")
+                setError("Pedido não encontrado no sistema.")
             } else {
                 setOrderData(data as any)
-                // Opcional: Tocar um som de sucesso aqui
-                new Audio('/notification.mp3').play().catch(() => { })
+                // Som de Sucesso (Opcional)
+                // new Audio('/success.mp3').play().catch(()=>{})
             }
         } catch (err) {
             console.error(err)
-            setError("Erro ao buscar pedido. Tente novamente.")
+            setError("Erro ao buscar. QR Code inválido ou erro de rede.")
         } finally {
             setLoading(false)
         }
     }
 
-    // Função para "Resetar" e ler o próximo
     const resetScan = () => {
         setScannedResult(null)
         setOrderData(null)
         setError(null)
+        // Recarrega a página para reiniciar o componente limpo (solução mais estável para html5-qrcode)
+        window.location.reload()
     }
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-950 text-white p-4">
-            {/* Header Simples */}
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-xl font-bold flex items-center gap-2">
-                    <ScanLine className="text-green-500" /> Scanner
+                    <ScanLine className="text-green-500" /> Scanner Pro
                 </h1>
                 <Button variant="ghost" className="text-slate-400" onClick={() => router.back()}>Fechar</Button>
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center gap-6">
+            <div className="flex-1 flex flex-col items-center gap-6 max-w-md mx-auto w-full">
 
-                {/* MODO CÂMERA (Só mostra se não tiver resultado ainda) */}
+                {/* ÁREA DO SCANNER */}
                 {!orderData && !error && (
-                    <div className="w-full max-w-sm aspect-square relative border-2 border-slate-700 rounded-3xl overflow-hidden shadow-2xl shadow-green-900/20">
-                        {loading ? (
-                            <div className="flex items-center justify-center h-full bg-slate-900">
-                                <Loader2 className="animate-spin h-10 w-10 text-green-500" />
-                            </div>
-                        ) : (
-                            <Scanner
-                                onScan={(result) => {
-                                    if (result && result[0] && result[0].rawValue) {
-                                        handleScan(result[0].rawValue)
-                                    }
-                                }}
-                                formats={['qr_code']}
-                                onError={(error: any) => console.log(error?.message || error)}
-                                scanDelay={300}
-                                styles={{
-                                    container: { width: '100%', height: '100%' }
-                                }}
-                            />
-                        )}
-                        {/* Mira Visual */}
-                        <div className="absolute inset-0 border-[40px] border-slate-950/50 pointer-events-none flex items-center justify-center">
-                            <div className="w-48 h-48 border-2 border-green-500 rounded-lg opacity-50 animate-pulse"></div>
-                        </div>
+                    <div className="w-full">
+                        <Html5QrcodePlugin
+                            fps={10} // 10 Scans por segundo
+                            qrbox={250} // Tamanho da caixa de foco
+                            disableFlip={false}
+                            qrCodeSuccessCallback={onNewScanResult}
+                        />
+                        <p className="text-center text-slate-500 text-xs mt-4">
+                            Aponte para o QR Code. Se pedir permissão, aceite.
+                        </p>
                     </div>
                 )}
 
                 {/* FEEDBACK DE ERRO */}
                 {error && (
-                    <Card className="w-full bg-red-950 border-red-800 text-red-100">
+                    <Card className="w-full bg-red-950 border-red-800 text-red-100 animate-in zoom-in-95">
                         <CardContent className="flex flex-col items-center p-6 gap-4">
-                            <XCircle className="h-16 w-16 text-red-500" />
+                            <AlertTriangle className="h-16 w-16 text-red-500" />
                             <p className="font-bold text-center">{error}</p>
-                            <p className="text-xs opacity-70 break-all">{scannedResult}</p>
-                            <Button onClick={resetScan} variant="secondary" className="w-full mt-2">Tentar Novamente</Button>
+                            <Button onClick={resetScan} variant="secondary" className="w-full mt-2">Ler Outro</Button>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* TICKET VÁLIDO (RESULTADO) */}
+                {/* TICKET VÁLIDO */}
                 {orderData && (
-                    <Card className="w-full bg-white text-slate-900 animate-in slide-in-from-bottom-10 fade-in duration-300">
-                        <CardHeader className="bg-green-50 border-b border-green-100 pb-4">
+                    <Card className="w-full bg-white text-slate-900 animate-in slide-in-from-bottom-10 fade-in duration-300 border-t-8 border-t-green-500">
+                        <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
                             <div className="flex items-center gap-3">
-                                <CheckCircle2 className="h-8 w-8 text-green-600" />
+                                <CheckCircle2 className="h-10 w-10 text-green-600" />
                                 <div>
-                                    <CardTitle className="text-lg text-green-800">Ticket Válido</CardTitle>
-                                    <p className="text-xs text-green-600 font-medium uppercase tracking-wider">Confirmado</p>
+                                    <CardTitle className="text-xl text-green-800">Liberado!</CardTitle>
+                                    <p className="text-xs text-slate-500 font-medium uppercase">Ticket Validado</p>
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent className="p-6 space-y-4">
-
-                            {/* Detalhes do Prato */}
-                            <div className="flex items-start gap-4">
-                                {orderData.menu_items?.image_url && (
-                                    <img src={orderData.menu_items.image_url} className="h-16 w-16 rounded-lg object-cover bg-slate-100" />
-                                )}
-                                <div>
-                                    <h3 className="font-bold text-lg leading-tight">{orderData.menu_items?.name}</h3>
-                                    <p className="text-sm text-slate-500">{orderData.users?.email}</p>
-                                </div>
+                            <div className="text-center">
+                                <h3 className="font-bold text-2xl leading-tight mb-1">{orderData.menu_items?.name}</h3>
+                                <p className="text-sm text-slate-500">{orderData.users?.email}</p>
                             </div>
 
-                            <div className="h-px bg-slate-100 my-2" />
-
-                            {/* Data e Status */}
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <p className="text-slate-400 text-xs">Data Consumo</p>
-                                    <p className="font-medium text-slate-700">
-                                        {new Date(orderData.consumption_date).toLocaleDateString('pt-BR')}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p className="text-slate-400 text-xs">Status Atual</p>
-                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${orderData.status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                        }`}>
-                                        {orderData.status === 'confirmed' ? 'CONFIRMADO' : orderData.status}
-                                    </span>
-                                </div>
+                            <div className="bg-slate-100 p-4 rounded-xl text-center">
+                                <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Status do Pedido</p>
+                                <span className={`text-lg font-bold ${orderData.status === 'confirmed' ? 'text-green-600' : 'text-yellow-600'
+                                    }`}>
+                                    {orderData.status === 'confirmed' ? 'CONFIRMADO ✅' : orderData.status.toUpperCase()}
+                                </span>
                             </div>
 
-                            <Button className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white h-12 text-lg" onClick={resetScan}>
-                                Ler Próximo
+                            <Button className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white h-14 text-lg rounded-xl shadow-lg shadow-slate-900/20" onClick={resetScan}>
+                                Ler Próximo Pedido
                             </Button>
                         </CardContent>
                     </Card>
-                )}
-
-                {!orderData && !error && (
-                    <p className="text-slate-400 text-sm text-center max-w-[200px]">
-                        Aponte a câmera para o QR Code do funcionário
-                    </p>
                 )}
 
             </div>
