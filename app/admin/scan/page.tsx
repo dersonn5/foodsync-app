@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle2, X, AlertCircle, Loader2, Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useZxing } from "react-zxing"
+// IMPORTANTE: Importar os tipos do núcleo do ZXing para configurar o "Try Harder"
+import { BarcodeFormat, DecodeHintType } from "@zxing/library"
 
 // Tipo do Pedido
 type OrderDetail = {
@@ -27,7 +29,7 @@ export default function ScanPage() {
     const supabase = createClient()
     const router = useRouter()
 
-    // --- CONFIGURAÇÃO DO MOTOR ZXING (HARDWARE) ---
+    // --- CONFIGURAÇÃO DO MOTOR ZXING (MODO TURBO) ---
     const { ref } = useZxing({
         paused: !cameraActive,
         onDecodeResult(decodedResult) {
@@ -45,21 +47,27 @@ export default function ScanPage() {
 
             fetchOrderDetails(text)
         },
-        // ⚡ CONFIGURAÇÕES DE LUZ E FOCO (MANTIDAS)
+        // ⚡ OVERCLOCK DO SCANNER
+        hints: new Map([
+            // Habilita leitura profunda (Essencial para telas e baixo contraste)
+            [DecodeHintType.TRY_HARDER, true],
+            // Foca APENAS em QR Code (Não perde tempo procurando código de barras)
+            [DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.QR_CODE]]
+        ]),
         constraints: {
             video: {
                 facingMode: "environment",
-                width: { min: 1280, ideal: 1920, max: 2560 },
-                height: { min: 720, ideal: 1080, max: 1440 },
+                // ⚡ TRUQUE DE MESTRE: 720p é melhor que 1080p para web scanners.
+                // A imagem fica mais leve, o processador não engasga e o foco fica mais rápido.
+                height: { ideal: 720 },
                 // @ts-ignore
                 advanced: [
-                    { exposureMode: "continuous" },
-                    { whiteBalanceMode: "continuous" },
                     { focusMode: "continuous" }
                 ]
             }
         },
-        timeBetweenDecodingAttempts: 300,
+        // Tenta ler a cada 100ms (10 vezes por segundo) em vez de 300ms
+        timeBetweenDecodingAttempts: 100,
     });
 
     const fetchOrderDetails = async (rawId: string) => {
@@ -108,7 +116,7 @@ export default function ScanPage() {
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. LAYER DE VÍDEO (BRILHO TOTAL) */}
+            {/* 1. VÍDEO (Brilho Total + Resolução Otimizada) */}
             <div className="absolute inset-0 w-full h-full bg-black">
                 <video
                     ref={ref}
@@ -119,13 +127,11 @@ export default function ScanPage() {
                 />
             </div>
 
-            {/* 2. LAYER DE INTERFACE (MÁSCARA LIMPA) */}
-
-            {/* Header */}
+            {/* 2. INTERFACE LIMPA (Idêntica à anterior) */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
                 <div className="flex flex-col text-white drop-shadow-md bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
                     <span className="font-bold text-lg flex items-center gap-2">
-                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Pro
+                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Turbo
                     </span>
                 </div>
                 <Button
@@ -136,23 +142,18 @@ export default function ScanPage() {
                 </Button>
             </div>
 
-            {/* MIRA CENTRAL LIMPA (Estilo Banco) */}
+            {/* MIRA LIMPA */}
             {cameraActive && !loading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-
-                    {/* O GRANDE TRUQUE: Uma caixa transparente no meio, com uma sombra GIGANTE que escurece o resto */}
                     <div className="w-72 h-72 rounded-3xl relative overflow-hidden border border-white/30 shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]">
-                        {/* SEM BORDA GROSSA, SEM LASER. Apenas o buraco limpo. */}
                     </div>
-
                     <p className="absolute bottom-24 text-white/90 font-medium text-sm bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10">
-                        Centralize o QR Code na área clara
+                        Aponte para o Ticket
                     </p>
                 </div>
             )}
 
-            {/* 3. LAYER DE RESULTADO (Cards) - Mantidos iguais */}
-
+            {/* 3. RESULTADOS (Mantidos) */}
             {loading && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                     <div className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in">
