@@ -22,66 +22,66 @@ export async function scanImageWithGoogle(base64Image: string) {
             return { success: false, text: null };
         }
 
-        // 1. Pega TUDO o que está escrito na tela
+        // 1. Pega o texto bruto
         const fullText = detections[0].description || "";
 
-        // Debug: Mostra o que ele leu no terminal (pra você ver o FRANGO aparecendo lá)
+        // LOG: Veja como o Google está lendo (provavelmente separado)
         console.log("👀 Texto Bruto:", fullText.replace(/\n/g, " "));
 
-        // 2. Quebra em palavras individuais
-        const words = fullText.split(/[\s\n]+/);
+        // 2. TÁTICA DO ASPIRADOR: Remove espaços, quebras de linha e símbolos
+        // Transforma "Ticket: A5 BFC9" em "TICKETA5BFC9"
+        const cleanStream = fullText.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
 
-        // --- LISTA NEGRA DE PALAVRAS COMUNS ---
-        // (Caso algum Short ID venha sem números por azar, isso garante que não pegue palavras óbvias)
-        const ignoredWords = [
-            "TICKET", "SEU", "PEDIDO", "CODIGO", "CODE", "STATUS", "MENU",
-            "FRANGO", "CARNE", "PEIXE", "MOLHO", "SALADA", "BEBIDA", "SUCO",
-            "PENDING", "CONFIRMED", "CANCELLED", "FOODSYNC", "TOTAL", "VALOR"
-        ];
+        // 3. CAÇA AO TESOURO: Procura sequências de 6 caracteres dentro da "tripa"
+        // Regex: Pega grupos de 6 caracteres alfanuméricos
+        const potentialCodes = cleanStream.match(/.{1,6}/g) || [];
 
-        // 3. O FILTRO INTELIGENTE
-        const foundShortId = words.find(word => {
-            const clean = word.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+        // Melhor: Vamos percorrer a string procurando padrões válidos
+        // Isso aqui encontra o código mesmo se ele estiver grudado em outra palavra
+        // Ex: "PEDIDOA5BFC9" -> Acha o A5BFC9
+        const regex = /[A-Z0-9]{6}/g;
+        const matches = cleanStream.match(regex);
 
-            // Regra 1: Tamanho exato de 6 caracteres
-            if (clean.length !== 6) return false;
+        if (!matches) {
+            return { success: false, error: "Nenhum padrão encontrado" };
+        }
 
-            // Regra 2: Lista Negra (Anti-Frango)
-            if (ignoredWords.includes(clean)) return false;
+        // 4. FILTRO DE QUALIDADE
+        const validCode = matches.find(code => {
+            // O código é: "A5BFC9"
 
-            // Regra 3 (A MAIS IMPORTANTE): Tem que ter letras E números?
-            // Seus IDs são MD5, então quase sempre têm números.
-            // Palavras reais nunca têm números.
-            const hasNumber = /[0-9]/.test(clean);
-            const hasLetter = /[A-Z]/.test(clean);
+            // Regra 1: Lista Negra (Palavras de 6 letras que podem aparecer)
+            const blacklist = ["TICKET", "FRANGO", "PEDIDO", "CODIGO", "STATUS", "FOODSYNC", "BRLBRL", "VALORR"];
+            if (blacklist.includes(code)) return false;
 
-            // ACEITA SE: Tiver número E letra (Ex: A5BFC9)
+            // Regra 2 (A MAIS FORTE): Tem que ter NÚMERO?
+            // Seu código A5BFC9 tem números. Frango não tem.
+            const hasNumber = /[0-9]/.test(code);
+            const hasLetter = /[A-Z]/.test(code);
+
+            // Se tiver número e letra, é 100% o Short ID.
             if (hasNumber && hasLetter) return true;
 
-            // ACEITA SE: For só letras, mas NÃO for uma palavra conhecida 
-            // (Risco baixo, mas possível se o hash for tipo "ABCDEF")
-            // Nesse caso, confiamos na Lista Negra acima.
-            if (!hasNumber && hasLetter) {
-                // Se for puramente letras, só aceitamos se NÃO parecer uma palavra real
-                // Mas para garantir, vamos dar prioridade para os que têm número.
-                return false; // Por segurança, vamos exigir número por enquanto.
-            }
+            // Se for só números (ex: 123456), aceitamos.
+            if (hasNumber && !hasLetter) return true;
 
+            // Se for só letras (ex: ABCDEF), só aceitamos se NÃO for blacklist.
+            // Mas como seu exemplo tem número, vamos priorizar os que têm número.
             return false;
         });
 
-        if (foundShortId) {
-            return { success: true, text: foundShortId.toUpperCase() };
+        if (validCode) {
+            return { success: true, text: validCode };
         }
 
-        // 4. Fallback: Se não achou Short ID, tenta achar UUID longo antigo
-        const foundLongId = words.find(word => word.length > 20 && word.includes('-'));
-        if (foundLongId) return { success: true, text: foundLongId };
+        // Fallback: Tenta achar UUID longo se falhar o curto
+        const longId = fullText.split(/\s+/).find(w => w.length > 20 && w.includes('-'));
+        if (longId) return { success: true, text: longId };
 
-        return { success: false, error: "Nenhum código válido encontrado" };
+        return { success: false, error: "Código não detectado." };
 
     } catch (error) {
         console.error("❌ Erro Google Vision:", error);
-        return { success: false, error: "Erro interno Vision" };
+        return { success: false, error: "Erro interno" };
     }
 }
