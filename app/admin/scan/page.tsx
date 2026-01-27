@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CheckCircle2, X, AlertCircle, Loader2, Zap, Keyboard } from "lucide-react"
 import { useRouter } from "next/navigation"
-// Usando a biblioteca híbrida robusta
 import QrScanner from 'qr-scanner';
 
 type OrderDetail = {
@@ -33,43 +32,49 @@ export default function ScanPage() {
     const supabase = createClient()
     const router = useRouter()
 
-    // --- ENGINE DE LEITURA (OTIMIZADA PARA 720p) ---
     useEffect(() => {
-        // Só inicializa se a câmera estiver ativa e o elemento de vídeo existir
         if (cameraActive && videoRef.current && !scannerRef.current) {
             const scanner = new QrScanner(
                 videoRef.current,
                 (result) => handleScan(result.data),
                 {
-                    // Ignora erros de frames vazios para não poluir o console
-                    onDecodeError: () => { },
-                    // Tenta usar aceleração de hardware se disponível
-                    highlightScanRegion: true,
+                    // 🚫 VISUAL: Desliga todas as bordas amarelas da biblioteca
+                    highlightScanRegion: false,
+                    highlightCodeOutline: false,
+
+                    // ⚡ PERFORMANCE: Reduz a taxa de análise para salvar CPU
+                    // 10 scans por segundo é suficiente para ler rápido e mantém o vídeo liso.
+                    maxScansPerSecond: 10,
+
                     // Prefere câmera traseira
                     preferredCamera: 'environment',
-                    // Lê até 25 vezes por segundo (ótimo para 30fps de vídeo)
-                    maxScansPerSecond: 25,
-                    // 🚀 O SEGREDO DA FLUIDEZ: Forçar 720p (HD)
-                    // Isso deixa o vídeo leve e o FPS alto, evitando travamentos.
-                    constraints: {
-                        video: {
-                            height: { ideal: 720 }, // Prioriza 720p vertical
-                            // width: { ideal: 1280 }, // Opcional para landscape
-                            facingMode: 'environment'
-                        }
+
+                    // 🎥 VÍDEO: Configuração Otimizada para Monitor
+                    // Força o vídeo a ficar leve (HD), evitando 4K que trava o navegador
+                    calculateScanRegion: (video) => {
+                        // Foca a leitura apenas no centro (quadrado menor), melhorando performance
+                        const smallestDimension = Math.min(video.videoWidth, video.videoHeight);
+                        const scanRegionSize = Math.round(smallestDimension * 0.7); // Lê 70% do centro
+                        return {
+                            x: Math.round((video.videoWidth - scanRegionSize) / 2),
+                            y: Math.round((video.videoHeight - scanRegionSize) / 2),
+                            width: scanRegionSize,
+                            height: scanRegionSize,
+                            downScaledWidth: 400, // Reduz resolução interna para análise rápida
+                            downScaledHeight: 400,
+                        };
                     }
                 }
             );
 
             scanner.start().catch(err => {
                 console.error("Erro ao iniciar câmera:", err);
-                setError("Não foi possível acessar a câmera. Verifique as permissões.");
+                setError("Erro de permissão da câmera.");
             });
 
             scannerRef.current = scanner;
         }
 
-        // Limpeza ao sair da tela ou pausar a câmera
         return () => {
             if (scannerRef.current) {
                 scannerRef.current.stop();
@@ -80,17 +85,13 @@ export default function ScanPage() {
     }, [cameraActive]);
 
     const handleScan = (code: string) => {
-        if (!code) return;
-        // Filtro básico para ignorar leituras muito erradas
-        if (code.length < 3) return;
+        if (!code || code.length < 3) return;
 
-        // Pausa o scanner imediatamente
         if (scannerRef.current) {
             scannerRef.current.stop();
         }
         setCameraActive(false);
 
-        // Feedback Vibratório (se disponível)
         if (typeof navigator !== 'undefined' && navigator.vibrate) {
             navigator.vibrate(200);
         }
@@ -109,12 +110,10 @@ export default function ScanPage() {
           menu_items ( name, image_url )
         `)
 
-        // LÓGICA HÍBRIDA (Suporta Short ID e UUID antigo)
+        // Lógica Híbrida (Short ID vs UUID)
         if (code.length < 10) {
-            // É um Short ID (ex: A1B2C3)
             query = query.eq('short_id', code.toUpperCase())
         } else {
-            // É um UUID ou URL (limpa se for URL)
             const cleanId = code.includes('/') ? code.split('/').pop()?.split('?')[0] : code;
             query = query.eq('id', cleanId)
         }
@@ -123,13 +122,12 @@ export default function ScanPage() {
             const { data, error } = await query.single()
 
             if (error || !data) {
-                setError("Pedido não encontrado. Verifique o código.")
-                // Não religa a câmera automaticamente para o usuário ler o erro
+                setError("Pedido não encontrado.")
             } else {
                 setOrderData(data as any)
             }
         } catch (err) {
-            setError("Erro de conexão ao validar o pedido.")
+            setError("Erro de conexão.")
         } finally {
             setLoading(false)
         }
@@ -140,61 +138,52 @@ export default function ScanPage() {
         setError(null)
         setManualCode("")
         setShowManualInput(false)
-        setCameraActive(true) // Isso dispara o useEffect para religar a câmera
+        setCameraActive(true)
     }
 
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. VÍDEO CAMERA (Fundo total) */}
+            {/* 1. VÍDEO CLEAN (Sem sobreposições da lib) */}
             <div className="absolute inset-0 w-full h-full bg-black">
                 <video
                     ref={videoRef}
-                    // Mantém um leve blur quando inativo para indicar pausa
                     className={`w-full h-full object-cover transition-opacity duration-300 ${cameraActive ? 'opacity-100' : 'opacity-40 blur-sm'}`}
                     playsInline
                     muted
                 />
             </div>
 
-            {/* 2. INTERFACE DE TOPO (Clean) */}
+            {/* 2. INTERFACE SUPERIOR */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
                 <div className="bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-white font-medium flex items-center gap-2 shadow-lg">
-                    <Zap size={16} className="text-yellow-400 fill-yellow-400" /> Scanner Pro (720p)
+                    <Zap size={16} className="text-yellow-400 fill-yellow-400" /> Scanner Lite
                 </div>
                 <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => router.back()}
+                    variant="ghost" size="icon" onClick={() => router.back()}
                     className="bg-black/40 text-white rounded-full hover:bg-black/60 border border-white/10 backdrop-blur-md h-10 w-10"
                 >
                     <X size={20} />
                 </Button>
             </div>
 
-            {/* 3. MIRA CENTRAL (Visual Limpo - Sem borda grossa, sem laser) */}
+            {/* 3. MIRA CENTRAL VISUAL (Apenas CSS, sem interferência no vídeo) */}
             {cameraActive && !showManualInput && !loading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-
-                    {/* O TRUQUE VISUAL: Uma caixa transparente.
-               A sombra gigante (9999px) escurece tudo EM VOLTA dela.
-               Não há border-2 nem linha vermelha dentro.
-            */}
-                    <div className="w-72 h-72 rounded-[2rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] overflow-hidden">
-                        {/* Área limpa para leitura */}
+                    {/* Caixa limpa com sombra ao redor */}
+                    <div className="w-72 h-72 rounded-[2.5rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] overflow-hidden border border-white/20">
+                        {/* Sem linhas, sem bordas coloridas. Apenas o recorte. */}
                     </div>
-
                     <p className="mt-8 text-white/90 font-medium text-sm bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 shadow-lg">
-                        Centralize o QR Code
+                        Aponte para o Ticket
                     </p>
                 </div>
             )}
 
-            {/* 4. BOTÃO DE DIGITAR (Fallback essencial) */}
+            {/* 4. BOTÃO DE INPUT MANUAL */}
             {!orderData && !loading && !error && (
                 <div className="absolute bottom-12 left-0 right-0 flex justify-center z-20 px-6">
                     {showManualInput ? (
-                        // Campo de Input
                         <div className="bg-white p-3 pl-5 rounded-full w-full max-w-sm shadow-2xl flex gap-3 animate-in slide-in-from-bottom items-center">
                             <Input
                                 autoFocus
@@ -204,26 +193,21 @@ export default function ScanPage() {
                                 maxLength={6}
                                 onChange={(e) => setManualCode(e.target.value.toUpperCase())}
                             />
-                            <Button onClick={() => handleScan(manualCode)} className="bg-slate-900 text-white rounded-full px-6 h-10 shrink-0 font-bold">
-                                OK
-                            </Button>
-                            <Button variant="ghost" size="icon" onClick={() => setShowManualInput(false)} className="text-slate-400 shrink-0 h-10 w-10 rounded-full hover:bg-slate-100">
-                                <X size={18} />
-                            </Button>
+                            <Button onClick={() => handleScan(manualCode)} className="bg-slate-900 text-white rounded-full px-6 h-10 shrink-0 font-bold">OK</Button>
+                            <Button variant="ghost" size="icon" onClick={() => setShowManualInput(false)} className="text-slate-400 shrink-0 h-10 w-10 rounded-full hover:bg-slate-100"><X size={18} /></Button>
                         </div>
                     ) : (
-                        // Botão para abrir o input
                         <Button
                             onClick={() => { setCameraActive(false); setShowManualInput(true); }}
                             className="bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/60 rounded-full px-8 h-14 gap-3 shadow-xl transition-all hover:scale-105 font-bold"
                         >
-                            <Keyboard size={20} /> Digitar Código Curto
+                            <Keyboard size={20} /> Digitar Código
                         </Button>
                     )}
                 </div>
             )}
 
-            {/* 5. FEEDBACK DE LOADING */}
+            {/* 5. LOADING */}
             {loading && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in fade-in">
                     <div className="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4">
@@ -233,7 +217,7 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* 6. CARD DE ERRO */}
+            {/* 6. ERRO */}
             {error && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
                     <Card className="w-full bg-red-50/90 backdrop-blur-xl border-2 border-red-200 shadow-2xl animate-in shake rounded-[2rem] overflow-hidden">
@@ -253,7 +237,7 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* 7. CARD DE SUCESSO (Ticket Validado) */}
+            {/* 7. SUCESSO */}
             {orderData && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
                     <Card className="w-full bg-white/95 backdrop-blur-xl border-t-8 border-t-green-500 shadow-[0_-20px_60px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-full duration-500 rounded-[2.5rem] overflow-hidden">
@@ -266,21 +250,14 @@ export default function ScanPage() {
                         </CardHeader>
                         <CardContent className="space-y-8 pt-6 pb-8 px-8">
                             <div className="bg-slate-50 p-6 rounded-3xl text-center border border-slate-100 shadow-inner">
-                                {/* Foto do Prato (Se tiver) */}
-                                {orderData.menu_items?.image_url && (
-                                    <img src={orderData.menu_items.image_url} alt={orderData.menu_items.name} className="w-24 h-24 rounded-2xl mx-auto mb-4 object-cover shadow-md" />
-                                )}
                                 <h3 className="font-black text-2xl text-slate-900 leading-tight">{orderData.menu_items?.name}</h3>
                                 <p className="text-base font-medium text-slate-500 mt-2">{orderData.users?.email}</p>
-
-                                {/* Mostra o Short ID que foi lido */}
                                 {orderData.short_id && (
                                     <div className="mt-4 inline-block bg-slate-200 px-4 py-1 rounded-full">
                                         <p className="text-sm font-mono font-bold text-slate-600 tracking-[0.2em]">{orderData.short_id}</p>
                                     </div>
                                 )}
                             </div>
-
                             <Button onClick={resetScan} className="w-full h-16 text-xl font-bold bg-slate-900 text-white rounded-2xl shadow-xl hover:scale-[1.02] transition-transform active:scale-95">
                                 Ler Próximo Pedido
                             </Button>

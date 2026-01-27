@@ -41,6 +41,9 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
         month: 'long'
     })
 
+    // Garante que o QR Code use o Short ID se disponível
+    const qrValue = order.short_id || order.id
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="w-[90%] rounded-3xl max-w-sm bg-white border-0 shadow-2xl">
@@ -58,7 +61,7 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
                     {/* O QR CODE OTIMIZADO */}
                     <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm flex flex-col items-center">
                         <QRCode
-                            value={order.short_id || order.id}
+                            value={qrValue}
                             size={240}
                             fgColor="#000000"
                             bgColor="#ffffff"
