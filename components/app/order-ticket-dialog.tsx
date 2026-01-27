@@ -55,24 +55,21 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
 
                 <div className="flex flex-col items-center gap-6 py-4">
 
-                    {/* O QR CODE MÁGICO */}
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm flex justify-center">
-                            <QRCode
-                                value={order.short_id || order.id}
-                                size={260}
-                                fgColor="#000000"
-                                bgColor="#ffffff"
-                                level="L"
-                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                viewBox={`0 0 256 256`}
-                            />
-                        </div>
-                        {order.short_id && (
-                            <p className="text-center font-mono text-3xl font-black tracking-widest text-slate-800 mt-2 bg-slate-100 px-4 py-1 rounded-lg border border-slate-200">
-                                {order.short_id}
-                            </p>
-                        )}
+                    {/* O QR CODE OTIMIZADO */}
+                    <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm flex flex-col items-center">
+                        <QRCode
+                            value={order.short_id || order.id}
+                            size={240}
+                            fgColor="#000000"
+                            bgColor="#ffffff"
+                            level="L"
+                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                            viewBox={`0 0 256 256`}
+                        />
+                        {/* Exibe o código humanamente legível em baixo */}
+                        <p className="mt-2 text-2xl font-mono font-bold tracking-[0.2em] text-slate-900">
+                            {order.short_id}
+                        </p>
                     </div>
 
                     {/* Dados do Pedido */}

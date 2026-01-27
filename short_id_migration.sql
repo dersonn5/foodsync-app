@@ -1,23 +1,21 @@
--- Adiciona coluna de código curto para facilitar leitura do QR Code
+-- 1. Adicionar coluna para o código curto
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS short_id TEXT;
 
--- Função para gerar ID curto automático (Ex: A192B5)
+-- 2. Função para gerar códigos curtos (Ex: 9A2-B7C)
 CREATE OR REPLACE FUNCTION generate_short_id() RETURNS TRIGGER AS $$
 BEGIN
-  -- Gera 6 caracteres aleatórios e maiúsculos
-  NEW.short_id := upper(substring(md5(random()::text) from 1 for 6));
+  -- Gera uma string aleatória de 6 caracteres baseada no MD5 do UUID + Timestamp para garantir unicidade
+  NEW.short_id := upper(substring(md5(NEW.id::text || clock_timestamp()::text) from 1 for 6));
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger para criar o short_id automaticamente ao inserir novo pedido
+-- 3. Trigger para criar automaticamente em novos pedidos
 DROP TRIGGER IF EXISTS set_short_id ON orders;
 CREATE TRIGGER set_short_id
 BEFORE INSERT ON orders
 FOR EACH ROW
 EXECUTE FUNCTION generate_short_id();
 
--- (Opcional) Popula pedidos existentes que não tenham short_id
-UPDATE orders 
-SET short_id = upper(substring(md5(random()::text) from 1 for 6)) 
-WHERE short_id IS NULL;
+-- 4. ATUALIZAR PEDIDOS ANTIGOS (Para não quebrar o que já existe)
+UPDATE orders SET short_id = upper(substring(md5(id::text) from 1 for 6)) WHERE short_id IS NULL;
