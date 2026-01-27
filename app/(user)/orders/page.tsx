@@ -12,6 +12,7 @@ import { OrderTicketDialog } from "@/components/app/order-ticket-dialog"
 // Basic order type for the list
 interface OrderHistoryItem {
     id: string
+    short_id?: string // Added short_id
     consumption_date: string
     status: string
     menu_items: {
@@ -35,7 +36,8 @@ export default function OrdersPage() {
 
             const { data, error } = await supabase
                 .from('orders')
-                .select('id, consumption_date, status, menu_items(name)')
+                // Added short_id to select
+                .select('id, short_id, consumption_date, status, menu_items(name)')
                 .eq('user_id', user.id)
                 .order('consumption_date', { ascending: false })
 
