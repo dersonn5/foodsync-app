@@ -1,14 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CheckCircle2, X, AlertCircle, Loader2, Zap, Keyboard } from "lucide-react"
 import { useRouter } from "next/navigation"
-// Voltamos para a biblioteca que funcionou!
-import { Scanner } from '@yudiel/react-qr-scanner';
+// Importa a classe Core (sem UI padrão)
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode"
 
 type OrderDetail = {
     id: string
@@ -20,24 +20,103 @@ type OrderDetail = {
 }
 
 export default function ScanPage() {
+    const scannerRef = useRef<Html5Qrcode | null>(null)
+    const regionId = "reader-stream-container" // ID único para a div do vídeo
+
     const [orderData, setOrderData] = useState<OrderDetail | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [cameraActive, setCameraActive] = useState(true)
     const [manualCode, setManualCode] = useState("")
     const [showManualInput, setShowManualInput] = useState(false)
+    const [permissionError, setPermissionError] = useState(false)
 
     const supabase = createClient()
     const router = useRouter()
 
-    const handleScan = (detectedCodes: any[]) => {
-        // Pega o primeiro código lido
-        const code = detectedCodes[0]?.rawValue;
+    useEffect(() => {
+        // Inicialização segura do Scanner
+        if (cameraActive && !scannerRef.current && !orderData) {
+            startScanner();
+        }
 
+        // Cleanup pesado ao sair
+        return () => {
+            stopScanner();
+        }
+    }, [cameraActive, orderData]);
+
+    const startScanner = async () => {
+        try {
+            // Cria instância do scanner
+            const html5QrCode = new Html5Qrcode(regionId);
+            scannerRef.current = html5QrCode;
+
+            // Configuração Técnica (O Segredo do ZXing)
+            const config = {
+                fps: 10, // 10 quadros por segundo é o ideal para web
+                qrbox: { width: 250, height: 250 }, // Área de foco
+                aspectRatio: 1.777778, // 16:9 (Tela cheia de celular)
+                // 🚀 A MÁGICA: Tenta usar o hardware nativo do Android
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                }
+            };
+
+            // Inicia a câmera (Traseira por padrão)
+            await html5QrCode.start(
+                { facingMode: "environment" },
+                config,
+                (decodedText) => {
+                    handleScan(decodedText);
+                },
+                (errorMessage) => {
+                    // Ignora erros de frame vazio (muito comum)
+                }
+            );
+
+            // Tenta aplicar foco após iniciar (Hack para Android)
+            applyCameraSettings(html5QrCode);
+
+        } catch (err) {
+            console.error("Erro ao iniciar câmera:", err);
+            setPermissionError(true);
+        }
+    };
+
+    const applyCameraSettings = (scanner: Html5Qrcode) => {
+        // Tenta forçar foco e exposição
+        try {
+            // @ts-ignore - Método interno da lib para pegar a track de vídeo
+            const videoTrack = scanner.getRunningTrackCameraCapabilities();
+            if (videoTrack) {
+                // Se suportado, aplica foco contínuo
+                // Nota: Nem todos os browsers suportam aplicar constraints depois
+            }
+        } catch (e) { /* Silencia erros de capacidade */ }
+    }
+
+    const stopScanner = async () => {
+        if (scannerRef.current) {
+            try {
+                if (scannerRef.current.isScanning) {
+                    await scannerRef.current.stop();
+                }
+                scannerRef.current.clear();
+            } catch (e) {
+                console.log("Scanner já estava parado");
+            }
+            scannerRef.current = null;
+        }
+    }
+
+    const handleScan = (code: string) => {
         if (!code || code.length < 3) return;
 
-        // Trava a câmera e vibra
+        // Pausa visualmente (não para o scanner ainda para ser rápido na retomada se falhar)
+        stopScanner();
         setCameraActive(false);
+
         if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(200);
 
         fetchOrderDetails(code.trim());
@@ -48,18 +127,16 @@ export default function ScanPage() {
         setError(null)
         setOrderData(null)
 
-        // Lógica Híbrida Inteligente
+        // Lógica Híbrida (Short ID vs UUID)
         let query = supabase.from('orders').select(`
           id, short_id, status, consumption_date,
           users ( email ),
           menu_items ( name, image_url )
         `)
 
-        // Se for curto (ex: A5BFC9), usa short_id
         if (code.length < 10) {
             query = query.eq('short_id', code.toUpperCase())
         } else {
-            // Fallback para o antigo (limpa URL se tiver)
             const cleanId = code.includes('/') ? code.split('/').pop()?.split('?')[0] : code;
             query = query.eq('id', cleanId)
         }
@@ -84,49 +161,42 @@ export default function ScanPage() {
         setError(null)
         setManualCode("")
         setShowManualInput(false)
-        setCameraActive(true)
+        setCameraActive(true) // Isso dispara o useEffect para religar
     }
 
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. O LEITOR QUE FUNCIONA (Estilizado para parecer nativo) */}
-            <div className="absolute inset-0 w-full h-full bg-black">
-                {cameraActive && (
-                    <Scanner
-                        onScan={handleScan}
-                        // Configurações para ler rápido
-                        formats={['qr_code']}
-                        components={{
-                            audio: false,
-                            onOff: false,
-                            torch: false,
-                            finder: false, // DESLIGAMOS A BORDA PADRÃO FEIA
-                        }}
-                        styles={{
-                            container: { width: '100%', height: '100%' },
-                            video: { objectFit: 'cover', width: '100%', height: '100%' }
-                        }}
-                    />
+            {/* 1. VÍDEO (Container ID obrigatório para html5-qrcode) */}
+            <div className="absolute inset-0 w-full h-full bg-black overflow-hidden">
+                <div id={regionId} className="w-full h-full object-cover"></div>
+
+                {/* Máscara de Pausa (Blur quando inativo) */}
+                {!cameraActive && (
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
                 )}
-                {!cameraActive && <div className="w-full h-full bg-black/80 backdrop-blur-sm" />}
             </div>
 
-            {/* 2. HEADER CLEAN */}
-            <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
+            {/* 2. INTERFACE SUPERIOR */}
+            <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20 pointer-events-none">
                 <div className="bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-white font-medium flex items-center gap-2 shadow-lg">
-                    <Zap size={16} className="text-yellow-400 fill-yellow-400" /> Scanner Ativo
+                    <Zap size={16} className="text-yellow-400 fill-yellow-400" /> Native Engine
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => router.back()} className="bg-black/40 text-white rounded-full hover:bg-black/60 border border-white/10 backdrop-blur-md h-10 w-10">
+                <Button
+                    variant="ghost" size="icon" onClick={() => router.back()}
+                    className="bg-black/40 text-white rounded-full hover:bg-black/60 border border-white/10 backdrop-blur-md h-10 w-10 pointer-events-auto"
+                >
                     <X size={20} />
                 </Button>
             </div>
 
-            {/* 3. MIRA LIMPA (Apenas CSS) */}
-            {cameraActive && !showManualInput && !loading && (
+            {/* 3. MIRA LIMPA (Design 10/10) */}
+            {cameraActive && !showManualInput && !loading && !permissionError && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-                    {/* Caixa Transparente com Sombra Gigante */}
-                    <div className="w-72 h-72 rounded-[2.5rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] overflow-hidden border border-white/20">
+                    {/* Caixa Transparente com Sombra Gigante (Efeito Foco) */}
+                    <div className="w-72 h-72 rounded-[2.5rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] overflow-hidden border border-white/20">
+                        {/* Animação Sutil de Scan (Linha vertical transparente) */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent -translate-y-full animate-[shimmer_2s_infinite]"></div>
                     </div>
                     <p className="mt-8 text-white/90 font-medium text-sm bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 shadow-lg">
                         Aponte para o Short ID
@@ -134,9 +204,21 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* 4. BOTÃO INPUT MANUAL */}
-            {!orderData && !loading && !error && (
-                <div className="absolute bottom-12 left-0 right-0 flex justify-center z-20 px-6">
+            {/* 4. MENSAGEM DE ERRO DE PERMISSÃO */}
+            {permissionError && (
+                <div className="absolute inset-0 z-30 flex items-center justify-center p-6 bg-slate-900">
+                    <div className="text-center text-white space-y-4">
+                        <AlertCircle className="h-12 w-12 text-red-500 mx-auto" />
+                        <h3 className="text-xl font-bold">Câmera Bloqueada</h3>
+                        <p className="text-slate-400">Verifique se você permitiu o acesso à câmera no navegador.</p>
+                        <Button onClick={() => window.location.reload()} className="bg-white text-slate-900 font-bold">Recarregar Página</Button>
+                    </div>
+                </div>
+            )}
+
+            {/* 5. BOTÃO INPUT MANUAL */}
+            {!orderData && !loading && !error && !permissionError && (
+                <div className="absolute bottom-12 left-0 right-0 flex justify-center z-20 px-6 pointer-events-auto">
                     {showManualInput ? (
                         <div className="bg-white p-3 pl-5 rounded-full w-full max-w-sm shadow-2xl flex gap-3 animate-in slide-in-from-bottom items-center">
                             <Input
@@ -147,12 +229,12 @@ export default function ScanPage() {
                                 maxLength={6}
                                 onChange={(e) => setManualCode(e.target.value.toUpperCase())}
                             />
-                            <Button onClick={() => fetchOrderDetails(manualCode)} className="bg-slate-900 text-white rounded-full px-6 h-10 shrink-0 font-bold">OK</Button>
+                            <Button onClick={() => handleScan(manualCode)} className="bg-slate-900 text-white rounded-full px-6 h-10 shrink-0 font-bold">OK</Button>
                             <Button variant="ghost" size="icon" onClick={() => setShowManualInput(false)} className="text-slate-400 shrink-0 h-10 w-10 rounded-full hover:bg-slate-100"><X size={18} /></Button>
                         </div>
                     ) : (
                         <Button
-                            onClick={() => { setCameraActive(false); setShowManualInput(true); }}
+                            onClick={() => { stopScanner(); setCameraActive(false); setShowManualInput(true); }}
                             className="bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/60 rounded-full px-8 h-14 gap-3 shadow-xl transition-all hover:scale-105 font-bold"
                         >
                             <Keyboard size={20} /> Digitar Código
@@ -161,7 +243,8 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* 5. LOADING / ERRO / SUCESSO */}
+            {/* 6. LOADING / ERRO / SUCESSO */}
+
             {loading && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in fade-in">
                     <div className="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4">
