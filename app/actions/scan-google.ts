@@ -22,46 +22,62 @@ export async function scanImageWithGoogle(base64Image: string) {
             return { success: false, text: null };
         }
 
-        // Pega o texto completo e divide em palavras
+        // 1. Pega TUDO o que está escrito na tela
         const fullText = detections[0].description || "";
-        // Divide por espaços ou quebra de linha
+
+        // Debug: Mostra o que ele leu no terminal (pra você ver o FRANGO aparecendo lá)
+        console.log("👀 Texto Bruto:", fullText.replace(/\n/g, " "));
+
+        // 2. Quebra em palavras individuais
         const words = fullText.split(/[\s\n]+/);
 
-        // --- LISTA NEGRA: Palavras que aparecem na tela mas NÃO são códigos ---
+        // --- LISTA NEGRA DE PALAVRAS COMUNS ---
+        // (Caso algum Short ID venha sem números por azar, isso garante que não pegue palavras óbvias)
         const ignoredWords = [
-            "TICKET", "SEU", "PEDIDO", "CODIGO", "CODE",
-            "APRESENTE", "RETIRADA", "PENDING", "CONFIRMED",
-            "CANCELLED", "STATUS", "MENU", "ID", "FOODSYNC"
+            "TICKET", "SEU", "PEDIDO", "CODIGO", "CODE", "STATUS", "MENU",
+            "FRANGO", "CARNE", "PEIXE", "MOLHO", "SALADA", "BEBIDA", "SUCO",
+            "PENDING", "CONFIRMED", "CANCELLED", "FOODSYNC", "TOTAL", "VALOR"
         ];
 
-        // 1. Procura pelo Short ID (6 caracteres, alfanumérico)
+        // 3. O FILTRO INTELIGENTE
         const foundShortId = words.find(word => {
             const clean = word.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
 
-            // Regra 1: Tem que ter EXATAMENTE 6 dígitos
+            // Regra 1: Tamanho exato de 6 caracteres
             if (clean.length !== 6) return false;
 
-            // Regra 2: NÃO pode estar na lista negra
+            // Regra 2: Lista Negra (Anti-Frango)
             if (ignoredWords.includes(clean)) return false;
 
-            // Regra 3: Deve parecer um código (Letras e Números)
-            // (Opcional: se seus códigos forem só letras ou mistos, isso aceita ambos)
-            return /^[A-Z0-9]{6}$/.test(clean);
+            // Regra 3 (A MAIS IMPORTANTE): Tem que ter letras E números?
+            // Seus IDs são MD5, então quase sempre têm números.
+            // Palavras reais nunca têm números.
+            const hasNumber = /[0-9]/.test(clean);
+            const hasLetter = /[A-Z]/.test(clean);
+
+            // ACEITA SE: Tiver número E letra (Ex: A5BFC9)
+            if (hasNumber && hasLetter) return true;
+
+            // ACEITA SE: For só letras, mas NÃO for uma palavra conhecida 
+            // (Risco baixo, mas possível se o hash for tipo "ABCDEF")
+            // Nesse caso, confiamos na Lista Negra acima.
+            if (!hasNumber && hasLetter) {
+                // Se for puramente letras, só aceitamos se NÃO parecer uma palavra real
+                // Mas para garantir, vamos dar prioridade para os que têm número.
+                return false; // Por segurança, vamos exigir número por enquanto.
+            }
+
+            return false;
         });
 
         if (foundShortId) {
-            // Sucesso! Achamos o código real e ignoramos o "TICKET"
             return { success: true, text: foundShortId.toUpperCase() };
         }
 
-        // 2. Se não achar Short ID, tenta achar UUID (Código longo antigo)
+        // 4. Fallback: Se não achou Short ID, tenta achar UUID longo antigo
         const foundLongId = words.find(word => word.length > 20 && word.includes('-'));
+        if (foundLongId) return { success: true, text: foundLongId };
 
-        if (foundLongId) {
-            return { success: true, text: foundLongId };
-        }
-
-        // Se só achou lixo (palavras da interface), retorna erro
         return { success: false, error: "Nenhum código válido encontrado" };
 
     } catch (error) {
