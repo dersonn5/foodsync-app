@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CheckCircle2, X, AlertCircle, Loader2, Zap, Keyboard } from "lucide-react"
 import { useRouter } from "next/navigation"
-// Importa a classe Core (sem UI padrão)
-import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode"
+import { Html5Qrcode } from "html5-qrcode"
 
 type OrderDetail = {
     id: string
@@ -21,7 +20,7 @@ type OrderDetail = {
 
 export default function ScanPage() {
     const scannerRef = useRef<Html5Qrcode | null>(null)
-    const regionId = "reader-stream-container" // ID único para a div do vídeo
+    const regionId = "reader-stream-container"
 
     const [orderData, setOrderData] = useState<OrderDetail | null>(null)
     const [loading, setLoading] = useState(false)
@@ -35,66 +34,39 @@ export default function ScanPage() {
     const router = useRouter()
 
     useEffect(() => {
-        // Inicialização segura do Scanner
         if (cameraActive && !scannerRef.current && !orderData) {
             startScanner();
         }
-
-        // Cleanup pesado ao sair
-        return () => {
-            stopScanner();
-        }
+        return () => { stopScanner(); }
     }, [cameraActive, orderData]);
 
     const startScanner = async () => {
         try {
-            // Cria instância do scanner
             const html5QrCode = new Html5Qrcode(regionId);
             scannerRef.current = html5QrCode;
 
-            // Configuração Técnica (O Segredo do ZXing)
+            // CONFIGURAÇÃO DE ÁREA AUMENTADA
             const config = {
-                fps: 10, // 10 quadros por segundo é o ideal para web
-                qrbox: { width: 250, height: 250 }, // Área de foco
-                aspectRatio: 1.777778, // 16:9 (Tela cheia de celular)
-                // 🚀 A MÁGICA: Tenta usar o hardware nativo do Android
+                fps: 10,
+                // Aumentamos a área de leitura técnica para 300px
+                qrbox: { width: 300, height: 300 },
+                aspectRatio: 1.777778,
                 experimentalFeatures: {
                     useBarCodeDetectorIfSupported: true
                 }
             };
 
-            // Inicia a câmera (Traseira por padrão)
             await html5QrCode.start(
                 { facingMode: "environment" },
                 config,
-                (decodedText) => {
-                    handleScan(decodedText);
-                },
-                (errorMessage) => {
-                    // Ignora erros de frame vazio (muito comum)
-                }
+                (decodedText) => handleScan(decodedText),
+                (errorMessage) => { }
             );
-
-            // Tenta aplicar foco após iniciar (Hack para Android)
-            applyCameraSettings(html5QrCode);
-
         } catch (err) {
             console.error("Erro ao iniciar câmera:", err);
             setPermissionError(true);
         }
     };
-
-    const applyCameraSettings = (scanner: Html5Qrcode) => {
-        // Tenta forçar foco e exposição
-        try {
-            // @ts-ignore - Método interno da lib para pegar a track de vídeo
-            const videoTrack = scanner.getRunningTrackCameraCapabilities();
-            if (videoTrack) {
-                // Se suportado, aplica foco contínuo
-                // Nota: Nem todos os browsers suportam aplicar constraints depois
-            }
-        } catch (e) { /* Silencia erros de capacidade */ }
-    }
 
     const stopScanner = async () => {
         if (scannerRef.current) {
@@ -103,22 +75,16 @@ export default function ScanPage() {
                     await scannerRef.current.stop();
                 }
                 scannerRef.current.clear();
-            } catch (e) {
-                console.log("Scanner já estava parado");
-            }
+            } catch (e) { console.log("Scanner parado"); }
             scannerRef.current = null;
         }
     }
 
     const handleScan = (code: string) => {
         if (!code || code.length < 3) return;
-
-        // Pausa visualmente (não para o scanner ainda para ser rápido na retomada se falhar)
         stopScanner();
         setCameraActive(false);
-
         if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(200);
-
         fetchOrderDetails(code.trim());
     }
 
@@ -127,7 +93,6 @@ export default function ScanPage() {
         setError(null)
         setOrderData(null)
 
-        // Lógica Híbrida (Short ID vs UUID)
         let query = supabase.from('orders').select(`
           id, short_id, status, consumption_date,
           users ( email ),
@@ -143,17 +108,10 @@ export default function ScanPage() {
 
         try {
             const { data, error } = await query.single()
-
-            if (error || !data) {
-                setError("Pedido não encontrado.")
-            } else {
-                setOrderData(data as any)
-            }
-        } catch (err) {
-            setError("Erro de conexão.")
-        } finally {
-            setLoading(false)
-        }
+            if (error || !data) setError("Pedido não encontrado.")
+            else setOrderData(data as any)
+        } catch (err) { setError("Erro de conexão.") }
+        finally { setLoading(false) }
     }
 
     const resetScan = () => {
@@ -161,62 +119,66 @@ export default function ScanPage() {
         setError(null)
         setManualCode("")
         setShowManualInput(false)
-        setCameraActive(true) // Isso dispara o useEffect para religar
+        setCameraActive(true)
     }
 
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. VÍDEO (Container ID obrigatório para html5-qrcode) */}
+            {/* 1. VÍDEO FUNDO */}
             <div className="absolute inset-0 w-full h-full bg-black overflow-hidden">
                 <div id={regionId} className="w-full h-full object-cover"></div>
-
-                {/* Máscara de Pausa (Blur quando inativo) */}
-                {!cameraActive && (
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
-                )}
+                {!cameraActive && <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />}
             </div>
 
-            {/* 2. INTERFACE SUPERIOR */}
+            {/* 2. HEADER */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20 pointer-events-none">
                 <div className="bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-white font-medium flex items-center gap-2 shadow-lg">
                     <Zap size={16} className="text-yellow-400 fill-yellow-400" /> Native Engine
                 </div>
-                <Button
-                    variant="ghost" size="icon" onClick={() => router.back()}
-                    className="bg-black/40 text-white rounded-full hover:bg-black/60 border border-white/10 backdrop-blur-md h-10 w-10 pointer-events-auto"
-                >
+                <Button variant="ghost" size="icon" onClick={() => router.back()} className="bg-black/40 text-white rounded-full hover:bg-black/60 border border-white/10 backdrop-blur-md h-10 w-10 pointer-events-auto">
                     <X size={20} />
                 </Button>
             </div>
 
-            {/* 3. MIRA LIMPA (Design 10/10) */}
+            {/* 3. MIRA EXPANDIDA (AQUI ESTÁ A CORREÇÃO VISUAL) */}
             {cameraActive && !showManualInput && !loading && !permissionError && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-                    {/* Caixa Transparente com Sombra Gigante (Efeito Foco) */}
-                    <div className="w-72 h-72 rounded-[2.5rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] overflow-hidden border border-white/20">
-                        {/* Animação Sutil de Scan (Linha vertical transparente) */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent -translate-y-full animate-[shimmer_2s_infinite]"></div>
+
+                    {/* AUMENTADO: w-80 h-80 (320px). 
+               Antes era w-72 (288px).
+            */}
+                    <div className="w-80 h-80 rounded-[3rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] overflow-hidden border border-white/10">
+
+                        {/* Cantoneiras Visuais (Brancas) para dar referência de limite */}
+                        <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-white/50 rounded-tl-3xl m-4"></div>
+                        <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-white/50 rounded-tr-3xl m-4"></div>
+                        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-white/50 rounded-bl-3xl m-4"></div>
+                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-white/50 rounded-br-3xl m-4"></div>
+
+                        {/* Scan Line Animation */}
+                        <div className="absolute inset-x-0 h-0.5 bg-white/30 top-1/2 -translate-y-1/2 animate-pulse shadow-[0_0_15px_rgba(255,255,255,0.5)]"></div>
                     </div>
+
                     <p className="mt-8 text-white/90 font-medium text-sm bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 shadow-lg">
                         Aponte para o Short ID
                     </p>
                 </div>
             )}
 
-            {/* 4. MENSAGEM DE ERRO DE PERMISSÃO */}
+            {/* 4. ERRO PERMISSÃO */}
             {permissionError && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center p-6 bg-slate-900">
                     <div className="text-center text-white space-y-4">
                         <AlertCircle className="h-12 w-12 text-red-500 mx-auto" />
                         <h3 className="text-xl font-bold">Câmera Bloqueada</h3>
-                        <p className="text-slate-400">Verifique se você permitiu o acesso à câmera no navegador.</p>
-                        <Button onClick={() => window.location.reload()} className="bg-white text-slate-900 font-bold">Recarregar Página</Button>
+                        <p className="text-slate-400">Verifique permissões.</p>
+                        <Button onClick={() => window.location.reload()} className="bg-white text-slate-900 font-bold">Recarregar</Button>
                     </div>
                 </div>
             )}
 
-            {/* 5. BOTÃO INPUT MANUAL */}
+            {/* 5. INPUT MANUAL */}
             {!orderData && !loading && !error && !permissionError && (
                 <div className="absolute bottom-12 left-0 right-0 flex justify-center z-20 px-6 pointer-events-auto">
                     {showManualInput ? (
@@ -243,8 +205,7 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* 6. LOADING / ERRO / SUCESSO */}
-
+            {/* 6. STATUS / CARDS */}
             {loading && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in fade-in">
                     <div className="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4">
@@ -259,10 +220,8 @@ export default function ScanPage() {
                     <Card className="w-full bg-red-50/90 backdrop-blur-xl border-2 border-red-200 shadow-2xl animate-in shake rounded-[2rem] overflow-hidden">
                         <CardContent className="flex flex-col items-center p-8 gap-4 text-center">
                             <AlertCircle className="h-8 w-8 text-red-600" />
-                            <div>
-                                <h3 className="text-xl font-bold text-red-900">Falha</h3>
-                                <p className="text-red-700/80 mt-2">{error}</p>
-                            </div>
+                            <h3 className="text-xl font-bold text-red-900">Falha</h3>
+                            <p className="text-red-700/80 mt-2">{error}</p>
                             <Button onClick={resetScan} variant="outline" className="w-full mt-4 border-red-200 text-red-700 hover:bg-red-100 h-14 rounded-xl font-bold text-lg bg-white">Ler Outro</Button>
                         </CardContent>
                     </Card>
