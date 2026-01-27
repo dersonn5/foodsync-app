@@ -15,7 +15,6 @@ export async function scanImageWithGoogle(base64Image: string) {
         const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(base64Data, 'base64');
 
-        // Manda para o Google
         const [result] = await client.textDetection(buffer);
         const detections = result.textAnnotations;
 
@@ -23,26 +22,35 @@ export async function scanImageWithGoogle(base64Image: string) {
             return { success: false, text: null };
         }
 
-        // Pega o texto completo
+        // Pega o texto completo e divide em palavras
         const fullText = detections[0].description || "";
-
-        // LOG (Para debug no seu terminal)
-        console.log("👀 Google leu tudo isso:", fullText.replace(/\n/g, " | "));
-
-        // --- AQUI ESTÁ A CORREÇÃO ---
-        // Separa tudo o que foi lido em palavras individuais
-        // (Quebra por espaço ou quebra de linha)
+        // Divide por espaços ou quebra de linha
         const words = fullText.split(/[\s\n]+/);
 
-        // 1. Procura pelo Short ID (Padrão: 6 caracteres, letras e números)
-        // Ex: A5BFC9
+        // --- LISTA NEGRA: Palavras que aparecem na tela mas NÃO são códigos ---
+        const ignoredWords = [
+            "TICKET", "SEU", "PEDIDO", "CODIGO", "CODE",
+            "APRESENTE", "RETIRADA", "PENDING", "CONFIRMED",
+            "CANCELLED", "STATUS", "MENU", "ID", "FOODSYNC"
+        ];
+
+        // 1. Procura pelo Short ID (6 caracteres, alfanumérico)
         const foundShortId = words.find(word => {
-            const clean = word.trim().toUpperCase().replace(/[^A-Z0-9]/g, ""); // Remove sujeira
-            // A regra: Tem que ter EXATAMENTE 6 digitos
-            return clean.length === 6 && /^[A-Z0-9]{6}$/.test(clean);
+            const clean = word.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+            // Regra 1: Tem que ter EXATAMENTE 6 dígitos
+            if (clean.length !== 6) return false;
+
+            // Regra 2: NÃO pode estar na lista negra
+            if (ignoredWords.includes(clean)) return false;
+
+            // Regra 3: Deve parecer um código (Letras e Números)
+            // (Opcional: se seus códigos forem só letras ou mistos, isso aceita ambos)
+            return /^[A-Z0-9]{6}$/.test(clean);
         });
 
         if (foundShortId) {
+            // Sucesso! Achamos o código real e ignoramos o "TICKET"
             return { success: true, text: foundShortId.toUpperCase() };
         }
 
@@ -53,11 +61,11 @@ export async function scanImageWithGoogle(base64Image: string) {
             return { success: true, text: foundLongId };
         }
 
-        // Se não achou nenhum código válido, retorna erro
+        // Se só achou lixo (palavras da interface), retorna erro
         return { success: false, error: "Nenhum código válido encontrado" };
 
     } catch (error) {
         console.error("❌ Erro Google Vision:", error);
-        return { success: false, error: "Erro interno no Vision API" };
+        return { success: false, error: "Erro interno Vision" };
     }
 }
