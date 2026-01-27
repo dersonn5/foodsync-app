@@ -1,16 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, X, AlertCircle, Loader2, Zap } from "lucide-react"
+import { CheckCircle2, X, AlertCircle, Loader2, Zap, ScanLine } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useZxing } from "react-zxing"
-// IMPORTANTE: Importar os tipos do núcleo do ZXing para configurar o "Try Harder"
-import { BarcodeFormat, DecodeHintType } from "@zxing/library"
+// Importa a biblioteca Powerhouse
+import QrScanner from 'qr-scanner';
 
-// Tipo do Pedido
 type OrderDetail = {
     id: string
     status: string
@@ -20,55 +18,74 @@ type OrderDetail = {
 }
 
 export default function ScanPage() {
-    const [result, setResult] = useState<string>("")
+    const videoRef = useRef<HTMLVideoElement>(null)
+    const scannerRef = useRef<QrScanner | null>(null)
+
     const [orderData, setOrderData] = useState<OrderDetail | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [cameraActive, setCameraActive] = useState(true)
+    const [scannedCount, setScannedCount] = useState(0) // Força re-render se necessário
 
     const supabase = createClient()
     const router = useRouter()
 
-    // --- CONFIGURAÇÃO DO MOTOR ZXING (MODO TURBO) ---
-    const { ref } = useZxing({
-        paused: !cameraActive,
-        onDecodeResult(decodedResult) {
-            const text = decodedResult.getText()
+    // --- INICIALIZAÇÃO DO SCANNER ---
+    useEffect(() => {
+        if (cameraActive && videoRef.current && !scannerRef.current) {
+            // Inicializa o Scanner com prioridade NATIVA
+            const scanner = new QrScanner(
+                videoRef.current,
+                (result) => handleScan(result.data),
+                {
+                    // 🚀 O SEGREDO: On Scan Error (Ignora erros de quadros vazios)
+                    onDecodeError: (error) => {
+                        // Não faz nada, apenas continua tentando
+                    },
+                    // ⚡ Tenta usar a aceleração de hardware do celular
+                    highlightScanRegion: true,
+                    highlightCodeOutline: true,
+                    // Prefere a câmera traseira
+                    preferredCamera: 'environment',
+                    // Tenta ler códigos invertidos (fundo preto) ou pequenos
+                    maxScansPerSecond: 25,
+                }
+            );
 
-            if (text === result) return
-            if (!text.includes('-')) return
+            scanner.start().then(() => {
+                console.log("Scanner iniciado com sucesso (Engine: Hybrid)");
+            }).catch(err => console.error(err));
 
-            setResult(text)
-            setCameraActive(false)
+            scannerRef.current = scanner;
+        }
 
-            if (typeof navigator !== 'undefined' && navigator.vibrate) {
-                navigator.vibrate(200);
+        // Cleanup ao sair
+        return () => {
+            if (scannerRef.current) {
+                scannerRef.current.stop();
+                scannerRef.current.destroy();
+                scannerRef.current = null;
             }
+        }
+    }, [cameraActive]);
 
-            fetchOrderDetails(text)
-        },
-        // ⚡ OVERCLOCK DO SCANNER
-        hints: new Map([
-            // Habilita leitura profunda (Essencial para telas e baixo contraste)
-            [DecodeHintType.TRY_HARDER, true],
-            // Foca APENAS em QR Code (Não perde tempo procurando código de barras)
-            [DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.QR_CODE]]
-        ]),
-        constraints: {
-            video: {
-                facingMode: "environment",
-                // ⚡ TRUQUE DE MESTRE: 720p é melhor que 1080p para web scanners.
-                // A imagem fica mais leve, o processador não engasga e o foco fica mais rápido.
-                height: { ideal: 720 },
-                // @ts-ignore
-                advanced: [
-                    { focusMode: "continuous" }
-                ]
-            }
-        },
-        // Tenta ler a cada 100ms (10 vezes por segundo) em vez de 300ms
-        timeBetweenDecodingAttempts: 100,
-    });
+    const handleScan = (text: string) => {
+        // 🛡️ Filtros de Segurança
+        if (!text.includes('-')) return; // Ignora lixo
+
+        // Pausa o scanner imediatamente ao encontrar
+        if (scannerRef.current) {
+            scannerRef.current.stop();
+            setCameraActive(false);
+        }
+
+        // Feedback Tátil
+        if (typeof navigator !== 'undefined' && navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+
+        fetchOrderDetails(text);
+    }
 
     const fetchOrderDetails = async (rawId: string) => {
         setLoading(true)
@@ -107,83 +124,79 @@ export default function ScanPage() {
     }
 
     const resetScan = () => {
-        setResult("")
         setOrderData(null)
         setError(null)
         setCameraActive(true)
+        // Reinicia o scanner
+        if (scannerRef.current) {
+            scannerRef.current.start();
+        }
     }
 
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. VÍDEO (Brilho Total + Resolução Otimizada) */}
+            {/* 1. LAYER DE VÍDEO */}
             <div className="absolute inset-0 w-full h-full bg-black">
+                {/* O qr-scanner precisa apenas desta tag video pura */}
                 <video
-                    ref={ref}
-                    className={`w-full h-full object-cover transition-opacity duration-300 ${cameraActive ? 'opacity-100' : 'opacity-40 blur-sm'}`}
-                    autoPlay
+                    ref={videoRef}
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${cameraActive ? 'opacity-100' : 'opacity-20 blur-md'}`}
                     playsInline
                     muted
                 />
             </div>
 
-            {/* 2. INTERFACE LIMPA (Idêntica à anterior) */}
+            {/* 2. INTERFACE (Overlay) */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
-                <div className="flex flex-col text-white drop-shadow-md bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
+                <div className="flex flex-col text-white drop-shadow-md bg-black/40 px-3 py-1 rounded-lg backdrop-blur-md border border-white/10">
                     <span className="font-bold text-lg flex items-center gap-2">
-                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Turbo
+                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Native Engine
                     </span>
                 </div>
                 <Button
                     variant="ghost" size="icon" onClick={() => router.back()}
-                    className="text-white bg-black/40 hover:bg-black/60 rounded-full h-10 w-10 backdrop-blur-md"
+                    className="text-white bg-black/40 hover:bg-black/60 rounded-full h-10 w-10 backdrop-blur-md border border-white/10"
                 >
                     <X />
                 </Button>
             </div>
 
-            {/* MIRA LIMPA */}
+            {/* MIRA CENTRAL (Visual Guide) */}
             {cameraActive && !loading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                    <div className="w-72 h-72 rounded-3xl relative overflow-hidden border border-white/30 shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]">
+                    <div className="w-72 h-72 rounded-3xl relative overflow-hidden border border-white/40 shadow-[0_0_0_9999px_rgba(0,0,0,0.6)]">
+                        <div className="absolute inset-x-0 h-0.5 bg-red-500/50 top-1/2" />
                     </div>
-                    <p className="absolute bottom-24 text-white/90 font-medium text-sm bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10">
+                    <p className="absolute bottom-24 text-white/90 font-medium text-sm bg-black/60 px-6 py-3 rounded-full backdrop-blur-md border border-white/10">
                         Aponte para o Ticket
                     </p>
                 </div>
             )}
 
-            {/* 3. RESULTADOS (Mantidos) */}
+            {/* 3. RESULTADOS */}
             {loading && (
-                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                    <div className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in">
-                        <Loader2 className="h-12 w-12 text-green-600 animate-spin" />
-                        <p className="text-slate-900 font-bold">Validando...</p>
+                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                    <div className="bg-white p-6 rounded-2xl flex flex-col items-center gap-4 animate-in zoom-in">
+                        <Loader2 className="h-10 w-10 text-green-600 animate-spin" />
+                        <p className="font-bold text-slate-800">Processando...</p>
                     </div>
                 </div>
             )}
 
             {orderData && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
-                    <Card className="w-full bg-white/95 backdrop-blur-xl border-t-8 border-t-green-500 shadow-[0_-10px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom-full duration-500 rounded-[2rem]">
+                    <Card className="w-full bg-white/95 backdrop-blur-xl border-t-8 border-t-green-500 shadow-2xl animate-in slide-in-from-bottom-full duration-300 rounded-[2rem]">
                         <CardHeader className="text-center pb-2">
-                            <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-2 drop-shadow-lg" />
-                            <CardTitle className="text-2xl font-black text-slate-900">Acesso Liberado!</CardTitle>
+                            <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-2" />
+                            <CardTitle className="text-2xl font-black text-slate-900">Validado!</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-6 pt-4">
-                            <div className="bg-slate-50 p-4 rounded-2xl text-center border border-slate-100">
+                            <div className="bg-slate-50 p-4 rounded-2xl text-center">
                                 <h3 className="font-bold text-xl text-slate-900">{orderData.menu_items?.name}</h3>
-                                <p className="text-sm text-slate-500 mt-1">{orderData.users?.email}</p>
+                                <p className="text-sm text-slate-500">{orderData.users?.email}</p>
                             </div>
-
-                            <div className="flex justify-between items-center px-4">
-                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Status</span>
-                                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-700">
-                                    {orderData.status === 'confirmed' ? 'CONFIRMADO' : orderData.status}
-                                </span>
-                            </div>
-
-                            <Button onClick={resetScan} className="w-full h-14 text-lg font-bold bg-slate-900 text-white rounded-xl shadow-xl shadow-slate-900/20 hover:scale-[1.02] transition-transform">
+                            <Button onClick={resetScan} className="w-full h-14 text-lg font-bold bg-slate-900 text-white rounded-xl">
                                 Ler Próximo
                             </Button>
                         </CardContent>
@@ -195,14 +208,9 @@ export default function ScanPage() {
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
                     <Card className="w-full bg-red-50/95 backdrop-blur-xl border-2 border-red-200 shadow-2xl animate-in shake rounded-[2rem]">
                         <CardContent className="flex flex-col items-center p-8 gap-4 text-center">
-                            <div className="h-14 w-14 bg-red-100 rounded-full flex items-center justify-center">
-                                <AlertCircle className="h-8 w-8 text-red-600" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-red-900">Falha na Leitura</h3>
-                                <p className="text-red-700 mt-1">{error}</p>
-                            </div>
-                            <Button onClick={resetScan} variant="outline" className="w-full mt-2 border-red-200 text-red-700 hover:bg-red-100 h-12 rounded-xl font-bold">
+                            <AlertCircle className="h-10 w-10 text-red-600" />
+                            <p className="font-bold text-red-900">{error}</p>
+                            <Button onClick={resetScan} variant="outline" className="w-full mt-2 border-red-200">
                                 Tentar Novamente
                             </Button>
                         </CardContent>

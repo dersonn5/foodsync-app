@@ -58,10 +58,10 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
                     <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm flex justify-center">
                         <QRCode
                             value={order.id}
-                            size={220}
+                            size={240}
                             fgColor="#000000"
                             bgColor="#ffffff"
-                            level="H"
+                            level="L"
                             style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                             viewBox={`0 0 256 256`}
                         />
