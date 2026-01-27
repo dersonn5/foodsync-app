@@ -2,22 +2,20 @@
 
 import vision from '@google-cloud/vision'
 
-// Inicializa o Google Vision com as chaves do .env.local
 const client = new vision.ImageAnnotatorClient({
     credentials: {
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'), // Importante: corrige quebras de linha
+        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
         project_id: process.env.GOOGLE_PROJECT_ID,
     }
 });
 
 export async function scanImageWithGoogle(base64Image: string) {
     try {
-        // 1. Limpa a imagem (remove o prefixo data:image...)
         const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(base64Data, 'base64');
 
-        // 2. Manda para o Google (TEXT_DETECTION lê tudo, até QR code rasgado)
+        // Manda para o Google
         const [result] = await client.textDetection(buffer);
         const detections = result.textAnnotations;
 
@@ -25,28 +23,41 @@ export async function scanImageWithGoogle(base64Image: string) {
             return { success: false, text: null };
         }
 
-        // 3. A mágica: Pega todo o texto que o Google leu
+        // Pega o texto completo
         const fullText = detections[0].description || "";
 
-        // Debug: Mostra no terminal do VS Code o que o Google está enxergando
-        console.log("👀 Google Vision viu:", fullText.replace(/\n/g, " "));
+        // LOG (Para debug no seu terminal)
+        console.log("👀 Google leu tudo isso:", fullText.replace(/\n/g, " | "));
 
-        // 4. Filtra para achar o Short ID (6 caracteres)
-        // Procura por "palavras" que tenham exatamente 6 letras/números
-        const words = fullText.split(/\s+/);
+        // --- AQUI ESTÁ A CORREÇÃO ---
+        // Separa tudo o que foi lido em palavras individuais
+        // (Quebra por espaço ou quebra de linha)
+        const words = fullText.split(/[\s\n]+/);
 
-        // Tenta achar o Short ID (Ex: A5BFC9)
-        const potentialCode = words.find(w => w.length === 6 && /^[A-Za-z0-9]+$/.test(w));
+        // 1. Procura pelo Short ID (Padrão: 6 caracteres, letras e números)
+        // Ex: A5BFC9
+        const foundShortId = words.find(word => {
+            const clean = word.trim().toUpperCase().replace(/[^A-Z0-9]/g, ""); // Remove sujeira
+            // A regra: Tem que ter EXATAMENTE 6 digitos
+            return clean.length === 6 && /^[A-Z0-9]{6}$/.test(clean);
+        });
 
-        // Se não achar de 6, tenta achar o UUID longo (caso antigo)
-        const potentialLongId = words.find(w => w.length > 20 && w.includes('-'));
+        if (foundShortId) {
+            return { success: true, text: foundShortId.toUpperCase() };
+        }
 
-        const finalCode = potentialCode || potentialLongId || fullText;
+        // 2. Se não achar Short ID, tenta achar UUID (Código longo antigo)
+        const foundLongId = words.find(word => word.length > 20 && word.includes('-'));
 
-        return { success: true, text: finalCode };
+        if (foundLongId) {
+            return { success: true, text: foundLongId };
+        }
+
+        // Se não achou nenhum código válido, retorna erro
+        return { success: false, error: "Nenhum código válido encontrado" };
 
     } catch (error) {
         console.error("❌ Erro Google Vision:", error);
-        return { success: false, error: "Erro ao processar imagem" };
+        return { success: false, error: "Erro interno no Vision API" };
     }
 }
