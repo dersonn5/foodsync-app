@@ -27,35 +27,37 @@ export default function ScanPage() {
     const supabase = createClient()
     const router = useRouter()
 
-    // --- CONFIGURAÇÃO DO MOTOR ZXING ---
+    // --- CONFIGURAÇÃO DO MOTOR ZXING (HARDWARE) ---
     const { ref } = useZxing({
         paused: !cameraActive,
         onDecodeResult(decodedResult) {
             const text = decodedResult.getText()
 
-            // 🛡️ Filtros de Lixo
-            if (text === result) return // Ignora repetidos
-            if (!text.includes('-')) return // Ignora se não for UUID (cód barras)
+            if (text === result) return
+            if (!text.includes('-')) return
 
-            // ✅ LEITURA BEM SUCEDIDA
             setResult(text)
-            setCameraActive(false) // Trava a câmera
+            setCameraActive(false)
 
-            // Feedback Vibratório (Se o celular suportar)
             if (typeof navigator !== 'undefined' && navigator.vibrate) {
                 navigator.vibrate(200);
             }
 
             fetchOrderDetails(text)
         },
-        // ⚡ SUPER POTÊNCIA: Configurações de Câmera
+        // ⚡ CONFIGURAÇÕES DE LUZ E FOCO
         constraints: {
             video: {
-                facingMode: "environment", // Câmera traseira
-                width: { min: 1280, ideal: 1920 }, // Força HD/Full HD
-                height: { min: 720, ideal: 1080 },
-                // @ts-ignore - Propriedade avançada para focar em telas
-                focusMode: "continuous"
+                facingMode: "environment",
+                // Tenta pegar a maior resolução possível (ajuda na nitidez)
+                width: { min: 1280, ideal: 1920, max: 2560 },
+                height: { min: 720, ideal: 1080, max: 1440 },
+                // @ts-ignore - Configurações avançadas para Android
+                advanced: [
+                    { exposureMode: "continuous" },
+                    { whiteBalanceMode: "continuous" },
+                    { focusMode: "continuous" }
+                ]
             }
         },
         timeBetweenDecodingAttempts: 300,
@@ -65,7 +67,6 @@ export default function ScanPage() {
         setLoading(true)
         setError(null)
 
-        // Lógica de limpeza (caso seja URL)
         let orderId = rawId
         if (rawId.includes('/')) {
             const parts = rawId.split('/')
@@ -102,61 +103,59 @@ export default function ScanPage() {
         setResult("")
         setOrderData(null)
         setError(null)
-        setCameraActive(true) // Destrava câmera
+        setCameraActive(true)
     }
 
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. LAYER DE VÍDEO (Fundo Total) */}
+            {/* 1. LAYER DE VÍDEO (AGORA 100% BRILHO - SEM MÁSCARA ESCURA) */}
             <div className="absolute inset-0 w-full h-full bg-black">
                 <video
                     ref={ref}
-                    className={`w-full h-full object-cover ${cameraActive ? 'opacity-100' : 'opacity-40 blur-sm'} transition-all duration-500`}
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${cameraActive ? 'opacity-100' : 'opacity-40 blur-sm'}`}
                     autoPlay
                     playsInline
                     muted
                 />
-                {/* Máscara Escura para destacar o centro */}
-                {cameraActive && (
-                    <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-                )}
+                {/* REMOVIDO: A div bg-black/40 que escurecia a câmera */}
             </div>
 
-            {/* 2. LAYER DE INTERFACE (Botões e Mira) */}
+            {/* 2. LAYER DE INTERFACE (Overlay Visual Apenas nas Bordas) */}
 
-            {/* Header Flutuante */}
+            {/* Header */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
-                <div className="flex flex-col text-white drop-shadow-md">
+                <div className="flex flex-col text-white drop-shadow-md bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
                     <span className="font-bold text-lg flex items-center gap-2">
                         <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Ativo
                     </span>
-                    <span className="text-xs opacity-80">Aponte para o Ticket</span>
                 </div>
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => router.back()}
-                    className="text-white bg-white/20 hover:bg-white/30 rounded-full h-10 w-10 backdrop-blur-md"
+                    className="text-white bg-black/40 hover:bg-black/60 rounded-full h-10 w-10 backdrop-blur-md"
                 >
                     <X />
                 </Button>
             </div>
 
-            {/* A MIRA (Square Box) - Só aparece quando ativo e sem resultado */}
+            {/* MIRA CENTRAL (Visual Guide) */}
             {cameraActive && !loading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                    <div className="w-72 h-72 border-2 border-white/50 rounded-3xl relative overflow-hidden shadow-[0_0_0_1000px_rgba(0,0,0,0.5)]">
-                        {/* Cantos Brilhantes (Estilo App Nativo) */}
-                        <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-green-400 rounded-tl-lg" />
-                        <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-green-400 rounded-tr-lg" />
-                        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-green-400 rounded-bl-lg" />
-                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-green-400 rounded-br-lg" />
+                    {/* Caixa da Mira */}
+                    <div className="w-72 h-72 rounded-3xl relative overflow-hidden">
+                        {/* Bordas Cantoneiras (Grossas e Brancas para contraste máximo) */}
+                        <div className="absolute top-0 left-0 w-12 h-12 border-t-[6px] border-l-[6px] border-white rounded-tl-2xl shadow-sm" />
+                        <div className="absolute top-0 right-0 w-12 h-12 border-t-[6px] border-r-[6px] border-white rounded-tr-2xl shadow-sm" />
+                        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-[6px] border-l-[6px] border-white rounded-bl-2xl shadow-sm" />
+                        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-[6px] border-r-[6px] border-white rounded-br-2xl shadow-sm" />
 
-                        {/* Scanner Laser Animation */}
-                        <div className="absolute inset-x-0 h-0.5 bg-red-500/80 shadow-[0_0_10px_rgba(239,68,68,0.8)] top-1/2 animate-[scan_2s_ease-in-out_infinite]" />
+                        {/* Linha Vermelha de Laser (Referência Visual) */}
+                        <div className="absolute inset-x-0 h-0.5 bg-red-500/90 top-1/2 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                     </div>
-                    <p className="absolute bottom-20 text-white/90 font-medium text-sm bg-black/50 px-4 py-2 rounded-full backdrop-blur">
+
+                    <p className="absolute bottom-24 text-white font-bold text-sm bg-black/60 px-6 py-2 rounded-full backdrop-blur-md shadow-lg border border-white/10">
                         Centralize o QR Code
                     </p>
                 </div>
@@ -164,23 +163,21 @@ export default function ScanPage() {
 
             {/* 3. LAYER DE RESULTADO (Cards) */}
 
-            {/* Loading State */}
             {loading && (
-                <div className="absolute inset-0 z-30 flex items-center justify-center">
-                    <div className="bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in">
-                        <Loader2 className="h-12 w-12 text-slate-900 animate-spin" />
-                        <p className="text-slate-800 font-bold">Validando...</p>
+                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                    <div className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in">
+                        <Loader2 className="h-12 w-12 text-green-600 animate-spin" />
+                        <p className="text-slate-900 font-bold">Validando...</p>
                     </div>
                 </div>
             )}
 
-            {/* SUCESSO */}
             {orderData && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
-                    <Card className="w-full bg-white/95 backdrop-blur-xl border-t-8 border-t-green-500 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-full duration-500 rounded-t-[2rem] rounded-b-[2rem]">
+                    <Card className="w-full bg-white/95 backdrop-blur-xl border-t-8 border-t-green-500 shadow-[0_-10px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom-full duration-500 rounded-[2rem]">
                         <CardHeader className="text-center pb-2">
                             <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-2 drop-shadow-lg" />
-                            <CardTitle className="text-2xl font-black text-slate-800">Acesso Liberado!</CardTitle>
+                            <CardTitle className="text-2xl font-black text-slate-900">Acesso Liberado!</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-6 pt-4">
                             <div className="bg-slate-50 p-4 rounded-2xl text-center border border-slate-100">
@@ -203,7 +200,6 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* ERRO */}
             {error && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
                     <Card className="w-full bg-red-50/95 backdrop-blur-xl border-2 border-red-200 shadow-2xl animate-in shake rounded-[2rem]">
