@@ -45,14 +45,13 @@ export default function ScanPage() {
 
             fetchOrderDetails(text)
         },
-        // ⚡ CONFIGURAÇÕES DE LUZ E FOCO
+        // ⚡ CONFIGURAÇÕES DE LUZ E FOCO (MANTIDAS)
         constraints: {
             video: {
                 facingMode: "environment",
-                // Tenta pegar a maior resolução possível (ajuda na nitidez)
                 width: { min: 1280, ideal: 1920, max: 2560 },
                 height: { min: 720, ideal: 1080, max: 1440 },
-                // @ts-ignore - Configurações avançadas para Android
+                // @ts-ignore
                 advanced: [
                     { exposureMode: "continuous" },
                     { whiteBalanceMode: "continuous" },
@@ -109,7 +108,7 @@ export default function ScanPage() {
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* 1. LAYER DE VÍDEO (AGORA 100% BRILHO - SEM MÁSCARA ESCURA) */}
+            {/* 1. LAYER DE VÍDEO (BRILHO TOTAL) */}
             <div className="absolute inset-0 w-full h-full bg-black">
                 <video
                     ref={ref}
@@ -118,53 +117,44 @@ export default function ScanPage() {
                     playsInline
                     muted
                 />
-                {/* REMOVIDO: A div bg-black/40 que escurecia a câmera */}
             </div>
 
-            {/* 2. LAYER DE INTERFACE (Overlay Visual Apenas nas Bordas) */}
+            {/* 2. LAYER DE INTERFACE (MÁSCARA LIMPA) */}
 
             {/* Header */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
                 <div className="flex flex-col text-white drop-shadow-md bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
                     <span className="font-bold text-lg flex items-center gap-2">
-                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Ativo
+                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Pro
                     </span>
                 </div>
                 <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => router.back()}
+                    variant="ghost" size="icon" onClick={() => router.back()}
                     className="text-white bg-black/40 hover:bg-black/60 rounded-full h-10 w-10 backdrop-blur-md"
                 >
                     <X />
                 </Button>
             </div>
 
-            {/* MIRA CENTRAL (Visual Guide) */}
+            {/* MIRA CENTRAL LIMPA (Estilo Banco) */}
             {cameraActive && !loading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                    {/* Caixa da Mira */}
-                    <div className="w-72 h-72 rounded-3xl relative overflow-hidden">
-                        {/* Bordas Cantoneiras (Grossas e Brancas para contraste máximo) */}
-                        <div className="absolute top-0 left-0 w-12 h-12 border-t-[6px] border-l-[6px] border-white rounded-tl-2xl shadow-sm" />
-                        <div className="absolute top-0 right-0 w-12 h-12 border-t-[6px] border-r-[6px] border-white rounded-tr-2xl shadow-sm" />
-                        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-[6px] border-l-[6px] border-white rounded-bl-2xl shadow-sm" />
-                        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-[6px] border-r-[6px] border-white rounded-br-2xl shadow-sm" />
 
-                        {/* Linha Vermelha de Laser (Referência Visual) */}
-                        <div className="absolute inset-x-0 h-0.5 bg-red-500/90 top-1/2 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                    {/* O GRANDE TRUQUE: Uma caixa transparente no meio, com uma sombra GIGANTE que escurece o resto */}
+                    <div className="w-72 h-72 rounded-3xl relative overflow-hidden border border-white/30 shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]">
+                        {/* SEM BORDA GROSSA, SEM LASER. Apenas o buraco limpo. */}
                     </div>
 
-                    <p className="absolute bottom-24 text-white font-bold text-sm bg-black/60 px-6 py-2 rounded-full backdrop-blur-md shadow-lg border border-white/10">
-                        Centralize o QR Code
+                    <p className="absolute bottom-24 text-white/90 font-medium text-sm bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10">
+                        Centralize o QR Code na área clara
                     </p>
                 </div>
             )}
 
-            {/* 3. LAYER DE RESULTADO (Cards) */}
+            {/* 3. LAYER DE RESULTADO (Cards) - Mantidos iguais */}
 
             {loading && (
-                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                     <div className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in">
                         <Loader2 className="h-12 w-12 text-green-600 animate-spin" />
                         <p className="text-slate-900 font-bold">Validando...</p>
