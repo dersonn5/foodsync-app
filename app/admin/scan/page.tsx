@@ -2,13 +2,13 @@
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import Webcam from "react-webcam"
+import jsQR from "jsqr" // A SOLUÇÃO DETERMINÍSTICA
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { CheckCircle2, X, AlertCircle, Loader2, CloudLightning, Keyboard } from "lucide-react"
+import { CheckCircle2, X, AlertCircle, Loader2, Zap, Keyboard } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { scanImageWithGoogle } from "@/app/actions/scan-google"
 
 type OrderDetail = {
     id: string
@@ -25,7 +25,6 @@ export default function ScanPage() {
     // States
     const [orderData, setOrderData] = useState<OrderDetail | null>(null)
     const [loading, setLoading] = useState(false)
-    const [analyzing, setAnalyzing] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [manualCode, setManualCode] = useState("")
     const [showManualInput, setShowManualInput] = useState(false)
@@ -34,43 +33,50 @@ export default function ScanPage() {
     const supabase = createClient()
     const router = useRouter()
 
-    // --- O CÉREBRO (Tira foto e manda pro Google) ---
-    const captureAndScan = useCallback(async () => {
-        // Se a câmera estiver desligada ou já estiver analisando, não faz nada
-        if (!webcamRef.current || !cameraActive || analyzing || loading || orderData || showManualInput) return;
+    // --- O CÉREBRO LOCAL (jsQR) ---
+    const captureAndScan = useCallback(() => {
+        // Se a câmera estiver desligada ou já estiver ocupado, não faz nada
+        if (!webcamRef.current || !cameraActive || loading || orderData || showManualInput) return;
 
-        const imageSrc = webcamRef.current.getScreenshot();
-        if (!imageSrc) return;
+        const video = webcamRef.current.video;
+        if (!video || video.readyState !== video.HAVE_ENOUGH_DATA) return;
 
-        setAnalyzing(true);
+        // 1. Cria um canvas virtual para extrair os pixels do vídeo
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-        try {
-            // Manda a foto para a sua Server Action do Google Vision
-            const result = await scanImageWithGoogle(imageSrc);
+        // 2. Desenha o frame atual
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            if (result.success && result.text) {
-                const code = result.text.trim().toUpperCase().replace(/\s/g, "");
+        // 3. Pega os dados brutos (ImageData)
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-                // Só aceita se tiver pelo menos 3 caracteres (Short ID)
-                if (code.length >= 3) {
-                    setCameraActive(false); // Pausa visualmente
-                    if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(200);
+        // 4. Manda para o jsQR decodificar (Zero Alucinação)
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert",
+        });
 
-                    await fetchOrderDetails(code);
-                }
+        if (code) {
+            // achou algo!
+            const scannedText = code.data.trim();
+            console.log("⚡ QR Lido Localmente:", scannedText);
+
+            if (scannedText.length >= 3) {
+                setCameraActive(false); // Pausa visualmente
+                if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(200);
+                fetchOrderDetails(scannedText);
             }
-        } catch (e) {
-            console.error(e);
-        } finally {
-            setAnalyzing(false);
         }
-    }, [webcamRef, cameraActive, analyzing, loading, orderData, showManualInput]);
+    }, [webcamRef, cameraActive, loading, orderData, showManualInput]);
 
-    // Loop Infinito: Tenta ler a cada 1.5 segundos
+    // Loop Infinito: Tenta ler a cada 300ms (Mais rápido que server-side)
     useEffect(() => {
         const interval = setInterval(() => {
             captureAndScan();
-        }, 1500);
+        }, 300);
         return () => clearInterval(interval);
     }, [captureAndScan]);
 
@@ -123,14 +129,13 @@ export default function ScanPage() {
         setError(null)
         setManualCode("")
         setShowManualInput(false)
-        setAnalyzing(false)
         setCameraActive(true)
     }
 
     return (
         <div className="fixed inset-0 bg-black z-50 flex flex-col text-sans">
 
-            {/* 1. VÍDEO PURO (Sem bordas, sem quadrados extras) */}
+            {/* 1. VÍDEO PURO */}
             <div className="absolute inset-0 w-full h-full bg-black">
                 {cameraActive && (
                     <Webcam
@@ -145,39 +150,36 @@ export default function ScanPage() {
                         className="w-full h-full object-cover"
                     />
                 )}
-                {/* Camada de Blur quando está processando */}
-                {(!cameraActive || analyzing) && (
-                    <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px] z-10 transition-all duration-300" />
+                {/* Camada escura se câmera off */}
+                {!cameraActive && (
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 transition-all duration-300" />
                 )}
             </div>
 
             {/* 2. HEADER FLUTUANTE */}
             <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
                 <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-white font-medium flex items-center gap-2 shadow-lg">
-                    <CloudLightning size={16} className="text-blue-400 fill-blue-400" />
-                    <span className="text-sm font-bold tracking-wide">AI VISION</span>
+                    <Zap size={16} className="text-yellow-400 fill-yellow-400" />
+                    <span className="text-sm font-bold tracking-wide">SCANNER PRO</span>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => router.back()} className="bg-black/40 text-white rounded-full hover:bg-black/60 border border-white/10 backdrop-blur-md h-10 w-10">
                     <X size={20} />
                 </Button>
             </div>
 
-            {/* 3. MIRA CLEAN (Apenas UM quadrado central) */}
+            {/* 3. MIRA CLEAN */}
             {cameraActive && !showManualInput && !orderData && !error && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
 
-                    {/* O ÚNICO ELEMENTO VISUAL: Borda fina e elegante */}
-                    <div className="w-72 h-72 rounded-[2rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.7)] overflow-hidden border border-white/40">
-                        {/* Indicador sutil de que está "pensando" */}
-                        {analyzing && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-white/10 animate-pulse">
-                                <Loader2 className="h-12 w-12 text-white/80 animate-spin" />
-                            </div>
-                        )}
+                    {/* O quadrado de foco */}
+                    <div className="w-72 h-72 rounded-[2rem] relative shadow-[0_0_0_9999px_rgba(0,0,0,0.7)] overflow-hidden border-2 border-white/30">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-64 h-0.5 bg-red-500/50 shadow-[0_0_10px_rgba(255,0,0,0.8)] animate-pulse rounded-full" />
+                        </div>
                     </div>
 
                     <p className="mt-8 text-white/90 font-medium text-xs uppercase tracking-widest bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/5 shadow-lg">
-                        {analyzing ? "Analisando..." : "Aguardando Código..."}
+                        Aponte para o QR Code
                     </p>
                 </div>
             )}
@@ -209,14 +211,14 @@ export default function ScanPage() {
                 </div>
             )}
 
-            {/* 5. MENSAGEM DE ERRO (Google Vision leu algo errado) */}
+            {/* 5. MENSAGEM DE ERRO (Código não encontrado no banco) */}
             {error && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
                     <Card className="w-full bg-red-50/90 backdrop-blur-xl border-2 border-red-200 shadow-2xl animate-in shake rounded-[2rem] overflow-hidden">
                         <CardContent className="flex flex-col items-center p-8 gap-4 text-center">
                             <AlertCircle className="h-8 w-8 text-red-600" />
                             <div>
-                                <h3 className="text-xl font-bold text-red-900">Ops!</h3>
+                                <h3 className="text-xl font-bold text-red-900">Não Encontrado</h3>
                                 <p className="text-red-700/80 mt-1 text-sm font-medium">{error}</p>
                             </div>
                             <Button onClick={() => { setError(null); setCameraActive(true); }} variant="outline" className="w-full mt-2 border-red-200 text-red-700 hover:bg-red-100 h-12 rounded-xl font-bold bg-white">
