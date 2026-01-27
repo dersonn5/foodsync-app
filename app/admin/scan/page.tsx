@@ -4,11 +4,11 @@ import { useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, X, ScanLine, Loader2, AlertCircle } from "lucide-react"
+import { CheckCircle2, X, AlertCircle, Loader2, Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useZxing } from "react-zxing"
 
-// --- TIPOS ---
+// Tipo do Pedido
 type OrderDetail = {
     id: string
     status: string
@@ -20,50 +20,53 @@ type OrderDetail = {
 export default function ScanPage() {
     const [result, setResult] = useState<string>("")
     const [orderData, setOrderData] = useState<OrderDetail | null>(null)
-    const [loadingFetch, setLoadingFetch] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const [cameraActive, setCameraActive] = useState(true) // Controla se a câmera está ligada
+    const [cameraActive, setCameraActive] = useState(true)
 
     const supabase = createClient()
     const router = useRouter()
 
-    // --- CONFIGURAÇÃO DO MOTOR DE SCAN (HOOK) ---
+    // --- CONFIGURAÇÃO DO MOTOR ZXING ---
     const { ref } = useZxing({
-        paused: !cameraActive, // Pausa a câmera quando já leu um ticket
+        paused: !cameraActive,
         onDecodeResult(decodedResult) {
             const text = decodedResult.getText()
 
-            // 🛡️ BARREIRA: Se já leu este, ignora.
-            if (text === result) return
-            // 🛡️ BARREIRA: Se não tem traço '-', não é um ID válido. Ignora.
-            if (!text.includes('-')) return
+            // 🛡️ Filtros de Lixo
+            if (text === result) return // Ignora repetidos
+            if (!text.includes('-')) return // Ignora se não for UUID (cód barras)
 
+            // ✅ LEITURA BEM SUCEDIDA
             setResult(text)
-            setCameraActive(false) // ⏸️ PAUSA A CÂMERA para economizar recurso e não ler de novo
+            setCameraActive(false) // Trava a câmera
 
-            // Toca um som sutil de "bip" (opcional, se quiser adicione o arquivo)
-            // new Audio('/beep.mp3').play().catch(()=>{})
+            // Feedback Vibratório (Se o celular suportar)
+            if (typeof navigator !== 'undefined' && navigator.vibrate) {
+                navigator.vibrate(200);
+            }
 
             fetchOrderDetails(text)
         },
-        onError(error) {
-            // Erros de leitura normais (quando não tem QR code na tela)
-            // console.log(error); 
-        },
-        // Configurações para melhorar leitura em telas
-        timeBetweenDecodingAttempts: 300, // Tenta 3 vezes por segundo
+        // ⚡ SUPER POTÊNCIA: Configurações de Câmera
         constraints: {
-            video: { facingMode: "environment" } // Força câmera traseira
-        }
+            video: {
+                facingMode: "environment", // Câmera traseira
+                width: { min: 1280, ideal: 1920 }, // Força HD/Full HD
+                height: { min: 720, ideal: 1080 },
+                // @ts-ignore - Propriedade avançada para focar em telas
+                focusMode: "continuous"
+            }
+        },
+        timeBetweenDecodingAttempts: 300,
     });
 
-    // --- BUSCA NO BANCO (Mesma lógica anterior) ---
     const fetchOrderDetails = async (rawId: string) => {
-        setLoadingFetch(true)
+        setLoading(true)
         setError(null)
 
+        // Lógica de limpeza (caso seja URL)
         let orderId = rawId
-        // Limpeza de URL se necessário
         if (rawId.includes('/')) {
             const parts = rawId.split('/')
             orderId = parts[parts.length - 1].split('?')[0]
@@ -83,130 +86,141 @@ export default function ScanPage() {
             if (error) throw error
 
             if (!data) {
-                setError("Pedido não encontrado no sistema.")
+                setError("Pedido não encontrado.")
             } else {
                 setOrderData(data as any)
             }
         } catch (err) {
             console.error(err)
-            setError("Não foi possível validar este código.")
+            setError("Erro ao processar ticket.")
         } finally {
-            setLoadingFetch(false)
+            setLoading(false)
         }
     }
 
-    // --- RESET PARA O PRÓXIMO ---
     const resetScan = () => {
         setResult("")
         setOrderData(null)
         setError(null)
-        setCameraActive(true) // ▶️ RELIGA A CÂMERA
+        setCameraActive(true) // Destrava câmera
     }
 
     return (
-        <div className="relative flex flex-col items-center justify-center min-h-[100dvh] bg-black overflow-hidden">
+        <div className="fixed inset-0 bg-black z-50 flex flex-col">
 
-            {/* --- CAMADA 1: O VÍDEO (FUNDO) --- */}
-            <div className="absolute inset-0 w-full h-full">
-                {/* O elemento de vídeo que o hook controla */}
+            {/* 1. LAYER DE VÍDEO (Fundo Total) */}
+            <div className="absolute inset-0 w-full h-full bg-black">
                 <video
                     ref={ref}
-                    className={`w-full h-full object-cover transition-opacity duration-500 ${cameraActive ? 'opacity-100' : 'opacity-20 blur-sm'}`}
+                    className={`w-full h-full object-cover ${cameraActive ? 'opacity-100' : 'opacity-40 blur-sm'} transition-all duration-500`}
                     autoPlay
-                    playsInline // Importante para iOS
+                    playsInline
                     muted
                 />
-                {/* Overlay escuro para dar destaque à mira */}
-                {cameraActive && <div className="absolute inset-0 bg-black/30" />}
+                {/* Máscara Escura para destacar o centro */}
+                {cameraActive && (
+                    <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+                )}
             </div>
 
+            {/* 2. LAYER DE INTERFACE (Botões e Mira) */}
 
-            {/* --- CAMADA 2: INTERFACE (TOPO) --- */}
+            {/* Header Flutuante */}
+            <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-20">
+                <div className="flex flex-col text-white drop-shadow-md">
+                    <span className="font-bold text-lg flex items-center gap-2">
+                        <Zap className="fill-yellow-400 text-yellow-400 h-5 w-5" /> Scanner Ativo
+                    </span>
+                    <span className="text-xs opacity-80">Aponte para o Ticket</span>
+                </div>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => router.back()}
+                    className="text-white bg-white/20 hover:bg-white/30 rounded-full h-10 w-10 backdrop-blur-md"
+                >
+                    <X />
+                </Button>
+            </div>
 
-            {/* Botão Fechar (Canto Superior) */}
-            <Button
-                variant="ghost" size="icon"
-                className="absolute top-12 right-6 text-white bg-black/40 hover:bg-black/60 rounded-full z-50"
-                onClick={() => router.back()}
-            >
-                <X />
-            </Button>
+            {/* A MIRA (Square Box) - Só aparece quando ativo e sem resultado */}
+            {cameraActive && !loading && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                    <div className="w-72 h-72 border-2 border-white/50 rounded-3xl relative overflow-hidden shadow-[0_0_0_1000px_rgba(0,0,0,0.5)]">
+                        {/* Cantos Brilhantes (Estilo App Nativo) */}
+                        <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-green-400 rounded-tl-lg" />
+                        <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-green-400 rounded-tr-lg" />
+                        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-green-400 rounded-bl-lg" />
+                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-green-400 rounded-br-lg" />
 
-            {/* MIRA CENTRAL (Estilo iPhone) - Só aparece quando buscando */}
-            {cameraActive && !loadingFetch && (
-                <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none">
-                    {/* O quadrado da mira */}
-                    <div className="w-64 h-64 border-2 border-white/70 rounded-3xl relative overflow-hidden shadow-[0_0_0_9999px_rgba(0,0,0,0.4)]">
-                        {/* Cantoneiras brilhantes */}
-                        <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-green-400 rounded-tl-xl"></div>
-                        <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-green-400 rounded-tr-xl"></div>
-                        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-green-400 rounded-bl-xl"></div>
-                        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-green-400 rounded-br-xl"></div>
-
-                        {/* Linha de scan animada */}
-                        <div className="absolute inset-x-0 h-1 bg-green-400/50 top-1/2 animate-[scan_2s_ease-in-out_infinite] shadow-[0_0_8px_rgba(74,222,128,0.8)]"></div>
+                        {/* Scanner Laser Animation */}
+                        <div className="absolute inset-x-0 h-0.5 bg-red-500/80 shadow-[0_0_10px_rgba(239,68,68,0.8)] top-1/2 animate-[scan_2s_ease-in-out_infinite]" />
                     </div>
-                    <p className="text-white/80 text-sm mt-6 font-medium bg-black/40 px-4 py-2 rounded-full backdrop-blur-md">
-                        Aponte para o Ticket do Funcionário
+                    <p className="absolute bottom-20 text-white/90 font-medium text-sm bg-black/50 px-4 py-2 rounded-full backdrop-blur">
+                        Centralize o QR Code
                     </p>
                 </div>
             )}
 
+            {/* 3. LAYER DE RESULTADO (Cards) */}
 
-            {/* --- CAMADA 3: RESULTADOS (CARD FLUTUANTE) --- */}
-
-            {/* LOADING */}
-            {loadingFetch && (
-                <div className="absolute z-30 flex flex-col items-center justify-center p-6 bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl animate-in fade-in zoom-in">
-                    <Loader2 className="h-12 w-12 text-green-600 animate-spin mb-4" />
-                    <p className="text-slate-800 font-bold">Validando Ticket...</p>
+            {/* Loading State */}
+            {loading && (
+                <div className="absolute inset-0 z-30 flex items-center justify-center">
+                    <div className="bg-white/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4 animate-in zoom-in">
+                        <Loader2 className="h-12 w-12 text-slate-900 animate-spin" />
+                        <p className="text-slate-800 font-bold">Validando...</p>
+                    </div>
                 </div>
             )}
 
-            {/* TICKET VÁLIDO (Sucesso) */}
+            {/* SUCESSO */}
             {orderData && (
-                <Card className="absolute z-30 w-[90%] max-w-sm bg-white/95 backdrop-blur-xl text-slate-900 animate-in slide-in-from-bottom-10 duration-300 border-t-8 border-t-green-500 shadow-2xl rounded-3xl">
-                    <CardHeader className="bg-green-50/50 pb-4 rounded-t-2xl">
-                        <div className="flex items-center gap-3 justify-center flex-col">
-                            <CheckCircle2 className="h-14 w-14 text-green-500 drop-shadow-sm" />
-                            <div className="text-center">
-                                <CardTitle className="text-2xl text-green-800 font-black tracking-tight">Acesso Liberado!</CardTitle>
+                <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
+                    <Card className="w-full bg-white/95 backdrop-blur-xl border-t-8 border-t-green-500 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-full duration-500 rounded-t-[2rem] rounded-b-[2rem]">
+                        <CardHeader className="text-center pb-2">
+                            <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-2 drop-shadow-lg" />
+                            <CardTitle className="text-2xl font-black text-slate-800">Acesso Liberado!</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-6 pt-4">
+                            <div className="bg-slate-50 p-4 rounded-2xl text-center border border-slate-100">
+                                <h3 className="font-bold text-xl text-slate-900">{orderData.menu_items?.name}</h3>
+                                <p className="text-sm text-slate-500 mt-1">{orderData.users?.email}</p>
                             </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="p-6 space-y-6">
-                        <div className="text-center">
-                            <h3 className="font-bold text-2xl leading-tight mb-2 text-slate-900">{orderData.menu_items?.name}</h3>
-                            <p className="text-sm font-medium text-slate-500 bg-slate-100 py-1 px-3 rounded-full inline-block">{orderData.users?.email}</p>
-                        </div>
 
-                        <div className={`p-4 rounded-2xl text-center border-2 ${orderData.status === 'confirmed' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-yellow-50 border-yellow-200 text-yellow-700'
-                            }`}>
-                            <p className="text-xs uppercase tracking-widest font-bold mb-1 opacity-70">Status</p>
-                            <span className="text-xl font-black">
-                                {orderData.status === 'confirmed' ? 'CONFIRMADO ✅' : orderData.status.toUpperCase()}
-                            </span>
-                        </div>
+                            <div className="flex justify-between items-center px-4">
+                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Status</span>
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-700">
+                                    {orderData.status === 'confirmed' ? 'CONFIRMADO' : orderData.status}
+                                </span>
+                            </div>
 
-                        <Button className="w-full bg-slate-900 hover:bg-slate-800 hover:scale-[1.02] transition-all text-white h-14 text-lg rounded-2xl shadow-xl font-bold" onClick={resetScan}>
-                            Ler Próximo Pedido
-                        </Button>
-                    </CardContent>
-                </Card>
+                            <Button onClick={resetScan} className="w-full h-14 text-lg font-bold bg-slate-900 text-white rounded-xl shadow-xl shadow-slate-900/20 hover:scale-[1.02] transition-transform">
+                                Ler Próximo
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
             )}
 
-            {/* MENSAGEM DE ERRO */}
+            {/* ERRO */}
             {error && (
-                <Card className="absolute z-30 w-[90%] max-w-sm bg-red-50/95 backdrop-blur-xl border-2 border-red-200 text-red-900 animate-in zoom-in-95 shadow-2xl rounded-3xl">
-                    <CardContent className="flex flex-col items-center p-8 gap-4 text-center">
-                        <div className="h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mb-2">
-                            <AlertCircle className="h-10 w-10 text-red-600" />
-                        </div>
-                        <p className="font-bold text-xl">{error}</p>
-                        <p className="text-sm text-red-700/70">O código lido não é um pedido válido ou houve um erro de conexão.</p>
-                        <Button onClick={resetScan} variant="outline" className="w-full mt-4 bg-white border-red-200 hover:bg-red-50 text-red-700 h-12 rounded-xl font-bold">Tentar Novamente</Button>
-                    </CardContent>
-                </Card>
+                <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
+                    <Card className="w-full bg-red-50/95 backdrop-blur-xl border-2 border-red-200 shadow-2xl animate-in shake rounded-[2rem]">
+                        <CardContent className="flex flex-col items-center p-8 gap-4 text-center">
+                            <div className="h-14 w-14 bg-red-100 rounded-full flex items-center justify-center">
+                                <AlertCircle className="h-8 w-8 text-red-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-red-900">Falha na Leitura</h3>
+                                <p className="text-red-700 mt-1">{error}</p>
+                            </div>
+                            <Button onClick={resetScan} variant="outline" className="w-full mt-2 border-red-200 text-red-700 hover:bg-red-100 h-12 rounded-xl font-bold">
+                                Tentar Novamente
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
             )}
 
         </div>
