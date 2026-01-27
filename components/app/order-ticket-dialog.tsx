@@ -59,10 +59,10 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
                 <div className="flex flex-col items-center gap-6 py-4">
 
                     {/* O QR CODE OTIMIZADO */}
-                    <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 shadow-sm flex flex-col items-center">
+                    <div className="p-8 bg-white rounded-2xl shadow-sm flex flex-col items-center">
                         <QRCode
                             value={qrValue}
-                            size={240}
+                            size={300}
                             fgColor="#000000"
                             bgColor="#ffffff"
                             level="L"
