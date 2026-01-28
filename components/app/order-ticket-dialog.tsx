@@ -56,10 +56,10 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
 
                 <div className="flex flex-col items-center gap-6 py-4">
 
-                    {/* O QR CODE OTIMIZADO */}
+                    {/* O QR CODE - USA SHORT_ID PARA SCANNER */}
                     <div className="p-8 bg-white rounded-2xl flex flex-col items-center">
                         <QRCode
-                            value={String(order.id)}
+                            value={order.short_id || order.id}
                             size={300}
                             fgColor="#000000"
                             bgColor="#ffffff"
@@ -67,9 +67,9 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
                             style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                             viewBox={`0 0 256 256`}
                         />
-                        {/* Exibe o ID numérico humanamente legível */}
+                        {/* Exibe o código legível abaixo do QR */}
                         <p className="mt-2 text-2xl font-mono font-bold tracking-[0.2em] text-slate-900">
-                            #{order.id}
+                            {order.short_id || order.id.slice(0, 8)}
                         </p>
                     </div>
 
@@ -89,7 +89,7 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
                     <div className="w-full h-px bg-slate-100" />
 
                     <p className="text-[10px] text-slate-400 font-mono text-center w-full break-all px-4">
-                        ID: {order.id}
+                        REF: {order.id}
                     </p>
 
                 </div>
