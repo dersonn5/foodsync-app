@@ -81,25 +81,28 @@ export default function ScanPage() {
             }
 
             // Busca dados relacionados separadamente
-            const { data: userData } = await supabase
+            const { data: userData, error: userError } = await supabase
                 .from('users')
-                .select('email')
+                .select('*')
                 .eq('id', orderBasic.user_id)
                 .single();
 
-            const { data: menuData } = await supabase
+            const { data: menuData, error: menuError } = await supabase
                 .from('menu_items')
-                .select('name, image_url')
+                .select('*')
                 .eq('id', orderBasic.menu_item_id)
                 .single();
 
-            console.log("👤 User:", userData, "🍽️ Menu:", menuData);
+            console.log("👤 User:", userData, userError);
+            console.log("🍽️ Menu:", menuData, menuError);
 
-            // Monta objeto completo
+            // Monta objeto completo (mapeia photo_url para image_url se necessário)
             setOrderData({
                 ...orderBasic,
-                users: userData || { email: 'N/A' },
-                menu_items: menuData || { name: 'Prato não encontrado', image_url: null }
+                users: userData || { email: 'Usuário não encontrado' },
+                menu_items: menuData
+                    ? { name: menuData.name, image_url: menuData.photo_url || menuData.image_url }
+                    : { name: 'Prato não encontrado', image_url: null }
             } as any);
 
         } catch (err) {
