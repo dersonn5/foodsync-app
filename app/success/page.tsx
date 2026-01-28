@@ -41,7 +41,7 @@ function SuccessContent() {
 
             <Card className="border-2 border-green-100 shadow-lg bg-white/80 backdrop-blur">
                 <CardContent className="p-8 flex flex-col items-center space-y-6">
-                    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div className="bg-white p-8 rounded-xl">
                         <QRCode
                             value={orderId}
                             size={200}

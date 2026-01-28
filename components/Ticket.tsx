@@ -54,11 +54,11 @@ export default function Ticket({ isOpen, onClose, order, userName }: TicketProps
                                 <p className="text-green-100 text-sm font-medium">Ticket de Refeição</p>
                             </div>
 
-                            {/* Dashed Divider with Cutouts */}
+                            {/* Divider with Cutouts */}
                             <div className="relative h-4 bg-white -mt-2">
                                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-slate-900/60 rounded-r-full" />
                                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-8 bg-slate-900/60 rounded-l-full" />
-                                <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 border-b-2 border-dashed border-gray-200" />
+                                <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 border-b-2 border-gray-200" />
                             </div>
 
                             {/* Content Section */}
@@ -76,8 +76,8 @@ export default function Ticket({ isOpen, onClose, order, userName }: TicketProps
                                     </div>
                                 </div>
 
-                                <div className="bg-white p-4 rounded-2xl border-2 border-gray-100 flex flex-col items-center justify-center gap-2">
-                                    <QRCode value={order.id} size={160} className="w-full h-auto max-w-[160px]" />
+                                <div className="bg-white p-8 rounded-2xl flex flex-col items-center justify-center gap-2">
+                                    <QRCode value={order.id} size={180} className="w-full h-auto max-w-[180px]" />
                                     <p className="text-[10px] text-gray-300 font-mono mt-1 font-bold tracking-widest uppercase">
                                         ID: {order.id.slice(0, 8)}
                                     </p>

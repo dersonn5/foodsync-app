@@ -119,10 +119,29 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  button, a, [role="button"] {
+
+  button,
+  a,
+  [role="button"] {
     cursor: pointer;
   }
+}
+
+/* --- Scanner Pro UI Customization --- */
+#html5qr-code-full-region video {
+  object-fit: cover !important;
+  border-radius: 12px;
+}
+
+/* Esconde qualquer barra de status ou botões que a lib tente injetar */
+#html5qr-code-full-region div {
+  display: none;
+}
+
+#html5qr-code-full-region video {
+  display: block !important;
 }
