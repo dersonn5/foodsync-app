@@ -59,6 +59,8 @@ export default function ScanPage() {
             // Detecta se é ID numérico (novo) ou short_id alfanumérico (legado)
             const isNumeric = /^\d+$/.test(cleanCode);
 
+            console.log("🔍 Buscando pedido:", { cleanCode, isNumeric });
+
             let query = supabase
                 .from('orders')
                 .select(`
@@ -77,7 +79,18 @@ export default function ScanPage() {
 
             const { data, error } = await query.single();
 
-            if (error || !data) {
+            console.log("📦 Resultado:", { data, error });
+
+            if (error) {
+                console.error("❌ Erro Supabase:", error);
+                setError(`Erro: ${error.message} (Código: ${cleanCode})`)
+                setTimeout(() => {
+                    if (!orderData) {
+                        setError(null);
+                        setCameraActive(true);
+                    }
+                }, 4000);
+            } else if (!data) {
                 setError(`Pedido "${cleanCode}" não encontrado.`)
                 setTimeout(() => {
                     if (!orderData) {
@@ -89,6 +102,7 @@ export default function ScanPage() {
                 setOrderData(data as any)
             }
         } catch (err) {
+            console.error("❌ Erro catch:", err);
             setError("Erro de conexão.")
         } finally {
             setLoading(false)
