@@ -56,51 +56,52 @@ export default function ScanPage() {
         }
 
         try {
-            // Detecta se é ID numérico (novo) ou short_id alfanumérico (legado)
+            // Detecta se é ID numérico ou short_id alfanumérico
             const isNumeric = /^\d+$/.test(cleanCode);
-
             console.log("🔍 Buscando pedido:", { cleanCode, isNumeric });
 
-            let query = supabase
-                .from('orders')
-                .select(`
-                    id, short_id, status, consumption_date,
-                    users ( email ),
-                    menu_items ( name, image_url )
-                `);
-
+            // Query SIMPLES primeiro (sem joins)
+            let baseQuery = supabase.from('orders').select('*');
             if (isNumeric) {
-                // Busca por ID numérico (novo formato)
-                query = query.eq('id', parseInt(cleanCode));
+                baseQuery = baseQuery.eq('id', parseInt(cleanCode));
             } else {
-                // Busca por short_id alfanumérico (formato legado)
-                query = query.eq('short_id', cleanCode.toUpperCase());
+                baseQuery = baseQuery.eq('short_id', cleanCode.toUpperCase());
             }
 
-            const { data, error } = await query.single();
+            const { data: orderBasic, error: orderError } = await baseQuery.single();
+            console.log("📦 Pedido básico:", { orderBasic, orderError });
 
-            console.log("📦 Resultado:", { data, error });
-
-            if (error) {
-                console.error("❌ Erro Supabase:", error);
-                setError(`Erro: ${error.message} (Código: ${cleanCode})`)
+            if (orderError || !orderBasic) {
+                console.error("❌ Erro:", orderError);
+                setError(`Pedido "${cleanCode}" não encontrado. ${orderError?.message || ''}`)
                 setTimeout(() => {
-                    if (!orderData) {
-                        setError(null);
-                        setCameraActive(true);
-                    }
+                    if (!orderData) { setError(null); setCameraActive(true); }
                 }, 4000);
-            } else if (!data) {
-                setError(`Pedido "${cleanCode}" não encontrado.`)
-                setTimeout(() => {
-                    if (!orderData) {
-                        setError(null);
-                        setCameraActive(true);
-                    }
-                }, 3000);
-            } else {
-                setOrderData(data as any)
+                return;
             }
+
+            // Busca dados relacionados separadamente
+            const { data: userData } = await supabase
+                .from('users')
+                .select('email')
+                .eq('id', orderBasic.user_id)
+                .single();
+
+            const { data: menuData } = await supabase
+                .from('menu_items')
+                .select('name, image_url')
+                .eq('id', orderBasic.menu_item_id)
+                .single();
+
+            console.log("👤 User:", userData, "🍽️ Menu:", menuData);
+
+            // Monta objeto completo
+            setOrderData({
+                ...orderBasic,
+                users: userData || { email: 'N/A' },
+                menu_items: menuData || { name: 'Prato não encontrado', image_url: null }
+            } as any);
+
         } catch (err) {
             console.error("❌ Erro catch:", err);
             setError("Erro de conexão.")
