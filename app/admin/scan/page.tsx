@@ -40,28 +40,34 @@ export default function ScanPage() {
         setLoading(true)
         setError(null)
 
-        // Limpeza bruta do código lido
-        let cleanCode = code.replace(/[^A-Z0-9-]/g, "");
+        // Limpeza do código lido - agora espera ID numérico
+        const cleanCode = code.replace(/[^0-9]/g, "");
 
-        // Lógica Híbrida: Short ID vs UUID
-        let query = supabase.from('orders').select(`
-          id, short_id, status, consumption_date,
-          users ( email ),
-          menu_items ( name, image_url )
-        `)
-
-        if (cleanCode.length < 15) {
-            query = query.eq('short_id', cleanCode.toUpperCase())
-        } else {
-            const cleanId = cleanCode.includes('/') ? cleanCode.split('/').pop()?.split('?')[0] : cleanCode;
-            query = query.eq('id', cleanId)
+        if (!cleanCode) {
+            setError("Código inválido. QR deve conter ID numérico.");
+            setLoading(false);
+            setTimeout(() => {
+                if (!orderData) {
+                    setError(null);
+                    setCameraActive(true);
+                }
+            }, 3000);
+            return;
         }
 
         try {
-            const { data, error } = await query.single()
+            const { data, error } = await supabase
+                .from('orders')
+                .select(`
+                    id, short_id, status, consumption_date,
+                    users ( email ),
+                    menu_items ( name, image_url )
+                `)
+                .eq('id', parseInt(cleanCode))
+                .single()
 
             if (error || !data) {
-                setError(`Código: ${cleanCode}. Não encontrado.`)
+                setError(`Pedido #${cleanCode} não encontrado.`)
                 setTimeout(() => {
                     if (!orderData) {
                         setError(null);
