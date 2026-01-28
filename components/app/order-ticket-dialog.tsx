@@ -41,8 +41,6 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
         month: 'long'
     })
 
-    // Garante que o QR Code use o Short ID se disponível
-    const qrValue = order.short_id || order.id
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>

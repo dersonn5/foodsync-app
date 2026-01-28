@@ -40,11 +40,11 @@ export default function ScanPage() {
         setLoading(true)
         setError(null)
 
-        // Limpeza do código lido - agora espera ID numérico
-        const cleanCode = code.replace(/[^0-9]/g, "");
+        // Limpa apenas espaços e caracteres invisíveis, mantém o valor original
+        const cleanCode = code.trim();
 
         if (!cleanCode) {
-            setError("Código inválido. QR deve conter ID numérico.");
+            setError("Código vazio ou inválido.");
             setLoading(false);
             setTimeout(() => {
                 if (!orderData) {
@@ -56,18 +56,29 @@ export default function ScanPage() {
         }
 
         try {
-            const { data, error } = await supabase
+            // Detecta se é ID numérico (novo) ou short_id alfanumérico (legado)
+            const isNumeric = /^\d+$/.test(cleanCode);
+
+            let query = supabase
                 .from('orders')
                 .select(`
                     id, short_id, status, consumption_date,
                     users ( email ),
                     menu_items ( name, image_url )
-                `)
-                .eq('id', parseInt(cleanCode))
-                .single()
+                `);
+
+            if (isNumeric) {
+                // Busca por ID numérico (novo formato)
+                query = query.eq('id', parseInt(cleanCode));
+            } else {
+                // Busca por short_id alfanumérico (formato legado)
+                query = query.eq('short_id', cleanCode.toUpperCase());
+            }
+
+            const { data, error } = await query.single();
 
             if (error || !data) {
-                setError(`Pedido #${cleanCode} não encontrado.`)
+                setError(`Pedido "${cleanCode}" não encontrado.`)
                 setTimeout(() => {
                     if (!orderData) {
                         setError(null);

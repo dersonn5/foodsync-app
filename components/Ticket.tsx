@@ -77,9 +77,9 @@ export default function Ticket({ isOpen, onClose, order, userName }: TicketProps
                                 </div>
 
                                 <div className="bg-white p-8 rounded-2xl flex flex-col items-center justify-center gap-2">
-                                    <QRCode value={order.id} size={180} className="w-full h-auto max-w-[180px]" />
+                                    <QRCode value={String(order.id)} size={180} className="w-full h-auto max-w-[180px]" />
                                     <p className="text-[10px] text-gray-300 font-mono mt-1 font-bold tracking-widest uppercase">
-                                        ID: {order.id.slice(0, 8)}
+                                        #{order.id}
                                     </p>
                                 </div>
 
