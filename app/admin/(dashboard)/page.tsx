@@ -135,7 +135,7 @@ function AdminPageContent() {
                     created_at, 
                     status, 
                     consumption_date,
-                    users (name, phone),
+                    users (name, phone, department),
                     menu_items (name) 
                 `)
                 .eq('consumption_date', date)
@@ -187,28 +187,31 @@ function AdminPageContent() {
         }
 
         // CSV Header
-        const headers = ['Nome do Funcionário', 'Setor/Empresa', 'Prato Escolhido', 'Status', 'Data/Hora']
+        const headers = ['Nome', 'Setor', 'Prato', 'Status', 'Data']
 
-        // CSV Rows
+        // CSV Rows with correct field mapping
         const rows = recentOrders.map(order => {
-            const userName = order.users?.name || 'N/A'
-            const sector = order.users?.phone || 'N/A' // Using phone as sector placeholder
-            const dish = order.menu_items?.name || 'N/A'
+            const nome = order.users?.name || 'Desconhecido'
+            const setor = order.users?.department || 'Geral'
+            const prato = order.menu_items?.name || 'N/A'
             const status = (order.status || '').toLowerCase()
-            const statusText = status === 'pending' ? 'Pendente' :
-                status === 'confirmed' ? 'Confirmado' : 'Cancelado'
-            const dateTime = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm')
+            const statusText = status === 'confirmed' ? 'Confirmado' :
+                status === 'pending' ? 'Pendente' :
+                    (status === 'cancelled' || status === 'canceled') ? 'Cancelado' : 'Desconhecido'
+            const data = order.consumption_date
+                ? new Date(order.consumption_date + 'T12:00:00').toLocaleDateString('pt-BR')
+                : 'N/A'
 
-            return [userName, sector, dish, statusText, dateTime]
+            return [nome, setor, prato, statusText, data]
         })
 
-        // Build CSV content
+        // Build CSV content with BOM for Excel compatibility
         const csvContent = [
             headers.join(';'),
             ...rows.map(row => row.join(';'))
         ].join('\n')
 
-        // Create blob and download
+        // Create blob and download (\uFEFF is BOM for UTF-8)
         const blob = new Blob([`\uFEFF${csvContent}`], { type: 'text/csv;charset=utf-8;' })
         const url = URL.createObjectURL(blob)
         const link = document.createElement('a')
