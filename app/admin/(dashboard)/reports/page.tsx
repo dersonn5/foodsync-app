@@ -233,7 +233,7 @@ export default function ReportsPage() {
                     <div className="flex-none flex flex-col gap-6 md:flex-1 md:grid md:grid-cols-2 md:min-h-0">
 
                         {/* Radar de Rejeição */}
-                        <Card className="flex flex-col border-border shadow-sm overflow-hidden h-[400px] md:h-auto">
+                        <Card className="flex flex-col border-border shadow-sm min-h-[300px]">
                             <CardHeader className="bg-destructive/5 border-b border-destructive/10 pb-3">
                                 <CardTitle className="text-destructive flex items-center gap-2 text-md">
                                     <TrendingDown className="w-5 h-5" />
@@ -273,7 +273,7 @@ export default function ReportsPage() {
                         </Card>
 
                         {/* Guia de Compras */}
-                        <Card className="flex flex-col border-border shadow-sm overflow-hidden h-[400px] md:h-auto">
+                        <Card className="flex flex-col border-border shadow-sm min-h-[300px]">
                             <CardHeader className="bg-primary/5 border-b border-primary/10 pb-3 flex flex-row items-center justify-between space-y-0">
                                 <CardTitle className="text-primary flex items-center gap-2 text-md">
                                     <Utensils className="w-5 h-5" />
