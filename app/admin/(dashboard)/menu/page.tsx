@@ -17,7 +17,10 @@ import {
     Loader2,
     Save,
     MoreHorizontal,
-    Image as ImageIcon
+    Image as ImageIcon,
+    ChefHat,
+    Leaf,
+    Coffee
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -59,14 +62,11 @@ export default function AdminMenuPage() {
 
     // Auto-Scroll to Today on Mount
     useEffect(() => {
-        // 0 = Sunday, 1 = Monday... 6 = Saturday
-        // We show Mon-Fri (1-5). Array Index 0-4.
         const dayOfWeek = new Date().getDay()
         const todayIndex = dayOfWeek - 1 // Mon(1) -> 0, Fri(5) -> 4
 
         if (todayIndex >= 0 && todayIndex <= 4) {
             const currentDayElement = dayRefs.current[todayIndex];
-            // Small timeout to ensure layout is ready
             setTimeout(() => {
                 if (currentDayElement) {
                     currentDayElement.scrollIntoView({
@@ -124,7 +124,6 @@ export default function AdminMenuPage() {
     }
 
     const onSubmit = async (data: any) => {
-        // Determine date: either from editing item or the target column
         let dateStr = ''
         if (editingItem) {
             dateStr = editingItem.date
@@ -177,10 +176,8 @@ export default function AdminMenuPage() {
         setCurrentWeekStart(prev => dir === 1 ? addWeeks(prev, 1) : subWeeks(prev, 1))
     }
 
-    // Generate Mon-Fri columns
     const weekDays = Array.from({ length: 5 }).map((_, i) => addDays(currentWeekStart, i))
 
-    // Group items by date string
     const itemsByDate = items.reduce((acc, item) => {
         const d = item.date
         if (!acc[d]) acc[d] = []
@@ -189,39 +186,40 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        // Main Container: Fixed Height, No Window Scroll, Padded
-        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden">
+        // Main Container: Cream Background
+        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-[var(--brand-cream)] text-[var(--brand-warm)]">
             <Toaster position="top-right" richColors />
 
-            {/* Compact Header: Fixed */}
+            {/* Header */}
             <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3 tracking-tight">
-                        Planejamento Semanal
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-[var(--brand-warm)]">
+                        <ChefHat className="w-8 h-8 text-[var(--brand-primary)]" />
+                        Planejamento de Cardápio
                     </h1>
-                    <p className="text-slate-500 text-xs mt-1">
-                        Gerencie o cardápio arrastando opções ou adicionando novos pratos.
+                    <p className="text-[var(--brand-warm)]/70 text-sm mt-1">
+                        Organize a excelência gastronômica da semana.
                     </p>
                 </div>
 
-                <div className="bg-white shadow-sm border border-slate-200 rounded-full px-2 py-1.5 hidden md:flex items-center gap-4">
-                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(-1)} className="hover:bg-slate-50 rounded-full w-8 h-8">
-                        <ChevronLeft className="w-5 h-5 text-slate-600" />
+                <div className="bg-white shadow-sm border border-[var(--brand-primary)]/20 rounded-full px-2 py-1.5 hidden md:flex items-center gap-4">
+                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(-1)} className="hover:bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] rounded-full w-8 h-8">
+                        <ChevronLeft className="w-5 h-5" />
                     </Button>
 
                     <div className="text-center min-w-[140px]">
-                        <span className="block text-sm font-bold text-slate-900 uppercase tracking-wide">
+                        <span className="block text-sm font-bold text-[var(--brand-warm)] uppercase tracking-wide">
                             {format(currentWeekStart, "dd MMM", { locale: ptBR })} - {format(addDays(currentWeekStart, 4), "dd MMM", { locale: ptBR })}
                         </span>
                     </div>
 
-                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(1)} className="hover:bg-slate-50 rounded-full w-8 h-8">
-                        <ChevronRight className="w-5 h-5 text-slate-600" />
+                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(1)} className="hover:bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] rounded-full w-8 h-8">
+                        <ChevronRight className="w-5 h-5" />
                     </Button>
                 </div>
             </div>
 
-            {/* Weekly Grid (Mobile: Horizontal Scroll / Desktop: Grid) */}
+            {/* Pipeline Grid */}
             <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 md:px-0 md:pb-0 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
                 {weekDays.map((date, index) => {
                     const dateStr = date.toISOString().split('T')[0]
@@ -229,56 +227,76 @@ export default function AdminMenuPage() {
                     const isToday = isSameDay(date, new Date())
 
                     return (
-                        // Individual Day Column: Full width on mobile for focus
                         <div
                             key={dateStr}
                             ref={(el) => { dayRefs.current[index] = el }}
-                            className={`flex flex-col h-full rounded-xl border transition-colors overflow-hidden shrink-0 min-w-full snap-center md:min-w-0 md:w-auto md:shrink ${isToday ? 'bg-blue-50/50 border-blue-200/60' : 'bg-slate-50/50 border-slate-200'}`}
+                            className={`
+                                flex flex-col h-full rounded-3xl transition-all duration-300 overflow-hidden shrink-0 min-w-[85vw] snap-center md:min-w-0 md:w-auto md:shrink relative
+                                ${isToday
+                                    ? 'bg-white ring-2 ring-[var(--brand-primary)] shadow-md z-10'
+                                    : 'bg-white/60 hover:bg-white border border-[var(--brand-primary)]/10'}
+                            `}
                         >
-
-                            {/* Layer 1: HEADER (Fixed) */}
-                            <div className="flex-none p-4 border-b border-slate-200/50 bg-white/50 backdrop-blur flex items-center justify-center gap-2 md:justify-between">
-                                <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isToday ? 'text-blue-600' : 'text-slate-400'}`}>
-                                    {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
-                                </span>
-                                <span className={`text-xl font-bold ${isToday ? 'text-blue-900' : 'text-slate-700'}`}>
-                                    {format(date, 'dd')}
-                                </span>
+                            {/* Day Header */}
+                            <div className={`
+                                flex-none p-4 border-b flex items-center justify-between
+                                ${isToday ? 'border-[var(--brand-primary)]/20 bg-[var(--brand-primary)]/5' : 'border-[var(--brand-primary)]/5'}
+                            `}>
+                                <div className="flex flex-col">
+                                    <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isToday ? 'text-[var(--brand-primary)]' : 'text-stone-400'}`}>
+                                        {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
+                                    </span>
+                                    <span className={`text-xl font-bold font-serif ${isToday ? 'text-[var(--brand-primary)]' : 'text-[var(--brand-warm)]'}`}>
+                                        {format(date, 'dd')}
+                                    </span>
+                                </div>
+                                {isToday && <Badge className="bg-[var(--brand-primary)] text-white text-[10px] h-5">HOJE</Badge>}
                             </div>
 
-                            {/* Layer 2: BODY (Scrollable including Button) */}
-                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+                            {/* Cards Container */}
+                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-[var(--brand-primary)]/20 scrollbar-track-transparent">
                                 {loading ? (
-                                    <div className="h-24 rounded-lg bg-white animate-pulse shadow-sm" />
+                                    <div className="space-y-3">
+                                        <div className="h-24 rounded-2xl bg-stone-100 animate-pulse" />
+                                        <div className="h-24 rounded-2xl bg-stone-100 animate-pulse delay-75" />
+                                    </div>
                                 ) : (
                                     <>
-                                        {/* Existing Items */}
                                         {dayItems.map(item => (
-                                            <Card key={item.id} className="group border shadow-sm border-slate-200/60 bg-white hover:shadow-md hover:border-green-500/30 transition-all duration-300 cursor-pointer overflow-hidden rounded-lg">
-                                                <CardContent className="p-3">
-                                                    {/* Image & Actions */}
-                                                    <div className="relative h-20 rounded-md overflow-hidden bg-slate-50 mb-2">
+                                            <Card key={item.id} className="group border-0 shadow-sm bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden rounded-2xl">
+                                                <CardContent className="p-0">
+                                                    {/* Image Area */}
+                                                    <div className="relative h-24 bg-stone-100 overflow-hidden">
                                                         {item.photo_url ? (
                                                             // eslint-disable-next-line @next/next/no-img-element
-                                                            <img src={item.photo_url} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                                            <img src={item.photo_url} alt="" className="h-full w-full object-cover" />
                                                         ) : (
-                                                            <div className="h-full w-full flex items-center justify-center text-slate-300">
-                                                                <Utensils className="w-5 h-5" />
+                                                            <div className="h-full w-full flex items-center justify-center text-[var(--brand-primary)]/20">
+                                                                <Utensils className="w-8 h-8" />
                                                             </div>
                                                         )}
 
-                                                        {/* Hover Actions */}
-                                                        <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+
+                                                        {/* Badge */}
+                                                        <Badge className={`
+                                                            absolute bottom-2 left-2 border-0 backdrop-blur-md bg-white/20 text-white font-medium shadow-sm
+                                                        `}>
+                                                            {item.type === 'main' ? 'Padrão' : item.type === 'fit' ? 'Fit' : 'Lanche'}
+                                                        </Badge>
+
+                                                        {/* Actions Overlay */}
+                                                        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
                                                             <Button
                                                                 size="icon"
-                                                                className="h-6 w-6 bg-white/90 backdrop-blur-sm text-slate-700 hover:bg-white shadow-sm rounded-full"
+                                                                className="h-7 w-7 bg-white text-stone-700 hover:bg-[var(--brand-primary)] hover:text-white shadow-sm rounded-full"
                                                                 onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsDialogOpen(true) }}
                                                             >
                                                                 <Edit2 className="w-3 h-3" />
                                                             </Button>
                                                             <Button
                                                                 size="icon"
-                                                                className="h-6 w-6 bg-white/90 backdrop-blur-sm text-red-600 hover:bg-white hover:text-red-700 shadow-sm rounded-full"
+                                                                className="h-7 w-7 bg-white text-red-500 hover:bg-red-500 hover:text-white shadow-sm rounded-full"
                                                                 onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }}
                                                             >
                                                                 <Trash2 className="w-3 h-3" />
@@ -286,44 +304,35 @@ export default function AdminMenuPage() {
                                                         </div>
                                                     </div>
 
-                                                    {/* Info */}
-                                                    <div className="space-y-1">
-                                                        <Badge variant="secondary" className={`
-                                                            text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide border-0
-                                                            ${item.type === 'main' ? 'bg-blue-50 text-blue-700' : item.type === 'fit' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}
-                                                        `}>
-                                                            {item.type === 'main' ? 'Padrão' : item.type.toUpperCase()}
-                                                        </Badge>
-                                                        <h4 className="font-bold text-slate-800 text-xs leading-tight line-clamp-2">
+                                                    {/* Content */}
+                                                    <div className="p-3">
+                                                        <h4 className="font-bold text-[var(--brand-warm)] text-sm leading-tight mb-1 line-clamp-2">
                                                             {item.name}
                                                         </h4>
-                                                        <div className="overflow-hidden">
-                                                            <p className="text-[10px] text-slate-400 truncate">
-                                                                {item.description || "Sem descrição"}
-                                                            </p>
-                                                        </div>
+                                                        <p className="text-[10px] text-[var(--brand-warm)]/60 line-clamp-2 leading-relaxed">
+                                                            {item.description || "Sem ingredientes listados."}
+                                                        </p>
                                                     </div>
                                                 </CardContent>
                                             </Card>
                                         ))}
 
-                                        {/* Inline Add Button (Ghost Card) */}
+                                        {/* Add Button */}
                                         <button
                                             onClick={() => {
                                                 setTargetDateForAdd(date)
                                                 setIsDialogOpen(true)
                                             }}
-                                            className="w-full h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center text-slate-400 hover:text-green-600 hover:border-green-500 hover:bg-green-50/50 transition-all cursor-pointer group"
+                                            className="w-full py-4 border-2 border-dashed border-[var(--brand-primary)]/20 rounded-2xl flex items-center justify-center text-[var(--brand-primary)]/60 hover:text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/5 hover:border-[var(--brand-primary)]/50 transition-all cursor-pointer gap-2 group"
                                         >
-                                            <Plus className="w-8 h-8 group-hover:scale-110 transition-transform mb-1" />
-                                            <span className="text-xs font-medium">Adicionar</span>
+                                            <div className="w-6 h-6 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                                <Plus className="w-4 h-4" />
+                                            </div>
+                                            <span className="text-xs font-semibold uppercase tracking-wide">Adicionar</span>
                                         </button>
                                     </>
                                 )}
                             </div>
-
-                            {/* Footer Removed - Button is now aligned with list */}
-
                         </div>
                     )
                 })}
@@ -331,72 +340,93 @@ export default function AdminMenuPage() {
 
             {/* Dialog Form */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-md rounded-2xl">
-                    <DialogHeader>
-                        <DialogTitle>{editingItem ? 'Editar Prato' : 'Adicionar ao Cardápio'}</DialogTitle>
+                <DialogContent className="sm:max-w-md rounded-3xl p-0 overflow-hidden bg-[var(--brand-cream)] border-[var(--brand-primary)]/20">
+                    <DialogHeader className="p-6 pb-2 bg-white">
+                        <DialogTitle className="text-xl font-bold text-[var(--brand-warm)] flex items-center gap-2">
+                            {editingItem ? <Edit2 className="w-5 h-5 text-[var(--brand-primary)]" /> : <Plus className="w-5 h-5 text-[var(--brand-primary)]" />}
+                            {editingItem ? 'Editar Prato' : 'Adicionar ao Menu'}
+                        </DialogTitle>
                     </DialogHeader>
 
                     {targetDateForAdd && !editingItem && (
-                        <div className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-lg mb-2">
-                            Adicionando para: {format(targetDateForAdd, "EEEE, dd 'de' MMMM", { locale: ptBR })}
+                        <div className="px-6 pb-4 bg-white border-b border-[var(--brand-primary)]/10">
+                            <Badge variant="outline" className="bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] border-[var(--brand-primary)]/20">
+                                <CalendarDays className="w-3 h-3 mr-1" />
+                                {format(targetDateForAdd, "EEEE, dd 'de' MMMM", { locale: ptBR })}
+                            </Badge>
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
+                    <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+
                         <div className="space-y-2">
-                            <Label>Nome do Prato</Label>
+                            <Label className="text-[var(--brand-warm)] font-semibold">Nome do Prato</Label>
                             <Input
                                 {...register('name', { required: true })}
-                                placeholder="Ex: Strogonoff de Frango"
-                                className="rounded-xl"
+                                placeholder="Ex: Risoto de Funghi"
+                                className="rounded-xl border-[var(--brand-primary)]/20 focus-visible:ring-[var(--brand-primary)] bg-white"
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <Label>Type</Label>
-                            <Select
-                                onValueChange={(val) => setValue('type', val)}
-                                defaultValue={editingItem?.type || 'main'}
-                            >
-                                <SelectTrigger className="rounded-xl">
-                                    <SelectValue placeholder="Selecione o tipo" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="main">Padrão</SelectItem>
-                                    <SelectItem value="fit">Fit / Saudável</SelectItem>
-                                    <SelectItem value="snack">Lanche</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label className="text-[var(--brand-warm)] font-semibold">Categoria</Label>
+                                <Select
+                                    onValueChange={(val) => setValue('type', val)}
+                                    defaultValue={editingItem?.type || 'main'}
+                                >
+                                    <SelectTrigger className="rounded-xl border-[var(--brand-primary)]/20 bg-white">
+                                        <SelectValue placeholder="Selecione" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="main">
+                                            <div className="flex items-center gap-2">
+                                                <Utensils className="w-4 h-4 text-blue-500" /> Padrão
+                                            </div>
+                                        </SelectItem>
+                                        <SelectItem value="fit">
+                                            <div className="flex items-center gap-2">
+                                                <Leaf className="w-4 h-4 text-green-500" /> Fit / Saudável
+                                            </div>
+                                        </SelectItem>
+                                        <SelectItem value="snack">
+                                            <div className="flex items-center gap-2">
+                                                <Coffee className="w-4 h-4 text-orange-500" /> Lanche
+                                            </div>
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                        <div className="space-y-2">
-                            <Label>Descrição / Ingredientes</Label>
-                            <Textarea
-                                {...register('description')}
-                                placeholder="Ex: Arroz, batata palha e salada..."
-                                className="rounded-xl"
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label>URL da Foto (Opcional)</Label>
-                            <div className="relative">
-                                <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                                <Input
-                                    {...register('photo_url')}
-                                    placeholder="https://..."
-                                    className="pl-9 rounded-xl"
-                                />
+                            <div className="space-y-2">
+                                <Label className="text-[var(--brand-warm)] font-semibold">Foto URL</Label>
+                                <div className="relative">
+                                    <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-[var(--brand-primary)]/40" />
+                                    <Input
+                                        {...register('photo_url')}
+                                        placeholder="https://..."
+                                        className="pl-9 rounded-xl border-[var(--brand-primary)]/20 bg-white"
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        <div className="flex gap-2 justify-end pt-4">
-                            <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="rounded-xl">
+                        <div className="space-y-2">
+                            <Label className="text-[var(--brand-warm)] font-semibold">Ingredientes / Descrição</Label>
+                            <Textarea
+                                {...register('description')}
+                                placeholder="Descreva os ingredientes principais..."
+                                className="rounded-xl border-[var(--brand-primary)]/20 bg-white min-h-[80px]"
+                            />
+                        </div>
+
+                        <div className="flex gap-3 justify-end pt-2">
+                            <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="rounded-xl text-[var(--brand-warm)] hover:bg-[var(--brand-primary)]/10">
                                 Cancelar
                             </Button>
-                            <Button type="submit" disabled={isSubmitting} className="bg-green-600 text-white hover:bg-green-700 rounded-xl">
+                            <Button type="submit" disabled={isSubmitting} className="rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/90 text-white shadow-md">
                                 {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-                                Salvar
+                                Salvar Prato
                             </Button>
                         </div>
                     </form>
