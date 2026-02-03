@@ -70,7 +70,7 @@ export async function submitFeedback({
     funcionarioId,
     nota,
     comentario,
-    unidadeCozinha = 'Cozinha Principal'
+    unidadeCozinha = 'Matriz'
 }: FeedbackSubmission): Promise<{ success: boolean; error?: string }> {
     // Validate time window
     if (!isWithinFeedbackWindow()) {
@@ -82,31 +82,52 @@ export async function submitFeedback({
         return { success: false, error: 'A nota deve ser de 1 a 5 estrelas.' }
     }
 
+    // Mock ID for testing when not authenticated
+    const MOCK_USER_ID = '00000000-0000-0000-0000-000000000000'
+    const userId = funcionarioId?.trim() || MOCK_USER_ID
+
+    console.log('🔵 [FeedbackService] Submitting feedback:', {
+        userId,
+        nota,
+        comentario: comentario?.substring(0, 50) + '...',
+        unidadeCozinha,
+        isMockUser: userId === MOCK_USER_ID
+    })
+
     const today = format(new Date(), 'yyyy-MM-dd')
 
     try {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('feedbacks_app')
             .insert({
-                funcionario_id: funcionarioId,
-                unidade_cozinha: unidadeCozinha,
+                funcionario_id: userId,
+                unidade_cozinha: unidadeCozinha || 'Matriz',
                 nota,
                 comentario: comentario?.trim() || null,
                 data_refeicao: today
             })
+            .select()
 
         if (error) {
+            // Detailed error logging
+            console.error('🔴 [FeedbackService] Supabase Error:', {
+                code: error.code,
+                message: error.message,
+                details: error.details,
+                hint: error.hint
+            })
+
             // Handle duplicate constraint
             if (error.code === '23505') {
                 return { success: false, error: 'Você já avaliou a refeição de hoje.' }
             }
-            console.error('Feedback insert error:', error)
-            return { success: false, error: 'Erro ao salvar avaliação. Tente novamente.' }
+            return { success: false, error: `Erro ao salvar: ${error.message}` }
         }
 
+        console.log('🟢 [FeedbackService] Success! Data:', data)
         return { success: true }
     } catch (err) {
-        console.error('Feedback submission failed:', err)
+        console.error('🔴 [FeedbackService] Exception:', err)
         return { success: false, error: 'Erro de conexão. Tente novamente.' }
     }
 }
