@@ -78,7 +78,7 @@ export default function CEODashboard() {
 
     // Data State
     const [rawData, setRawData] = useState<any[]>([])
-    const [metrics, setMetrics] = useState<any>(null)
+
 
     // Auth & Data Fetch
     useEffect(() => {
@@ -116,8 +116,8 @@ export default function CEODashboard() {
     }, [router, supabase])
 
     // --- Data Processing Engine ---
-    const processedData = useMemo(() => {
-        if (!rawData.length) return null
+    const metrics = useMemo(() => {
+        // Allow processing even if empty to show structure (zeros)
 
         // 1. Filter by Period
         const now = new Date()
