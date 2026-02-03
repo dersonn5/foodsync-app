@@ -26,6 +26,7 @@ import {
 import { format, subDays, addDays, parseISO } from 'date-fns'
 import { Toaster } from 'sonner'
 import { formatDateDisplay } from '@/lib/utils'
+import { SatisfactionCard } from '@/components/feedback/SatisfactionCard'
 
 export default function AdminPageWrapper() {
     return (
@@ -351,54 +352,61 @@ function AdminPageContent() {
                     </div>
                 </div>
 
-                {/* Right: Production Breakdown (Stack on mobile below feed) */}
-                <div className="order-2 md:order-none w-full md:w-80 lg:w-96 flex flex-col h-auto min-h-[300px] md:h-full md:min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm">
-                    <div className="p-4 border-b border-slate-100 shrink-0">
-                        <h2 className="font-bold text-slate-900 flex items-center gap-2 text-sm">
-                            <ChefHat className="w-4 h-4 text-slate-400" />
-                            Resumo de Produção
-                            <Badge variant="secondary" className="bg-slate-100 text-slate-600 ml-auto font-mono text-xs">
-                                {totalProduction} un
-                            </Badge>
-                        </h2>
-                    </div>
+                {/* Right Side: Production + Satisfaction */}
+                <div className="order-2 md:order-none w-full md:w-80 lg:w-96 flex flex-col gap-6 h-auto md:h-full md:min-h-0 md:overflow-y-auto">
 
-                    <div className="flex-1 overflow-y-auto p-4 min-h-0 relative">
-                        {loadingFeed ? (
-                            <div className="space-y-3">
-                                {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-slate-50 animate-pulse rounded-lg" />)}
-                            </div>
-                        ) : productionList.length > 0 ? (
-                            <div className="space-y-3">
-                                {productionList.map((item, index) => {
-                                    const percentage = Math.round((item.count / totalProduction) * 100)
+                    {/* Satisfaction Card (Manager View) */}
+                    <SatisfactionCard date={currentDateStr} />
 
-                                    return (
-                                        <div key={index} className="group">
-                                            <div className="flex items-center justify-between mb-1">
-                                                <span className="text-sm font-semibold text-slate-700 truncate pr-2 max-w-[70%]">
-                                                    {item.name}
-                                                </span>
-                                                <Badge className="bg-slate-900 text-white font-mono text-xs px-2 h-6">
-                                                    {item.count}
-                                                </Badge>
+                    {/* Production Breakdown */}
+                    <div className="flex flex-col h-auto min-h-[300px] bg-white border border-slate-100 rounded-2xl shadow-sm">
+                        <div className="p-4 border-b border-slate-100 shrink-0">
+                            <h2 className="font-bold text-slate-900 flex items-center gap-2 text-sm">
+                                <ChefHat className="w-4 h-4 text-slate-400" />
+                                Resumo de Produção
+                                <Badge variant="secondary" className="bg-slate-100 text-slate-600 ml-auto font-mono text-xs">
+                                    {totalProduction} un
+                                </Badge>
+                            </h2>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto p-4 min-h-0 relative">
+                            {loadingFeed ? (
+                                <div className="space-y-3">
+                                    {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-slate-50 animate-pulse rounded-lg" />)}
+                                </div>
+                            ) : productionList.length > 0 ? (
+                                <div className="space-y-3">
+                                    {productionList.map((item, index) => {
+                                        const percentage = Math.round((item.count / totalProduction) * 100)
+
+                                        return (
+                                            <div key={index} className="group">
+                                                <div className="flex items-center justify-between mb-1">
+                                                    <span className="text-sm font-semibold text-slate-700 truncate pr-2 max-w-[70%]">
+                                                        {item.name}
+                                                    </span>
+                                                    <Badge className="bg-slate-900 text-white font-mono text-xs px-2 h-6">
+                                                        {item.count}
+                                                    </Badge>
+                                                </div>
+                                                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-green-500 rounded-full transition-all duration-500"
+                                                        style={{ width: `${percentage}%` }}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full bg-green-500 rounded-full transition-all duration-500"
-                                                    style={{ width: `${percentage}%` }}
-                                                />
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-slate-300">
-                                <ListChecks className="w-8 h-8 mb-2 opacity-50" />
-                                <p className="text-xs">Produção zerada</p>
-                            </div>
-                        )}
+                                        )
+                                    })}
+                                </div>
+                            ) : (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-slate-300">
+                                    <ListChecks className="w-8 h-8 mb-2 opacity-50" />
+                                    <p className="text-xs">Produção zerada</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

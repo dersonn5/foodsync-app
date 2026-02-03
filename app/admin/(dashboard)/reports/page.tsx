@@ -27,6 +27,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { SatisfactionMetrics } from '@/components/feedback/SatisfactionMetrics'
 
 export default function ReportsPage() {
     const supabase = createClient()
@@ -310,6 +311,17 @@ export default function ReportsPage() {
                                 </div>
                             </CardContent>
                         </Card>
+                    </div>
+
+                    {/* CEO Satisfaction Metrics Section */}
+                    <div className="mt-6">
+                        <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            Métricas de Satisfação
+                        </h2>
+                        <SatisfactionMetrics
+                            startDate={format(start, 'yyyy-MM-dd')}
+                            endDate={format(end, 'yyyy-MM-dd')}
+                        />
                     </div>
                 </>
             ) : (

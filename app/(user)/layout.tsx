@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Utensils, Ticket, User } from 'lucide-react'
+import { Utensils, Ticket, User, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +13,11 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
             label: 'Cardápio',
             href: '/selection',
             icon: Utensils
+        },
+        {
+            label: 'Feedback',
+            href: '/feedback',
+            icon: Star
         },
         {
             label: 'Pedidos',
@@ -34,7 +39,7 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             {/* Bottom Navigation - Elite UI/UX Glassmorphism */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t-0 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] px-6 py-4 pb-6 z-50 grid grid-cols-3 items-center">
+            <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t-0 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] px-4 py-4 pb-6 z-50 grid grid-cols-4 items-center">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href || (item.href !== '/selection' && pathname.startsWith(item.href))
                     const Icon = item.icon
