@@ -82,11 +82,16 @@ export async function submitFeedback({
         return { success: false, error: 'A nota deve ser de 1 a 5 estrelas.' }
     }
 
-    // Mock ID for testing when not authenticated
+    // Mock ID for testing when not authenticated or ID is not a valid UUID
     const MOCK_USER_ID = '00000000-0000-0000-0000-000000000000'
-    const userId = funcionarioId?.trim() || MOCK_USER_ID
+
+    // Convert to string and check if it's a valid UUID format
+    const idAsString = String(funcionarioId || '')
+    const isValidUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idAsString)
+    const userId = isValidUUID ? idAsString : MOCK_USER_ID
 
     console.log('🔵 [FeedbackService] Submitting feedback:', {
+        originalId: funcionarioId,
         userId,
         nota,
         comentario: comentario?.substring(0, 50) + '...',
