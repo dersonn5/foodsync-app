@@ -21,7 +21,8 @@ import {
     Calendar as CalendarIcon,
     AlertCircle,
     ChefHat,
-    ListChecks
+    ListChecks,
+    Printer
 } from 'lucide-react'
 import { format, subDays, addDays, parseISO } from 'date-fns'
 import { Toaster } from 'sonner'
@@ -178,6 +179,47 @@ function AdminPageContent() {
     const handleNextDay = () => router.push(`/admin?date=${format(addDays(parseISO(currentDateStr), 1), 'yyyy-MM-dd')}`)
     const handleToday = () => router.push('/admin')
 
+    // Export orders to CSV for contingency printing
+    const exportToCSV = () => {
+        if (recentOrders.length === 0) {
+            alert('Não há pedidos para exportar.')
+            return
+        }
+
+        // CSV Header
+        const headers = ['Nome do Funcionário', 'Setor/Empresa', 'Prato Escolhido', 'Status', 'Data/Hora']
+
+        // CSV Rows
+        const rows = recentOrders.map(order => {
+            const userName = order.users?.name || 'N/A'
+            const sector = order.users?.phone || 'N/A' // Using phone as sector placeholder
+            const dish = order.menu_items?.name || 'N/A'
+            const status = (order.status || '').toLowerCase()
+            const statusText = status === 'pending' ? 'Pendente' :
+                status === 'confirmed' ? 'Confirmado' : 'Cancelado'
+            const dateTime = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm')
+
+            return [userName, sector, dish, statusText, dateTime]
+        })
+
+        // Build CSV content
+        const csvContent = [
+            headers.join(';'),
+            ...rows.map(row => row.join(';'))
+        ].join('\n')
+
+        // Create blob and download
+        const blob = new Blob([`\uFEFF${csvContent}`], { type: 'text/csv;charset=utf-8;' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.setAttribute('href', url)
+        link.setAttribute('download', `pedidos_contingencia_${currentDateStr}.csv`)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+    }
+
     if (!user) return null
 
     return (
@@ -223,6 +265,17 @@ function AdminPageContent() {
                 </div>
 
                 <div className="flex items-center gap-3 self-end md:self-auto">
+                    {/* Export Button */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={exportToCSV}
+                        className="h-8 text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-slate-200"
+                        disabled={loadingFeed || recentOrders.length === 0}
+                    >
+                        <Printer className="w-3.5 h-3.5 mr-1.5" />
+                        Baixar Lista
+                    </Button>
                     <div className="flex gap-1.5">
                         <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-green-300'}`} title="Status KPIs" />
                         <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-green-300'}`} title="Status Feed" />
