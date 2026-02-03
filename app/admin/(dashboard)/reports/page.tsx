@@ -63,7 +63,7 @@ export default function ReportsPage() {
                     )
                 `)
                 .order('consumption_date', { ascending: false })
-                .limit(100)
+                .limit(1000)
 
             if (data) {
                 console.log("📊 Relatórios - Dados Brutos:", data.length, "pedidos encontrados.")
@@ -96,11 +96,16 @@ export default function ReportsPage() {
         if (totalOrders === 0) return null
 
         // 2. Normalize Status (Resilience)
+        const isCancelled = (status: string) => {
+            const s = (status || '').toLowerCase().trim()
+            return s === 'cancelled' || s === 'canceled'
+        }
+
         const confirmed = periodOrders.filter(o =>
-            o.status && o.status.toUpperCase() !== 'CANCELLED'
+            o.status && !isCancelled(o.status)
         )
         const cancelled = periodOrders.filter(o =>
-            o.status && o.status.toUpperCase() === 'CANCELLED'
+            o.status && isCancelled(o.status)
         )
 
         const efficiency = (confirmed.length / totalOrders) * 100
@@ -116,8 +121,8 @@ export default function ReportsPage() {
             }
             itemStats[itemName].total += 1
 
-            const isCancelled = order.status && order.status.toUpperCase() === 'CANCELLED'
-            if (isCancelled) itemStats[itemName].cancelled += 1
+            const statusCancelled = isCancelled(order.status)
+            if (statusCancelled) itemStats[itemName].cancelled += 1
             else itemStats[itemName].confirmed += 1
         })
 
