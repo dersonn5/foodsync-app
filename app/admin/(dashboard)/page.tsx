@@ -26,8 +26,7 @@ import {
 import { format, subDays, addDays, parseISO } from 'date-fns'
 import { Toaster } from 'sonner'
 import { formatDateDisplay } from '@/lib/utils'
-import { SatisfactionCard } from '@/components/feedback/SatisfactionCard'
-import { PulsoDoDia } from '@/components/feedback/PulsoDoDia'
+import { SatisfactionWidgetCompact } from '@/components/feedback/SatisfactionWidgetCompact'
 
 export default function AdminPageWrapper() {
     return (
@@ -186,9 +185,6 @@ function AdminPageContent() {
         // Uses p-4 md:p-8 as requested, h-full to fill layout main
         <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden">
             <Toaster position="top-right" richColors />
-
-            {/* Pulso do Dia - Manager Quick View */}
-            <PulsoDoDia />
 
             {/* Compact Header: Single Row */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
@@ -359,8 +355,8 @@ function AdminPageContent() {
                 {/* Right Side: Production + Satisfaction */}
                 <div className="order-2 md:order-none w-full md:w-80 lg:w-96 flex flex-col gap-6 h-auto md:h-full md:min-h-0 md:overflow-y-auto">
 
-                    {/* Satisfaction Card (Manager View) */}
-                    <SatisfactionCard date={currentDateStr} />
+                    {/* Compact Satisfaction Widget - Click for full details */}
+                    <SatisfactionWidgetCompact />
 
                     {/* Production Breakdown */}
                     <div className="flex flex-col h-auto min-h-[300px] bg-white border border-slate-100 rounded-2xl shadow-sm">
