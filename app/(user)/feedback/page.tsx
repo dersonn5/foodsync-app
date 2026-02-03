@@ -217,31 +217,23 @@ export default function FeedbackPage() {
                         />
                     </div>
 
-                    {/* Comment */}
-                    <AnimatePresence>
-                        {rating > 0 && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="w-full max-w-md"
-                            >
-                                <label className="block text-sm font-medium text-slate-600 mb-2">
-                                    Deixe um comentário (opcional)
-                                </label>
-                                <Textarea
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                    placeholder="O que você achou? Sugestões ou críticas..."
-                                    className="min-h-[120px] resize-none bg-white border-slate-200 focus:border-green-500 focus:ring-green-500"
-                                    maxLength={500}
-                                />
-                                <p className="text-xs text-slate-400 mt-2 text-right">
-                                    {comment.length}/500
-                                </p>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    {/* Comment - Always Visible */}
+                    <div className="w-full max-w-md">
+                        <label className="block text-sm font-medium text-slate-600 mb-2">
+                            Deixe um comentário (opcional)
+                        </label>
+                        <textarea
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            placeholder="Opcional: Conte mais sobre sua experiência (Sabor, temperatura, etc)..."
+                            rows={4}
+                            className="w-full p-4 rounded-xl bg-zinc-50 border border-zinc-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none resize-none transition-all"
+                            maxLength={500}
+                        />
+                        <p className="text-xs text-slate-400 mt-2 text-right">
+                            {comment.length}/500
+                        </p>
+                    </div>
 
                     {/* Error */}
                     {error && (
