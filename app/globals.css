@@ -138,6 +138,11 @@
   --shadow-xl: 0 20px 25px -5px hsl(25 30% 15% / 0.08), 0 8px 10px -6px hsl(25 30% 15% / 0.04);
   --shadow-card: 0 2px 8px -2px hsl(25 30% 15% / 0.08), 0 0 0 1px hsl(25 20% 90% / 0.8);
   --shadow-elevated: 0 12px 28px -8px hsl(25 30% 15% / 0.12);
+
+  /* === Brand Aliases (Backwards Compatibility) === */
+  --brand-primary: var(--primary);
+  --brand-warm: var(--foreground);
+  --brand-cream: var(--background);
 }
 
 .dark {
