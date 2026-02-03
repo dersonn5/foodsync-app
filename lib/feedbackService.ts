@@ -159,10 +159,7 @@ export async function hasSubmittedToday(funcionarioId: string): Promise<boolean>
 export async function getFeedbacksForDate(date: string): Promise<FeedbackRecord[]> {
     const { data, error } = await supabase
         .from('feedbacks_app')
-        .select(`
-            *,
-            users (name)
-        `)
+        .select('*')
         .eq('data_refeicao', date)
         .order('created_at', { ascending: false })
 
@@ -184,10 +181,7 @@ export async function getFeedbackMetrics(
 ): Promise<FeedbackMetrics> {
     let query = supabase
         .from('feedbacks_app')
-        .select(`
-            *,
-            users (name)
-        `)
+        .select('*')
         .gte('data_refeicao', startDate)
         .lte('data_refeicao', endDate)
         .order('created_at', { ascending: false })
