@@ -219,7 +219,7 @@ export default function AdminMenuPage() {
             </div>
 
             {/* Pipeline Grid */}
-            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 md:px-0 md:pb-0 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
+            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 pt-2 md:px-0 md:pb-0 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
                 {weekDays.map((date, index) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
@@ -229,8 +229,9 @@ export default function AdminMenuPage() {
                         <div
                             key={dateStr}
                             ref={(el) => { dayRefs.current[index] = el }}
+                            // Added 'my-1' to add vertical margin so ring/shadow doesn't get clipped by overflow-hidden parent
                             className={`
-                                flex flex-col h-full rounded-3xl transition-all duration-300 overflow-hidden shrink-0 min-w-[300px] snap-center md:min-w-0 md:w-auto md:shrink relative
+                                flex flex-col h-[98%] my-auto rounded-3xl transition-all duration-300 overflow-hidden shrink-0 min-w-[300px] snap-center md:min-w-0 md:w-auto md:shrink relative
                                 ${isToday
                                     ? 'bg-white ring-2 ring-[var(--brand-primary)] shadow-md z-10'
                                     : 'bg-white/60 hover:bg-white border border-[var(--brand-primary)]/10'}
@@ -339,7 +340,7 @@ export default function AdminMenuPage() {
 
             {/* Dialog Form */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-[500px] bg-[var(--brand-cream)] rounded-3xl border border-[var(--brand-primary)]/20 shadow-2xl">
+                <DialogContent className="sm:max-w-[500px] bg-white rounded-3xl border border-[var(--brand-primary)]/20 shadow-2xl z-[100]">
                     <DialogHeader className="pb-2">
                         <DialogTitle className="text-xl font-bold text-[var(--brand-warm)] flex items-center gap-2">
                             {editingItem ? <Edit2 className="w-5 h-5 text-[var(--brand-primary)]" /> : <Plus className="w-5 h-5 text-[var(--brand-primary)]" />}
@@ -357,7 +358,6 @@ export default function AdminMenuPage() {
                     )}
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-
                         <div className="space-y-2">
                             <Label className="text-[var(--brand-warm)] font-semibold">Nome do Prato</Label>
                             <Input
