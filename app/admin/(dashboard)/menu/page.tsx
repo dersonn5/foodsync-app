@@ -423,7 +423,7 @@ export default function AdminMenuPage() {
                             <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="rounded-xl text-[var(--brand-warm)] hover:bg-[var(--brand-primary)]/10">
                                 Cancelar
                             </Button>
-                            <Button type="submit" disabled={isSubmitting} className="rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/90 text-white shadow-md">
+                            <Button type="submit" disabled={isSubmitting} className="rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white shadow-md">
                                 {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
                                 Salvar Prato
                             </Button>
