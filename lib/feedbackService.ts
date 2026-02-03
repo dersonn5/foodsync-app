@@ -296,3 +296,102 @@ export async function getUnitRankings(
         }))
         .sort((a, b) => b.average - a.average)
 }
+
+// ============================================
+// Manager Dashboard Functions
+// ============================================
+
+export interface TodayMetrics {
+    averageRating: number
+    totalFeedbacks: number
+    recentComments: Array<{
+        userName: string
+        comentario: string
+        nota: number
+        created_at: string
+    }>
+}
+
+/**
+ * Get today's metrics for Manager "Pulso do Dia" view
+ */
+export async function getTodayMetrics(): Promise<TodayMetrics> {
+    const today = format(new Date(), 'yyyy-MM-dd')
+
+    const { data, error } = await supabase
+        .from('feedbacks_app')
+        .select(`
+            *,
+            users (name)
+        `)
+        .eq('data_refeicao', today)
+        .order('created_at', { ascending: false })
+
+    if (error || !data || data.length === 0) {
+        return {
+            averageRating: 0,
+            totalFeedbacks: 0,
+            recentComments: []
+        }
+    }
+
+    // Calculate average
+    const sum = data.reduce((acc, f) => acc + f.nota, 0)
+    const averageRating = sum / data.length
+
+    // Get recent comments (with content only)
+    const recentComments = data
+        .filter(f => f.comentario && f.comentario.trim().length > 0)
+        .slice(0, 5)
+        .map(f => ({
+            userName: f.users?.name || 'Funcionário',
+            comentario: f.comentario!,
+            nota: f.nota,
+            created_at: f.created_at
+        }))
+
+    return {
+        averageRating,
+        totalFeedbacks: data.length,
+        recentComments
+    }
+}
+
+/**
+ * Get historical metrics for CEO chart (last N days)
+ */
+export async function getHistoricalMetrics(
+    days: number = 30
+): Promise<Array<{ date: string; average: number; count: number; nps: number }>> {
+    const endDate = format(new Date(), 'yyyy-MM-dd')
+    const startDate = format(new Date(Date.now() - days * 24 * 60 * 60 * 1000), 'yyyy-MM-dd')
+
+    const { data, error } = await supabase
+        .from('feedbacks_app')
+        .select('data_refeicao, nota')
+        .gte('data_refeicao', startDate)
+        .lte('data_refeicao', endDate)
+        .order('data_refeicao', { ascending: true })
+
+    if (error || !data) return []
+
+    // Group by date
+    const grouped: Record<string, number[]> = {}
+    data.forEach(f => {
+        if (!grouped[f.data_refeicao]) grouped[f.data_refeicao] = []
+        grouped[f.data_refeicao].push(f.nota)
+    })
+
+    return Object.entries(grouped).map(([date, notas]) => {
+        const promoters = notas.filter(n => n >= 4).length
+        const detractors = notas.filter(n => n <= 2).length
+        const nps = Math.round(((promoters - detractors) / notas.length) * 100)
+
+        return {
+            date,
+            average: notas.reduce((a, b) => a + b, 0) / notas.length,
+            count: notas.length,
+            nps
+        }
+    })
+}

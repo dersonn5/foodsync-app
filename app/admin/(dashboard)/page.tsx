@@ -27,6 +27,7 @@ import { format, subDays, addDays, parseISO } from 'date-fns'
 import { Toaster } from 'sonner'
 import { formatDateDisplay } from '@/lib/utils'
 import { SatisfactionCard } from '@/components/feedback/SatisfactionCard'
+import { PulsoDoDia } from '@/components/feedback/PulsoDoDia'
 
 export default function AdminPageWrapper() {
     return (
@@ -185,6 +186,9 @@ function AdminPageContent() {
         // Uses p-4 md:p-8 as requested, h-full to fill layout main
         <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden">
             <Toaster position="top-right" richColors />
+
+            {/* Pulso do Dia - Manager Quick View */}
+            <PulsoDoDia />
 
             {/* Compact Header: Single Row */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
