@@ -232,35 +232,34 @@ function AdminPageContent() {
             <Toaster position="top-right" richColors />
 
             {/* Compact Header: Single Row */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 shrink-0">
                 <div className="flex flex-wrap items-center gap-4 md:gap-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-foreground tracking-tight flex items-center gap-3">
                             Cockpit Operacional
-                            <span className="text-slate-300 font-light hidden md:inline">|</span>
                         </h1>
-                        <p className="text-slate-500 text-xs mt-1">
-                            Visão do dia <span className="font-semibold text-slate-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-muted-foreground text-xs mt-1">
+                            Visão do dia <span className="font-semibold text-foreground capitalize">{formatDateDisplay(currentDateStr)}</span>
                         </p>
                     </div>
 
                     {/* Date Navigation (Inline) */}
-                    <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-sm self-start md:self-auto">
-                        <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-7 w-7 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
+                    <div className="flex items-center gap-1 bg-muted p-1 rounded-xl text-sm self-start md:self-auto">
+                        <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-7 w-7 hover:bg-card hover:text-foreground rounded-lg text-muted-foreground">
                             <ChevronLeft className="w-4 h-4" />
                         </Button>
 
-                        <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[100px] justify-center cursor-pointer hover:bg-white/50 py-1 rounded-md transition-all">
-                            <CalendarIcon className="w-3.5 h-3.5 text-slate-400" />
+                        <div className="flex items-center gap-2 px-3 font-medium text-foreground min-w-[110px] justify-center">
+                            <CalendarIcon className="w-3.5 h-3.5 text-primary" />
                             <span className="capitalize">{formatDateDisplay(currentDateStr)}</span>
                         </div>
 
-                        <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-7 w-7 hover:bg-white hover:text-slate-900 rounded-lg text-slate-500">
+                        <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-7 w-7 hover:bg-card hover:text-foreground rounded-lg text-muted-foreground">
                             <ChevronRight className="w-4 h-4" />
                         </Button>
 
                         {dateParam && (
-                            <button onClick={handleToday} className="px-2 text-xs text-green-600 hover:bg-green-50 rounded-md font-medium h-7 transition-colors">
+                            <button onClick={handleToday} className="px-2 text-xs text-primary hover:bg-primary/10 rounded-md font-semibold h-7 transition-colors">
                                 Hoje
                             </button>
                         )}
@@ -273,65 +272,68 @@ function AdminPageContent() {
                         variant="outline"
                         size="sm"
                         onClick={exportToCSV}
-                        className="h-8 text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-slate-200"
+                        className="h-8 text-xs text-muted-foreground hover:text-foreground hover:bg-muted border-border"
                         disabled={loadingFeed || recentOrders.length === 0}
                     >
                         <Printer className="w-3.5 h-3.5 mr-1.5" />
                         Baixar Lista
                     </Button>
                     <div className="flex gap-1.5">
-                        <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-green-300'}`} title="Status KPIs" />
-                        <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-green-300'}`} title="Status Feed" />
+                        <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-accent animate-pulse' : errorKPIs ? 'bg-destructive' : 'bg-primary'}`} title="Status KPIs" />
+                        <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-accent animate-pulse' : errorFeed ? 'bg-destructive' : 'bg-primary'}`} title="Status Feed" />
                     </div>
                 </div>
             </div>
 
-            {/* Slim KPI Cards - Mobile: 1 Col, Desktop: 3 Col */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2 shrink-0">
-                <Card className="border-0 shadow-sm bg-gradient-to-br from-green-50/50 to-white">
-                    <CardContent className="p-4 flex items-center justify-between">
+            {/* KPI Cards - Food-themed design */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 shrink-0">
+                {/* Total Orders - Primary Green */}
+                <Card className="border-0 shadow-sm bg-gradient-to-br from-primary/8 to-card overflow-hidden">
+                    <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">Total de Pedidos</p>
+                            <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Total de Pedidos</p>
                             {loadingKPIs ? (
-                                <div className="h-8 w-16 bg-green-100/50 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-primary/10 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className="text-3xl font-bold text-slate-900 tracking-tight">{stats.total_today}</h3>
+                                <h3 className="text-4xl font-bold text-foreground tracking-tight">{stats.total_today}</h3>
                             )}
                         </div>
-                        <div className="p-2.5 bg-green-100 rounded-xl text-green-700">
-                            <ShoppingBag className="w-5 h-5" />
+                        <div className="p-3 bg-primary/15 rounded-2xl text-primary">
+                            <ShoppingBag className="w-6 h-6" />
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-sm bg-gradient-to-br from-rose-50/50 to-white">
-                    <CardContent className="p-4 flex items-center justify-between">
+                {/* Cancellations - Destructive Red */}
+                <Card className="border-0 shadow-sm bg-gradient-to-br from-destructive/8 to-card overflow-hidden">
+                    <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">Cancelamentos</p>
+                            <p className="text-xs font-semibold text-destructive uppercase tracking-wider mb-1">Cancelamentos</p>
                             {loadingKPIs ? (
-                                <div className="h-8 w-16 bg-rose-100/50 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-destructive/10 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className="text-3xl font-bold text-slate-900 tracking-tight">{stats.canceled_today}</h3>
+                                <h3 className="text-4xl font-bold text-foreground tracking-tight">{stats.canceled_today}</h3>
                             )}
                         </div>
-                        <div className="p-2.5 bg-rose-100 rounded-xl text-rose-700">
-                            <Ban className="w-5 h-5" />
+                        <div className="p-3 bg-destructive/15 rounded-2xl text-destructive">
+                            <Ban className="w-6 h-6" />
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className={`border-0 shadow-sm transition-all ${stats.pending_today > 0 ? 'bg-amber-50 ring-2 ring-amber-100' : 'bg-white'}`}>
-                    <CardContent className="p-4 flex items-center justify-between">
+                {/* Pending Queue - Accent Orange when active */}
+                <Card className={`border-0 shadow-sm transition-all overflow-hidden ${stats.pending_today > 0 ? 'bg-gradient-to-br from-accent/15 to-card ring-2 ring-accent/30' : 'bg-card'}`}>
+                    <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${stats.pending_today > 0 ? 'text-amber-700' : 'text-slate-400'}`}>Fila Pendente</p>
+                            <p className={`text-xs font-semibold uppercase tracking-wider mb-1 ${stats.pending_today > 0 ? 'text-accent' : 'text-muted-foreground'}`}>Fila Pendente</p>
                             {loadingKPIs ? (
-                                <div className="h-8 w-16 bg-slate-100 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-muted animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className={`text-3xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-amber-800' : 'text-slate-900'}`}>{stats.pending_today}</h3>
+                                <h3 className={`text-4xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-accent' : 'text-foreground'}`}>{stats.pending_today}</h3>
                             )}
                         </div>
-                        <div className={`p-2.5 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-200 text-amber-800' : 'bg-slate-100 text-slate-500'}`}>
-                            <Clock className="w-5 h-5" />
+                        <div className={`p-3 rounded-2xl ${stats.pending_today > 0 ? 'bg-accent/20 text-accent' : 'bg-muted text-muted-foreground'}`}>
+                            <Clock className="w-6 h-6" />
                         </div>
                     </CardContent>
                 </Card>
@@ -341,26 +343,26 @@ function AdminPageContent() {
             <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:h-full md:min-h-0 flex-1">
 
                 {/* Left: Feed (Scrollable) */}
-                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white border border-slate-100 rounded-2xl shadow-sm md:flex-1">
-                    <div className="p-4 border-b border-slate-100 flex items-center justify-between shrink-0">
-                        <h2 className="font-bold text-slate-900 flex items-center gap-2 text-sm">
-                            <Utensils className="w-4 h-4 text-slate-400" />
+                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-card border border-border rounded-2xl shadow-sm md:flex-1">
+                    <div className="p-4 border-b border-border flex items-center justify-between shrink-0">
+                        <h2 className="font-bold text-foreground flex items-center gap-2 text-sm">
+                            <Utensils className="w-4 h-4 text-primary" />
                             Feed em Tempo Real
                         </h2>
-                        <Button variant="ghost" size="sm" className="h-7 text-xs text-green-600 hover:text-green-700 hover:bg-green-50" onClick={() => router.push('/admin/orders')}>
+                        <Button variant="ghost" size="sm" className="h-7 text-xs text-primary hover:text-primary hover:bg-primary/10" onClick={() => router.push('/admin/orders')}>
                             Expandir <ArrowUpRight className="w-3 h-3 ml-1" />
                         </Button>
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-4 space-y-3">
                         {errorFeed ? (
-                            <div className="flex flex-col items-center justify-center h-full text-red-500 text-center p-4">
+                            <div className="flex flex-col items-center justify-center h-full text-destructive text-center p-4">
                                 <AlertCircle className="w-8 h-8 mb-2 opacity-50" />
                                 <p className="text-sm font-medium">{errorFeed}</p>
                             </div>
                         ) : loadingFeed ? (
                             <div className="space-y-3">
-                                {[1, 2, 3, 4].map(i => <div key={i} className="h-16 bg-slate-50 animate-pulse rounded-xl" />)}
+                                {[1, 2, 3, 4].map(i => <div key={i} className="h-16 bg-muted animate-pulse rounded-xl" />)}
                             </div>
                         ) : recentOrders.length > 0 ? (
                             recentOrders.map((order) => {
@@ -369,29 +371,29 @@ function AdminPageContent() {
                                 const status = (order.status || '').toLowerCase()
 
                                 return (
-                                    <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors">
-                                        <Avatar className="h-10 w-10 border border-white shadow-sm">
-                                            <AvatarFallback className="bg-slate-100 text-slate-600 font-bold text-xs">
+                                    <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-border hover:bg-muted/50 transition-colors">
+                                        <Avatar className="h-10 w-10 border-2 border-primary/20 shadow-sm">
+                                            <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
                                                 {userName.charAt(0)}
                                             </AvatarFallback>
                                         </Avatar>
 
                                         <div className="flex-1 min-w-0">
                                             <div className="flex justify-between items-center">
-                                                <h4 className="font-bold text-slate-900 text-sm truncate">{userName}</h4>
-                                                <span className="text-[10px] font-medium text-slate-400 whitespace-nowrap">
+                                                <h4 className="font-bold text-foreground text-sm truncate">{userName}</h4>
+                                                <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap">
                                                     {format(new Date(order.created_at), 'HH:mm')}
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Badge variant="secondary" className={`
-                                                    text-[10px] font-bold px-1 py-0 rounded
-                                                    ${status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                                                        status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}
+                                                    text-[10px] font-bold px-1.5 py-0.5 rounded
+                                                    ${status === 'pending' ? 'bg-accent/20 text-accent' :
+                                                        status === 'confirmed' ? 'bg-primary/15 text-primary' : 'bg-destructive/15 text-destructive'}
                                                 `}>
                                                     {status === 'pending' ? 'PENDENTE' : status === 'confirmed' ? 'CONFIRMADO' : 'CANCELADO'}
                                                 </Badge>
-                                                <span className="text-xs text-slate-500 truncate max-w-[150px]">
+                                                <span className="text-xs text-muted-foreground truncate max-w-[150px]">
                                                     {menuItemName}
                                                 </span>
                                             </div>

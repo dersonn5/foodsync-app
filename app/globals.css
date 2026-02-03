@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================
+   FoodSync Design System
+   Theme: Gastronomic / Fresh / Professional
+   ============================================ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -47,72 +52,126 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* === FoodSync Brand Colors === */
+  --radius: 0.75rem;
+
+  /* Backgrounds */
+  --background: hsl(40 30% 98%);
+  /* Creme muito claro */
+  --foreground: hsl(25 30% 15%);
+  /* Marrom café escuro */
+
+  /* Cards */
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(25 30% 15%);
+
+  /* Popovers */
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(25 30% 15%);
+
+  /* Primary: Verde Manjericão */
+  --primary: hsl(142 52% 36%);
+  --primary-foreground: hsl(0 0% 100%);
+
+  /* Secondary: Verde Oliva Suave */
+  --secondary: hsl(80 20% 92%);
+  --secondary-foreground: hsl(80 30% 25%);
+
+  /* Muted: Tons neutros quentes */
+  --muted: hsl(40 20% 94%);
+  --muted-foreground: hsl(25 15% 45%);
+
+  /* Accent: Laranja Pêssego */
+  --accent: hsl(25 95% 55%);
+  --accent-foreground: hsl(0 0% 100%);
+
+  /* Destructive: Vermelho Tomate */
+  --destructive: hsl(4 90% 58%);
+
+  /* Borders & Inputs */
+  --border: hsl(40 20% 88%);
+  --input: hsl(40 20% 90%);
+  --ring: hsl(142 52% 36%);
+
+  /* Charts - Paleta Gastronômica */
+  --chart-1: hsl(142 52% 40%);
+  /* Verde Manjericão */
+  --chart-2: hsl(25 95% 55%);
+  /* Laranja Pêssego */
+  --chart-3: hsl(45 100% 51%);
+  /* Amarelo Mostarda */
+  --chart-4: hsl(80 35% 50%);
+  /* Verde Oliva */
+  --chart-5: hsl(4 70% 55%);
+  /* Vermelho Tomate */
+
+  /* Sidebar */
+  --sidebar: hsl(25 25% 12%);
+  /* Marrom escuro elegante */
+  --sidebar-foreground: hsl(40 30% 90%);
+  --sidebar-primary: hsl(142 52% 45%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(25 30% 20%);
+  --sidebar-accent-foreground: hsl(40 30% 95%);
+  --sidebar-border: hsl(25 25% 18%);
+  --sidebar-ring: hsl(142 52% 45%);
+
+  /* === FoodSync Custom Tokens === */
+  --food-success: hsl(142 70% 42%);
+  /* Verde Erva */
+  --food-warning: hsl(45 100% 51%);
+  /* Amarelo Mostarda */
+  --food-danger: hsl(4 90% 58%);
+  /* Vermelho Tomate */
+  --food-info: hsl(200 80% 50%);
+  /* Azul Água */
+
+  /* Gradients */
+  --gradient-brand: linear-gradient(135deg, hsl(142 52% 36%) 0%, hsl(142 45% 28%) 100%);
+  --gradient-warm: linear-gradient(135deg, hsl(25 95% 55%) 0%, hsl(35 90% 50%) 100%);
+  --gradient-sidebar: linear-gradient(180deg, hsl(25 25% 14%) 0%, hsl(25 25% 10%) 100%);
+
+  /* Shadows - Suaves e profissionais */
+  --shadow-sm: 0 1px 2px 0 hsl(25 30% 15% / 0.04);
+  --shadow-md: 0 4px 6px -1px hsl(25 30% 15% / 0.06), 0 2px 4px -2px hsl(25 30% 15% / 0.04);
+  --shadow-lg: 0 10px 15px -3px hsl(25 30% 15% / 0.08), 0 4px 6px -4px hsl(25 30% 15% / 0.04);
+  --shadow-xl: 0 20px 25px -5px hsl(25 30% 15% / 0.08), 0 8px 10px -6px hsl(25 30% 15% / 0.04);
+  --shadow-card: 0 2px 8px -2px hsl(25 30% 15% / 0.08), 0 0 0 1px hsl(25 20% 90% / 0.8);
+  --shadow-elevated: 0 12px 28px -8px hsl(25 30% 15% / 0.12);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: hsl(25 20% 8%);
+  --foreground: hsl(40 30% 95%);
+  --card: hsl(25 20% 12%);
+  --card-foreground: hsl(40 30% 95%);
+  --popover: hsl(25 20% 12%);
+  --popover-foreground: hsl(40 30% 95%);
+  --primary: hsl(142 52% 50%);
+  --primary-foreground: hsl(25 20% 8%);
+  --secondary: hsl(25 15% 18%);
+  --secondary-foreground: hsl(40 30% 90%);
+  --muted: hsl(25 15% 18%);
+  --muted-foreground: hsl(40 15% 55%);
+  --accent: hsl(25 85% 55%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(4 80% 55%);
+  --border: hsl(25 15% 20%);
+  --input: hsl(25 15% 22%);
+  --ring: hsl(142 52% 50%);
+  --chart-1: hsl(142 52% 55%);
+  --chart-2: hsl(25 85% 60%);
+  --chart-3: hsl(45 90% 55%);
+  --chart-4: hsl(80 40% 55%);
+  --chart-5: hsl(4 70% 60%);
+  --sidebar: hsl(25 20% 6%);
+  --sidebar-foreground: hsl(40 30% 90%);
+  --sidebar-primary: hsl(142 52% 55%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(25 20% 15%);
+  --sidebar-accent-foreground: hsl(40 30% 95%);
+  --sidebar-border: hsl(25 15% 15%);
+  --sidebar-ring: hsl(142 52% 55%);
 }
 
 @layer base {
@@ -121,13 +180,65 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 
   button,
   a,
   [role="button"] {
     cursor: pointer;
+  }
+
+  /* Smooth transitions globally */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    @apply transition-all duration-200;
+  }
+}
+
+/* === FoodSync Utility Classes === */
+@layer utilities {
+  .food-gradient-brand {
+    background: var(--gradient-brand);
+  }
+
+  .food-gradient-warm {
+    background: var(--gradient-warm);
+  }
+
+  .food-shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .food-shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .food-text-success {
+    color: var(--food-success);
+  }
+
+  .food-text-warning {
+    color: var(--food-warning);
+  }
+
+  .food-text-danger {
+    color: var(--food-danger);
+  }
+
+  .food-bg-success {
+    background-color: hsl(142 70% 95%);
+  }
+
+  .food-bg-warning {
+    background-color: hsl(45 100% 95%);
+  }
+
+  .food-bg-danger {
+    background-color: hsl(4 90% 97%);
   }
 }
 
