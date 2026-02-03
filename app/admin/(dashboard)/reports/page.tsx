@@ -139,7 +139,7 @@ export default function ReportsPage() {
     }, [rawData, start, end, period])
 
     return (
-        <div className="h-auto min-h-screen flex flex-col overflow-y-auto p-4 pb-32 gap-6 md:h-[calc(100vh-1rem)] md:overflow-hidden md:p-6 md:pb-0 font-sans">
+        <div className="min-h-screen flex flex-col p-4 pb-32 gap-6 md:p-6 md:pb-8">
 
             {/* Header */}
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
@@ -230,7 +230,7 @@ export default function ReportsPage() {
                     </div>
 
                     {/* Main Split Grid (Mobile: Stack / Desktop: Grid) */}
-                    <div className="flex-none flex flex-col gap-6 md:flex-1 md:grid md:grid-cols-2 md:min-h-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         {/* Radar de Rejeição */}
                         <Card className="flex flex-col border-border shadow-sm min-h-[300px]">
