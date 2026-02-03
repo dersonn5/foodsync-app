@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createBrowserClient } from '@supabase/ssr' // Using modern client
+import { createBrowserClient } from '@supabase/ssr'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { User, Phone, FileDigit, Loader2, ChefHat, ArrowRight, CheckCircle } from 'lucide-react'
+import { User, Phone, FileDigit, Loader2, ChefHat, ArrowRight, CheckCircle, Utensils } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // --- HELPER: CPF MASK ---
@@ -17,7 +17,7 @@ const maskCPF = (value: string) => {
     .replace(/(\d{3})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-    .slice(0, 14) // Limit length
+    .slice(0, 14)
 }
 
 // --- HELPER: PHONE MASK ---
@@ -37,7 +37,6 @@ export default function LoginPage() {
   const [phone, setPhone] = useState('')
   const router = useRouter()
 
-  // Initialize Supabase Client (Browser)
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -62,7 +61,6 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      // 1. Check if user exists
       const { data: user, error } = await supabase
         .from('users')
         .select('*')
@@ -72,15 +70,13 @@ export default function LoginPage() {
       if (error) throw error
 
       if (user) {
-        // --- SCENARIO A: LOGIN ---
         console.log('User found, logging in:', user)
         localStorage.setItem('foodsync_user', JSON.stringify(user))
         router.push('/selection')
       } else {
-        // --- SCENARIO B: SIGNUP ---
         console.log('User not found, show signup fields')
-        setStep('signup') // Reveal fields
-        setLoading(false) // Stop loading to allow input
+        setStep('signup')
+        setLoading(false)
       }
 
     } catch (err: any) {
@@ -104,7 +100,7 @@ export default function LoginPage() {
       const newUser = {
         cpf: cleanCpf,
         name: name,
-        phone: cleanPhone, // Saving clean number
+        phone: cleanPhone,
         role: 'user'
       }
 
@@ -116,7 +112,6 @@ export default function LoginPage() {
 
       if (error) throw error
 
-      // Success!
       localStorage.setItem('foodsync_user', JSON.stringify(data))
       router.push('/selection')
 
@@ -128,32 +123,52 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans selection:bg-green-100 selection:text-green-900">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 font-sans selection:bg-primary/20 selection:text-primary relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+
+      {/* Floating Icons */}
+      <motion.div
+        className="absolute top-20 left-10 text-primary/20 hidden md:block"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Utensils className="w-12 h-12" />
+      </motion.div>
+      <motion.div
+        className="absolute bottom-20 right-10 text-accent/20 hidden md:block"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <ChefHat className="w-16 h-16" />
+      </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-full max-w-[420px]"
+        className="w-full max-w-[420px] relative z-10"
       >
-        <Card className="border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/80 backdrop-blur-md rounded-3xl overflow-hidden">
-          {/* Top Decoration */}
-          <div className="h-1.5 w-full bg-gradient-to-r from-green-500 via-emerald-500 to-green-600" />
+        <Card className="border border-border shadow-xl bg-card/95 backdrop-blur-md rounded-3xl overflow-hidden">
+          {/* Top Gradient Bar */}
+          <div className="h-1.5 w-full" style={{ background: 'var(--gradient-brand)' }} />
 
           <CardHeader className="pt-10 pb-6 text-center space-y-4">
             <motion.div
-              className="mx-auto bg-green-50 p-4 rounded-2xl w-20 h-20 flex items-center justify-center shadow-inner"
+              className="mx-auto bg-primary/10 p-4 rounded-2xl w-20 h-20 flex items-center justify-center"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <ChefHat className="w-10 h-10 text-green-600" />
+              <ChefHat className="w-10 h-10 text-primary" />
             </motion.div>
 
             <div className="space-y-1.5">
-              <CardTitle className="text-2xl font-bold tracking-tight text-gray-900">
+              <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
                 {step === 'login' ? 'Bem-vindo ao FoodSync' : 'Quase lá...'}
               </CardTitle>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className="text-muted-foreground text-sm font-medium">
                 {step === 'login' ? 'Digite seu CPF para começar' : 'Complete seu cadastro para continuar'}
               </p>
             </div>
@@ -162,12 +177,12 @@ export default function LoginPage() {
           <CardContent className="p-8 pt-2 space-y-6">
             {/* CPF Input */}
             <div className="space-y-2">
-              <Label className="text-xs font-semibold uppercase tracking-wider text-gray-400 ml-1">
+              <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
                 Seu CPF
               </Label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <FileDigit className="h-5 w-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
+                  <FileDigit className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 </div>
                 <Input
                   value={cpf}
@@ -175,7 +190,7 @@ export default function LoginPage() {
                   placeholder="000.000.000-00"
                   maxLength={14}
                   disabled={step === 'signup'}
-                  className="pl-12 h-14 text-lg bg-gray-50 border-transparent focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 rounded-xl transition-all shadow-sm placeholder:text-gray-300 font-medium text-gray-900"
+                  className="pl-12 h-14 text-lg bg-muted/50 border-transparent focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all placeholder:text-muted-foreground/50 font-medium text-foreground"
                 />
                 <AnimatePresence>
                   {step === 'signup' && (
@@ -184,7 +199,7 @@ export default function LoginPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="absolute inset-y-0 right-0 pr-4 flex items-center"
                     >
-                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CheckCircle className="h-5 w-5 text-primary" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -202,18 +217,18 @@ export default function LoginPage() {
                 >
                   {/* Name Input */}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-gray-400 ml-1">
+                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
                       Nome Completo
                     </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
+                        <User className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                       </div>
                       <Input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Como você gostaria de ser chamado?"
-                        className="pl-12 h-14 text-lg bg-gray-50 border-transparent focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 rounded-xl transition-all shadow-sm placeholder:text-gray-300 font-medium text-gray-900"
+                        className="pl-12 h-14 text-lg bg-muted/50 border-transparent focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all placeholder:text-muted-foreground/50 font-medium text-foreground"
                         autoFocus
                       />
                     </div>
@@ -221,19 +236,19 @@ export default function LoginPage() {
 
                   {/* Phone Input */}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-gray-400 ml-1">
+                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
                       WhatsApp
                     </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Phone className="h-5 w-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
+                        <Phone className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                       </div>
                       <Input
                         value={phone}
                         onChange={handlePhoneChange}
                         placeholder="(00) 00000-0000"
                         maxLength={15}
-                        className="pl-12 h-14 text-lg bg-gray-50 border-transparent focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10 rounded-xl transition-all shadow-sm placeholder:text-gray-300 font-medium text-gray-900"
+                        className="pl-12 h-14 text-lg bg-muted/50 border-transparent focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all placeholder:text-muted-foreground/50 font-medium text-foreground"
                       />
                     </div>
                   </div>
@@ -246,7 +261,7 @@ export default function LoginPage() {
               <Button
                 onClick={step === 'login' ? handleContinue : handleSignup}
                 disabled={loading}
-                className={`w-full h-14 text-lg font-bold bg-green-600 text-white rounded-xl shadow-[0_4px_14px_0_rgba(22,163,74,0.39)] hover:shadow-[0_6px_20px_rgba(22,163,74,0.23)] hover:bg-green-700 transition-all mt-2
+                className={`w-full h-14 text-lg font-bold bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110 transition-all mt-2
                   ${loading ? 'opacity-80 cursor-not-allowed' : 'cursor-pointer'}
                 `}
               >
@@ -275,7 +290,7 @@ export default function LoginPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center mt-8 text-sm font-medium text-gray-400"
+          className="text-center mt-8 text-sm font-medium text-muted-foreground"
         >
           © 2026 FoodSync. Cozinha Inteligente.
         </motion.div>
