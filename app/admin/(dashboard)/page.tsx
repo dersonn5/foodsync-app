@@ -135,7 +135,7 @@ function AdminPageContent() {
                     created_at, 
                     status, 
                     consumption_date,
-                    users (name, phone, department),
+                    users (name, phone),
                     menu_items (name) 
                 `)
                 .eq('consumption_date', date)
