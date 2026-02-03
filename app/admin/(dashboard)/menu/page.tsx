@@ -20,17 +20,17 @@ import {
     Image as ImageIcon,
     ChefHat,
     Leaf,
-    Coffee
+    Coffee,
+    X
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 interface MenuItem {
     id: string
@@ -186,7 +186,6 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        // Main Container: Cream Background
         <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-[var(--brand-cream)] text-[var(--brand-warm)]">
             <Toaster position="top-right" richColors />
 
@@ -231,7 +230,7 @@ export default function AdminMenuPage() {
                             key={dateStr}
                             ref={(el) => { dayRefs.current[index] = el }}
                             className={`
-                                flex flex-col h-full rounded-3xl transition-all duration-300 overflow-hidden shrink-0 min-w-[85vw] snap-center md:min-w-0 md:w-auto md:shrink relative
+                                flex flex-col h-full rounded-3xl transition-all duration-300 overflow-hidden shrink-0 min-w-[300px] snap-center md:min-w-0 md:w-auto md:shrink relative
                                 ${isToday
                                     ? 'bg-white ring-2 ring-[var(--brand-primary)] shadow-md z-10'
                                     : 'bg-white/60 hover:bg-white border border-[var(--brand-primary)]/10'}
@@ -340,8 +339,8 @@ export default function AdminMenuPage() {
 
             {/* Dialog Form */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-md rounded-3xl p-0 overflow-hidden bg-[var(--brand-cream)] border-[var(--brand-primary)]/20">
-                    <DialogHeader className="p-6 pb-2 bg-white">
+                <DialogContent className="sm:max-w-[500px] bg-[var(--brand-cream)] rounded-3xl border border-[var(--brand-primary)]/20 shadow-2xl">
+                    <DialogHeader className="pb-2">
                         <DialogTitle className="text-xl font-bold text-[var(--brand-warm)] flex items-center gap-2">
                             {editingItem ? <Edit2 className="w-5 h-5 text-[var(--brand-primary)]" /> : <Plus className="w-5 h-5 text-[var(--brand-primary)]" />}
                             {editingItem ? 'Editar Prato' : 'Adicionar ao Menu'}
@@ -349,7 +348,7 @@ export default function AdminMenuPage() {
                     </DialogHeader>
 
                     {targetDateForAdd && !editingItem && (
-                        <div className="px-6 pb-4 bg-white border-b border-[var(--brand-primary)]/10">
+                        <div className="pb-4 border-b border-[var(--brand-primary)]/10 mb-4">
                             <Badge variant="outline" className="bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] border-[var(--brand-primary)]/20">
                                 <CalendarDays className="w-3 h-3 mr-1" />
                                 {format(targetDateForAdd, "EEEE, dd 'de' MMMM", { locale: ptBR })}
@@ -357,14 +356,14 @@ export default function AdminMenuPage() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
                         <div className="space-y-2">
                             <Label className="text-[var(--brand-warm)] font-semibold">Nome do Prato</Label>
                             <Input
                                 {...register('name', { required: true })}
                                 placeholder="Ex: Risoto de Funghi"
-                                className="rounded-xl border-[var(--brand-primary)]/20 focus-visible:ring-[var(--brand-primary)] bg-white"
+                                className="rounded-xl border-[var(--brand-primary)]/20 focus-visible:ring-[var(--brand-primary)] bg-white h-11"
                             />
                         </div>
 
@@ -375,7 +374,7 @@ export default function AdminMenuPage() {
                                     onValueChange={(val) => setValue('type', val)}
                                     defaultValue={editingItem?.type || 'main'}
                                 >
-                                    <SelectTrigger className="rounded-xl border-[var(--brand-primary)]/20 bg-white">
+                                    <SelectTrigger className="rounded-xl border-[var(--brand-primary)]/20 bg-white h-11">
                                         <SelectValue placeholder="Selecione" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -401,11 +400,11 @@ export default function AdminMenuPage() {
                             <div className="space-y-2">
                                 <Label className="text-[var(--brand-warm)] font-semibold">Foto URL</Label>
                                 <div className="relative">
-                                    <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-[var(--brand-primary)]/40" />
+                                    <ImageIcon className="absolute left-3 top-3.5 h-4 w-4 text-[var(--brand-primary)]/40" />
                                     <Input
                                         {...register('photo_url')}
                                         placeholder="https://..."
-                                        className="pl-9 rounded-xl border-[var(--brand-primary)]/20 bg-white"
+                                        className="pl-9 rounded-xl border-[var(--brand-primary)]/20 bg-white h-11"
                                     />
                                 </div>
                             </div>
@@ -416,11 +415,11 @@ export default function AdminMenuPage() {
                             <Textarea
                                 {...register('description')}
                                 placeholder="Descreva os ingredientes principais..."
-                                className="rounded-xl border-[var(--brand-primary)]/20 bg-white min-h-[80px]"
+                                className="rounded-xl border-[var(--brand-primary)]/20 bg-white min-h-[100px] resize-none"
                             />
                         </div>
 
-                        <div className="flex gap-3 justify-end pt-2">
+                        <DialogFooter className="pt-2">
                             <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="rounded-xl text-[var(--brand-warm)] hover:bg-[var(--brand-primary)]/10">
                                 Cancelar
                             </Button>
@@ -428,7 +427,7 @@ export default function AdminMenuPage() {
                                 {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
                                 Salvar Prato
                             </Button>
-                        </div>
+                        </DialogFooter>
                     </form>
                 </DialogContent>
             </Dialog>
