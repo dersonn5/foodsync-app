@@ -78,7 +78,15 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    // REGRA 3: O resto do site (/) é público ou tratado pelo Client Component.
+    // REGRA 3: Se for a página do CEO (/ceo)
+    if (path.startsWith('/ceo')) {
+        // Se NÃO tiver usuário, chuta para o login do admin
+        if (!user) {
+            return NextResponse.redirect(new URL('/admin/login', request.url))
+        }
+    }
+
+    // REGRA 4: O resto do site (/) é público ou tratado pelo Client Component.
     return response
 }
 
