@@ -5,13 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { MenuItem } from '@/types'
 import { Button } from '@/components/ui/button'
-import { Check, Utensils, Loader2, ArrowRight, CalendarX, Plus, LogOut } from 'lucide-react'
+import { Check, Utensils, Loader2, ArrowRight, CalendarX, Plus, ChefHat } from 'lucide-react'
 import { format, startOfToday, parseISO, isValid, addDays, isSameDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { sendConfirmationMessage } from '@/app/actions/whatsapp'
 import SignOutButton from '@/components/SignOutButton'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 // Helper to standardise date string for DB (YYYY-MM-DD)
@@ -145,21 +144,27 @@ function SelectionContent() {
         ? menuItems
         : menuItems.filter(i => i.type === activeTab)
 
-    if (!user) return <div className="h-screen bg-slate-50 flex items-center justify-center"><Loader2 className="animate-spin text-green-600" /></div>
+    if (!user) return <div className="h-screen bg-background flex items-center justify-center"><Loader2 className="animate-spin text-primary" /></div>
 
     return (
-        <div className="flex flex-col h-[100dvh] bg-slate-50">
+        <div className="flex flex-col h-[100dvh] bg-background">
 
             {/* BLOCO 1: HEADER FIXO */}
-            <header className="flex-none bg-white shadow-[0_4px_20px_-12px_rgba(0,0,0,0.1)] z-20 relative">
+            <header className="flex-none bg-card shadow-sm z-20 relative border-b border-border">
+                {/* Top Gradient Bar */}
+                <div className="h-1 w-full" style={{ background: 'var(--gradient-brand)' }} />
+
                 {/* Perfil & Saudação */}
-                <div className="px-6 pt-12 pb-4 flex justify-between items-center">
+                <div className="px-6 pt-8 pb-4 flex justify-between items-center">
                     <div>
-                        <span className="text-sm text-slate-400 font-medium">Bom almoço,</span>
-                        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{user.name.split(' ')[0]} 👋</h1>
+                        <span className="text-sm text-muted-foreground font-medium">Bom almoço,</span>
+                        <h1 className="text-2xl font-bold text-foreground tracking-tight flex items-center gap-2">
+                            {user.name.split(' ')[0]}
+                            <span className="text-xl">👋</span>
+                        </h1>
                     </div>
 
-                    <div className="text-slate-400">
+                    <div className="text-muted-foreground">
                         <SignOutButton />
                     </div>
                 </div>
@@ -176,19 +181,19 @@ function SelectionContent() {
                                 className={cn(
                                     "flex flex-col items-center justify-center min-w-[60px] h-[72px] rounded-2xl border transition-all duration-300 active:scale-95 flex-shrink-0",
                                     isSelected
-                                        ? "bg-slate-800 border-slate-800 text-white shadow-lg shadow-slate-900/20"
-                                        : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
+                                        ? "bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/25"
+                                        : "bg-card border-border text-muted-foreground hover:border-primary/30"
                                 )}
                             >
                                 <span className={cn(
                                     "text-[10px] font-bold uppercase tracking-widest mb-1",
-                                    isSelected ? "text-slate-400" : "text-slate-400"
+                                    isSelected ? "text-primary-foreground/70" : "text-muted-foreground"
                                 )}>
                                     {format(date, 'EEE', { locale: ptBR }).replace('.', '')}
                                 </span>
                                 <span className={cn(
                                     "text-xl font-black",
-                                    isSelected ? "text-white" : "text-slate-800"
+                                    isSelected ? "text-primary-foreground" : "text-foreground"
                                 )}>
                                     {format(date, 'd')}
                                 </span>
@@ -216,8 +221,8 @@ function SelectionContent() {
                                 className={cn(
                                     "px-6 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all flex-shrink-0",
                                     activeTab === tab.id
-                                        ? "bg-slate-800 text-white shadow-lg shadow-slate-200"
-                                        : "bg-white text-slate-600 border border-slate-100 hover:bg-slate-50"
+                                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                                        : "bg-card text-muted-foreground border border-border hover:bg-muted"
                                 )}
                             >
                                 {tab.label}
@@ -227,8 +232,11 @@ function SelectionContent() {
 
                     {/* Título da Seção */}
                     <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold text-slate-800">Cardápio do Dia</h2>
-                        <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                        <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+                            <ChefHat className="w-5 h-5 text-primary" />
+                            Cardápio do Dia
+                        </h2>
+                        <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
                             {filteredItems.length} {filteredItems.length === 1 ? 'Opção' : 'Opções'}
                         </span>
                     </div>
@@ -239,7 +247,7 @@ function SelectionContent() {
                             {loadingMenu ? (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4 pt-2">
                                     {[1, 2, 3].map(i => (
-                                        <div key={i} className="h-32 bg-white rounded-[2rem] animate-pulse shadow-sm" />
+                                        <div key={i} className="h-32 bg-card rounded-[2rem] animate-pulse shadow-sm" />
                                     ))}
                                 </motion.div>
                             ) : filteredItems.length > 0 ? (
@@ -252,23 +260,23 @@ function SelectionContent() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             className={cn(
-                                                "group bg-white rounded-[2rem] p-4 shadow-sm border flex gap-4 active:scale-[0.98] transition-all duration-200",
-                                                isSelected ? "border-green-500 ring-1 ring-green-500 shadow-md" : "border-slate-100/50"
+                                                "group bg-card rounded-[2rem] p-4 shadow-sm border flex gap-4 active:scale-[0.98] transition-all duration-200",
+                                                isSelected ? "border-primary ring-1 ring-primary shadow-md" : "border-border"
                                             )}
                                             onClick={() => !existingOrder && setSelectedId(item.id)}
                                         >
                                             {/* Imagem */}
                                             <div
-                                                className="h-28 w-28 flex-none rounded-2xl bg-slate-100 bg-cover bg-center shadow-inner relative overflow-hidden"
+                                                className="h-28 w-28 flex-none rounded-2xl bg-muted bg-cover bg-center shadow-inner relative overflow-hidden"
                                                 style={{ backgroundImage: item.photo_url ? `url(${item.photo_url})` : 'none' }}
                                             >
                                                 {!item.photo_url && (
-                                                    <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                                    <div className="w-full h-full flex items-center justify-center text-muted-foreground/50">
                                                         <Utensils className="w-8 h-8" />
                                                     </div>
                                                 )}
                                                 {isOrdered && (
-                                                    <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center backdrop-blur-[1px]">
+                                                    <div className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[1px]">
                                                         <Check className="text-white w-8 h-8 drop-shadow-md" />
                                                     </div>
                                                 )}
@@ -276,25 +284,25 @@ function SelectionContent() {
 
                                             <div className="flex flex-col justify-between flex-1 py-1">
                                                 <div>
-                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                                                         {item.type === 'main' ? 'Padrão' : item.type}
                                                     </span>
-                                                    <h3 className="font-bold text-slate-800 leading-tight mt-1 text-lg line-clamp-2">
+                                                    <h3 className="font-bold text-foreground leading-tight mt-1 text-lg line-clamp-2">
                                                         {item.name}
                                                     </h3>
-                                                    <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                                                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                                                         {item.description || "Sem descrição disponível."}
                                                     </p>
                                                 </div>
 
                                                 <div className="flex items-center justify-between mt-2">
-                                                    <span className="text-xs font-medium text-slate-400">
+                                                    <span className="text-xs font-medium text-muted-foreground">
                                                         450kcal
                                                     </span>
                                                     <button
                                                         className={cn(
                                                             "h-8 w-8 rounded-full flex items-center justify-center transition-colors",
-                                                            isSelected ? "bg-green-500 text-white" : "bg-slate-50 text-green-600 hover:bg-green-500 hover:text-white"
+                                                            isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-primary hover:bg-primary hover:text-primary-foreground"
                                                         )}
                                                     >
                                                         {isSelected ? <Check size={18} /> : <Plus size={18} />}
@@ -306,10 +314,10 @@ function SelectionContent() {
                                 })
                             ) : (
                                 <div className="flex flex-col items-center justify-center py-10 text-center">
-                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                                        <CalendarX className="text-slate-400 w-8 h-8" />
+                                    <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                                        <CalendarX className="text-muted-foreground w-8 h-8" />
                                     </div>
-                                    <p className="text-slate-500 text-sm">Nenhum prato disponível para esta data.</p>
+                                    <p className="text-muted-foreground text-sm">Nenhum prato disponível para esta data.</p>
                                 </div>
                             )}
                         </AnimatePresence>
@@ -327,19 +335,19 @@ function SelectionContent() {
                         exit={{ y: 100, opacity: 0 }}
                         className="fixed bottom-24 left-4 right-4 z-40 flex justify-center"
                     >
-                        <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200/50 flex items-center justify-between gap-4 ring-1 ring-black/5">
+                        <div className="w-full bg-card/95 backdrop-blur-xl p-4 rounded-xl shadow-xl border border-border flex items-center justify-between gap-4">
                             <div className="flex-1 pl-2">
-                                <p className="text-[10px] text-green-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
+                                <p className="text-[10px] text-primary font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
                                     <Check className="w-3 h-3" /> Confirmado
                                 </p>
-                                <p className="text-sm font-bold text-gray-900 line-clamp-1">
+                                <p className="text-sm font-bold text-foreground line-clamp-1">
                                     {existingOrder.menu_items?.name || 'Prato Reservado'}
                                 </p>
                             </div>
                             <Button
                                 onClick={handleCancelOrder}
                                 variant="destructive"
-                                className="h-10 px-4 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border-0 font-bold rounded-lg active:scale-95 transition-all shadow-none text-xs"
+                                className="h-10 px-4 bg-destructive/10 text-destructive hover:bg-destructive/20 border-0 font-bold rounded-lg active:scale-95 transition-all shadow-none text-xs"
                             >
                                 Trocar
                             </Button>
@@ -355,10 +363,10 @@ function SelectionContent() {
                         <Button
                             onClick={handleConfirm}
                             disabled={submitting}
-                            className="w-full h-14 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-between px-6"
+                            className="w-full h-14 text-lg font-bold bg-primary hover:brightness-110 text-primary-foreground rounded-xl shadow-lg shadow-primary/30 active:scale-95 transition-all flex items-center justify-between px-6"
                         >
                             <span>Confirmar Reserva</span>
-                            {submitting ? <Loader2 className="animate-spin text-white/90" /> : <ArrowRight className="w-6 h-6 text-white/90" />}
+                            {submitting ? <Loader2 className="animate-spin text-primary-foreground/90" /> : <ArrowRight className="w-6 h-6 text-primary-foreground/90" />}
                         </Button>
                     </motion.div>
                 )}
@@ -369,7 +377,7 @@ function SelectionContent() {
 
 export default function SelectionPage() {
     return (
-        <Suspense fallback={<div className="h-screen bg-slate-50 flex items-center justify-center"><Loader2 className="animate-spin text-green-600" /></div>}>
+        <Suspense fallback={<div className="h-screen bg-background flex items-center justify-center"><Loader2 className="animate-spin text-primary" /></div>}>
             <SelectionContent />
         </Suspense>
     )

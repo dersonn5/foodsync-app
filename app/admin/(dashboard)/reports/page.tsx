@@ -14,7 +14,8 @@ import {
     Download,
     Calendar,
     ChefHat,
-    XCircle
+    XCircle,
+    Loader2
 } from 'lucide-react'
 import {
     Select,
@@ -51,7 +52,6 @@ export default function ReportsPage() {
         async function fetchData() {
             setLoading(true)
 
-            // Debug: Fetch recent orders without strict filtering first
             const { data, error } = await supabase
                 .from('orders')
                 .select(`
@@ -139,24 +139,23 @@ export default function ReportsPage() {
     }, [rawData, start, end, period])
 
     return (
-        // Main Container: Mobile = Auto Height + Scroll + Padding / Desktop = Screen Height + Lock
         <div className="h-auto min-h-screen flex flex-col overflow-y-auto p-4 pb-32 gap-6 md:h-[calc(100vh-1rem)] md:overflow-hidden md:p-6 md:pb-0 font-sans">
 
             {/* Header */}
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                        <BarChart3 className="w-6 h-6 text-slate-400" />
+                    <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                        <BarChart3 className="w-6 h-6 text-primary" />
                         Relatórios de Eficiência
                     </h1>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-muted-foreground text-sm">
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-auto">
                     <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger className="w-full md:w-[180px] bg-white">
-                            <Calendar className="w-4 h-4 mr-2 text-slate-400" />
+                        <SelectTrigger className="w-full md:w-[180px] bg-card">
+                            <Calendar className="w-4 h-4 mr-2 text-muted-foreground" />
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -170,61 +169,61 @@ export default function ReportsPage() {
 
             {loading ? (
                 <div className="flex-1 flex items-center justify-center">
-                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-primary animate-spin" />
                 </div>
             ) : metrics ? (
                 <>
                     {/* KPIs */}
                     <div className="flex-none grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Card className="border-slate-200 shadow-sm">
+                        <Card className="border-border shadow-sm">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 mb-1">Taxa de Eficiência</p>
+                                    <p className="text-sm font-medium text-muted-foreground mb-1">Taxa de Eficiência</p>
                                     <div className="flex items-end gap-2">
-                                        <span className={`text-3xl font-bold ${metrics.efficiency >= 90 ? 'text-green-600' : 'text-orange-600'}`}>
+                                        <span className={`text-3xl font-bold ${metrics.efficiency >= 90 ? 'text-primary' : 'text-accent'}`}>
                                             {metrics.efficiency.toFixed(1)}%
                                         </span>
-                                        <Badge variant="outline" className={metrics.efficiency >= 90 ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200'}>
+                                        <Badge variant="outline" className={metrics.efficiency >= 90 ? 'bg-primary/10 text-primary border-primary/20' : 'bg-accent/10 text-accent border-accent/20'}>
                                             {metrics.efficiency >= 90 ? 'Excelente' : 'Atenção'}
                                         </Badge>
                                     </div>
                                 </div>
-                                <div className={`p-3 rounded-full ${metrics.efficiency >= 90 ? 'bg-green-100' : 'bg-orange-100'}`}>
-                                    {metrics.efficiency >= 90 ? <TrendingUp className="w-6 h-6 text-green-600" /> : <AlertCircle className="w-6 h-6 text-orange-600" />}
+                                <div className={`p-3 rounded-full ${metrics.efficiency >= 90 ? 'bg-primary/15' : 'bg-accent/15'}`}>
+                                    {metrics.efficiency >= 90 ? <TrendingUp className="w-6 h-6 text-primary" /> : <AlertCircle className="w-6 h-6 text-accent" />}
                                 </div>
                             </CardContent>
                         </Card>
 
-                        <Card className="border-slate-200 shadow-sm">
+                        <Card className="border-border shadow-sm">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 mb-1">Desperdício Evitado</p>
+                                    <p className="text-sm font-medium text-muted-foreground mb-1">Desperdício Evitado</p>
                                     <div className="flex items-end gap-2">
-                                        <span className="text-3xl font-bold text-slate-900">
+                                        <span className="text-3xl font-bold text-foreground">
                                             {metrics.wasteCount}
                                         </span>
-                                        <span className="text-sm text-slate-400 mb-1">itens cancelados</span>
+                                        <span className="text-sm text-muted-foreground mb-1">itens cancelados</span>
                                     </div>
                                 </div>
-                                <div className="p-3 rounded-full bg-slate-100">
-                                    <XCircle className="w-6 h-6 text-slate-600" />
+                                <div className="p-3 rounded-full bg-muted">
+                                    <XCircle className="w-6 h-6 text-muted-foreground" />
                                 </div>
                             </CardContent>
                         </Card>
 
-                        <Card className="border-slate-200 shadow-sm">
+                        <Card className="border-border shadow-sm">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 mb-1">Produção Total</p>
+                                    <p className="text-sm font-medium text-muted-foreground mb-1">Produção Total</p>
                                     <div className="flex items-end gap-2">
-                                        <span className="text-3xl font-bold text-blue-600">
+                                        <span className="text-3xl font-bold text-primary">
                                             {metrics.productionTotal}
                                         </span>
-                                        <span className="text-sm text-slate-400 mb-1">pratos a servir</span>
+                                        <span className="text-sm text-muted-foreground mb-1">pratos a servir</span>
                                     </div>
                                 </div>
-                                <div className="p-3 rounded-full bg-blue-100">
-                                    <ChefHat className="w-6 h-6 text-blue-600" />
+                                <div className="p-3 rounded-full bg-primary/15">
+                                    <ChefHat className="w-6 h-6 text-primary" />
                                 </div>
                             </CardContent>
                         </Card>
@@ -234,35 +233,35 @@ export default function ReportsPage() {
                     <div className="flex-none flex flex-col gap-6 md:flex-1 md:grid md:grid-cols-2 md:min-h-0">
 
                         {/* Radar de Rejeição */}
-                        <Card className="flex flex-col border-slate-200 shadow-sm overflow-hidden h-[400px] md:h-auto">
-                            <CardHeader className="bg-red-50/30 border-b border-red-100 pb-3">
-                                <CardTitle className=" text-red-900 flex items-center gap-2 text-md">
+                        <Card className="flex flex-col border-border shadow-sm overflow-hidden h-[400px] md:h-auto">
+                            <CardHeader className="bg-destructive/5 border-b border-destructive/10 pb-3">
+                                <CardTitle className="text-destructive flex items-center gap-2 text-md">
                                     <TrendingDown className="w-5 h-5" />
                                     Radar de Rejeição
-                                    <span className="text-xs font-normal text-red-600 ml-auto bg-red-100 px-2 py-1 rounded-full">Top Cancelamentos</span>
+                                    <span className="text-xs font-normal text-destructive ml-auto bg-destructive/10 px-2 py-1 rounded-full">Top Cancelamentos</span>
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="flex-1 overflow-y-auto p-0">
                                 {metrics.rejectionList.length === 0 ? (
-                                    <div className="h-full flex flex-col items-center justify-center text-slate-400 p-6">
-                                        <CheckCircle2 className="w-12 h-12 mb-2 text-green-200" />
+                                    <div className="h-full flex flex-col items-center justify-center text-muted-foreground p-6">
+                                        <CheckCircle2 className="w-12 h-12 mb-2 text-primary/30" />
                                         <p>Sem cancelamentos no período!</p>
                                     </div>
                                 ) : (
-                                    <div className="divide-y divide-slate-100">
+                                    <div className="divide-y divide-border">
                                         {metrics.rejectionList.map((item, idx) => (
-                                            <div key={item.name} className="p-4 hover:bg-slate-50 transition-colors">
+                                            <div key={item.name} className="p-4 hover:bg-muted/50 transition-colors">
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <span className="font-medium text-slate-700 text-sm">
+                                                    <span className="font-medium text-foreground text-sm">
                                                         {idx + 1}. {item.name}
                                                     </span>
-                                                    <Badge variant="secondary" className="bg-red-50 text-red-700 hover:bg-red-100">
+                                                    <Badge variant="secondary" className="bg-destructive/10 text-destructive hover:bg-destructive/15">
                                                         {item.cancelled} un
                                                     </Badge>
                                                 </div>
                                                 <div className="flex items-center gap-3">
-                                                    <Progress value={(item.cancelled / item.total) * 100} className="h-2 bg-slate-100 [&>div]:bg-red-500" />
-                                                    <span className="text-xs text-slate-500 w-12 text-right">
+                                                    <Progress value={(item.cancelled / item.total) * 100} className="h-2 bg-muted [&>div]:bg-destructive" />
+                                                    <span className="text-xs text-muted-foreground w-12 text-right">
                                                         {Math.round((item.cancelled / item.total) * 100)}%
                                                     </span>
                                                 </div>
@@ -274,37 +273,37 @@ export default function ReportsPage() {
                         </Card>
 
                         {/* Guia de Compras */}
-                        <Card className="flex flex-col border-slate-200 shadow-sm overflow-hidden h-[400px] md:h-auto">
-                            <CardHeader className="bg-blue-50/30 border-b border-blue-100 pb-3 flex flex-row items-center justify-between space-y-0">
-                                <CardTitle className="text-blue-900 flex items-center gap-2 text-md">
+                        <Card className="flex flex-col border-border shadow-sm overflow-hidden h-[400px] md:h-auto">
+                            <CardHeader className="bg-primary/5 border-b border-primary/10 pb-3 flex flex-row items-center justify-between space-y-0">
+                                <CardTitle className="text-primary flex items-center gap-2 text-md">
                                     <Utensils className="w-5 h-5" />
                                     Guia de Produção
                                 </CardTitle>
-                                <Button size="sm" variant="ghost" className="h-8 text-blue-600 hover:bg-blue-50">
+                                <Button size="sm" variant="ghost" className="h-8 text-primary hover:bg-primary/10">
                                     <Download className="w-4 h-4 mr-1" />
                                     PDF
                                 </Button>
                             </CardHeader>
                             <CardContent className="flex-1 overflow-y-auto p-0">
-                                <div className="divide-y divide-slate-100">
+                                <div className="divide-y divide-border">
                                     {metrics.productionList.map((item, idx) => (
-                                        <div key={item.name} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                                        <div key={item.name} className="p-4 flex items-center justify-between hover:bg-muted/50 transition-colors">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-xs">
+                                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
                                                     {idx + 1}
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-slate-700 text-sm">{item.name}</p>
-                                                    <p className="text-xs text-slate-400">Total Confirmado</p>
+                                                    <p className="font-medium text-foreground text-sm">{item.name}</p>
+                                                    <p className="text-xs text-muted-foreground">Total Confirmado</p>
                                                 </div>
                                             </div>
-                                            <span className="text-lg font-bold text-slate-900">
-                                                {item.confirmed} <span className="text-xs font-normal text-slate-400">un</span>
+                                            <span className="text-lg font-bold text-foreground">
+                                                {item.confirmed} <span className="text-xs font-normal text-muted-foreground">un</span>
                                             </span>
                                         </div>
                                     ))}
                                     {metrics.productionList.length === 0 && (
-                                        <div className="p-8 text-center text-slate-400 text-sm">
+                                        <div className="p-8 text-center text-muted-foreground text-sm">
                                             Nenhum pedido confirmado para produzir.
                                         </div>
                                     )}
@@ -315,7 +314,7 @@ export default function ReportsPage() {
 
                     {/* CEO Satisfaction Metrics Section */}
                     <div className="mt-6">
-                        <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                             Métricas de Satisfação
                         </h2>
                         <SatisfactionMetrics
@@ -325,32 +324,13 @@ export default function ReportsPage() {
                     </div>
                 </>
             ) : (
-                <div className="flex-1 flex flex-col items-center justify-center text-slate-400 gap-2">
+                <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground gap-2">
                     <p>Sem dados para o período!</p>
-                    <p className="text-xs text-slate-300">
+                    <p className="text-xs text-muted-foreground/60">
                         ({rawData.length} pedidos encontrados no total, mas {rawData.length > 0 ? 'nenhum neste range' : 'banco vazio'})
                     </p>
                 </div>
             )}
         </div>
-    )
-}
-
-function Loader2({ className }: { className?: string }) {
-    return (
-        <svg
-            className={className}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-        </svg>
     )
 }
