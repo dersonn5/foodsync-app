@@ -6,10 +6,10 @@ import { format } from 'date-fns'
 // ============================================
 
 /**
- * Feedback cutoff hour (15:00 / 3 PM)
+ * Feedback cutoff hour (22:00 / 10 PM) - TEMPORÁRIO PARA TESTE
  * Employees can only submit feedback before this time.
  */
-const FEEDBACK_CUTOFF_HOUR = 15
+const FEEDBACK_CUTOFF_HOUR = 22
 
 /**
  * Check if current time is within the feedback submission window.
