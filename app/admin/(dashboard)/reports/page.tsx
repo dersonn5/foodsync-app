@@ -144,26 +144,28 @@ export default function ReportsPage() {
     }, [rawData, start, end, period])
 
     return (
-        <div className="min-h-screen flex flex-col p-4 pb-32 gap-6 md:p-6 md:pb-8">
+        <div className="min-h-screen flex flex-col p-4 pb-32 gap-6 md:p-6 md:pb-8 bg-gradient-to-br from-stone-50 via-white to-stone-100">
 
-            {/* Header */}
-            <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+            {/* Header - Premium Styling */}
+            <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-                        <BarChart3 className="w-6 h-6 text-primary" />
+                    <h1 className="text-2xl font-bold text-stone-800 tracking-tight flex items-center gap-3">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                            <BarChart3 className="w-6 h-6 text-white" />
+                        </div>
                         Relatórios de Eficiência
                     </h1>
-                    <p className="text-muted-foreground text-sm">
+                    <p className="text-stone-500 text-sm ml-[52px]">
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-auto">
                     <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger className="w-full md:w-[180px] bg-card">
-                            <Calendar className="w-4 h-4 mr-2 text-muted-foreground" />
+                        <SelectTrigger className="w-full md:w-[180px] bg-white/80 backdrop-blur-sm border-stone-200/60 rounded-xl shadow-sm">
+                            <Calendar className="w-4 h-4 mr-2 text-emerald-500" />
                             <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="rounded-xl">
                             <SelectItem value="week">Esta Semana</SelectItem>
                             <SelectItem value="month">Este Mês</SelectItem>
                             <SelectItem value="last_month">Mês Passado</SelectItem>
@@ -174,61 +176,61 @@ export default function ReportsPage() {
 
             {loading ? (
                 <div className="flex-1 flex items-center justify-center">
-                    <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                    <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
                 </div>
             ) : metrics ? (
                 <>
-                    {/* KPIs */}
+                    {/* KPIs - Premium Design */}
                     <div className="flex-none grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Card className="border-border shadow-sm">
+                        <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground mb-1">Taxa de Eficiência</p>
+                                    <p className="text-xs font-medium text-stone-500 uppercase tracking-wider mb-1">Taxa de Eficiência</p>
                                     <div className="flex items-end gap-2">
-                                        <span className={`text-3xl font-bold ${metrics.efficiency >= 90 ? 'text-primary' : 'text-accent'}`}>
+                                        <span className={`text-3xl font-bold ${metrics.efficiency >= 90 ? 'text-emerald-600' : 'text-amber-600'}`}>
                                             {metrics.efficiency.toFixed(1)}%
                                         </span>
-                                        <Badge variant="outline" className={metrics.efficiency >= 90 ? 'bg-primary/10 text-primary border-primary/20' : 'bg-accent/10 text-accent border-accent/20'}>
+                                        <Badge variant="outline" className={metrics.efficiency >= 90 ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-amber-50 text-amber-600 border-amber-200'}>
                                             {metrics.efficiency >= 90 ? 'Excelente' : 'Atenção'}
                                         </Badge>
                                     </div>
                                 </div>
-                                <div className={`p-3 rounded-full ${metrics.efficiency >= 90 ? 'bg-primary/15' : 'bg-accent/15'}`}>
-                                    {metrics.efficiency >= 90 ? <TrendingUp className="w-6 h-6 text-primary" /> : <AlertCircle className="w-6 h-6 text-accent" />}
+                                <div className={`p-3 rounded-xl ${metrics.efficiency >= 90 ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/20' : 'bg-amber-100'}`}>
+                                    {metrics.efficiency >= 90 ? <TrendingUp className="w-6 h-6 text-white" /> : <AlertCircle className="w-6 h-6 text-amber-600" />}
                                 </div>
                             </CardContent>
                         </Card>
 
-                        <Card className="border-border shadow-sm">
+                        <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground mb-1">Desperdício Evitado</p>
+                                    <p className="text-xs font-medium text-stone-500 uppercase tracking-wider mb-1">Desperdício Evitado</p>
                                     <div className="flex items-end gap-2">
-                                        <span className="text-3xl font-bold text-foreground">
+                                        <span className="text-3xl font-bold text-stone-800">
                                             {metrics.wasteCount}
                                         </span>
-                                        <span className="text-sm text-muted-foreground mb-1">itens cancelados</span>
+                                        <span className="text-sm text-stone-400 mb-1">itens cancelados</span>
                                     </div>
                                 </div>
-                                <div className="p-3 rounded-full bg-muted">
-                                    <XCircle className="w-6 h-6 text-muted-foreground" />
+                                <div className="p-3 rounded-xl bg-red-50">
+                                    <XCircle className="w-6 h-6 text-red-500" />
                                 </div>
                             </CardContent>
                         </Card>
 
-                        <Card className="border-border shadow-sm">
+                        <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground mb-1">Produção Total</p>
+                                    <p className="text-xs font-medium text-stone-500 uppercase tracking-wider mb-1">Produção Total</p>
                                     <div className="flex items-end gap-2">
-                                        <span className="text-3xl font-bold text-primary">
+                                        <span className="text-3xl font-bold text-emerald-600">
                                             {metrics.productionTotal}
                                         </span>
-                                        <span className="text-sm text-muted-foreground mb-1">pratos a servir</span>
+                                        <span className="text-sm text-stone-400 mb-1">pratos a servir</span>
                                     </div>
                                 </div>
-                                <div className="p-3 rounded-full bg-primary/15">
-                                    <ChefHat className="w-6 h-6 text-primary" />
+                                <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/20">
+                                    <ChefHat className="w-6 h-6 text-white" />
                                 </div>
                             </CardContent>
                         </Card>

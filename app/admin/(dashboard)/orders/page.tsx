@@ -145,58 +145,71 @@ function AdminOrdersPageContent() {
     }
 
     return (
-        // Main Fixed Container (No Window Scroll)
-        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 max-w-[1600px] mx-auto font-sans overflow-hidden">
+        // Main Fixed Container with premium gradient
+        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 max-w-[1600px] mx-auto font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
             <Toaster position="top-right" richColors />
 
-            {/* Fixed Header Section (Flex None) */}
+            {/* Header Section - Premium Styling */}
             <div className="flex-none space-y-4 mb-4">
                 <div className="flex flex-col gap-4 mb-2 md:flex-row md:items-center md:justify-between">
 
-                    {/* Bloco de Título e Subtítulo */}
+                    {/* Title Block */}
                     <div className="space-y-1">
-                        <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-stone-800 tracking-tight flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                                <ShoppingBag className="w-6 h-6 text-white" />
+                            </div>
                             Gestão de Pedidos
                         </h1>
-                        <p className="text-slate-500 text-xs flex items-center gap-2">
-                            Fila para <span className="font-semibold text-slate-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-stone-500 text-sm flex items-center gap-2 ml-[52px]">
+                            Fila para <span className="font-semibold text-stone-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
                             {dateParam && (
-                                <button onClick={handleToday} className="text-xs text-green-600 hover:underline font-medium">
-                                    (Voltar)
+                                <button onClick={handleToday} className="text-xs text-emerald-600 hover:underline font-medium">
+                                    (Voltar para hoje)
                                 </button>
                             )}
                         </p>
                     </div>
 
-                    {/* Bloco de Ações (DateNav + Filters) */}
+                    {/* Actions Block */}
                     <div className="flex flex-col gap-3 md:flex-row md:items-center">
-                        {/* Date Controls */}
-                        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg text-sm self-start md:self-auto">
-                            <Button variant="ghost" size="icon" onClick={handlePrevDay} className="h-6 w-6 hover:bg-white hover:text-slate-900 rounded-md text-slate-500">
+                        {/* Date Navigation - Glassmorphism */}
+                        <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-white/50 rounded-2xl px-3 py-2 flex items-center gap-3">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={handlePrevDay}
+                                className="h-8 w-8 hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl transition-all"
+                            >
                                 <ChevronLeft className="w-4 h-4" />
                             </Button>
 
-                            <div className="flex items-center gap-2 px-2 font-medium text-slate-700 min-w-[110px] justify-center cursor-pointer hover:bg-white/50 py-0.5 rounded transition-all">
-                                <CalendarIcon className="w-3 h-3 text-slate-400" />
-                                <span className="capitalize">{formatDateDisplay(currentDateStr)}</span>
+                            <div className="flex items-center gap-2 px-3 font-medium text-stone-700 min-w-[120px] justify-center">
+                                <CalendarIcon className="w-4 h-4 text-emerald-500" />
+                                <span className="capitalize text-sm">{formatDateDisplay(currentDateStr)}</span>
                             </div>
 
-                            <Button variant="ghost" size="icon" onClick={handleNextDay} className="h-6 w-6 hover:bg-white hover:text-slate-900 rounded-md text-slate-500">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={handleNextDay}
+                                className="h-8 w-8 hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl transition-all"
+                            >
                                 <ChevronRight className="w-4 h-4" />
                             </Button>
                         </div>
 
-                        {/* Status Filter */}
-                        <div className="flex items-center gap-2 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start md:self-auto">
+                        {/* Status Filter - Premium */}
+                        <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm p-1 rounded-xl border border-stone-200/60 shadow-sm">
                             {(['all', 'pending', 'confirmed'] as const).map((status) => (
                                 <button
                                     key={status}
                                     onClick={() => setFilterStatus(status)}
                                     className={`
-                                        px-3 py-1 rounded-md text-xs font-medium transition-all
+                                        px-3 py-1.5 rounded-lg text-xs font-medium transition-all
                                         ${filterStatus === status
-                                            ? 'bg-slate-900 text-white shadow-sm'
-                                            : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                                            ? 'bg-stone-800 text-white shadow-md'
+                                            : 'text-stone-500 hover:text-stone-900 hover:bg-stone-100'
                                         }
                                     `}
                                 >
@@ -207,52 +220,55 @@ function AdminOrdersPageContent() {
                     </div>
                 </div>
 
-                {/* Compact KPI Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <Card className="border-0 shadow-sm bg-gradient-to-br from-blue-50 to-white">
+                {/* KPI Grid - Premium Design */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-0.5">Total</p>
-                                <h3 className="text-2xl font-bold text-slate-900">{stats.total}</h3>
+                                <p className="text-[10px] font-medium text-stone-500 uppercase tracking-wider mb-0.5">Total</p>
+                                <h3 className="text-2xl font-bold text-stone-800">{stats.total}</h3>
                             </div>
-                            <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
-                                <ShoppingBag className="w-5 h-5" />
+                            <div className="h-10 w-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md shadow-emerald-500/20">
+                                <ShoppingBag className="w-5 h-5 text-white" />
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="border-0 shadow-sm bg-gradient-to-br from-rose-50 to-white">
+                    <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest mb-0.5">Cancelados</p>
-                                <h3 className="text-2xl font-bold text-slate-900">{stats.canceled}</h3>
+                                <p className="text-[10px] font-medium text-stone-500 uppercase tracking-wider mb-0.5">Cancelados</p>
+                                <h3 className="text-2xl font-bold text-stone-800">{stats.canceled}</h3>
                             </div>
-                            <div className="h-10 w-10 bg-rose-100 rounded-full flex items-center justify-center text-rose-600">
-                                <Ban className="w-5 h-5" />
+                            <div className="h-10 w-10 bg-red-50 rounded-xl flex items-center justify-center">
+                                <Ban className="w-5 h-5 text-red-500" />
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className={`border-0 shadow-sm transition-colors ${stats.pending > 0 ? 'bg-amber-50' : 'bg-white'}`}>
+                    <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending > 0
+                            ? 'bg-amber-50/50 border-amber-200'
+                            : 'bg-white border-stone-200/60'
+                        }`}>
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className={`text-[10px] font-bold uppercase tracking-widest mb-0.5 ${stats.pending > 0 ? 'text-amber-600' : 'text-slate-400'}`}>
+                                <p className={`text-[10px] font-medium uppercase tracking-wider mb-0.5 ${stats.pending > 0 ? 'text-amber-600' : 'text-stone-500'}`}>
                                     Pendente
                                 </p>
-                                <h3 className={`text-2xl font-bold ${stats.pending > 0 ? 'text-amber-700' : 'text-slate-900'}`}>
+                                <h3 className={`text-2xl font-bold ${stats.pending > 0 ? 'text-amber-600' : 'text-stone-800'}`}>
                                     {stats.pending}
                                 </h3>
                             </div>
-                            <div className={`h-10 w-10 rounded-full flex items-center justify-center ${stats.pending > 0 ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 text-slate-400'}`}>
-                                <Clock className="w-5 h-5" />
+                            <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${stats.pending > 0 ? 'bg-amber-100' : 'bg-stone-100'}`}>
+                                <Clock className={`w-5 h-5 ${stats.pending > 0 ? 'text-amber-600' : 'text-stone-400'}`} />
                             </div>
                         </CardContent>
                     </Card>
                 </div>
 
-                {/* Search Bar (Compact) */}
-                <div className="flex items-center gap-3 bg-white px-3 py-2 rounded-lg border border-slate-100 shadow-sm w-full max-w-sm">
-                    <Search className="w-4 h-4 text-slate-400" />
+                {/* Search Bar - Premium */}
+                <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-stone-200/60 shadow-sm w-full max-w-sm">
+                    <Search className="w-4 h-4 text-stone-400" />
                     <Input
                         placeholder="Filtrar por nome ou prato..."
                         className="border-0 shadow-none focus-visible:ring-0 bg-transparent h-auto py-0 text-sm"
@@ -262,45 +278,48 @@ function AdminOrdersPageContent() {
                 </div>
             </div>
 
-            {/* Scrollable Order List Area (Flex 1) */}
+            {/* Scrollable Order List */}
             <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3">
                 {loading ? (
-                    <div className="text-center py-12 text-slate-400">Carregando pedidos...</div>
+                    <div className="text-center py-12 text-stone-400">Carregando pedidos...</div>
                 ) : filteredOrders.length > 0 ? (
                     filteredOrders.map(order => (
                         <div
                             key={order.id}
                             className={`
-                                    group flex flex-col md:flex-row md:items-center justify-between gap-3 p-3 rounded-xl bg-white border transition-all hover:shadow-md
-                                    ${order.status === 'pending' ? 'border-amber-200 shadow-[0_0_0_1px_rgba(251,191,36,0.2)]' : 'border-slate-100 shadow-sm'}
-                                `}
+                                group flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 rounded-2xl bg-white border transition-all hover:shadow-lg
+                                ${order.status === 'pending'
+                                    ? 'border-amber-200 shadow-md shadow-amber-500/5'
+                                    : 'border-stone-200/60 shadow-sm hover:border-stone-200'
+                                }
+                            `}
                         >
                             {/* Left: User Info */}
                             <div className="flex items-center gap-3 min-w-[200px]">
-                                <Avatar className="h-10 w-10 border border-white shadow-sm">
-                                    <AvatarFallback className="bg-slate-100 text-slate-600 font-bold text-sm">
+                                <Avatar className="h-11 w-11 border-2 border-emerald-100 shadow-sm">
+                                    <AvatarFallback className="bg-emerald-50 text-emerald-600 font-bold text-sm">
                                         {order.users?.name.charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <h4 className="font-bold text-slate-900 text-sm">{order.users?.name}</h4>
-                                    <p className="text-[10px] text-slate-500 font-medium">Membro</p>
+                                    <h4 className="font-semibold text-stone-800 text-sm">{order.users?.name}</h4>
+                                    <p className="text-[10px] text-stone-400 font-medium">Colaborador</p>
                                 </div>
                             </div>
 
                             {/* Center: Order Info */}
                             <div className="flex-1 flex items-center gap-3">
-                                <div className={`p-1.5 rounded-lg ${order.status === 'confirmed' ? 'bg-green-50 text-green-600' : 'bg-slate-50 text-slate-500'}`}>
-                                    <Utensils className="w-4 h-4" />
+                                <div className={`p-2 rounded-lg ${order.status === 'confirmed' ? 'bg-emerald-50' : 'bg-stone-50'}`}>
+                                    <Utensils className={`w-4 h-4 ${order.status === 'confirmed' ? 'text-emerald-600' : 'text-stone-500'}`} />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-slate-800">{order.menu_items?.name}</p>
-                                    <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                                    <p className="text-sm font-semibold text-stone-800">{order.menu_items?.name}</p>
+                                    <div className="flex items-center gap-2 text-[10px] text-stone-400 mt-0.5">
                                         <span>
                                             {format(new Date(order.created_at), "HH:mm '•' dd MMM", { locale: ptBR })}
                                         </span>
                                         {order.status === 'pending' && (
-                                            <span className="text-amber-600 font-bold bg-amber-50 px-1 rounded-[4px]">
+                                            <span className="text-amber-600 font-semibold bg-amber-50 px-1.5 py-0.5 rounded-md">
                                                 Aguardando
                                             </span>
                                         )}
@@ -316,14 +335,14 @@ function AdminOrdersPageContent() {
                                             size="sm"
                                             variant="outline"
                                             onClick={() => handleUpdateStatus(order.id, 'canceled')}
-                                            className="text-red-500 hover:text-red-600 hover:bg-red-50 border-red-100 hover:border-red-200 h-8 px-3 text-xs rounded-lg"
+                                            className="text-red-500 hover:text-red-600 hover:bg-red-50 border-red-100 hover:border-red-200 h-9 px-4 text-xs rounded-xl"
                                         >
                                             Cancelar
                                         </Button>
                                         <Button
                                             size="sm"
                                             onClick={() => handleUpdateStatus(order.id, 'confirmed')}
-                                            className="bg-green-600 hover:bg-green-700 text-white h-8 px-4 text-xs rounded-lg shadow-sm font-bold"
+                                            className="bg-emerald-500 hover:bg-emerald-600 text-white h-9 px-5 text-xs rounded-xl shadow-md shadow-emerald-500/20 font-semibold"
                                         >
                                             Confirmar
                                         </Button>
@@ -331,14 +350,14 @@ function AdminOrdersPageContent() {
                                 )}
 
                                 {order.status === 'confirmed' && (
-                                    <div className="flex items-center gap-1.5 text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-lg border border-green-100 text-xs">
+                                    <div className="flex items-center gap-1.5 text-emerald-600 font-semibold bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 text-xs">
                                         <CheckCircle2 className="w-4 h-4" />
                                         <span>Confirmado</span>
                                     </div>
                                 )}
 
                                 {order.status === 'canceled' && (
-                                    <div className="flex items-center gap-1.5 text-red-400 font-bold bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 text-xs">
+                                    <div className="flex items-center gap-1.5 text-red-500 font-semibold bg-red-50 px-4 py-2 rounded-xl border border-red-100 text-xs">
                                         <XCircle className="w-4 h-4" />
                                         <span>Cancelado</span>
                                     </div>
@@ -346,11 +365,11 @@ function AdminOrdersPageContent() {
 
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-300 hover:bg-slate-50 rounded-lg">
+                                        <Button variant="ghost" size="icon" className="h-9 w-9 text-stone-400 hover:bg-stone-100 rounded-xl">
                                             <MoreHorizontal className="w-4 h-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
+                                    <DropdownMenuContent align="end" className="rounded-xl">
                                         <DropdownMenuItem>Ver Detalhes</DropdownMenuItem>
                                         <DropdownMenuItem className="text-red-500">Excluir Registro</DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -359,10 +378,10 @@ function AdminOrdersPageContent() {
                         </div>
                     ))
                 ) : (
-                    <div className="h-full flex flex-col items-center justify-center text-center py-20 bg-slate-50/50 rounded-2xl border-2 border-dashed border-slate-100">
-                        <ShoppingBag className="w-12 h-12 mb-3 text-slate-200" />
-                        <h3 className="text-base font-bold text-slate-400">Nenhum pedido para {formatDateDisplay(currentDateStr)}</h3>
-                        <p className="text-xs text-slate-300 max-w-xs mx-auto mt-1">Sua cozinha está livre neste dia.</p>
+                    <div className="h-full flex flex-col items-center justify-center text-center py-20 bg-white/50 rounded-2xl border-2 border-dashed border-stone-200">
+                        <ShoppingBag className="w-12 h-12 mb-3 text-stone-300" />
+                        <h3 className="text-base font-semibold text-stone-500">Nenhum pedido para {formatDateDisplay(currentDateStr)}</h3>
+                        <p className="text-xs text-stone-400 max-w-xs mx-auto mt-1">Sua cozinha está livre neste dia.</p>
                     </div>
                 )}
             </div>
