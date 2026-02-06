@@ -250,73 +250,100 @@ export default function CEODashboard() {
     if (!user) return null
 
     return (
-        <div className="min-h-screen bg-background font-sans">
+        <div className="min-h-screen bg-[#0a0a0b] font-sans">
 
-            {/* 1. Header & Navigation */}
-            <div className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
-                <div className="h-1 w-full" style={{ background: 'var(--gradient-brand)' }} />
+            {/* 1. Header & Navigation - Premium Dark Executive */}
+            <div className="bg-[#111113] border-b border-white/5 sticky top-0 z-50">
+                {/* Gradient accent line */}
+                <div className="h-1 w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         {/* Brand */}
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-primary/10 rounded-xl">
-                                <ChefHat className="w-6 h-6 text-primary" />
+                        <div className="flex items-center gap-4">
+                            <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                                <ChefHat className="w-7 h-7 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-xl font-bold text-foreground tracking-tight">
+                                <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
                                     Cockpit Executivo
+                                    {/* Live Indicator */}
+                                    <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full ml-2">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                        </span>
+                                        LIVE
+                                    </span>
                                 </h1>
-                                <p className="text-sm text-muted-foreground">Visão Estratégica & Operacional</p>
+                                <p className="text-sm text-stone-400">Visão Estratégica & Operacional</p>
                             </div>
                         </div>
 
-                        {/* Button Actions */}
+                        {/* Actions */}
                         <div className="flex items-center gap-3">
-                            <Button variant="outline" size="sm" onClick={() => router.push('/admin')}>
+                            <span className="text-xs text-stone-500 hidden md:block">
+                                Atualizado às {format(new Date(), "HH:mm", { locale: ptBR })}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => router.push('/admin')}
+                                className="bg-white/5 border-white/10 text-stone-300 hover:bg-white/10 hover:text-white rounded-xl"
+                            >
                                 <LogOut className="w-4 h-4 mr-2" />
                                 Voltar para Admin
                             </Button>
                         </div>
                     </div>
 
-                    {/* Filter Bar (Inside Header for Sticky effect) */}
-                    <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-border/50">
+                    {/* Filter Bar - Glassmorphism */}
+                    <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-white/5">
                         <div className="flex items-center gap-3 w-full md:w-auto">
 
-                            {/* Unit Selector */}
+                            {/* Unit Selector - Premium Dark */}
                             <div className="relative">
-                                <Building2 className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-500 z-10" />
                                 <Select value={selectedUnit} onValueChange={setSelectedUnit}>
-                                    <SelectTrigger className="w-full md:w-[200px] pl-9 bg-muted/30 border-border/60">
+                                    <SelectTrigger className="w-full md:w-[200px] pl-10 bg-white/5 border-white/10 text-stone-200 rounded-xl hover:bg-white/10 transition-all">
                                         <SelectValue placeholder="Selecione a Unidade" />
                                     </SelectTrigger>
-                                    <SelectContent>
+                                    <SelectContent className="bg-[#1a1a1c] border-white/10 rounded-xl">
                                         {UNITS.map(u => (
-                                            <SelectItem key={u.id} value={u.id}>{u.name}</SelectItem>
+                                            <SelectItem
+                                                key={u.id}
+                                                value={u.id}
+                                                className="text-stone-200 focus:bg-white/10 focus:text-white"
+                                            >
+                                                {u.name}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             </div>
 
-                            {/* Period Selector */}
+                            {/* Period Selector - Premium Dark */}
                             <div className="relative">
-                                <Calendar className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-500 z-10" />
                                 <Select value={period} onValueChange={setPeriod}>
-                                    <SelectTrigger className="w-full md:w-[180px] pl-9 bg-muted/30 border-border/60">
+                                    <SelectTrigger className="w-full md:w-[180px] pl-10 bg-white/5 border-white/10 text-stone-200 rounded-xl hover:bg-white/10 transition-all">
                                         <SelectValue placeholder="Período" />
                                     </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="today">Hoje</SelectItem>
-                                        <SelectItem value="this_week">Esta Semana</SelectItem>
-                                        <SelectItem value="this_month">Este Mês</SelectItem>
-                                        <SelectItem value="last_30">Últimos 30 dias</SelectItem>
+                                    <SelectContent className="bg-[#1a1a1c] border-white/10 rounded-xl">
+                                        <SelectItem value="today" className="text-stone-200 focus:bg-white/10 focus:text-white">Hoje</SelectItem>
+                                        <SelectItem value="this_week" className="text-stone-200 focus:bg-white/10 focus:text-white">Esta Semana</SelectItem>
+                                        <SelectItem value="this_month" className="text-stone-200 focus:bg-white/10 focus:text-white">Este Mês</SelectItem>
+                                        <SelectItem value="last_30" className="text-stone-200 focus:bg-white/10 focus:text-white">Últimos 30 dias</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                         </div>
 
-                        {/* Export */}
-                        <Button variant="ghost" className="text-primary hover:bg-primary/10 w-full md:w-auto">
+                        {/* Export Button */}
+                        <Button
+                            variant="ghost"
+                            className="text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 w-full md:w-auto rounded-xl"
+                        >
                             <Download className="w-4 h-4 mr-2" />
                             Exportar Relatório PDF
                         </Button>
@@ -328,37 +355,48 @@ export default function CEODashboard() {
             <main className="max-w-7xl mx-auto px-6 py-8 pb-32">
                 {loading || !metrics ? (
                     <div className="flex items-center justify-center min-h-[400px]">
-                        <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                        <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
                     </div>
                 ) : (
                     <div className="space-y-8">
 
-                        {/* 2.1 Strategic KPIs */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {/* 2.1 Strategic KPIs - Premium Dark */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 
-                            {/* Financial */}
-                            <Card className="border-border shadow-sm bg-card relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <DollarSign className="w-16 h-16 text-primary" />
-                                </div>
-                                <CardHeader className="pb-2">
-                                    <CardDescription>CMV Projetado (Médio)</CardDescription>
-                                    <CardTitle className="text-2xl font-bold flex items-baseline gap-1">
-                                        <span className="text-sm font-normal text-muted-foreground">R$</span>
+                            {/* Financial CMV */}
+                            <Card className="bg-[#111113] border-white/5 shadow-xl relative overflow-hidden rounded-2xl group hover:border-white/10 transition-all">
+                                {/* Gradient glow effect */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <CardHeader className="pb-2 relative z-10">
+                                    <div className="flex items-center justify-between">
+                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">CMV Projetado</CardDescription>
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                                            <DollarSign className="w-4 h-4 text-white" />
+                                        </div>
+                                    </div>
+                                    <CardTitle className="text-3xl font-bold text-white flex items-baseline gap-1">
+                                        <span className="text-sm font-normal text-stone-500">R$</span>
                                         {metrics.financial.cmv.toFixed(2)}
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent>
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <span className={metrics.financial.cmv > metrics.financial.target ? "text-destructive font-medium" : "text-primary font-medium"}>
+                                <CardContent className="relative z-10">
+                                    <div className="flex items-center gap-2 text-sm mb-3">
+                                        <span className={`font-semibold px-2 py-0.5 rounded-md text-xs ${metrics.financial.cmv > metrics.financial.target
+                                            ? "text-red-400 bg-red-500/10"
+                                            : "text-emerald-400 bg-emerald-500/10"
+                                            }`}>
                                             {metrics.financial.cmv > metrics.financial.target ? "+" : "-"}
                                             {Math.abs(metrics.financial.cmv - metrics.financial.target).toFixed(2)}
                                         </span>
-                                        <span className="text-muted-foreground">vs Meta (R$ {metrics.financial.target.toFixed(2)})</span>
+                                        <span className="text-stone-500 text-xs">vs Meta R$ {metrics.financial.target.toFixed(2)}</span>
                                     </div>
-                                    <div className="w-full bg-muted/50 h-1.5 mt-3 rounded-full overflow-hidden">
+                                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
                                         <div
-                                            className={`h-full rounded-full ${metrics.financial.cmv > metrics.financial.target ? 'bg-destructive' : 'bg-primary'}`}
+                                            className={`h-full rounded-full transition-all ${metrics.financial.cmv > metrics.financial.target
+                                                ? 'bg-gradient-to-r from-red-500 to-red-400'
+                                                : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+                                                }`}
                                             style={{ width: `${(metrics.financial.cmv / (metrics.financial.target * 1.2)) * 100}%` }}
                                         />
                                     </div>
@@ -366,74 +404,86 @@ export default function CEODashboard() {
                             </Card>
 
                             {/* Efficiency */}
-                            <Card className="border-border shadow-sm bg-card relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <TrendingDown className="w-16 h-16 text-accent" />
-                                </div>
-                                <CardHeader className="pb-2">
-                                    <CardDescription>Taxa de Rejeição</CardDescription>
-                                    <CardTitle className="text-2xl font-bold text-foreground">
+                            <Card className="bg-[#111113] border-white/5 shadow-xl relative overflow-hidden rounded-2xl group hover:border-white/10 transition-all">
+                                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <CardHeader className="pb-2 relative z-10">
+                                    <div className="flex items-center justify-between">
+                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">Taxa de Rejeição</CardDescription>
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-500/20">
+                                            <TrendingDown className="w-4 h-4 text-white" />
+                                        </div>
+                                    </div>
+                                    <CardTitle className="text-3xl font-bold text-white">
                                         {metrics.efficiency.wasteRate.toFixed(1)}%
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent>
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <Badge variant="secondary" className="bg-destructive/10 text-destructive hover:bg-destructive/20 border-0">
+                                <CardContent className="relative z-10">
+                                    <div className="flex items-center gap-2 text-sm mb-3">
+                                        <Badge variant="secondary" className="bg-red-500/10 text-red-400 hover:bg-red-500/20 border-0 text-xs">
                                             {metrics.efficiency.wasteCount} cancelados
                                         </Badge>
-                                        <span className="text-muted-foreground">no período</span>
+                                        <span className="text-stone-500 text-xs">no período</span>
                                     </div>
-                                    <div className="w-full bg-muted/50 h-1.5 mt-3 rounded-full overflow-hidden">
+                                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-accent"
-                                            style={{ width: `${metrics.efficiency.wasteRate}%` }}
+                                            className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500"
+                                            style={{ width: `${Math.min(metrics.efficiency.wasteRate * 3, 100)}%` }}
                                         />
                                     </div>
                                 </CardContent>
                             </Card>
 
                             {/* Volume */}
-                            <Card className="border-border shadow-sm bg-card relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <Utensils className="w-16 h-16 text-blue-500" />
-                                </div>
-                                <CardHeader className="pb-2">
-                                    <CardDescription>Refeições Servidas</CardDescription>
-                                    <CardTitle className="text-2xl font-bold text-foreground">
-                                        {metrics.volume.total}
+                            <Card className="bg-[#111113] border-white/5 shadow-xl relative overflow-hidden rounded-2xl group hover:border-white/10 transition-all">
+                                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <CardHeader className="pb-2 relative z-10">
+                                    <div className="flex items-center justify-between">
+                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">Refeições Servidas</CardDescription>
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20">
+                                            <Utensils className="w-4 h-4 text-white" />
+                                        </div>
+                                    </div>
+                                    <CardTitle className="text-3xl font-bold text-white">
+                                        {metrics.volume.total.toLocaleString('pt-BR')}
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent>
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <CheckCircle2 className="w-4 h-4 text-green-500" />
-                                        <span className="text-muted-foreground">Confirmadas e preparadas</span>
+                                <CardContent className="relative z-10">
+                                    <div className="flex items-center gap-2 text-sm mb-3">
+                                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                                        <span className="text-stone-500 text-xs">Confirmadas e preparadas</span>
                                     </div>
-                                    <div className="w-full bg-muted/50 h-1.5 mt-3 rounded-full overflow-hidden">
-                                        <div className="h-full rounded-full bg-blue-500 w-full opacity-50" />
+                                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                        <div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 w-full" />
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            {/* Satisfaction */}
-                            <Card className="border-border shadow-sm bg-card relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <Award className="w-16 h-16 text-yellow-500" />
-                                </div>
-                                <CardHeader className="pb-2">
-                                    <CardDescription>Índice NPS (Sat)</CardDescription>
-                                    <CardTitle className="text-2xl font-bold text-foreground">
+                            {/* Satisfaction NPS */}
+                            <Card className="bg-[#111113] border-white/5 shadow-xl relative overflow-hidden rounded-2xl group hover:border-white/10 transition-all">
+                                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <CardHeader className="pb-2 relative z-10">
+                                    <div className="flex items-center justify-between">
+                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">Índice NPS</CardDescription>
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500 to-amber-600 shadow-lg shadow-yellow-500/20">
+                                            <Award className="w-4 h-4 text-white" />
+                                        </div>
+                                    </div>
+                                    <CardTitle className="text-3xl font-bold text-white">
                                         {metrics.satisfaction.nps}
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent>
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 border-0">
-                                            Zona de Qualidade
+                                <CardContent className="relative z-10">
+                                    <div className="flex items-center gap-2 text-sm mb-3">
+                                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-400 border-0 text-xs">
+                                            {metrics.satisfaction.nps >= 70 ? '✨ Excelente' : metrics.satisfaction.nps >= 50 ? 'Bom' : 'Atenção'}
                                         </Badge>
                                     </div>
-                                    <div className="w-full bg-muted/50 h-1.5 mt-3 rounded-full overflow-hidden">
+                                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-yellow-500"
+                                            className="h-full rounded-full bg-gradient-to-r from-yellow-500 to-amber-500"
                                             style={{ width: `${metrics.satisfaction.nps}%` }}
                                         />
                                     </div>
@@ -441,33 +491,35 @@ export default function CEODashboard() {
                             </Card>
                         </div>
 
-                        {/* 2.2 Charts Section */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* 2.2 Charts Section - Premium Dark */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-                            {/* Quality vs Cost */}
-                            <Card className="border-border shadow-sm">
+                            {/* Quality vs Cost Chart */}
+                            <Card className="bg-[#111113] border-white/5 shadow-xl rounded-2xl">
                                 <CardHeader>
-                                    <CardTitle className="text-lg flex items-center gap-2">
-                                        <TrendingUp className="w-5 h-5 text-primary" />
+                                    <CardTitle className="text-lg flex items-center gap-3 text-white">
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                                            <TrendingUp className="w-4 h-4 text-white" />
+                                        </div>
                                         Evolução: Custo vs Qualidade
                                     </CardTitle>
-                                    <CardDescription>Relação entre investimento por prato e satisfação (30 dias)</CardDescription>
+                                    <CardDescription className="text-stone-500">Relação entre investimento por prato e satisfação (30 dias)</CardDescription>
                                 </CardHeader>
                                 <CardContent className="h-[350px]">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <ComposedChart data={metrics.charts.trendData}>
-                                            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                                            <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
                                             <XAxis
                                                 dataKey="dateDisplay"
-                                                tick={{ fontSize: 12, fill: '#6b7280' }}
+                                                tick={{ fontSize: 11, fill: '#71717a' }}
                                                 tickLine={false}
                                                 axisLine={false}
                                             />
                                             <YAxis
                                                 yAxisId="left"
                                                 domain={[10, 15]}
-                                                tick={{ fontSize: 12, fill: '#6b7280' }}
-                                                label={{ value: 'Custo (R$)', angle: -90, position: 'insideLeft', style: { fill: '#6b7280', fontSize: 12 } }}
+                                                tick={{ fontSize: 11, fill: '#71717a' }}
+                                                label={{ value: 'Custo (R$)', angle: -90, position: 'insideLeft', style: { fill: '#71717a', fontSize: 11 } }}
                                                 tickLine={false}
                                                 axisLine={false}
                                             />
@@ -475,32 +527,53 @@ export default function CEODashboard() {
                                                 yAxisId="right"
                                                 orientation="right"
                                                 domain={[0, 5]}
-                                                tick={{ fontSize: 12, fill: '#6b7280' }}
-                                                label={{ value: 'Nota (0-5)', angle: 90, position: 'insideRight', style: { fill: '#6b7280', fontSize: 12 } }}
+                                                tick={{ fontSize: 11, fill: '#71717a' }}
+                                                label={{ value: 'Nota (0-5)', angle: 90, position: 'insideRight', style: { fill: '#71717a', fontSize: 11 } }}
                                                 tickLine={false}
                                                 axisLine={false}
                                             />
                                             <Tooltip
-                                                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                                                contentStyle={{
+                                                    borderRadius: '12px',
+                                                    border: '1px solid rgba(255,255,255,0.1)',
+                                                    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                                                    backgroundColor: '#1a1a1c',
+                                                    color: '#fff'
+                                                }}
+                                                labelStyle={{ color: '#a1a1aa' }}
                                             />
-                                            <Legend />
+                                            <Legend
+                                                wrapperStyle={{ color: '#a1a1aa' }}
+                                            />
                                             <Area
                                                 yAxisId="left"
                                                 type="monotone"
                                                 dataKey="cost"
                                                 name="Custo Médio (R$)"
-                                                fill="var(--accent)"
-                                                fillOpacity={0.1}
-                                                stroke="var(--accent)"
+                                                fill="url(#costGradient)"
+                                                fillOpacity={0.3}
+                                                stroke="#f59e0b"
+                                                strokeWidth={2}
                                             />
+                                            <defs>
+                                                <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.3} />
+                                                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
+                                                </linearGradient>
+                                                <linearGradient id="qualityGradient" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.3} />
+                                                    <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
+                                                </linearGradient>
+                                            </defs>
                                             <Line
                                                 yAxisId="right"
                                                 type="monotone"
                                                 dataKey="quality"
                                                 name="Qualidade (0-5)"
-                                                stroke="var(--primary)"
+                                                stroke="#10b981"
                                                 strokeWidth={3}
-                                                dot={{ r: 4, fill: 'var(--primary)' }}
+                                                dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#111113' }}
+                                                activeDot={{ r: 6, fill: '#10b981' }}
                                             />
                                         </ComposedChart>
                                     </ResponsiveContainer>
@@ -508,61 +581,69 @@ export default function CEODashboard() {
                             </Card>
 
                             {/* Heroes vs Villains */}
-                            <Card className="border-border shadow-sm flex flex-col">
+                            <Card className="bg-[#111113] border-white/5 shadow-xl rounded-2xl flex flex-col">
                                 <CardHeader>
-                                    <CardTitle className="text-lg flex items-center gap-2">
-                                        <Utensils className="w-5 h-5 text-foreground" />
+                                    <CardTitle className="text-lg flex items-center gap-3 text-white">
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20">
+                                            <Utensils className="w-4 h-4 text-white" />
+                                        </div>
                                         Heróis e Vilões do Cardápio
                                     </CardTitle>
-                                    <CardDescription>Top pratos mais pedidos vs mais rejeitados</CardDescription>
+                                    <CardDescription className="text-stone-500">Top pratos mais pedidos vs mais rejeitados</CardDescription>
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col gap-6">
 
                                     {/* Heroes */}
                                     <div>
-                                        <h4 className="text-sm font-semibold text-primary mb-3 flex items-center gap-2">
+                                        <h4 className="text-sm font-semibold text-emerald-400 mb-4 flex items-center gap-2">
                                             <TrendingUp className="w-4 h-4" /> Campeões de Vendas
                                         </h4>
-                                        <div className="space-y-3">
+                                        <div className="space-y-4">
                                             {metrics.charts.topHeroes.map((item: any, idx: number) => (
-                                                <div key={idx} className="relative">
-                                                    <div className="flex justify-between text-sm mb-1 z-10 relative">
-                                                        <span className="font-medium text-foreground">{item.name}</span>
-                                                        <span className="font-bold text-primary">{item.confirmed} pedidos</span>
+                                                <div key={idx} className="relative group">
+                                                    <div className="flex justify-between text-sm mb-2 z-10 relative">
+                                                        <span className="font-medium text-white flex items-center gap-2">
+                                                            <span className="text-lg">{idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'}</span>
+                                                            {item.name}
+                                                        </span>
+                                                        <span className="font-bold text-emerald-400">{item.confirmed} pedidos</span>
                                                     </div>
-                                                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                                                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                                                         <div
-                                                            className="h-full bg-primary rounded-full transition-all"
+                                                            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all group-hover:shadow-[0_0_12px_rgba(16,185,129,0.4)]"
                                                             style={{ width: `${(item.confirmed / (metrics.charts.topHeroes[0]?.confirmed || 1)) * 100}%` }}
                                                         />
                                                     </div>
                                                 </div>
                                             ))}
-                                            {metrics.charts.topHeroes.length === 0 && <p className="text-sm text-muted-foreground">Sem dados suficientes.</p>}
+                                            {metrics.charts.topHeroes.length === 0 && <p className="text-sm text-stone-500">Sem dados suficientes.</p>}
                                         </div>
                                     </div>
 
                                     {/* Villains */}
                                     <div>
-                                        <h4 className="text-sm font-semibold text-destructive mb-3 flex items-center gap-2">
+                                        <h4 className="text-sm font-semibold text-red-400 mb-4 flex items-center gap-2">
                                             <TrendingDown className="w-4 h-4" /> Top Rejeição
                                         </h4>
-                                        <div className="space-y-3">
+                                        <div className="space-y-4">
                                             {metrics.charts.topVillains.map((item: any, idx: number) => (
-                                                <div key={idx} className="relative">
-                                                    <div className="flex justify-between text-sm mb-1 z-10 relative">
-                                                        <span className="font-medium text-foreground">{item.name}</span>
-                                                        <span className="font-bold text-destructive">{item.cancelled} canc.</span>
+                                                <div key={idx} className="relative group">
+                                                    <div className="flex justify-between text-sm mb-2 z-10 relative">
+                                                        <span className="font-medium text-white flex items-center gap-2">
+                                                            <span className="text-lg">{idx === 0 ? '⚠️' : idx === 1 ? '🔻' : '📉'}</span>
+                                                            {item.name}
+                                                        </span>
+                                                        <span className="font-bold text-red-400">{item.cancelled} canc.</span>
                                                     </div>
-                                                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                                                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                                                         <div
-                                                            className="h-full bg-destructive/80 rounded-full transition-all"
+                                                            className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all group-hover:shadow-[0_0_12px_rgba(239,68,68,0.4)]"
                                                             style={{ width: `${(item.cancelled / (metrics.charts.topVillains[0]?.cancelled || 1)) * 100}%` }}
                                                         />
                                                     </div>
                                                 </div>
                                             ))}
-                                            {metrics.charts.topVillains.length === 0 && <p className="text-sm text-muted-foreground">Sem dados suficientes (Nenhum cancelamento).</p>}
+                                            {metrics.charts.topVillains.length === 0 && <p className="text-sm text-stone-500">Sem dados (Nenhum cancelamento).</p>}
                                         </div>
                                     </div>
 
@@ -570,15 +651,25 @@ export default function CEODashboard() {
                             </Card>
                         </div>
 
-                        {/* 2.3 Unit Leaderboard */}
-                        <Card className="border-border shadow-sm overflow-hidden">
-                            <CardHeader className="bg-muted/30 border-b border-border/50">
+                        {/* 2.3 Unit Leaderboard - Premium Dark */}
+                        <Card className="bg-[#111113] border-white/5 shadow-xl overflow-hidden rounded-2xl">
+                            <CardHeader className="bg-white/5 border-b border-white/5">
                                 <div className="flex items-center justify-between">
-                                    <div>
-                                        <CardTitle className="text-lg">Ranking de Performance</CardTitle>
-                                        <CardDescription>Comparativo de eficiência entre unidades</CardDescription>
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-violet-500/20">
+                                            <BarChart3 className="w-4 h-4 text-white" />
+                                        </div>
+                                        <div>
+                                            <CardTitle className="text-lg text-white">Ranking de Performance</CardTitle>
+                                            <CardDescription className="text-stone-500">Comparativo de eficiência entre unidades</CardDescription>
+                                        </div>
                                     </div>
-                                    <Button variant="outline" size="sm" disabled>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled
+                                        className="bg-white/5 border-white/10 text-stone-400 rounded-xl"
+                                    >
                                         <Filter className="w-4 h-4 mr-2" />
                                         Mais Filtros
                                     </Button>
@@ -586,40 +677,63 @@ export default function CEODashboard() {
                             </CardHeader>
                             <Table>
                                 <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[100px]">Posição</TableHead>
-                                        <TableHead>Unidade</TableHead>
-                                        <TableHead className="text-right">Total Pedidos</TableHead>
-                                        <TableHead className="text-right">Rejeição</TableHead>
-                                        <TableHead className="text-right">Custo Est.</TableHead>
-                                        <TableHead className="text-right">Status</TableHead>
+                                    <TableRow className="border-white/5 hover:bg-transparent">
+                                        <TableHead className="w-[100px] text-stone-500">Posição</TableHead>
+                                        <TableHead className="text-stone-500">Unidade</TableHead>
+                                        <TableHead className="text-right text-stone-500">Total Pedidos</TableHead>
+                                        <TableHead className="text-right text-stone-500">Rejeição</TableHead>
+                                        <TableHead className="text-right text-stone-500">Custo Est.</TableHead>
+                                        <TableHead className="text-right text-stone-500">Status</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {metrics.rankings.map((unit: any, idx: number) => (
-                                        <TableRow key={unit.id}>
+                                        <TableRow key={unit.id} className="border-white/5 hover:bg-white/5 transition-colors">
                                             <TableCell className="font-medium">
-                                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-muted-foreground font-bold text-sm">
-                                                    {idx + 1}
+                                                <div className={`flex items-center justify-center w-10 h-10 rounded-xl font-bold text-lg ${idx === 0
+                                                        ? 'bg-gradient-to-br from-yellow-500 to-amber-600 text-white shadow-lg shadow-yellow-500/20'
+                                                        : idx === 1
+                                                            ? 'bg-gradient-to-br from-stone-400 to-stone-500 text-white shadow-lg shadow-stone-500/20'
+                                                            : 'bg-white/5 text-stone-400'
+                                                    }`}>
+                                                    {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx + 1}
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="font-semibold text-foreground">{unit.name}</div>
-                                                <div className="text-xs text-muted-foreground">ID: {unit.id.toUpperCase()}</div>
+                                                <div className="font-semibold text-white">{unit.name}</div>
+                                                <div className="text-xs text-stone-500">ID: {unit.id.toUpperCase()}</div>
                                             </TableCell>
-                                            <TableCell className="text-right font-bold">{unit.total}</TableCell>
+                                            <TableCell className="text-right">
+                                                <span className="font-bold text-white text-lg">{unit.total.toLocaleString('pt-BR')}</span>
+                                            </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex flex-col items-end gap-1">
-                                                    <span className="font-bold text-destructive">{unit.rejected}</span>
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {((unit.rejected / (unit.total || 1)) * 100).toFixed(1)}%
-                                                    </span>
+                                                    <span className="font-bold text-red-400">{unit.rejected}</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-16 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                                            <div
+                                                                className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full"
+                                                                style={{ width: `${Math.min((unit.rejected / (unit.total || 1)) * 100 * 5, 100)}%` }}
+                                                            />
+                                                        </div>
+                                                        <span className="text-xs text-stone-500">
+                                                            {((unit.rejected / (unit.total || 1)) * 100).toFixed(1)}%
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell className="text-right">R$ {unit.cost.toFixed(2)}</TableCell>
                                             <TableCell className="text-right">
-                                                <Badge variant="outline" className={unit.cost > MOCK_TARGET_CMV ? "text-destructive border-destructive/30" : "text-primary border-primary/30"}>
-                                                    {unit.cost > MOCK_TARGET_CMV ? "Atenção" : "Regular"}
+                                                <span className="font-semibold text-white">R$ {unit.cost.toFixed(2)}</span>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <Badge
+                                                    variant="outline"
+                                                    className={unit.cost > MOCK_TARGET_CMV
+                                                        ? "bg-red-500/10 text-red-400 border-red-500/30 rounded-lg"
+                                                        : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 rounded-lg"
+                                                    }
+                                                >
+                                                    {unit.cost > MOCK_TARGET_CMV ? "⚠️ Atenção" : "✓ Regular"}
                                                 </Badge>
                                             </TableCell>
                                         </TableRow>
