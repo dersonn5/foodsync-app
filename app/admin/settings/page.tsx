@@ -38,7 +38,7 @@ export default function SettingsPage() {
         // Unit & Ops
         unitName: 'Matriz - Cozinha Central',
         supportPhone: '(11) 99999-0000',
-        supportEmail: 'relacionamento@foodsync.com',
+        supportEmail: 'relacionamento@kitchenos.app',
         orderCutoff: '10:00',
         minNotice: '24h',
         dagMessage: '🍔 Sexta-feira é dia de Hambúrguer Artesanal! Não esqueça de reservar.',
@@ -113,8 +113,8 @@ export default function SettingsPage() {
                 <button
                     onClick={() => setActiveTab('unit')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all text-sm font-medium border-b-2 ${activeTab === 'unit'
-                            ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
-                            : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
+                        ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
+                        : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
                         }`}
                 >
                     <Store className="w-4 h-4" /> Unidade & Operação
@@ -122,8 +122,8 @@ export default function SettingsPage() {
                 <button
                     onClick={() => setActiveTab('system')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all text-sm font-medium border-b-2 ${activeTab === 'system'
-                            ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
-                            : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
+                        ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
+                        : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
                         }`}
                 >
                     <Palette className="w-4 h-4" /> Aparência & Sistema
@@ -131,8 +131,8 @@ export default function SettingsPage() {
                 <button
                     onClick={() => setActiveTab('profile')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all text-sm font-medium border-b-2 ${activeTab === 'profile'
-                            ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
-                            : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
+                        ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
+                        : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
                         }`}
                 >
                     <Shield className="w-4 h-4" /> Perfil & Segurança

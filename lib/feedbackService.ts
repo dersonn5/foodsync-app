@@ -2,7 +2,7 @@ import { supabase } from './supabase'
 import { format } from 'date-fns'
 
 // ============================================
-// FoodSync Feedback Service
+// KitchenOS Feedback Service
 // ============================================
 
 /**

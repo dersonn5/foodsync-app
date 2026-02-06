@@ -17,7 +17,7 @@ export default function ProfilePage() {
     )
 
     useEffect(() => {
-        const stored = localStorage.getItem('foodsync_user')
+        const stored = localStorage.getItem('kitchenos_user')
         if (stored) {
             setUser(JSON.parse(stored))
         } else {
@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
-        localStorage.removeItem('foodsync_user')
+        localStorage.removeItem('kitchenos_user')
         router.push('/')
         router.refresh()
     }
@@ -127,7 +127,7 @@ export default function ProfilePage() {
                 </div>
 
                 <p className="text-center text-xs text-gray-300 pt-6">
-                    FoodSync v1.0 • ID: {user.id.slice(0, 8)}
+                    KitchenOS v1.0 • ID: {user.id.slice(0, 8)}
                 </p>
             </main>
         </div>

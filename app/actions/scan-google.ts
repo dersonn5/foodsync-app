@@ -51,7 +51,7 @@ export async function scanImageWithGoogle(base64Image: string) {
             // O código é: "A5BFC9"
 
             // Regra 1: Lista Negra (Palavras de 6 letras que podem aparecer)
-            const blacklist = ["TICKET", "FRANGO", "PEDIDO", "CODIGO", "STATUS", "FOODSYNC", "BRLBRL", "VALORR"];
+            const blacklist = ["TICKET", "FRANGO", "PEDIDO", "CODIGO", "STATUS", "KITCHENOS", "BRLBRL", "VALORR"];
             if (blacklist.includes(code)) return false;
 
             // Regra 2 (A MAIS FORTE): Tem que ter NÚMERO?

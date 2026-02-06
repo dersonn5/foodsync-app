@@ -85,7 +85,7 @@ export default function AdminLogin() {
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold tracking-tight text-white mb-1">
-                                FoodSync <span className="text-green-400">Admin</span>
+                                KitchenOS <span className="text-green-400">Admin</span>
                             </h2>
                             <p className="text-slate-400 text-sm">
                                 Centro de Controle Operacional
@@ -109,7 +109,7 @@ export default function AdminLogin() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="pl-11 bg-slate-900/50 border-white/10 text-white placeholder:text-slate-600 focus-visible:ring-green-500/50 focus-visible:border-green-500/50 h-12 rounded-xl transition-all"
-                                    placeholder="admin@foodsync.com"
+                                    placeholder="admin@kitchenos.app"
                                 />
                             </div>
                         </div>
@@ -158,7 +158,7 @@ export default function AdminLogin() {
                 </div>
 
                 <p className="text-center text-slate-600 text-xs mt-6">
-                    © 2026 FoodSync System.
+                    © 2026 KitchenOS System.
                 </p>
             </motion.div>
         </div>

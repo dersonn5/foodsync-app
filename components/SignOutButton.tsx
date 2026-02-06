@@ -17,7 +17,7 @@ export default function SignOutButton() {
         await supabase.auth.signOut()
 
         // 2. Clear Legacy LocalStorage (just in case)
-        localStorage.removeItem('foodsync_user')
+        localStorage.removeItem('kitchenos_user')
 
         // 3. Force Redirect
         router.push('/')

@@ -5,7 +5,7 @@ export async function POST(request: Request) {
         const body = await request.json()
 
         // External n8n Webhook URL
-        const N8N_URL = 'https://n8nwebhook.automaxio.com.br/webhook/foodsync/disparo'
+        const N8N_URL = 'https://n8nwebhook.automaxio.com.br/webhook/kitchenos/disparo'
 
         const response = await fetch(N8N_URL, {
             method: 'POST',

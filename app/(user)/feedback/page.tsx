@@ -32,7 +32,7 @@ export default function FeedbackPage() {
 
     // Auth + Check existing feedback
     useEffect(() => {
-        const stored = localStorage.getItem('foodsync_user')
+        const stored = localStorage.getItem('kitchenos_user')
         if (stored) {
             const userData = JSON.parse(stored)
             setUser(userData)

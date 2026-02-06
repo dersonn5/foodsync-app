@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================
-   FoodSync Design System
+   KitchenOS Design System
    Theme: Gastronomic / Fresh / Professional
    ============================================ */
 
@@ -52,7 +52,7 @@
 }
 
 :root {
-  /* === FoodSync Brand Colors === */
+  /* === KitchenOS Brand Colors === */
   --radius: 0.75rem;
 
   /* Backgrounds */
@@ -116,7 +116,7 @@
   --sidebar-border: hsl(25 25% 18%);
   --sidebar-ring: hsl(142 52% 45%);
 
-  /* === FoodSync Custom Tokens === */
+  /* === KitchenOS Custom Tokens === */
   --food-success: hsl(142 70% 42%);
   /* Verde Erva */
   --food-warning: hsl(45 100% 51%);
@@ -204,7 +204,7 @@
   }
 }
 
-/* === FoodSync Utility Classes === */
+/* === KitchenOS Utility Classes === */
 @layer utilities {
   .food-gradient-brand {
     background: var(--gradient-brand);

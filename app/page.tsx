@@ -71,7 +71,7 @@ export default function LoginPage() {
 
       if (user) {
         console.log('User found, logging in:', user)
-        localStorage.setItem('foodsync_user', JSON.stringify(user))
+        localStorage.setItem('kitchenos_user', JSON.stringify(user))
         router.push('/selection')
       } else {
         console.log('User not found, show signup fields')
@@ -112,7 +112,7 @@ export default function LoginPage() {
 
       if (error) throw error
 
-      localStorage.setItem('foodsync_user', JSON.stringify(data))
+      localStorage.setItem('kitchenos_user', JSON.stringify(data))
       router.push('/selection')
 
     } catch (err: any) {
@@ -166,7 +166,7 @@ export default function LoginPage() {
 
             <div className="space-y-1.5">
               <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-                {step === 'login' ? 'Bem-vindo ao FoodSync' : 'Quase lá...'}
+                {step === 'login' ? 'Bem-vindo ao KitchenOS' : 'Quase lá...'}
               </CardTitle>
               <p className="text-muted-foreground text-sm font-medium">
                 {step === 'login' ? 'Digite seu CPF para começar' : 'Complete seu cadastro para continuar'}
@@ -292,7 +292,7 @@ export default function LoginPage() {
           transition={{ delay: 0.5 }}
           className="text-center mt-8 text-sm font-medium text-muted-foreground"
         >
-          © 2026 FoodSync. Cozinha Inteligente.
+          © 2026 KitchenOS. Cozinha Inteligente.
         </motion.div>
       </motion.div>
     </div>

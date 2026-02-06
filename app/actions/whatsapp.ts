@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import axios from 'axios'
 
@@ -30,7 +30,7 @@ export async function sendConfirmationMessage({ phone, dishName }: SendConfirmat
         // Safe bet: just send clean numbers.
 
         // Construct the message
-        const message = `✅ *Pedido Confirmado!* \n\nPrato: ${dishName} \nData: Amanhã \n\nAcesse seu ticket aqui: https://${process.env.NEXT_PUBLIC_VERCEL_URL || 'foodsync.app'}/ticket`
+        const message = `âœ… *Pedido Confirmado!* \n\nPrato: ${dishName} \nData: AmanhÃ£ \n\nAcesse seu ticket aqui: https://${process.env.NEXT_PUBLIC_VERCEL_URL || 'kitchenos.app'}/ticket`
 
         await axios.post(
             `${apiUrl}/message/sendText/${instance}`,
@@ -59,3 +59,4 @@ export async function sendConfirmationMessage({ phone, dishName }: SendConfirmat
         // We don't throw here to avoid breaking the UI flow. It's a "fire and forget" notification.
     }
 }
+

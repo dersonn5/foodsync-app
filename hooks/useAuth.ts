@@ -62,7 +62,7 @@ export function useAuth() {
 
     const logout = () => {
         setUser(null)
-        localStorage.removeItem('foodsync_user')
+        localStorage.removeItem('kitchenos_user')
         router.push('/')
     }
 

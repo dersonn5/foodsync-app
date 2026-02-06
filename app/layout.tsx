@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FoodSync",
+  title: "KitchenOS",
   description: "Sistema de gestão para cozinhas industriais",
 };
 

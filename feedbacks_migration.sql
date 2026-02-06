@@ -1,5 +1,5 @@
 -- =====================================================
--- FEEDBACKS_APP TABLE - FoodSync Meal Feedback System
+-- FEEDBACKS_APP TABLE - KitchenOS Meal Feedback System
 -- =====================================================
 -- Run this migration on your Supabase project to enable
 -- the feedback collection feature.

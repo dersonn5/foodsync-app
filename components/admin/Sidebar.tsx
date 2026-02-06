@@ -40,7 +40,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                     </div>
                     <div>
                         <span className="text-lg font-bold tracking-tight block leading-none text-white">
-                            FoodSync
+                            KitchenOS
                         </span>
                         <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest pl-0.5">
                             Gestão de Cozinha
@@ -108,7 +108,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                         </div>
                         <div className="flex-1 overflow-hidden">
                             <p className="text-xs font-semibold text-white truncate">Gerente</p>
-                            <p className="text-[10px] text-white/40 truncate">admin@foodsync.com</p>
+                            <p className="text-[10px] text-white/40 truncate">admin@kitchenos.app</p>
                         </div>
                     </div>
                     <button

@@ -29,7 +29,7 @@ export default function OrdersPage() {
     useEffect(() => {
         async function fetchHistory() {
             // Get user from local storage
-            const stored = localStorage.getItem('foodsync_user')
+            const stored = localStorage.getItem('kitchenos_user')
             if (!stored) return
 
             const user = JSON.parse(stored)

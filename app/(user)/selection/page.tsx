@@ -49,7 +49,7 @@ function SelectionContent() {
 
     // 1. Auth Logic 
     useEffect(() => {
-        const stored = localStorage.getItem('foodsync_user')
+        const stored = localStorage.getItem('kitchenos_user')
         if (stored) {
             setUser(JSON.parse(stored))
         } else {
