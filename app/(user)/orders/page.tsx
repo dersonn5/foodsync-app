@@ -12,7 +12,7 @@ import { OrderTicketDialog } from "@/components/app/order-ticket-dialog"
 // Basic order type for the list
 interface OrderHistoryItem {
     id: string
-    short_id?: string // Added short_id
+    short_id?: string
     consumption_date: string
     status: string
     menu_items: {
@@ -28,7 +28,6 @@ export default function OrdersPage() {
 
     useEffect(() => {
         async function fetchHistory() {
-            // Get user from local storage
             const stored = localStorage.getItem('kitchenos_user')
             if (!stored) return
 
@@ -36,14 +35,11 @@ export default function OrdersPage() {
 
             const { data, error } = await supabase
                 .from('orders')
-                // Added short_id to select
                 .select('id, short_id, consumption_date, status, menu_items(name)')
                 .eq('user_id', user.id)
                 .order('consumption_date', { ascending: false })
 
             if (data) {
-                // Filter out past orders (today + future)
-                // Use local date string comparison
                 const todayStr = format(new Date(), 'yyyy-MM-dd')
                 const upcomingOrders = (data as any).filter((o: OrderHistoryItem) => {
                     return o.consumption_date >= todayStr
@@ -56,25 +52,27 @@ export default function OrdersPage() {
     }, [])
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans">
+        <div className="min-h-screen bg-transparent font-sans">
             {/* Header */}
-            <header className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-[0_4px_30px_-5px_rgba(0,0,0,0.03)] border-b border-gray-100/50">
+            <header className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-sm border-b border-stone-200/60">
                 <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Meus Pedidos</h1>
-                        <p className="text-sm text-gray-400 font-medium">Sua carteira de refeições</p>
-                    </div>
-                    <div className="bg-green-50 p-2.5 rounded-xl text-green-600">
-                        <TicketIcon className="w-6 h-6" />
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                            <TicketIcon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold text-stone-800 tracking-tight">Meus Pedidos</h1>
+                            <p className="text-xs text-stone-500">Sua carteira de refeições</p>
+                        </div>
                     </div>
                 </div>
             </header>
 
-            <main className="p-6 pb-32 space-y-5">
+            <main className="p-6 pb-32 space-y-4">
                 {loading ? (
                     <div className="space-y-4 pt-4">
                         {[1, 2].map(i => (
-                            <div key={i} className="h-28 bg-white rounded-2xl animate-pulse shadow-sm" />
+                            <div key={i} className="h-24 bg-white rounded-2xl animate-pulse border border-stone-200/60" />
                         ))}
                     </div>
                 ) : orders.length > 0 ? (
@@ -88,7 +86,7 @@ export default function OrdersPage() {
                                 transition: { staggerChildren: 0.1 }
                             }
                         }}
-                        className="space-y-4"
+                        className="space-y-3"
                     >
                         {orders.map(order => (
                             <motion.div
@@ -102,55 +100,55 @@ export default function OrdersPage() {
                                     setIsTicketOpen(true)
                                 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="bg-white p-5 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100/80 cursor-pointer group active:border-green-200 transition-all flex items-center gap-5 relative overflow-hidden"
+                                className="bg-white p-4 rounded-2xl border border-stone-200/60 cursor-pointer group hover:shadow-md hover:border-stone-300 transition-all flex items-center gap-4 relative overflow-hidden"
                             >
                                 {/* Active Strip Indicator */}
-                                <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${order.status === 'confirmed' ? 'bg-green-500' : 'bg-amber-400'}`} />
+                                <div className={`absolute left-0 top-0 bottom-0 w-1 ${order.status === 'confirmed' ? 'bg-gradient-to-b from-emerald-500 to-teal-600' : 'bg-amber-400'}`} />
 
-                                <div className="h-14 w-auto px-3 bg-gray-50 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-100 group-hover:bg-white group-hover:shadow-md transition-all">
-                                    <span className="text-sm font-bold text-gray-900 capitalize leading-none">
+                                <div className="h-14 w-auto px-4 bg-stone-50 rounded-xl flex items-center justify-center flex-shrink-0 border border-stone-100 group-hover:bg-white group-hover:shadow-sm transition-all ml-2">
+                                    <span className="text-sm font-bold text-stone-700 capitalize leading-none">
                                         {formatDateDisplay(order.consumption_date)}
                                     </span>
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="font-bold text-gray-900 truncate leading-tight mb-1">{order.menu_items?.name || 'Prato Desconhecido'}</h3>
+                                    <h3 className="font-bold text-stone-800 truncate leading-tight mb-1.5">{order.menu_items?.name || 'Prato Desconhecido'}</h3>
                                     <div className="flex items-center gap-2">
                                         {order.status === 'confirmed' ? (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wide border border-green-100">
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wide border border-emerald-100">
                                                 <Sparkles className="w-3 h-3" />
                                                 Confirmado
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide border border-amber-100">
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide border border-amber-100">
                                                 <CalendarClock className="w-3 h-3" />
                                                 Pendente
                                             </span>
                                         )}
-                                        {/* Weekday removed as it is now in the main date display */}
                                     </div>
                                 </div>
                             </motion.div>
                         ))}
                     </motion.div>
                 ) : (
-                    <div className="text-center py-24 opacity-60 flex flex-col items-center">
-                        <div className="bg-gray-100 p-6 rounded-full mb-4">
-                            <UtensilsCrossed className="w-10 h-10 text-gray-300" />
+                    <div className="text-center py-24 flex flex-col items-center">
+                        <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center mb-4">
+                            <UtensilsCrossed className="w-10 h-10 text-stone-300" />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-600 tracking-tight">Vazio por aqui</h3>
-                        <p className="text-sm text-gray-400 mt-1 max-w-[200px]">Você ainda não reservou nenhuma refeição futura.</p>
+                        <h3 className="text-lg font-bold text-stone-600 tracking-tight mb-1">Vazio por aqui</h3>
+                        <p className="text-sm text-stone-400 max-w-[220px]">Você ainda não reservou nenhuma refeição futura.</p>
                     </div>
                 )}
 
-            </main >
+            </main>
 
             {/* Ticket Modal Component */}
-            < OrderTicketDialog
+            <OrderTicketDialog
                 isOpen={isTicketOpen}
                 onClose={() => setIsTicketOpen(false)}
                 order={selectedOrder}
             />
-        </div >
+        </div>
     )
 }
+

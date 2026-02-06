@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Clock, Send, CheckCircle2, Loader2, ArrowLeft } from 'lucide-react'
+import { Clock, Send, CheckCircle2, Loader2, ArrowLeft, Star } from 'lucide-react'
 
 import { StarRating } from '@/components/feedback/StarRating'
 import { Button } from '@/components/ui/button'
@@ -71,8 +71,8 @@ export default function FeedbackPage() {
 
     if (!user) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-slate-50">
-                <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100">
+                <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
             </div>
         )
     }
@@ -80,14 +80,21 @@ export default function FeedbackPage() {
     // Already submitted message
     if (alreadySubmitted && !submitted) {
         return (
-            <div className="flex flex-col min-h-screen bg-slate-50">
-                <header className="bg-white shadow-sm px-6 pt-12 pb-6">
-                    <button onClick={() => router.back()} className="flex items-center gap-2 text-slate-400 mb-4">
+            <div className="flex flex-col min-h-screen bg-transparent">
+                <header className="bg-white/80 backdrop-blur-xl shadow-sm px-6 pt-12 pb-6 border-b border-stone-200/60">
+                    <button onClick={() => router.back()} className="flex items-center gap-2 text-stone-400 mb-4 hover:text-stone-600 transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                         <span className="text-sm font-medium">Voltar</span>
                     </button>
-                    <h1 className="text-2xl font-bold text-slate-800">Avaliação da Refeição</h1>
-                    <p className="text-slate-500 text-sm capitalize mt-1">{today}</p>
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                            <Star className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold text-stone-800">Avaliação da Refeição</h1>
+                            <p className="text-stone-500 text-xs capitalize">{today}</p>
+                        </div>
+                    </div>
                 </header>
 
                 <main className="flex-1 flex items-center justify-center p-6">
@@ -96,16 +103,16 @@ export default function FeedbackPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         className="text-center"
                     >
-                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <CheckCircle2 className="w-10 h-10 text-green-600" />
+                        <div className="w-20 h-20 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-emerald-100">
+                            <CheckCircle2 className="w-10 h-10 text-emerald-600" />
                         </div>
-                        <h2 className="text-xl font-bold text-slate-800 mb-2">Avaliação já enviada!</h2>
-                        <p className="text-slate-500 text-sm max-w-xs mx-auto">
+                        <h2 className="text-xl font-bold text-stone-800 mb-2">Avaliação já enviada!</h2>
+                        <p className="text-stone-500 text-sm max-w-xs mx-auto">
                             Você já avaliou a refeição de hoje. Obrigado pelo seu feedback!
                         </p>
                         <Button
                             onClick={() => router.push('/selection')}
-                            className="mt-8 bg-green-600 hover:bg-green-700"
+                            className="mt-8 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl shadow-lg shadow-emerald-500/25"
                         >
                             Voltar ao Cardápio
                         </Button>
@@ -118,14 +125,21 @@ export default function FeedbackPage() {
     // Time lock message
     if (!canSubmit) {
         return (
-            <div className="flex flex-col min-h-screen bg-slate-50">
-                <header className="bg-white shadow-sm px-6 pt-12 pb-6">
-                    <button onClick={() => router.back()} className="flex items-center gap-2 text-slate-400 mb-4">
+            <div className="flex flex-col min-h-screen bg-transparent">
+                <header className="bg-white/80 backdrop-blur-xl shadow-sm px-6 pt-12 pb-6 border-b border-stone-200/60">
+                    <button onClick={() => router.back()} className="flex items-center gap-2 text-stone-400 mb-4 hover:text-stone-600 transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                         <span className="text-sm font-medium">Voltar</span>
                     </button>
-                    <h1 className="text-2xl font-bold text-slate-800">Avaliação da Refeição</h1>
-                    <p className="text-slate-500 text-sm capitalize mt-1">{today}</p>
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                            <Star className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold text-stone-800">Avaliação da Refeição</h1>
+                            <p className="text-stone-500 text-xs capitalize">{today}</p>
+                        </div>
+                    </div>
                 </header>
 
                 <main className="flex-1 flex items-center justify-center p-6">
@@ -134,20 +148,20 @@ export default function FeedbackPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center"
                     >
-                        <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <div className="w-20 h-20 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-amber-100">
                             <Clock className="w-10 h-10 text-amber-600" />
                         </div>
-                        <h2 className="text-xl font-bold text-slate-800 mb-2">Período Encerrado</h2>
-                        <p className="text-slate-500 text-sm max-w-xs mx-auto">
+                        <h2 className="text-xl font-bold text-stone-800 mb-2">Período Encerrado</h2>
+                        <p className="text-stone-500 text-sm max-w-xs mx-auto">
                             {getFeedbackCutoffMessage()}
                         </p>
-                        <p className="text-slate-400 text-xs mt-4">
+                        <p className="text-stone-400 text-xs mt-4">
                             Volte amanhã até às 15h para avaliar.
                         </p>
                         <Button
                             onClick={() => router.push('/selection')}
                             variant="outline"
-                            className="mt-8"
+                            className="mt-8 border-stone-200 text-stone-600 hover:bg-stone-50 rounded-xl"
                         >
                             Voltar ao Cardápio
                         </Button>
@@ -160,7 +174,7 @@ export default function FeedbackPage() {
     // Success state
     if (submitted) {
         return (
-            <div className="flex flex-col min-h-screen bg-slate-50">
+            <div className="flex flex-col min-h-screen bg-transparent">
                 <main className="flex-1 flex items-center justify-center p-6">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -171,17 +185,17 @@ export default function FeedbackPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                            className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+                            className="w-24 h-24 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-emerald-100"
                         >
-                            <CheckCircle2 className="w-12 h-12 text-green-600" />
+                            <CheckCircle2 className="w-12 h-12 text-emerald-600" />
                         </motion.div>
-                        <h2 className="text-2xl font-bold text-slate-800 mb-2">Obrigado!</h2>
-                        <p className="text-slate-500 text-sm max-w-xs mx-auto">
+                        <h2 className="text-2xl font-bold text-stone-800 mb-2">Obrigado!</h2>
+                        <p className="text-stone-500 text-sm max-w-xs mx-auto">
                             Sua avaliação foi enviada com sucesso. Seu feedback nos ajuda a melhorar!
                         </p>
                         <Button
                             onClick={() => router.push('/selection')}
-                            className="mt-8 bg-green-600 hover:bg-green-700"
+                            className="mt-8 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl shadow-lg shadow-emerald-500/25"
                         >
                             Voltar ao Cardápio
                         </Button>
@@ -193,15 +207,22 @@ export default function FeedbackPage() {
 
     // Main form
     return (
-        <div className="flex flex-col min-h-screen bg-slate-50">
+        <div className="flex flex-col min-h-screen bg-transparent">
             {/* Header */}
-            <header className="bg-white shadow-sm px-6 pt-12 pb-6">
-                <button onClick={() => router.back()} className="flex items-center gap-2 text-slate-400 mb-4">
+            <header className="bg-white/80 backdrop-blur-xl shadow-sm px-6 pt-12 pb-6 border-b border-stone-200/60">
+                <button onClick={() => router.back()} className="flex items-center gap-2 text-stone-400 mb-4 hover:text-stone-600 transition-colors">
                     <ArrowLeft className="w-5 h-5" />
                     <span className="text-sm font-medium">Voltar</span>
                 </button>
-                <h1 className="text-2xl font-bold text-slate-800">Avalie sua Refeição</h1>
-                <p className="text-slate-500 text-sm capitalize mt-1">{today}</p>
+                <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                        <Star className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <h1 className="text-xl font-bold text-stone-800">Avalie sua Refeição</h1>
+                        <p className="text-stone-500 text-xs capitalize">{today}</p>
+                    </div>
+                </div>
             </header>
 
             {/* Form */}
@@ -209,7 +230,7 @@ export default function FeedbackPage() {
                 <div className="flex-1 flex flex-col items-center justify-center space-y-10">
                     {/* Stars */}
                     <div className="text-center">
-                        <p className="text-slate-600 font-medium mb-6">Como foi a refeição de hoje?</p>
+                        <p className="text-stone-600 font-medium mb-6">Como foi a refeição de hoje?</p>
                         <StarRating
                             value={rating}
                             onChange={setRating}
@@ -219,7 +240,7 @@ export default function FeedbackPage() {
 
                     {/* Comment - Always Visible */}
                     <div className="w-full max-w-md">
-                        <label className="block text-sm font-medium text-slate-600 mb-2">
+                        <label className="block text-sm font-medium text-stone-600 mb-2">
                             Deixe um comentário (opcional)
                         </label>
                         <textarea
@@ -227,10 +248,10 @@ export default function FeedbackPage() {
                             onChange={(e) => setComment(e.target.value)}
                             placeholder="Opcional: Conte mais sobre sua experiência (Sabor, temperatura, etc)..."
                             rows={4}
-                            className="w-full p-4 rounded-xl bg-zinc-50 border border-zinc-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none resize-none transition-all"
+                            className="w-full p-4 rounded-2xl bg-white border border-stone-200/60 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none resize-none transition-all text-stone-800 placeholder:text-stone-400"
                             maxLength={500}
                         />
-                        <p className="text-xs text-slate-400 mt-2 text-right">
+                        <p className="text-xs text-stone-400 mt-2 text-right">
                             {comment.length}/500
                         </p>
                     </div>
@@ -240,7 +261,7 @@ export default function FeedbackPage() {
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="text-red-500 text-sm text-center bg-red-50 px-4 py-2 rounded-lg"
+                            className="text-red-600 text-sm text-center bg-red-50 px-4 py-2 rounded-xl border border-red-100"
                         >
                             {error}
                         </motion.p>
@@ -260,7 +281,7 @@ export default function FeedbackPage() {
                         <Button
                             onClick={handleSubmit}
                             disabled={submitting}
-                            className="w-full h-14 text-lg font-bold bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3"
+                            className="w-full h-14 text-lg font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl shadow-xl shadow-emerald-500/30 active:scale-95 transition-all flex items-center justify-center gap-3"
                         >
                             {submitting ? (
                                 <>
@@ -280,3 +301,4 @@ export default function FeedbackPage() {
         </div>
     )
 }
+
