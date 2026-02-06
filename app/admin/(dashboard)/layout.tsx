@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { AdminSidebar, menuItems } from '@/components/admin/Sidebar'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -26,6 +27,16 @@ export default function AdminLayout({
 }: {
     children: React.ReactNode
 }) {
+    const pathname = usePathname()
+    const mainContentRef = useRef<HTMLDivElement>(null)
+
+    // Reset scroll position when navigating between pages
+    useEffect(() => {
+        if (mainContentRef.current) {
+            mainContentRef.current.scrollTop = 0
+        }
+    }, [pathname])
+
     return (
         <NotificationProvider>
             {/* Main Container: Mobile = min-h-screen (scroll), Desktop = h-screen (fixed/hidden scroll) */}
@@ -36,9 +47,12 @@ export default function AdminLayout({
                 </div>
 
                 {/* Main Content Wrapper: Mobile = auto height + padding, Desktop = full height + locked */}
-                <div className="flex-1 md:ml-72 flex flex-col transition-all duration-300 pb-24 md:pb-0 h-auto md:h-screen overflow-visible md:overflow-y-auto">
+                <div
+                    ref={mainContentRef}
+                    className="flex-1 md:ml-72 flex flex-col transition-all duration-300 pb-24 md:pb-0 h-auto md:h-screen overflow-visible md:overflow-y-auto"
+                >
                     <AdminHeader />
-                    {/* Content Area: Remove padding here, handled in page.tsx. Ensure full height. */}
+                    {/* Content Area: Ensure scroll starts at top */}
                     <main className="flex-1 h-full w-full">
                         {children}
                     </main>

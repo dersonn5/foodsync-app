@@ -60,7 +60,7 @@ export default function AdminMenuPage() {
         fetchWeekItems()
     }, [currentWeekStart])
 
-    // Auto-Scroll to Today on Mount
+    // Auto-Scroll to Today on Mount (horizontal only, no vertical scroll)
     useEffect(() => {
         const dayOfWeek = new Date().getDay()
         const todayIndex = dayOfWeek - 1 // Mon(1) -> 0, Fri(5) -> 4
@@ -69,11 +69,12 @@ export default function AdminMenuPage() {
             const currentDayElement = dayRefs.current[todayIndex];
             setTimeout(() => {
                 if (currentDayElement) {
-                    currentDayElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                        inline: 'center'
-                    });
+                    // Only scroll horizontally on mobile (when using flex scroll)
+                    const parent = currentDayElement.parentElement;
+                    if (parent && window.innerWidth < 768) {
+                        const scrollLeft = currentDayElement.offsetLeft - parent.offsetLeft - 16;
+                        parent.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                    }
                 }
             }, 100)
         }
@@ -219,7 +220,7 @@ export default function AdminMenuPage() {
             </div>
 
             {/* Pipeline Grid */}
-            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 pt-2 md:px-0 md:pb-0 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
+            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 pt-2 md:px-2 md:pr-6 md:pb-2 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
                 {weekDays.map((date, index) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
