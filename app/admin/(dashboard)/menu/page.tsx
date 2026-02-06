@@ -187,149 +187,194 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-[var(--brand-cream)] text-[var(--brand-warm)]">
+        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
             <Toaster position="top-right" richColors />
 
             {/* Header */}
             <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-[var(--brand-warm)]">
-                        <ChefHat className="w-8 h-8 text-[var(--brand-primary)]" />
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-stone-800">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                            <ChefHat className="w-6 h-6 text-white" />
+                        </div>
                         Planejamento de Cardápio
                     </h1>
-                    <p className="text-[var(--brand-warm)]/70 text-sm mt-1">
-                        Organize a excelência gastronômica da semana.
+                    <p className="text-stone-500 text-sm mt-1.5 ml-[52px]">
+                        Organize a excelência gastronômica da semana
                     </p>
                 </div>
 
-                <div className="bg-white shadow-sm border border-[var(--brand-primary)]/20 rounded-full px-2 py-1.5 hidden md:flex items-center gap-4">
-                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(-1)} className="hover:bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] rounded-full w-8 h-8">
+                {/* Week Navigation - Glassmorphism */}
+                <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-white/50 rounded-2xl px-3 py-2 hidden md:flex items-center gap-3">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => navigateWeek(-1)}
+                        className="hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl w-9 h-9 transition-all"
+                    >
                         <ChevronLeft className="w-5 h-5" />
                     </Button>
 
-                    <div className="text-center min-w-[140px]">
-                        <span className="block text-sm font-bold text-[var(--brand-warm)] uppercase tracking-wide">
-                            {format(currentWeekStart, "dd MMM", { locale: ptBR })} - {format(addDays(currentWeekStart, 4), "dd MMM", { locale: ptBR })}
+                    <div className="text-center min-w-[160px] px-2">
+                        <span className="block text-sm font-semibold text-stone-800 tracking-wide">
+                            {format(currentWeekStart, "dd MMM", { locale: ptBR })} — {format(addDays(currentWeekStart, 4), "dd MMM", { locale: ptBR })}
+                        </span>
+                        <span className="text-[10px] text-stone-400 uppercase tracking-wider">
+                            Semana {format(currentWeekStart, "w", { locale: ptBR })}
                         </span>
                     </div>
 
-                    <Button variant="ghost" size="icon" onClick={() => navigateWeek(1)} className="hover:bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] rounded-full w-8 h-8">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => navigateWeek(1)}
+                        className="hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl w-9 h-9 transition-all"
+                    >
                         <ChevronRight className="w-5 h-5" />
                     </Button>
                 </div>
             </div>
 
-            {/* Pipeline Grid */}
-            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 pt-2 md:px-2 md:pr-6 md:pb-2 md:grid md:grid-cols-5 md:gap-4 hide-scrollbar">
+            {/* Pipeline Grid - Fixed scrollbar clipping with proper padding */}
+            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-4 pt-2 md:px-0 md:pb-2 md:grid md:grid-cols-5 md:gap-5 hide-scrollbar">
                 {weekDays.map((date, index) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
                     const isToday = isSameDay(date, new Date())
+                    const isLastColumn = index === 4
 
                     return (
                         <div
                             key={dateStr}
                             ref={(el) => { dayRefs.current[index] = el }}
-                            // Added 'my-1' to add vertical margin so ring/shadow doesn't get clipped by overflow-hidden parent
                             className={`
-                                flex flex-col h-[98%] my-auto rounded-3xl transition-all duration-300 overflow-hidden shrink-0 min-w-[300px] snap-center md:min-w-0 md:w-auto md:shrink relative
+                                flex flex-col h-[97%] my-auto rounded-2xl transition-all duration-300 overflow-hidden shrink-0 min-w-[280px] snap-center md:min-w-0 md:w-auto md:shrink relative
+                                ${isLastColumn ? 'md:mr-4' : ''}
                                 ${isToday
-                                    ? 'bg-white ring-2 ring-[var(--brand-primary)] shadow-md z-10'
-                                    : 'bg-white/60 hover:bg-white border border-[var(--brand-primary)]/10'}
+                                    ? 'bg-white shadow-xl shadow-emerald-500/10 border-2 border-emerald-400/30'
+                                    : 'bg-white/80 hover:bg-white border border-stone-200/60 shadow-sm hover:shadow-md'
+                                }
                             `}
                         >
-                            {/* Day Header */}
+                            {/* Day Header - Clean & Minimal */}
                             <div className={`
-                                flex-none p-4 border-b flex items-center justify-between
-                                ${isToday ? 'border-[var(--brand-primary)]/20 bg-[var(--brand-primary)]/5' : 'border-[var(--brand-primary)]/5'}
+                                flex-none px-4 py-3 flex items-center justify-between
+                                ${isToday
+                                    ? 'bg-gradient-to-r from-emerald-50 to-teal-50/50 border-b border-emerald-100'
+                                    : 'bg-stone-50/50 border-b border-stone-100'
+                                }
                             `}>
-                                <div className="flex flex-col">
-                                    <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isToday ? 'text-[var(--brand-primary)]' : 'text-stone-400'}`}>
-                                        {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
-                                    </span>
-                                    <span className={`text-xl font-bold font-serif ${isToday ? 'text-[var(--brand-primary)]' : 'text-[var(--brand-warm)]'}`}>
+                                <div className="flex items-center gap-3">
+                                    <div className={`
+                                        w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg
+                                        ${isToday
+                                            ? 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/30'
+                                            : 'bg-stone-200/60 text-stone-600'
+                                        }
+                                    `}>
                                         {format(date, 'dd')}
-                                    </span>
+                                    </div>
+                                    <div>
+                                        <span className={`block text-xs font-medium uppercase tracking-wider ${isToday ? 'text-emerald-600' : 'text-stone-400'}`}>
+                                            {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
+                                        </span>
+                                        <span className={`block text-[10px] ${isToday ? 'text-emerald-500/80' : 'text-stone-300'}`}>
+                                            {format(date, 'MMM yyyy', { locale: ptBR })}
+                                        </span>
+                                    </div>
                                 </div>
-                                {isToday && <Badge className="bg-[var(--brand-primary)] text-white text-[10px] h-5">HOJE</Badge>}
+                                {isToday && (
+                                    <span className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider bg-emerald-500 text-white rounded-md shadow-sm">
+                                        Hoje
+                                    </span>
+                                )}
                             </div>
 
                             {/* Cards Container */}
-                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-[var(--brand-primary)]/20 scrollbar-track-transparent">
+                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-stone-200 scrollbar-track-transparent">
                                 {loading ? (
                                     <div className="space-y-3">
-                                        <div className="h-24 rounded-2xl bg-stone-100 animate-pulse" />
-                                        <div className="h-24 rounded-2xl bg-stone-100 animate-pulse delay-75" />
+                                        <div className="h-28 rounded-xl bg-stone-100 animate-pulse" />
+                                        <div className="h-28 rounded-xl bg-stone-100 animate-pulse delay-75" />
                                     </div>
                                 ) : (
                                     <>
                                         {dayItems.map(item => (
-                                            <Card key={item.id} className="group border-0 shadow-sm bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden rounded-2xl">
+                                            <Card
+                                                key={item.id}
+                                                className="group border border-stone-100 bg-white shadow-sm hover:shadow-lg hover:border-stone-200/80 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer overflow-hidden rounded-xl"
+                                            >
                                                 <CardContent className="p-0">
                                                     {/* Image Area */}
-                                                    <div className="relative h-24 bg-stone-100 overflow-hidden">
+                                                    <div className="relative h-24 bg-gradient-to-br from-stone-100 to-stone-50 overflow-hidden">
                                                         {item.photo_url ? (
                                                             // eslint-disable-next-line @next/next/no-img-element
                                                             <img src={item.photo_url} alt="" className="h-full w-full object-cover" />
                                                         ) : (
-                                                            <div className="h-full w-full flex items-center justify-center text-[var(--brand-primary)]/20">
-                                                                <Utensils className="w-8 h-8" />
+                                                            <div className="h-full w-full flex items-center justify-center">
+                                                                <Utensils className="w-8 h-8 text-stone-300" />
                                                             </div>
                                                         )}
 
-                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-                                                        {/* Badge */}
-                                                        <Badge className={`
-                                                            absolute bottom-2 left-2 border-0 backdrop-blur-md bg-white/20 text-white font-medium shadow-sm
+                                                        {/* Type Badge - Subtle */}
+                                                        <div className={`
+                                                            absolute bottom-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-medium backdrop-blur-sm
+                                                            ${item.type === 'main'
+                                                                ? 'bg-white/90 text-stone-700'
+                                                                : item.type === 'fit'
+                                                                    ? 'bg-emerald-500/90 text-white'
+                                                                    : 'bg-amber-500/90 text-white'
+                                                            }
                                                         `}>
-                                                            {item.type === 'main' ? 'Padrão' : item.type === 'fit' ? 'Fit' : 'Lanche'}
-                                                        </Badge>
+                                                            {item.type === 'main' ? '● Padrão' : item.type === 'fit' ? '◆ Fit' : '○ Lanche'}
+                                                        </div>
 
                                                         {/* Actions Overlay */}
-                                                        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                                                        <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0">
                                                             <Button
                                                                 size="icon"
-                                                                className="h-7 w-7 bg-white text-stone-700 hover:bg-[var(--brand-primary)] hover:text-white shadow-sm rounded-full"
+                                                                className="h-7 w-7 bg-white/95 text-stone-600 hover:bg-emerald-500 hover:text-white shadow-lg rounded-lg transition-all"
                                                                 onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsDialogOpen(true) }}
                                                             >
-                                                                <Edit2 className="w-3 h-3" />
+                                                                <Edit2 className="w-3.5 h-3.5" />
                                                             </Button>
                                                             <Button
                                                                 size="icon"
-                                                                className="h-7 w-7 bg-white text-red-500 hover:bg-red-500 hover:text-white shadow-sm rounded-full"
+                                                                className="h-7 w-7 bg-white/95 text-stone-600 hover:bg-red-500 hover:text-white shadow-lg rounded-lg transition-all"
                                                                 onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }}
                                                             >
-                                                                <Trash2 className="w-3 h-3" />
+                                                                <Trash2 className="w-3.5 h-3.5" />
                                                             </Button>
                                                         </div>
                                                     </div>
 
                                                     {/* Content */}
                                                     <div className="p-3">
-                                                        <h4 className="font-bold text-[var(--brand-warm)] text-sm leading-tight mb-1 line-clamp-2">
+                                                        <h4 className="font-semibold text-stone-800 text-sm leading-tight mb-1 line-clamp-1">
                                                             {item.name}
                                                         </h4>
-                                                        <p className="text-[10px] text-[var(--brand-warm)]/60 line-clamp-2 leading-relaxed">
-                                                            {item.description || "Sem ingredientes listados."}
+                                                        <p className="text-[11px] text-stone-500 line-clamp-2 leading-relaxed">
+                                                            {item.description || "Sem descrição disponível"}
                                                         </p>
                                                     </div>
                                                 </CardContent>
                                             </Card>
                                         ))}
 
-                                        {/* Add Button */}
+                                        {/* Add Button - Refined */}
                                         <button
                                             onClick={() => {
                                                 setTargetDateForAdd(date)
                                                 setIsDialogOpen(true)
                                             }}
-                                            className="w-full py-4 border-2 border-dashed border-[var(--brand-primary)]/20 rounded-2xl flex items-center justify-center text-[var(--brand-primary)]/60 hover:text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/5 hover:border-[var(--brand-primary)]/50 transition-all cursor-pointer gap-2 group"
+                                            className="w-full py-4 border-2 border-dashed border-stone-200 rounded-xl flex items-center justify-center text-stone-400 hover:text-emerald-600 hover:bg-emerald-50/50 hover:border-emerald-300 transition-all cursor-pointer gap-2 group"
                                         >
-                                            <div className="w-6 h-6 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            <div className="w-7 h-7 rounded-lg bg-stone-100 group-hover:bg-emerald-100 flex items-center justify-center transition-all group-hover:scale-110">
                                                 <Plus className="w-4 h-4" />
                                             </div>
-                                            <span className="text-xs font-semibold uppercase tracking-wide">Adicionar</span>
+                                            <span className="text-xs font-medium">Adicionar prato</span>
                                         </button>
                                     </>
                                 )}
@@ -339,97 +384,116 @@ export default function AdminMenuPage() {
                 })}
             </div>
 
-            {/* Dialog Form */}
+            {/* Dialog Form - Premium Styling */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-[500px] bg-white rounded-3xl border border-[var(--brand-primary)]/20 shadow-2xl z-[100]">
-                    <DialogHeader className="pb-2">
-                        <DialogTitle className="text-xl font-bold text-[var(--brand-warm)] flex items-center gap-2">
-                            {editingItem ? <Edit2 className="w-5 h-5 text-[var(--brand-primary)]" /> : <Plus className="w-5 h-5 text-[var(--brand-primary)]" />}
-                            {editingItem ? 'Editar Prato' : 'Adicionar ao Menu'}
-                        </DialogTitle>
-                    </DialogHeader>
+                <DialogContent className="sm:max-w-[480px] bg-white rounded-2xl border border-stone-200/80 shadow-2xl z-[100] p-0 overflow-hidden">
+                    {/* Header with subtle gradient */}
+                    <div className="bg-gradient-to-r from-stone-50 to-stone-100/50 px-6 py-4 border-b border-stone-100">
+                        <DialogHeader className="p-0">
+                            <DialogTitle className="text-lg font-semibold text-stone-800 flex items-center gap-3">
+                                <div className={`p-2 rounded-lg ${editingItem ? 'bg-amber-100' : 'bg-emerald-100'}`}>
+                                    {editingItem
+                                        ? <Edit2 className="w-4 h-4 text-amber-600" />
+                                        : <Plus className="w-4 h-4 text-emerald-600" />
+                                    }
+                                </div>
+                                {editingItem ? 'Editar Prato' : 'Adicionar ao Menu'}
+                            </DialogTitle>
+                        </DialogHeader>
+                    </div>
 
-                    {targetDateForAdd && !editingItem && (
-                        <div className="pb-4 border-b border-[var(--brand-primary)]/10 mb-4">
-                            <Badge variant="outline" className="bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] border-[var(--brand-primary)]/20">
-                                <CalendarDays className="w-3 h-3 mr-1" />
-                                {format(targetDateForAdd, "EEEE, dd 'de' MMMM", { locale: ptBR })}
-                            </Badge>
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                        <div className="space-y-2">
-                            <Label className="text-[var(--brand-warm)] font-semibold">Nome do Prato</Label>
-                            <Input
-                                {...register('name', { required: true })}
-                                placeholder="Ex: Risoto de Funghi"
-                                className="rounded-xl border-[var(--brand-primary)]/20 focus-visible:ring-[var(--brand-primary)] bg-white h-11"
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label className="text-[var(--brand-warm)] font-semibold">Categoria</Label>
-                                <Select
-                                    onValueChange={(val) => setValue('type', val)}
-                                    defaultValue={editingItem?.type || 'main'}
-                                >
-                                    <SelectTrigger className="rounded-xl border-[var(--brand-primary)]/20 bg-white h-11">
-                                        <SelectValue placeholder="Selecione" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="main">
-                                            <div className="flex items-center gap-2">
-                                                <Utensils className="w-4 h-4 text-blue-500" /> Padrão
-                                            </div>
-                                        </SelectItem>
-                                        <SelectItem value="fit">
-                                            <div className="flex items-center gap-2">
-                                                <Leaf className="w-4 h-4 text-green-500" /> Fit / Saudável
-                                            </div>
-                                        </SelectItem>
-                                        <SelectItem value="snack">
-                                            <div className="flex items-center gap-2">
-                                                <Coffee className="w-4 h-4 text-orange-500" /> Lanche
-                                            </div>
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-[var(--brand-warm)] font-semibold">Foto URL</Label>
-                                <div className="relative">
-                                    <ImageIcon className="absolute left-3 top-3.5 h-4 w-4 text-[var(--brand-primary)]/40" />
-                                    <Input
-                                        {...register('photo_url')}
-                                        placeholder="https://..."
-                                        className="pl-9 rounded-xl border-[var(--brand-primary)]/20 bg-white h-11"
-                                    />
+                    <div className="px-6 py-5">
+                        {targetDateForAdd && !editingItem && (
+                            <div className="pb-4 mb-4 border-b border-stone-100">
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium">
+                                    <CalendarDays className="w-4 h-4" />
+                                    {format(targetDateForAdd, "EEEE, dd 'de' MMMM", { locale: ptBR })}
                                 </div>
                             </div>
-                        </div>
+                        )}
 
-                        <div className="space-y-2">
-                            <Label className="text-[var(--brand-warm)] font-semibold">Ingredientes / Descrição</Label>
-                            <Textarea
-                                {...register('description')}
-                                placeholder="Descreva os ingredientes principais..."
-                                className="rounded-xl border-[var(--brand-primary)]/20 bg-white min-h-[100px] resize-none"
-                            />
-                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                            <div className="space-y-1.5">
+                                <Label className="text-stone-700 font-medium text-sm">Nome do Prato</Label>
+                                <Input
+                                    {...register('name', { required: true })}
+                                    placeholder="Ex: Risoto de Funghi"
+                                    className="rounded-lg border-stone-200 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 bg-white h-11"
+                                />
+                            </div>
 
-                        <DialogFooter className="pt-2">
-                            <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="rounded-xl text-[var(--brand-warm)] hover:bg-[var(--brand-primary)]/10">
-                                Cancelar
-                            </Button>
-                            <Button type="submit" disabled={isSubmitting} className="rounded-xl bg-[var(--primary)] hover:bg-[var(--primary)]/90 text-white shadow-md">
-                                {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-                                Salvar Prato
-                            </Button>
-                        </DialogFooter>
-                    </form>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <Label className="text-stone-700 font-medium text-sm">Categoria</Label>
+                                    <Select
+                                        onValueChange={(val) => setValue('type', val)}
+                                        defaultValue={editingItem?.type || 'main'}
+                                    >
+                                        <SelectTrigger className="rounded-lg border-stone-200 bg-white h-11">
+                                            <SelectValue placeholder="Selecione" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="main">
+                                                <div className="flex items-center gap-2">
+                                                    <Utensils className="w-4 h-4 text-stone-500" /> Padrão
+                                                </div>
+                                            </SelectItem>
+                                            <SelectItem value="fit">
+                                                <div className="flex items-center gap-2">
+                                                    <Leaf className="w-4 h-4 text-emerald-500" /> Fit / Saudável
+                                                </div>
+                                            </SelectItem>
+                                            <SelectItem value="snack">
+                                                <div className="flex items-center gap-2">
+                                                    <Coffee className="w-4 h-4 text-amber-500" /> Lanche
+                                                </div>
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <Label className="text-stone-700 font-medium text-sm">Foto URL</Label>
+                                    <div className="relative">
+                                        <ImageIcon className="absolute left-3 top-3.5 h-4 w-4 text-stone-400" />
+                                        <Input
+                                            {...register('photo_url')}
+                                            placeholder="https://..."
+                                            className="pl-9 rounded-lg border-stone-200 bg-white h-11"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <Label className="text-stone-700 font-medium text-sm">Ingredientes / Descrição</Label>
+                                <Textarea
+                                    {...register('description')}
+                                    placeholder="Descreva os ingredientes principais..."
+                                    className="rounded-lg border-stone-200 bg-white min-h-[100px] resize-none focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
+                                />
+                            </div>
+
+                            <DialogFooter className="pt-4 gap-2">
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => setIsDialogOpen(false)}
+                                    className="rounded-lg text-stone-600 hover:bg-stone-100"
+                                >
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                                >
+                                    {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+                                    Salvar Prato
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </div>
                 </DialogContent>
             </Dialog>
         </div>

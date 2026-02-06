@@ -238,12 +238,14 @@ export default function ReportsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         {/* Radar de Rejeição */}
-                        <Card className="flex flex-col border-border shadow-sm min-h-[300px]">
-                            <CardHeader className="bg-destructive/5 border-b border-destructive/10 pb-3">
-                                <CardTitle className="text-destructive flex items-center gap-2 text-md">
-                                    <TrendingDown className="w-5 h-5" />
+                        <Card className="flex flex-col border border-stone-200 shadow-sm min-h-[300px] overflow-hidden">
+                            <CardHeader className="bg-white border-b border-stone-100 pb-3">
+                                <CardTitle className="text-stone-800 flex items-center gap-2 text-md font-semibold">
+                                    <div className="p-1.5 rounded-lg bg-red-50">
+                                        <TrendingDown className="w-4 h-4 text-red-500" />
+                                    </div>
                                     Radar de Rejeição
-                                    <span className="text-xs font-normal text-destructive ml-auto bg-destructive/10 px-2 py-1 rounded-full">Top Cancelamentos</span>
+                                    <span className="text-[10px] font-medium text-red-600 ml-auto bg-red-50 px-2 py-1 rounded-md">Top Cancelamentos</span>
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="flex-1 overflow-y-auto p-0">
@@ -277,14 +279,16 @@ export default function ReportsPage() {
                             </CardContent>
                         </Card>
 
-                        {/* Guia de Compras */}
-                        <Card className="flex flex-col border-border shadow-sm min-h-[300px]">
-                            <CardHeader className="bg-primary/5 border-b border-primary/10 pb-3 flex flex-row items-center justify-between space-y-0">
-                                <CardTitle className="text-primary flex items-center gap-2 text-md">
-                                    <Utensils className="w-5 h-5" />
+                        {/* Guia de Produção */}
+                        <Card className="flex flex-col border border-stone-200 shadow-sm min-h-[300px] overflow-hidden">
+                            <CardHeader className="bg-white border-b border-stone-100 pb-3 flex flex-row items-center justify-between space-y-0">
+                                <CardTitle className="text-stone-800 flex items-center gap-2 text-md font-semibold">
+                                    <div className="p-1.5 rounded-lg bg-emerald-50">
+                                        <Utensils className="w-4 h-4 text-emerald-600" />
+                                    </div>
                                     Guia de Produção
                                 </CardTitle>
-                                <Button size="sm" variant="ghost" className="h-8 text-primary hover:bg-primary/10">
+                                <Button size="sm" variant="ghost" className="h-8 text-emerald-600 hover:bg-emerald-50">
                                     <Download className="w-4 h-4 mr-1" />
                                     PDF
                                 </Button>
