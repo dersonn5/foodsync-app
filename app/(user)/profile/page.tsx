@@ -41,10 +41,10 @@ export default function ProfilePage() {
     // Loading state
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-stone-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100 flex items-center justify-center">
                 <div className="animate-pulse flex flex-col items-center gap-4">
-                    <div className="w-24 h-24 rounded-full bg-gray-200" />
-                    <div className="h-6 w-32 rounded-lg bg-gray-200" />
+                    <div className="w-24 h-24 rounded-full bg-stone-200" />
+                    <div className="h-6 w-32 rounded-lg bg-stone-200" />
                 </div>
             </div>
         )
@@ -64,16 +64,16 @@ export default function ProfilePage() {
     const userId = user?.id?.slice?.(0, 8) || '---'
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-stone-50 pb-32 font-sans">
+        <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100 pb-32 font-sans">
             {/* Header with gradient */}
-            <header className="bg-white/80 backdrop-blur-xl px-6 py-6 pt-12 sticky top-0 z-30 border-b border-gray-100/50">
+            <header className="bg-white/80 backdrop-blur-xl px-6 py-6 pt-12 sticky top-0 z-30 border-b border-stone-200/60">
                 <div className="flex items-center gap-3">
                     <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-2.5 rounded-xl shadow-lg shadow-emerald-500/20">
                         <User className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900 tracking-tight">Meu Perfil</h1>
-                        <p className="text-xs text-gray-400">Gerencie suas informações</p>
+                        <h1 className="text-xl font-bold text-stone-800 tracking-tight">Meu Perfil</h1>
+                        <p className="text-xs text-stone-400">Gerencie suas informações</p>
                     </div>
                 </div>
             </header>
@@ -85,7 +85,7 @@ export default function ProfilePage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
                 >
-                    <Card className="border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white rounded-[2rem] overflow-hidden relative">
+                    <Card className="border border-stone-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white rounded-[2rem] overflow-hidden relative">
                         {/* Header gradient */}
                         <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50" />
 
@@ -98,7 +98,7 @@ export default function ProfilePage() {
                             </div>
 
                             {/* Name */}
-                            <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+                            <h2 className="text-2xl font-bold text-stone-800 tracking-tight mb-2">
                                 {userName}
                             </h2>
 
@@ -111,35 +111,35 @@ export default function ProfilePage() {
                             {/* Info Grid */}
                             <div className="space-y-3 text-left">
                                 {/* Phone */}
-                                <div className="flex items-center gap-4 bg-gray-50/80 rounded-2xl p-4 border border-gray-100/50">
-                                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm border border-gray-100">
+                                <div className="flex items-center gap-4 bg-stone-50/80 rounded-2xl p-4 border border-stone-200/60">
+                                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm border border-stone-200/60">
                                         <Phone className="w-5 h-5" />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Telefone</p>
-                                        <p className="text-sm font-semibold text-gray-800">{userPhone}</p>
+                                        <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Telefone</p>
+                                        <p className="text-sm font-semibold text-stone-700">{userPhone}</p>
                                     </div>
                                 </div>
 
                                 {/* CPF */}
-                                <div className="flex items-center gap-4 bg-gray-50/80 rounded-2xl p-4 border border-gray-100/50">
-                                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-amber-500 shadow-sm border border-gray-100">
+                                <div className="flex items-center gap-4 bg-stone-50/80 rounded-2xl p-4 border border-stone-200/60">
+                                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-amber-500 shadow-sm border border-stone-200/60">
                                         <Ticket className="w-5 h-5" />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">CPF</p>
-                                        <p className="text-sm font-semibold text-gray-800">{userCpf}</p>
+                                        <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">CPF</p>
+                                        <p className="text-sm font-semibold text-stone-700">{userCpf}</p>
                                     </div>
                                 </div>
 
                                 {/* Unit */}
-                                <div className="flex items-center gap-4 bg-gray-50/80 rounded-2xl p-4 border border-gray-100/50">
-                                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-violet-500 shadow-sm border border-gray-100">
+                                <div className="flex items-center gap-4 bg-stone-50/80 rounded-2xl p-4 border border-stone-200/60">
+                                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-violet-500 shadow-sm border border-stone-200/60">
                                         <Building2 className="w-5 h-5" />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Unidade</p>
-                                        <p className="text-sm font-semibold text-gray-800">{userUnit}</p>
+                                        <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Unidade</p>
+                                        <p className="text-sm font-semibold text-stone-700">{userUnit}</p>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ export default function ProfilePage() {
                         <Button
                             onClick={() => router.push('/orders')}
                             variant="ghost"
-                            className="w-full h-16 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-2xl border border-gray-100 shadow-sm justify-between px-6 group"
+                            className="w-full h-16 bg-white hover:bg-stone-50 text-stone-700 font-semibold rounded-2xl border border-stone-200/60 shadow-sm justify-between px-6 group"
                         >
                             <span className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
@@ -166,7 +166,7 @@ export default function ProfilePage() {
                                 </div>
                                 <span>Meus Pedidos</span>
                             </span>
-                            <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
+                            <ArrowRight className="w-5 h-5 text-stone-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
                         </Button>
                     </motion.div>
 
@@ -183,8 +183,8 @@ export default function ProfilePage() {
                 </motion.div>
 
                 {/* Footer */}
-                <p className="text-center text-xs text-gray-300 pt-6">
-                    KitchenOS v1.0 • ID: {userId}
+                <p className="text-center text-xs text-stone-300 pt-6">
+                    FoodSync v1.0 • ID: {userId}
                 </p>
             </main>
         </div>
