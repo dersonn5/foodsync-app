@@ -123,21 +123,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4 font-sans selection:bg-primary/20 selection:text-primary relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100 flex items-center justify-center p-4 font-sans selection:bg-emerald-500/20 selection:text-emerald-600 relative overflow-hidden">
       {/* Background Decoration */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
 
       {/* Floating Icons */}
       <motion.div
-        className="absolute top-20 left-10 text-primary/20 hidden md:block"
+        className="absolute top-20 left-10 text-emerald-500/20 hidden md:block"
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
         <Utensils className="w-12 h-12" />
       </motion.div>
       <motion.div
-        className="absolute bottom-20 right-10 text-accent/20 hidden md:block"
+        className="absolute bottom-20 right-10 text-teal-500/20 hidden md:block"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -150,25 +150,25 @@ export default function LoginPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="w-full max-w-[420px] relative z-10"
       >
-        <Card className="border border-border shadow-xl bg-card/95 backdrop-blur-md rounded-3xl overflow-hidden">
+        <Card className="border border-stone-200/60 shadow-xl bg-white/95 backdrop-blur-md rounded-3xl overflow-hidden">
           {/* Top Gradient Bar */}
-          <div className="h-1.5 w-full" style={{ background: 'var(--gradient-brand)' }} />
+          <div className="h-1.5 w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
 
           <CardHeader className="pt-10 pb-6 text-center space-y-4">
             <motion.div
-              className="mx-auto bg-primary/10 p-4 rounded-2xl w-20 h-20 flex items-center justify-center"
+              className="mx-auto bg-gradient-to-br from-emerald-500 to-teal-600 p-4 rounded-2xl w-20 h-20 flex items-center justify-center shadow-lg shadow-emerald-500/20"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <ChefHat className="w-10 h-10 text-primary" />
+              <ChefHat className="w-10 h-10 text-white" />
             </motion.div>
 
             <div className="space-y-1.5">
-              <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-                {step === 'login' ? 'Bem-vindo ao KitchenOS' : 'Quase lá...'}
+              <CardTitle className="text-2xl font-bold tracking-tight text-stone-800">
+                {step === 'login' ? 'Bem-vindo ao FoodSync' : 'Quase lá...'}
               </CardTitle>
-              <p className="text-muted-foreground text-sm font-medium">
+              <p className="text-stone-500 text-sm font-medium">
                 {step === 'login' ? 'Digite seu CPF para começar' : 'Complete seu cadastro para continuar'}
               </p>
             </div>
@@ -177,12 +177,12 @@ export default function LoginPage() {
           <CardContent className="p-8 pt-2 space-y-6">
             {/* CPF Input */}
             <div className="space-y-2">
-              <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+              <Label className="text-xs font-semibold uppercase tracking-wider text-stone-400 ml-1">
                 Seu CPF
               </Label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <FileDigit className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                  <FileDigit className="h-5 w-5 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
                 </div>
                 <Input
                   value={cpf}
@@ -190,7 +190,7 @@ export default function LoginPage() {
                   placeholder="000.000.000-00"
                   maxLength={14}
                   disabled={step === 'signup'}
-                  className="pl-12 h-14 text-lg bg-muted/50 border-transparent focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all placeholder:text-muted-foreground/50 font-medium text-foreground"
+                  className="pl-12 h-14 text-lg bg-stone-50/80 border border-stone-200/60 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl transition-all placeholder:text-stone-400/50 font-medium text-stone-800"
                 />
                 <AnimatePresence>
                   {step === 'signup' && (
@@ -199,7 +199,7 @@ export default function LoginPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="absolute inset-y-0 right-0 pr-4 flex items-center"
                     >
-                      <CheckCircle className="h-5 w-5 text-primary" />
+                      <CheckCircle className="h-5 w-5 text-emerald-500" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -217,18 +217,18 @@ export default function LoginPage() {
                 >
                   {/* Name Input */}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+                    <Label className="text-xs font-semibold uppercase tracking-wider text-stone-400 ml-1">
                       Nome Completo
                     </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                        <User className="h-5 w-5 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
                       </div>
                       <Input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Como você gostaria de ser chamado?"
-                        className="pl-12 h-14 text-lg bg-muted/50 border-transparent focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all placeholder:text-muted-foreground/50 font-medium text-foreground"
+                        className="pl-12 h-14 text-lg bg-stone-50/80 border border-stone-200/60 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl transition-all placeholder:text-stone-400/50 font-medium text-stone-800"
                         autoFocus
                       />
                     </div>
@@ -236,19 +236,19 @@ export default function LoginPage() {
 
                   {/* Phone Input */}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+                    <Label className="text-xs font-semibold uppercase tracking-wider text-stone-400 ml-1">
                       WhatsApp
                     </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Phone className="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                        <Phone className="h-5 w-5 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
                       </div>
                       <Input
                         value={phone}
                         onChange={handlePhoneChange}
                         placeholder="(00) 00000-0000"
                         maxLength={15}
-                        className="pl-12 h-14 text-lg bg-muted/50 border-transparent focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all placeholder:text-muted-foreground/50 font-medium text-foreground"
+                        className="pl-12 h-14 text-lg bg-stone-50/80 border border-stone-200/60 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl transition-all placeholder:text-stone-400/50 font-medium text-stone-800"
                       />
                     </div>
                   </div>
@@ -261,7 +261,7 @@ export default function LoginPage() {
               <Button
                 onClick={step === 'login' ? handleContinue : handleSignup}
                 disabled={loading}
-                className={`w-full h-14 text-lg font-bold bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110 transition-all mt-2
+                className={`w-full h-14 text-lg font-bold bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/20 hover:from-emerald-600 hover:to-teal-700 transition-all mt-2
                   ${loading ? 'opacity-80 cursor-not-allowed' : 'cursor-pointer'}
                 `}
               >
@@ -290,9 +290,9 @@ export default function LoginPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center mt-8 text-sm font-medium text-muted-foreground"
+          className="text-center mt-8 text-sm font-medium text-stone-400"
         >
-          © 2026 KitchenOS. Cozinha Inteligente.
+          © 2026 FoodSync. Cozinha Inteligente.
         </motion.div>
       </motion.div>
     </div>
