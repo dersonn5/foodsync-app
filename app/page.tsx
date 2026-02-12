@@ -166,7 +166,7 @@ export default function LoginPage() {
 
             <div className="space-y-1.5">
               <CardTitle className="text-2xl font-bold tracking-tight text-stone-800">
-                {step === 'login' ? 'Bem-vindo ao FoodSync' : 'Quase lá...'}
+                {step === 'login' ? 'Bem-vindo ao KitchenOS' : 'Quase lá...'}
               </CardTitle>
               <p className="text-stone-500 text-sm font-medium">
                 {step === 'login' ? 'Digite seu CPF para começar' : 'Complete seu cadastro para continuar'}
@@ -292,7 +292,7 @@ export default function LoginPage() {
           transition={{ delay: 0.5 }}
           className="text-center mt-8 text-sm font-medium text-stone-400"
         >
-          © 2026 FoodSync. Cozinha Inteligente.
+          © 2026 KitchenOS. Cozinha Inteligente.
         </motion.div>
       </motion.div>
     </div>
