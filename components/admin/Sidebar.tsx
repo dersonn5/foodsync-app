@@ -18,7 +18,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
     const pathname = usePathname()
     const router = useRouter()
     const supabase = createClient()
-    const { collapsed, toggleSidebar } = useSidebar()
+    const { collapsed } = useSidebar()
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
@@ -34,14 +34,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             <div className="absolute top-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/4 pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-48 h-48 bg-accent/5 rounded-full blur-3xl translate-y-1/2 translate-x-1/4 pointer-events-none" />
 
-            {/* Toggle Button - High contrast */}
-            <button
-                onClick={toggleSidebar}
-                className="absolute top-1/2 -translate-y-1/2 -right-4 z-50 w-8 h-8 rounded-full bg-emerald-600 shadow-lg shadow-emerald-600/40 flex items-center justify-center text-white hover:bg-emerald-500 hover:shadow-xl hover:shadow-emerald-500/50 active:scale-90 transition-all duration-200 ring-4 ring-white"
-                title={collapsed ? 'Expandir menu' : 'Recolher menu'}
-            >
-                <ChevronLeft className={`w-4 h-4 transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`} />
-            </button>
+
 
             {/* Brand Header */}
             <div className={`h-24 flex items-center relative z-10 border-b border-white/5 ${collapsed ? 'justify-center px-2' : 'px-6'}`}>
@@ -152,11 +145,19 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 }
 
 export function AdminSidebar() {
-    const { collapsed } = useSidebar()
+    const { collapsed, toggleSidebar } = useSidebar()
 
     return (
-        <aside className={`fixed left-0 top-0 h-full hidden md:flex flex-col z-50 shadow-xl transition-all duration-300 ease-out overflow-visible ${collapsed ? 'w-20' : 'w-72'}`}>
+        <aside className={`fixed left-0 top-0 h-full hidden md:flex flex-col z-50 shadow-xl transition-all duration-300 ease-out ${collapsed ? 'w-20' : 'w-72'}`}>
             <SidebarContent />
+            {/* Toggle Button - outside overflow-hidden, overlaps sidebar edge */}
+            <button
+                onClick={toggleSidebar}
+                className="absolute top-1/2 -translate-y-1/2 -right-4 z-[60] w-8 h-8 rounded-full bg-emerald-600 shadow-lg shadow-emerald-600/40 flex items-center justify-center text-white hover:bg-emerald-500 hover:shadow-xl hover:shadow-emerald-500/50 active:scale-90 transition-all duration-200 ring-4 ring-white"
+                title={collapsed ? 'Expandir menu' : 'Recolher menu'}
+            >
+                <ChevronLeft className={`w-4 h-4 transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`} />
+            </button>
         </aside>
     )
 }

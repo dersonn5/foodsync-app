@@ -146,7 +146,7 @@ function AdminOrdersPageContent() {
 
     return (
         // Main Fixed Container with premium gradient
-        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 max-w-[1600px] mx-auto font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
+        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 max-w-[1600px] font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
@@ -247,8 +247,8 @@ function AdminOrdersPageContent() {
                     </Card>
 
                     <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending > 0
-                            ? 'bg-amber-50/50 border-amber-200'
-                            : 'bg-white border-stone-200/60'
+                        ? 'bg-amber-50/50 border-amber-200'
+                        : 'bg-white border-stone-200/60'
                         }`}>
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
