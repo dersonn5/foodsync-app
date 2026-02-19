@@ -42,7 +42,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
             {/* Main Content - margin adapts to sidebar width */}
             <div
                 ref={mainContentRef}
-                className={`flex-1 flex flex-col transition-all duration-300 ease-out pb-24 md:pb-0 h-auto md:h-screen overflow-visible md:overflow-y-auto ${collapsed ? 'md:ml-20' : 'md:ml-72'}`}
+                className={`flex-1 flex flex-col transition-[margin-left] duration-300 ease-out pb-24 md:pb-0 h-auto md:h-screen overflow-visible md:overflow-y-auto ${collapsed ? 'md:ml-20' : 'md:ml-72'}`}
             >
                 <AdminHeader />
                 <main className="flex-1 h-full w-full">

@@ -146,7 +146,7 @@ function AdminOrdersPageContent() {
 
     return (
         // Main Fixed Container with premium gradient
-        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 max-w-[1600px] font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
+        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
