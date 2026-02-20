@@ -9,6 +9,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { User, Phone, FileDigit, Loader2, ChefHat, ArrowRight, CheckCircle, Utensils } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Logo } from '@/components/ui/logo'
 
 // --- HELPER: CPF MASK ---
 const maskCPF = (value: string) => {
@@ -156,12 +157,12 @@ export default function LoginPage() {
 
           <CardHeader className="pt-10 pb-6 text-center space-y-4">
             <motion.div
-              className="mx-auto bg-gradient-to-br from-emerald-500 to-teal-600 p-4 rounded-2xl w-20 h-20 flex items-center justify-center shadow-lg shadow-emerald-500/20"
+              className="mx-auto flex items-center justify-center pt-2"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <ChefHat className="w-10 h-10 text-white" />
+              <Logo variant="emerald" className="scale-125 md:scale-150" />
             </motion.div>
 
             <div className="space-y-1.5">

@@ -3,8 +3,10 @@
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, UtensilsCrossed, ClipboardList, BarChart3, Settings, LogOut, ChefHat, TrendingUp, ChevronLeft } from 'lucide-react'
+import { LayoutDashboard, UtensilsCrossed, ClipboardList, BarChart3, Settings, LogOut, TrendingUp, ChevronLeft } from 'lucide-react'
 import { useSidebar } from '@/contexts/SidebarContext'
+import { cn } from '@/lib/utils'
+import { Logo } from '@/components/ui/logo'
 
 export const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
@@ -38,19 +40,14 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
             {/* Brand Header */}
             <div className={`h-24 flex items-center relative z-10 border-b border-white/5 ${collapsed ? 'justify-center px-2' : 'px-6'}`}>
-                <div className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
-                    <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30 shrink-0">
-                        <ChefHat className="w-6 h-6 text-white" />
-                    </div>
-                    <div className={`overflow-hidden transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
-                        <span className="text-lg font-bold tracking-tight block leading-none text-white whitespace-nowrap">
-                            KitchenOS
-                        </span>
-                        <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest pl-0.5 whitespace-nowrap">
-                            Gestão de Cozinha
-                        </span>
-                    </div>
-                </div>
+                <Logo
+                    variant="light"
+                    iconOnly={collapsed}
+                    className={cn(
+                        "transition-all duration-300",
+                        collapsed ? "gap-0" : "gap-3"
+                    )}
+                />
             </div>
 
             {/* Navigation */}

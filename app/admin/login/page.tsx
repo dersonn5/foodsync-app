@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Toaster, toast } from 'sonner'
+import { Logo } from '@/components/ui/logo'
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('')
@@ -80,12 +81,17 @@ export default function AdminLogin() {
 
                     {/* Header */}
                     <div className="text-center space-y-4 mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-white/5 shadow-inner mb-2">
-                            <ChefHat className="w-8 h-8 text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
-                        </div>
+                        <motion.div
+                            className="inline-flex items-center justify-center mx-auto mb-2"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <Logo variant="light" className="scale-110" />
+                        </motion.div>
                         <div>
-                            <h2 className="text-2xl font-bold tracking-tight text-white mb-1">
-                                KitchenOS <span className="text-green-400">Admin</span>
+                            <h2 className="text-xl font-bold tracking-tight text-white mb-1">
+                                Painel <span className="text-green-400">Admin</span>
                             </h2>
                             <p className="text-slate-400 text-sm">
                                 Centro de Controle Operacional
