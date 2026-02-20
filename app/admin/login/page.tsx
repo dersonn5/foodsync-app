@@ -80,16 +80,12 @@ export default function AdminLogin() {
 
                     {/* Header */}
                     <div className="text-center space-y-4 mb-8">
-                        <div className="inline-flex items-center justify-center w-40 h-auto mx-auto mb-2">
-                            <img
-                                src="/logo.png"
-                                alt="KitchenOS Logo"
-                                className="w-full h-auto object-contain brightness-0 invert"
-                            />
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-white/5 shadow-inner mb-2">
+                            <ChefHat className="w-8 h-8 text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold tracking-tight text-white mb-1">
-                                Painel Admin
+                            <h2 className="text-2xl font-bold tracking-tight text-white mb-1">
+                                KitchenOS <span className="text-green-400">Admin</span>
                             </h2>
                             <p className="text-slate-400 text-sm">
                                 Centro de Controle Operacional
