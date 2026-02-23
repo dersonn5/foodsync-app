@@ -12,7 +12,7 @@ export function Logo({ className, iconOnly = false, variant = 'emerald' }: LogoP
     const isEmerald = variant === 'emerald';
 
     return (
-        <div className={cn("flex items-center gap-3 select-none group", className)}>
+        <div className={cn("flex items-center gap-2 select-none group", className)}>
             {/* Professional SVG Icon (No Container) */}
             <div className={cn(
                 "transition-transform duration-300 group-hover:scale-110 shrink-0",
@@ -22,23 +22,15 @@ export function Logo({ className, iconOnly = false, variant = 'emerald' }: LogoP
             </div>
 
             {!iconOnly && (
-                <div className="flex flex-col leading-tight pt-0.5">
+                <div className="flex flex-col leading-none">
                     <span
                         className={cn(
-                            "text-2xl font-black italic tracking-tighter",
+                            "text-xl font-black italic tracking-tighter",
                             isEmerald ? "text-stone-800" : "text-white"
                         )}
                         style={{ fontFamily: 'Georgia, serif' }}
                     >
                         KitchenOS
-                    </span>
-                    <span
-                        className={cn(
-                            "text-[10px] uppercase tracking-[0.3em] font-black opacity-90",
-                            isEmerald ? "text-stone-500" : "text-white/70"
-                        )}
-                    >
-                        Gestão de Cozinha
                     </span>
                 </div>
             )}
