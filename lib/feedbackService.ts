@@ -314,10 +314,7 @@ export async function getTodayMetrics(dateStr?: string): Promise<TodayMetrics> {
 
     const { data, error } = await supabase
         .from('feedbacks_app')
-        .select(`
-            *,
-            users (name)
-        `)
+        .select('*')
         .eq('data_refeicao', targetDate)
         .order('created_at', { ascending: false })
 
