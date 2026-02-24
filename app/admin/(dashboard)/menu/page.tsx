@@ -191,15 +191,15 @@ export default function AdminMenuPage() {
             <Toaster position="top-right" richColors />
 
             {/* Header */}
-            <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
-                <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight" style={{ color: '#0F2A1D' }}>
+            <div className="flex-none flex flex-col items-center lg:items-start lg:flex-row justify-between gap-4 mb-4">
+                <div className="text-center lg:text-left">
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight justify-center lg:justify-start" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <ChefHat className="w-6 h-6 text-white" />
                         </div>
                         Planejamento de Cardápio
                     </h1>
-                    <p className="text-sm mt-1.5 ml-[52px]" style={{ color: '#517252' }}>
+                    <p className="text-sm mt-1.5 lg:ml-[52px]" style={{ color: '#517252' }}>
                         Organize a excelência gastronômica da semana
                     </p>
                 </div>

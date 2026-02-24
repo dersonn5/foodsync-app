@@ -151,17 +151,17 @@ function AdminOrdersPageContent() {
 
             {/* Header Section - Premium Styling */}
             <div className="flex-none space-y-4 mb-4">
-                <div className="flex flex-col gap-4 mb-2 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
 
                     {/* Title Block */}
-                    <div className="space-y-1">
-                        <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3" style={{ color: '#0F2A1D' }}>
+                    <div className="text-center lg:text-left">
+                        <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3 justify-center lg:justify-start" style={{ color: '#0F2A1D' }}>
                             <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Gestão de Pedidos
                         </h1>
-                        <p className="text-sm mt-1.5 flex items-center gap-2 ml-[52px]" style={{ color: '#517252' }}>
+                        <p className="text-sm mt-1.5 flex items-center gap-2 justify-center lg:justify-start lg:ml-[52px]" style={{ color: '#517252' }}>
                             Fila para <span className="font-semibold capitalize" style={{ color: '#0F2A1D' }}>{formatDateDisplay(currentDateStr)}</span>
                             {dateParam && (
                                 <button onClick={handleToday} className="text-xs text-brand-800 hover:underline font-medium">
@@ -172,9 +172,9 @@ function AdminOrdersPageContent() {
                     </div>
 
                     {/* Actions Block */}
-                    <div className="flex flex-col gap-3 md:flex-row md:items-center">
+                    <div className="flex flex-col items-center gap-3 w-full lg:w-auto lg:flex-row lg:items-center">
                         {/* Date Navigation - Glassmorphism */}
-                        <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
+                        <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3 justify-center">
                             <Button
                                 variant="ghost"
                                 size="icon"

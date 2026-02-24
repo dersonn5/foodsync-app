@@ -147,21 +147,21 @@ export default function ReportsPage() {
         <div className="min-h-screen flex flex-col pt-4 px-6 pb-32 gap-6 md:pt-4 md:px-8 md:pb-8 bg-transparent">
 
             {/* Header - Premium Styling */}
-            <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
-                <div className="space-y-1">
-                    <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3" style={{ color: '#0F2A1D' }}>
+            <div className="flex-none flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
+                <div className="text-center lg:text-left">
+                    <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3 justify-center lg:justify-start" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <BarChart3 className="w-6 h-6 text-white" />
                         </div>
                         Relatórios de Eficiência
                     </h1>
-                    <p className="text-sm mt-1.5 ml-[52px]" style={{ color: '#517252' }}>
+                    <p className="text-sm mt-1.5 lg:ml-[52px]" style={{ color: '#517252' }}>
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
-                <div className="flex items-center gap-3 w-full md:w-auto">
+                <div className="flex items-center gap-3 w-full lg:w-auto">
                     <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger className="w-full md:w-[180px] bg-white/60 backdrop-blur-xl border-slate-200/60 rounded-xl shadow-sm focus:ring-brand-800 text-brand-900">
+                        <SelectTrigger className="w-full lg:w-[180px] bg-white/60 backdrop-blur-xl border-slate-200/60 rounded-xl shadow-sm focus:ring-brand-800 text-brand-900">
                             <Calendar className="w-4 h-4 mr-2 text-brand-700" />
                             <SelectValue />
                         </SelectTrigger>
