@@ -128,13 +128,23 @@ export default function LoginPage() {
     <div className="min-h-screen bg-brand-50 flex items-center justify-center p-4 font-sans selection:bg-brand-500/30 selection:text-brand-100 relative overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0 w-full h-full z-0">
+        {/* Desktop Video */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover hidden md:block"
           src="/bg-video.mp4"
+        />
+        {/* Mobile Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover md:hidden block"
+          src="/bg-video-mobile.mp4"
         />
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-brand-500/50 mix-blend-multiply" />
