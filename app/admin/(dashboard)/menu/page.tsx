@@ -193,13 +193,13 @@ export default function AdminMenuPage() {
             {/* Header */}
             <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-[#0F2A1D]">
-                        <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight" style={{ color: '#0F2A1D' }}>
+                        <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <ChefHat className="w-6 h-6 text-white" />
                         </div>
                         Planejamento de Cardápio
                     </h1>
-                    <p className="text-brand-600 text-sm mt-1.5 ml-[52px]">
+                    <p className="text-sm mt-1.5 ml-[52px]" style={{ color: '#517252' }}>
                         Organize a excelência gastronômica da semana
                     </p>
                 </div>

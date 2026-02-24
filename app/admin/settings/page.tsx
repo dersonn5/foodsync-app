@@ -96,13 +96,13 @@ export default function SettingsPage() {
             {/* Header */}
             <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-[#0F2A1D]">
-                        <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight" style={{ color: '#0F2A1D' }}>
+                        <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <UtensilsCrossed className="w-6 h-6 text-white" />
                         </div>
                         Configurações da Cozinha
                     </h1>
-                    <p className="text-brand-600 text-sm mt-1 ml-[52px]">Gerencie as regras operacionais e preferencias do sistema.</p>
+                    <p className="text-sm mt-1.5 ml-[52px]" style={{ color: '#517252' }}>Gerencie as regras operacionais e preferencias do sistema.</p>
                 </div>
                 <Button onClick={handleSave} disabled={loading} className="w-full md:w-auto shadow-md bg-brand-800 hover:bg-brand-900 text-white rounded-xl">
                     <Save className="w-4 h-4 mr-2" />

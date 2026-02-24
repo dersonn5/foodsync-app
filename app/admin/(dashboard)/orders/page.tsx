@@ -155,14 +155,14 @@ function AdminOrdersPageContent() {
 
                     {/* Title Block */}
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-bold text-[#0F2A1D] tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
+                        <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3" style={{ color: '#0F2A1D' }}>
+                            <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Gestão de Pedidos
                         </h1>
-                        <p className="text-brand-600 text-sm flex items-center gap-2 ml-[52px]">
-                            Fila para <span className="font-semibold text-brand-900 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-sm mt-1.5 flex items-center gap-2 ml-[52px]" style={{ color: '#517252' }}>
+                            Fila para <span className="font-semibold capitalize" style={{ color: '#0F2A1D' }}>{formatDateDisplay(currentDateStr)}</span>
                             {dateParam && (
                                 <button onClick={handleToday} className="text-xs text-brand-800 hover:underline font-medium">
                                     (Voltar para hoje)

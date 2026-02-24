@@ -231,17 +231,17 @@ function AdminPageContent() {
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 shrink-0">
                 <div className="flex flex-wrap items-center gap-4 md:gap-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-[#0F2A1D] tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
+                        <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3" style={{ color: '#0F2A1D' }}>
+                            <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Cockpit Operacional
                         </h1>
-                        <p className="text-brand-600 text-sm mt-1.5 ml-[52px]">
-                            Visão do dia <span className="font-semibold text-brand-900 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-sm mt-1.5 ml-[52px]" style={{ color: '#517252' }}>
+                            Visão do dia <span className="font-semibold capitalize" style={{ color: '#0F2A1D' }}>{formatDateDisplay(currentDateStr)}</span>
                         </p>
                     </div>
 

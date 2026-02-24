@@ -149,13 +149,13 @@ export default function ReportsPage() {
             {/* Header - Premium Styling */}
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-bold text-[#0F2A1D] tracking-tight flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
+                    <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3" style={{ color: '#0F2A1D' }}>
+                        <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <BarChart3 className="w-6 h-6 text-white" />
                         </div>
                         Relatórios de Eficiência
                     </h1>
-                    <p className="text-brand-600 text-sm ml-[52px]">
+                    <p className="text-sm mt-1.5 ml-[52px]" style={{ color: '#517252' }}>
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
