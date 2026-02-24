@@ -63,16 +63,20 @@ export default function AdminLogin() {
         <div className="min-h-screen w-full flex items-center justify-center bg-brand-50 relative overflow-hidden font-sans selection:bg-brand-500/30 selection:text-brand-100">
             <Toaster position="top-right" theme="dark" richColors />
 
-            {/* Dynamic Animated Falling Ingredients */}
-            <FallingIngredients />
-
-            {/* Ambient Background Effects */}
-            <div className="absolute inset-0 bg-brand-50/50" />
-            <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-brand-300/10 rounded-full blur-[100px] pointer-events-none" />
-
-            {/* Subtle Grid */}
-            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" style={{ opacity: 0.03 }} />
+            {/* Background Video */}
+            <div className="absolute inset-0 w-full h-full z-0">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover"
+                    src="/bg-video.mp4"
+                />
+                {/* Dark overlay for readability */}
+                <div className="absolute inset-0 bg-brand-500/50 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-black/30" />
+            </div>
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}

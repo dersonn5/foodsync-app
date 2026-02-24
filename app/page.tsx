@@ -126,13 +126,20 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-brand-50 flex items-center justify-center p-4 font-sans selection:bg-brand-500/30 selection:text-brand-100 relative overflow-hidden">
-      {/* Dynamic Animated Falling Ingredients */}
-      <FallingIngredients />
-
-      {/* Background Decor */}
-      <div className="absolute inset-0 bg-brand-50/50" />
-      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-brand-300/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/bg-video.mp4"
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-brand-500/50 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-black/25" />
+      </div>
 
       {/* Floating Icons */}
       <motion.div
