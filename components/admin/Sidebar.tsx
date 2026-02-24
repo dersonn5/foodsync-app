@@ -150,7 +150,7 @@ export function AdminSidebar() {
             {/* Toggle Button - outside overflow-hidden, overlaps sidebar edge */}
             <button
                 onClick={toggleSidebar}
-                className="absolute top-1/2 -translate-y-1/2 -right-4 z-[60] w-8 h-8 rounded-full bg-emerald-600 shadow-lg shadow-emerald-600/40 flex items-center justify-center text-white hover:bg-emerald-500 hover:shadow-xl hover:shadow-emerald-500/50 active:scale-90 transition-all duration-200 ring-4 ring-white"
+                className="absolute top-1/2 -translate-y-1/2 -right-4 z-[60] w-8 h-8 rounded-full bg-brand-500 shadow-lg shadow-brand-500/40 flex items-center justify-center text-white hover:bg-brand-400 hover:shadow-xl hover:shadow-brand-400/50 active:scale-90 transition-all duration-200 ring-4 ring-brand-50"
                 title={collapsed ? 'Expandir menu' : 'Recolher menu'}
             >
                 <ChevronLeft className={`w-4 h-4 transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`} />

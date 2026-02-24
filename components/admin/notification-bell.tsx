@@ -19,24 +19,24 @@ export function NotificationBell() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative hover:bg-slate-100 transition-colors">
-                    <Bell className="h-5 w-5 text-slate-600" />
+                <Button variant="ghost" size="icon" className="relative hover:bg-brand-50 transition-colors">
+                    <Bell className="h-5 w-5 text-brand-400" />
                     {unreadCount > 0 && (
                         <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white animate-pulse" />
                     )}
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-80 p-0 shadow-lg border-slate-100" align="end">
+            <PopoverContent className="w-80 p-0 shadow-lg border-brand-100" align="end">
                 {/* Cabeçalho */}
-                <div className="flex items-center justify-between p-4 border-b border-slate-100 bg-slate-50/50">
-                    <h4 className="font-semibold text-sm text-slate-900">Notificações</h4>
+                <div className="flex items-center justify-between p-4 border-b border-brand-100 bg-brand-50/50">
+                    <h4 className="font-semibold text-sm text-brand-500">Notificações</h4>
                     {unreadCount > 0 && (
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => markAsRead()}
-                            className="text-xs text-slate-500 hover:text-green-600 h-auto p-0 hover:bg-transparent"
+                            className="text-xs text-brand-300 hover:text-brand-500 h-auto p-0 hover:bg-transparent"
                         >
                             Marcar lidas
                         </Button>
@@ -46,7 +46,7 @@ export function NotificationBell() {
                 {/* Lista de Notificações */}
                 <ScrollArea className="h-[350px]">
                     {notifications.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-40 text-slate-400 gap-2">
+                        <div className="flex flex-col items-center justify-center h-40 text-brand-300 gap-2">
                             <Bell className="h-8 w-8 opacity-20" />
                             <p className="text-xs">Tudo tranquilo por aqui</p>
                         </div>
@@ -55,17 +55,17 @@ export function NotificationBell() {
                             {notifications.map((notif) => (
                                 <div
                                     key={notif.id}
-                                    className={`p-4 border-b border-slate-50 hover:bg-slate-50 transition-colors flex gap-3 ${!notif.read ? 'bg-blue-50/30' : ''}`}
+                                    className={`p-4 border-b border-brand-50 hover:bg-brand-50 transition-colors flex gap-3 ${!notif.read ? 'bg-brand-50/50' : ''}`}
                                 >
-                                    <div className={`mt-1 h-2 w-2 rounded-full flex-none ${!notif.read ? 'bg-blue-500' : 'bg-slate-200'}`} />
+                                    <div className={`mt-1 h-2 w-2 rounded-full flex-none ${!notif.read ? 'bg-brand-400' : 'bg-brand-100'}`} />
                                     <div className="space-y-1">
-                                        <p className="text-sm font-medium text-slate-800 leading-tight">
+                                        <p className="text-sm font-medium text-brand-500 leading-tight">
                                             {notif.title}
                                         </p>
-                                        <p className="text-xs text-slate-500 leading-snug">
+                                        <p className="text-xs text-brand-300 leading-snug">
                                             {notif.message}
                                         </p>
-                                        <p className="text-[10px] text-slate-400 font-medium pt-1">
+                                        <p className="text-[10px] text-brand-300 font-medium pt-1">
                                             {/* Context uses 'time', prompt used 'timestamp'. Adapted to use 'time'. */}
                                             {formatDistanceToNow(new Date(notif.time), { locale: ptBR, addSuffix: true })}
                                         </p>

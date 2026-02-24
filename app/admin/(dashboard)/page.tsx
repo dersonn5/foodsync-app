@@ -227,37 +227,37 @@ function AdminPageContent() {
 
     return (
         // Main Container with premium gradient
-        <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
+        <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden bg-brand-50">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
                 <div className="flex flex-wrap items-center gap-4 md:gap-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-stone-800 tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                        <h1 className="text-2xl font-bold text-brand-500 tracking-tight flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-lg shadow-brand-500/20">
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Cockpit Operacional
                         </h1>
-                        <p className="text-stone-500 text-sm mt-1.5 ml-[52px]">
-                            Visão do dia <span className="font-semibold text-stone-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-brand-300 text-sm mt-1.5 ml-[52px]">
+                            Visão do dia <span className="font-semibold text-brand-500 capitalize">{formatDateDisplay(currentDateStr)}</span>
                         </p>
                     </div>
 
                     {/* Date Navigation - Glassmorphism */}
-                    <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-white/50 rounded-2xl px-3 py-2 flex items-center gap-3">
+                    <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-brand-100/50 rounded-2xl px-3 py-2 flex items-center gap-3">
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={handlePrevDay}
-                            className="h-8 w-8 hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl transition-all"
+                            className="h-8 w-8 hover:bg-brand-50 text-brand-400 hover:text-brand-500 rounded-xl transition-all"
                         >
                             <ChevronLeft className="w-4 h-4" />
                         </Button>
 
-                        <div className="flex items-center gap-2 px-3 font-medium text-stone-700 min-w-[120px] justify-center">
-                            <CalendarIcon className="w-4 h-4 text-emerald-500" />
+                        <div className="flex items-center gap-2 px-3 font-medium text-brand-500 min-w-[120px] justify-center">
+                            <CalendarIcon className="w-4 h-4 text-brand-400" />
                             <span className="capitalize text-sm">{formatDateDisplay(currentDateStr)}</span>
                         </div>
 
@@ -265,7 +265,7 @@ function AdminPageContent() {
                             variant="ghost"
                             size="icon"
                             onClick={handleNextDay}
-                            className="h-8 w-8 hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl transition-all"
+                            className="h-8 w-8 hover:bg-brand-50 text-brand-400 hover:text-brand-500 rounded-xl transition-all"
                         >
                             <ChevronRight className="w-4 h-4" />
                         </Button>
@@ -273,7 +273,7 @@ function AdminPageContent() {
                         {dateParam && (
                             <button
                                 onClick={handleToday}
-                                className="px-3 py-1 text-xs text-emerald-600 hover:bg-emerald-50 rounded-lg font-semibold transition-colors"
+                                className="px-3 py-1 text-xs text-brand-500 hover:bg-brand-50 rounded-lg font-semibold transition-colors"
                             >
                                 Hoje
                             </button>
@@ -287,15 +287,15 @@ function AdminPageContent() {
                         variant="outline"
                         size="sm"
                         onClick={exportToCSV}
-                        className="h-9 text-xs text-stone-600 hover:text-stone-900 hover:bg-stone-100 border-stone-200 rounded-xl transition-all"
+                        className="h-9 text-xs text-brand-400 hover:text-brand-500 hover:bg-brand-50 border-brand-100 rounded-xl transition-all"
                         disabled={loadingFeed || recentOrders.length === 0}
                     >
                         <Printer className="w-4 h-4 mr-2" />
                         Baixar Lista
                     </Button>
                     <div className="flex gap-1.5">
-                        <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-emerald-500'}`} title="Status KPIs" />
-                        <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-emerald-500'}`} title="Status Feed" />
+                        <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-brand-400'}`} title="Status KPIs" />
+                        <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-brand-400'}`} title="Status Feed" />
                     </div>
                 </div>
             </div>
@@ -303,31 +303,31 @@ function AdminPageContent() {
             {/* KPI Cards - Premium Design */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0">
                 {/* Total Orders */}
-                <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
+                <Card className="border border-brand-100/60 shadow-sm bg-white/90 backdrop-blur-sm hover:shadow-md transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-medium text-stone-500 uppercase tracking-wider mb-1">Total de Pedidos</p>
+                            <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Total de Pedidos</p>
                             {loadingKPIs ? (
-                                <div className="h-9 w-16 bg-stone-100 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-brand-100/50 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className="text-4xl font-bold text-stone-800 tracking-tight">{stats.total_today}</h3>
+                                <h3 className="text-4xl font-bold text-brand-500 tracking-tight">{stats.total_today}</h3>
                             )}
                         </div>
-                        <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-md shadow-emerald-500/20">
+                        <div className="p-3 bg-gradient-to-br from-brand-500 to-brand-400 rounded-xl shadow-md shadow-brand-500/20">
                             <ShoppingBag className="w-6 h-6 text-white" />
                         </div>
                     </CardContent>
                 </Card>
 
                 {/* Cancellations */}
-                <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
+                <Card className="border border-brand-100/60 shadow-sm bg-white/90 backdrop-blur-sm hover:shadow-md transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-medium text-stone-500 uppercase tracking-wider mb-1">Cancelamentos</p>
+                            <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Cancelamentos</p>
                             {loadingKPIs ? (
-                                <div className="h-9 w-16 bg-stone-100 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-brand-100/50 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className="text-4xl font-bold text-stone-800 tracking-tight">{stats.canceled_today}</h3>
+                                <h3 className="text-4xl font-bold text-brand-500 tracking-tight">{stats.canceled_today}</h3>
                             )}
                         </div>
                         <div className="p-3 bg-red-50 rounded-xl">
@@ -339,23 +339,23 @@ function AdminPageContent() {
                 {/* Pending Queue */}
                 <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending_today > 0
                     ? 'bg-amber-50/50 border-amber-200 shadow-amber-500/10'
-                    : 'bg-white border-stone-200/60'
+                    : 'bg-white/90 backdrop-blur-sm border-brand-100/60'
                     }`}>
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className={`text-xs font-medium uppercase tracking-wider mb-1 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-stone-500'}`}>
+                            <p className={`text-xs font-medium uppercase tracking-wider mb-1 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-300'}`}>
                                 Fila Pendente
                             </p>
                             {loadingKPIs ? (
-                                <div className="h-9 w-16 bg-stone-100 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-brand-100/50 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className={`text-4xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-amber-600' : 'text-stone-800'}`}>
+                                <h3 className={`text-4xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-500'}`}>
                                     {stats.pending_today}
                                 </h3>
                             )}
                         </div>
-                        <div className={`p-3 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-100' : 'bg-stone-100'}`}>
-                            <Clock className={`w-6 h-6 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-stone-400'}`} />
+                        <div className={`p-3 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-100' : 'bg-brand-50'}`}>
+                            <Clock className={`w-6 h-6 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-300'}`} />
                         </div>
                     </CardContent>
                 </Card>
@@ -365,18 +365,18 @@ function AdminPageContent() {
             <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:h-full md:min-h-0 flex-1">
 
                 {/* Left: Feed */}
-                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white border border-stone-200/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
-                    <div className="p-4 border-b border-stone-100 flex items-center justify-between shrink-0 bg-stone-50/50">
-                        <h2 className="font-semibold text-stone-800 flex items-center gap-2 text-sm">
-                            <div className="p-1.5 rounded-lg bg-emerald-50">
-                                <Utensils className="w-4 h-4 text-emerald-600" />
+                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white/90 backdrop-blur-sm border border-brand-100/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
+                    <div className="p-4 border-b border-brand-100/50 flex items-center justify-between shrink-0 bg-brand-50/50">
+                        <h2 className="font-semibold text-brand-500 flex items-center gap-2 text-sm">
+                            <div className="p-1.5 rounded-lg bg-brand-50">
+                                <Utensils className="w-4 h-4 text-brand-400" />
                             </div>
                             Feed em Tempo Real
                         </h2>
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 text-xs text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg"
+                            className="h-8 text-xs text-brand-400 hover:text-brand-500 hover:bg-brand-50 rounded-lg"
                             onClick={() => router.push('/admin/orders')}
                         >
                             Expandir <ArrowUpRight className="w-3 h-3 ml-1" />
@@ -391,7 +391,7 @@ function AdminPageContent() {
                             </div>
                         ) : loadingFeed ? (
                             <div className="space-y-3">
-                                {[1, 2, 3, 4].map(i => <div key={i} className="h-16 bg-stone-100 animate-pulse rounded-xl" />)}
+                                {[1, 2, 3, 4].map(i => <div key={i} className="h-16 bg-brand-100/50 animate-pulse rounded-xl" />)}
                             </div>
                         ) : recentOrders.length > 0 ? (
                             recentOrders.map((order) => {
@@ -400,17 +400,17 @@ function AdminPageContent() {
                                 const status = (order.status || '').toLowerCase()
 
                                 return (
-                                    <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-stone-100 hover:bg-stone-50/50 hover:border-stone-200 transition-all">
-                                        <Avatar className="h-10 w-10 border-2 border-emerald-100 shadow-sm">
-                                            <AvatarFallback className="bg-emerald-50 text-emerald-600 font-bold text-xs">
+                                    <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-brand-100/50 hover:bg-brand-50/50 hover:border-brand-200 transition-all">
+                                        <Avatar className="h-10 w-10 border-2 border-brand-100 shadow-sm">
+                                            <AvatarFallback className="bg-brand-50 text-brand-500 font-bold text-xs">
                                                 {userName.charAt(0)}
                                             </AvatarFallback>
                                         </Avatar>
 
                                         <div className="flex-1 min-w-0">
                                             <div className="flex justify-between items-center">
-                                                <h4 className="font-semibold text-stone-800 text-sm truncate">{userName}</h4>
-                                                <span className="text-[10px] font-medium text-stone-400 whitespace-nowrap">
+                                                <h4 className="font-semibold text-brand-500 text-sm truncate">{userName}</h4>
+                                                <span className="text-[10px] font-medium text-brand-300 whitespace-nowrap">
                                                     {format(new Date(order.created_at), 'HH:mm')}
                                                 </span>
                                             </div>
@@ -418,11 +418,11 @@ function AdminPageContent() {
                                                 <Badge variant="secondary" className={`
                                                     text-[10px] font-semibold px-1.5 py-0.5 rounded-md
                                                     ${status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                                                        status === 'confirmed' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'}
+                                                        status === 'confirmed' ? 'bg-brand-50 text-brand-500' : 'bg-red-100 text-red-600'}
                                                 `}>
                                                     {status === 'pending' ? 'PENDENTE' : status === 'confirmed' ? 'CONFIRMADO' : 'CANCELADO'}
                                                 </Badge>
-                                                <span className="text-xs text-stone-500 truncate max-w-[150px]">
+                                                <span className="text-xs text-brand-300 truncate max-w-[150px]">
                                                     {menuItemName}
                                                 </span>
                                             </div>
@@ -431,7 +431,7 @@ function AdminPageContent() {
                                 )
                             })
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full text-center text-stone-300">
+                            <div className="flex flex-col items-center justify-center h-full text-center text-brand-200">
                                 <Coffee className="w-10 h-10 mb-2 opacity-50" />
                                 <p className="text-sm">Sem pedidos recentes</p>
                             </div>
@@ -446,14 +446,14 @@ function AdminPageContent() {
                     <SatisfactionWidgetCompact date={currentDateStr} />
 
                     {/* Production Breakdown */}
-                    <div className="flex flex-col h-auto min-h-[300px] bg-white border border-stone-200/60 rounded-2xl shadow-sm overflow-hidden">
-                        <div className="p-4 border-b border-stone-100 shrink-0 bg-stone-50/50">
-                            <h2 className="font-semibold text-stone-800 flex items-center gap-2 text-sm">
-                                <div className="p-1.5 rounded-lg bg-stone-100">
-                                    <ChefHat className="w-4 h-4 text-stone-600" />
+                    <div className="flex flex-col h-auto min-h-[300px] bg-white/90 backdrop-blur-sm border border-brand-100/60 rounded-2xl shadow-sm overflow-hidden">
+                        <div className="p-4 border-b border-brand-100/50 shrink-0 bg-brand-50/50">
+                            <h2 className="font-semibold text-brand-500 flex items-center gap-2 text-sm">
+                                <div className="p-1.5 rounded-lg bg-brand-50">
+                                    <ChefHat className="w-4 h-4 text-brand-400" />
                                 </div>
                                 Resumo de Produção
-                                <Badge variant="secondary" className="bg-stone-100 text-stone-600 ml-auto font-mono text-xs">
+                                <Badge variant="secondary" className="bg-brand-50 text-brand-400 ml-auto font-mono text-xs">
                                     {totalProduction} un
                                 </Badge>
                             </h2>
@@ -462,7 +462,7 @@ function AdminPageContent() {
                         <div className="flex-1 overflow-y-auto p-4 min-h-0 relative">
                             {loadingFeed ? (
                                 <div className="space-y-3">
-                                    {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-stone-100 animate-pulse rounded-lg" />)}
+                                    {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-brand-100/50 animate-pulse rounded-lg" />)}
                                 </div>
                             ) : productionList.length > 0 ? (
                                 <div className="space-y-3">
@@ -472,16 +472,16 @@ function AdminPageContent() {
                                         return (
                                             <div key={index} className="group">
                                                 <div className="flex items-center justify-between mb-1">
-                                                    <span className="text-sm font-medium text-stone-700 truncate pr-2 max-w-[70%]">
+                                                    <span className="text-sm font-medium text-brand-400 truncate pr-2 max-w-[70%]">
                                                         {item.name}
                                                     </span>
-                                                    <Badge className="bg-stone-800 text-white font-mono text-xs px-2 h-6">
+                                                    <Badge className="bg-brand-500 text-white font-mono text-xs px-2 h-6">
                                                         {item.count}
                                                     </Badge>
                                                 </div>
-                                                <div className="h-1.5 w-full bg-stone-100 rounded-full overflow-hidden">
+                                                <div className="h-1.5 w-full bg-brand-100/50 rounded-full overflow-hidden">
                                                     <div
-                                                        className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500"
+                                                        className="h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full transition-all duration-500"
                                                         style={{ width: `${percentage}%` }}
                                                     />
                                                 </div>
@@ -490,7 +490,7 @@ function AdminPageContent() {
                                     })}
                                 </div>
                             ) : (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-stone-300">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-brand-200">
                                     <ListChecks className="w-8 h-8 mb-2 opacity-50" />
                                     <p className="text-xs">Produção zerada</p>
                                 </div>

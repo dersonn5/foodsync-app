@@ -46,7 +46,7 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
                         key={star}
                         className={`w-3.5 h-3.5 ${star <= Math.round(rating)
                             ? 'text-amber-400 fill-amber-400'
-                            : 'text-zinc-200 fill-zinc-100'
+                            : 'text-brand-100 fill-brand-50'
                             }`}
                     />
                 ))}
@@ -56,7 +56,7 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
 
     if (loading) {
         return (
-            <Card className="border-zinc-200 shadow-sm bg-white">
+            <Card className="border-brand-100 shadow-sm bg-white/90 backdrop-blur-sm">
                 <CardContent className="p-4 flex items-center justify-center">
                     <Loader2 className="w-5 h-5 text-amber-500 animate-spin" />
                 </CardContent>
@@ -66,7 +66,7 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
 
     return (
         <Card
-            className="border-zinc-200 shadow-sm bg-white hover:bg-zinc-50 transition-colors cursor-pointer group"
+            className="border-brand-100 shadow-sm bg-white/90 backdrop-blur-sm hover:bg-brand-50/50 transition-colors cursor-pointer group"
             onClick={handleClick}
         >
             <CardContent className="p-4">
@@ -75,7 +75,7 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
                         {/* Star Icon */}
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${metrics && metrics.averageRating >= 4 ? 'bg-green-100' :
                             metrics && metrics.averageRating >= 3 ? 'bg-amber-100' :
-                                metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100' : 'bg-zinc-100'
+                                metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100' : 'bg-brand-50'
                             }`}>
                             {metrics && metrics.totalFeedbacks > 0 ? (
                                 <span className="text-xl">
@@ -83,7 +83,7 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
                                         metrics.averageRating >= 3 ? '😐' : '😔'}
                                 </span>
                             ) : (
-                                <Star className="w-5 h-5 text-zinc-300" />
+                                <Star className="w-5 h-5 text-brand-200" />
                             )}
                         </div>
 
@@ -92,26 +92,26 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
                             {metrics && metrics.totalFeedbacks > 0 ? (
                                 <>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-2xl font-bold text-zinc-800">
+                                        <span className="text-2xl font-bold text-brand-500">
                                             {metrics.averageRating.toFixed(1)}
                                         </span>
                                         {renderStars(metrics.averageRating)}
                                     </div>
-                                    <p className="text-xs text-zinc-500">
+                                    <p className="text-xs text-brand-300">
                                         {metrics.totalFeedbacks} {metrics.totalFeedbacks === 1 ? 'avaliação' : 'avaliações'} {dateLabel}
                                     </p>
                                 </>
                             ) : (
                                 <>
-                                    <p className="text-sm font-medium text-zinc-600">Satisfação</p>
-                                    <p className="text-xs text-zinc-400">Sem avaliações {dateLabel}</p>
+                                    <p className="text-sm font-medium text-brand-400">Satisfação</p>
+                                    <p className="text-xs text-brand-300">Sem avaliações {dateLabel}</p>
                                 </>
                             )}
                         </div>
                     </div>
 
                     {/* Arrow Icon */}
-                    <ArrowUpRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-500 transition-colors" />
+                    <ArrowUpRight className="w-4 h-4 text-brand-200 group-hover:text-brand-400 transition-colors" />
                 </div>
             </CardContent>
         </Card>

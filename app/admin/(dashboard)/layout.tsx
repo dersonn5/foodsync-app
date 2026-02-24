@@ -11,10 +11,10 @@ import { LayoutDashboard, ListChecks, ScanLine, UtensilsCrossed, BarChart3 } fro
 
 function AdminHeader() {
     return (
-        <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-8 py-4 flex items-center justify-between">
+        <header className="sticky top-0 z-40 bg-brand-50/80 backdrop-blur-xl border-b border-brand-100/60 px-8 py-4 flex items-center justify-between">
             <div>
-                <h1 className="text-xl font-bold text-gray-900 tracking-tight">Bom dia, Anderson</h1>
-                <p className="text-xs text-gray-500 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
+                <h1 className="text-xl font-bold text-brand-500 tracking-tight">Bom dia, Anderson</h1>
+                <p className="text-xs text-brand-300 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
             </div>
             <NotificationBell />
         </header>
@@ -33,7 +33,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
     }, [pathname])
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans md:h-screen md:overflow-hidden">
+        <div className="min-h-screen bg-brand-50 flex flex-col md:flex-row font-sans md:h-screen md:overflow-hidden">
             {/* Desktop Sidebar */}
             <div className="hidden md:flex">
                 <AdminSidebar />
@@ -74,19 +74,19 @@ function AdminBottomNav() {
     const pathname = usePathname()
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.1)]">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-brand-50 border-t border-brand-100 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.08)]">
 
             <Link
                 href="/admin"
-                className={`flex flex-col items-center gap-1 transition-colors ${pathname === '/admin' ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname === '/admin' ? 'text-brand-500' : 'text-brand-300 hover:text-brand-500'}`}
             >
-                <LayoutDashboard size={20} className={pathname === '/admin' ? 'fill-green-600/20' : ''} />
+                <LayoutDashboard size={20} className={pathname === '/admin' ? 'fill-brand-500/20' : ''} />
                 <span className="text-[10px] font-medium">Home</span>
             </Link>
 
             <Link
                 href="/admin/orders"
-                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/orders') ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/orders') ? 'text-brand-500' : 'text-brand-300 hover:text-brand-500'}`}
             >
                 <ListChecks size={20} />
                 <span className="text-[10px] font-medium">Pedidos</span>
@@ -94,7 +94,7 @@ function AdminBottomNav() {
 
             <div className="relative -top-5">
                 <Link href="/admin/scan">
-                    <div className="h-14 w-14 bg-slate-900 rounded-full flex items-center justify-center shadow-lg shadow-slate-900/30 text-white hover:scale-105 transition-transform border-4 border-slate-50">
+                    <div className="h-14 w-14 bg-brand-500 rounded-full flex items-center justify-center shadow-lg shadow-brand-500/30 text-white hover:scale-105 transition-transform border-4 border-brand-50">
                         <ScanLine size={24} />
                     </div>
                 </Link>
@@ -102,7 +102,7 @@ function AdminBottomNav() {
 
             <Link
                 href="/admin/menu"
-                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/menu') ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/menu') ? 'text-brand-500' : 'text-brand-300 hover:text-brand-500'}`}
             >
                 <UtensilsCrossed size={20} />
                 <span className="text-[10px] font-medium">Menu</span>
@@ -110,7 +110,7 @@ function AdminBottomNav() {
 
             <Link
                 href="/admin/reports"
-                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/reports') ? 'text-green-600' : 'text-slate-400 hover:text-green-600'}`}
+                className={`flex flex-col items-center gap-1 transition-colors ${pathname.startsWith('/admin/reports') ? 'text-brand-500' : 'text-brand-300 hover:text-brand-500'}`}
             >
                 <BarChart3 size={20} />
                 <span className="text-[10px] font-medium">Gestão</span>
