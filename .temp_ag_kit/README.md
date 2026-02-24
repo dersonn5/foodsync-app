@@ -23,12 +23,20 @@ ag-kit init
 
 This installs the `.agent` folder containing all templates into your project.
 
+### ⚠️ Important Note on `.gitignore`
+If you are using AI-powered editors like **Cursor** or **Windsurf**, adding the `.agent/` folder to your `.gitignore` may prevent the IDE from indexing the workflows. This results in slash commands (like `/plan`, `/debug`) not appearing in the chat suggestion dropdown.
+
+**Recommended Solution:**
+To keep the `.agent/` folder local (not tracked by Git) while maintaining AI functionality:
+1. Ensure `.agent/` is **NOT** in your project's `.gitignore`.
+2. Instead, add it to your local exclude file: `.git/info/exclude`
+
 ## What's Included
 
 | Component     | Count | Description                                                        |
 | ------------- | ----- | ------------------------------------------------------------------ |
 | **Agents**    | 20    | Specialist AI personas (frontend, backend, security, PM, QA, etc.) |
-| **Skills**    | 36    | Domain-specific knowledge modules                                  |
+| **Skills**    | 37    | Domain-specific knowledge modules                                  |
 | **Workflows** | 11    | Slash command procedures                                           |
 
 
@@ -115,8 +123,8 @@ ag-kit init --dry-run      # Preview actions without executing
 
 ## Documentation
 
-- **[Web App Example](https://antigravity-kit.vercel.app//docs/guide/examples/web-app)** - Step-by-step guide to creating a web application
-- **[Online Docs](https://antigravity-kit.vercel.app//docs)** - Browse all documentation online
+- **[Web App Example](https://antigravity-kit-v2.vercel.app/docs/guide/examples/brainstorm)** - Step-by-step guide to creating a web application
+- **[Online Docs](https://antigravity-kit-v2.vercel.app/docs)** - Browse all documentation online
 
 ## Buy me coffee
 

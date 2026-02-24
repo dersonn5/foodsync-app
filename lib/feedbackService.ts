@@ -309,8 +309,8 @@ export interface TodayMetrics {
 /**
  * Get today's metrics for Manager "Pulso do Dia" view
  */
-export async function getTodayMetrics(): Promise<TodayMetrics> {
-    const today = format(new Date(), 'yyyy-MM-dd')
+export async function getTodayMetrics(dateStr?: string): Promise<TodayMetrics> {
+    const targetDate = dateStr || format(new Date(), 'yyyy-MM-dd')
 
     const { data, error } = await supabase
         .from('feedbacks_app')
@@ -318,8 +318,12 @@ export async function getTodayMetrics(): Promise<TodayMetrics> {
             *,
             users (name)
         `)
-        .eq('data_refeicao', today)
+        .eq('data_refeicao', targetDate)
         .order('created_at', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching metrics for date:', error)
+    }
 
     if (error || !data || data.length === 0) {
         return {

@@ -338,8 +338,8 @@ function AdminPageContent() {
 
                 {/* Pending Queue */}
                 <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending_today > 0
-                        ? 'bg-amber-50/50 border-amber-200 shadow-amber-500/10'
-                        : 'bg-white border-stone-200/60'
+                    ? 'bg-amber-50/50 border-amber-200 shadow-amber-500/10'
+                    : 'bg-white border-stone-200/60'
                     }`}>
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
@@ -443,7 +443,7 @@ function AdminPageContent() {
                 <div className="order-2 md:order-none w-full md:w-80 lg:w-96 flex flex-col gap-6 h-auto md:h-full md:min-h-0 md:overflow-y-auto">
 
                     {/* Compact Satisfaction Widget */}
-                    <SatisfactionWidgetCompact />
+                    <SatisfactionWidgetCompact date={currentDateStr} />
 
                     {/* Production Breakdown */}
                     <div className="flex flex-col h-auto min-h-[300px] bg-white border border-stone-200/60 rounded-2xl shadow-sm overflow-hidden">

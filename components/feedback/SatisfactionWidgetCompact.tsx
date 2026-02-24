@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
  * Shows only: Average rating + stars + count
  * Clicking navigates to /admin/reports for full details
  */
-export function SatisfactionWidgetCompact() {
+export function SatisfactionWidgetCompact({ date }: { date?: string }) {
     const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [metrics, setMetrics] = useState<TodayMetrics | null>(null)
@@ -19,7 +19,7 @@ export function SatisfactionWidgetCompact() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true)
-            const data = await getTodayMetrics()
+            const data = await getTodayMetrics(date)
             setMetrics(data)
             setLoading(false)
         }
@@ -28,7 +28,10 @@ export function SatisfactionWidgetCompact() {
         // Refresh every 60 seconds
         const interval = setInterval(fetchData, 60000)
         return () => clearInterval(interval)
-    }, [])
+    }, [date])
+
+    const isToday = !date || date === new Date().toISOString().split('T')[0]
+    const dateLabel = isToday ? 'hoje' : 'neste dia'
 
     const handleClick = () => {
         router.push('/admin/reports')
@@ -71,8 +74,8 @@ export function SatisfactionWidgetCompact() {
                     <div className="flex items-center gap-3">
                         {/* Star Icon */}
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${metrics && metrics.averageRating >= 4 ? 'bg-green-100' :
-                                metrics && metrics.averageRating >= 3 ? 'bg-amber-100' :
-                                    metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100' : 'bg-zinc-100'
+                            metrics && metrics.averageRating >= 3 ? 'bg-amber-100' :
+                                metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100' : 'bg-zinc-100'
                             }`}>
                             {metrics && metrics.totalFeedbacks > 0 ? (
                                 <span className="text-xl">
@@ -95,13 +98,13 @@ export function SatisfactionWidgetCompact() {
                                         {renderStars(metrics.averageRating)}
                                     </div>
                                     <p className="text-xs text-zinc-500">
-                                        {metrics.totalFeedbacks} {metrics.totalFeedbacks === 1 ? 'avaliação' : 'avaliações'} hoje
+                                        {metrics.totalFeedbacks} {metrics.totalFeedbacks === 1 ? 'avaliação' : 'avaliações'} {dateLabel}
                                     </p>
                                 </>
                             ) : (
                                 <>
                                     <p className="text-sm font-medium text-zinc-600">Satisfação</p>
-                                    <p className="text-xs text-zinc-400">Sem avaliações hoje</p>
+                                    <p className="text-xs text-zinc-400">Sem avaliações {dateLabel}</p>
                                 </>
                             )}
                         </div>
