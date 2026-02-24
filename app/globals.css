@@ -55,6 +55,10 @@
   --color-brand-300: var(--brand-300);
   --color-brand-400: var(--brand-400);
   --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
 }
 
 :root {
@@ -151,12 +155,16 @@
   --brand-cream: var(--background);
 
   /* === New Glassmorphism Palette === */
-  --brand-50: #E7F5DC;
-  --brand-100: #CFE1B9;
-  --brand-200: #B6C99B;
-  --brand-300: #98A77C;
-  --brand-400: #88976C;
-  --brand-500: #728156;
+  --brand-50: #E3EED4;
+  --brand-100: #D8E6C2;
+  --brand-200: #C4D6B2;
+  --brand-300: #AEC3B0;
+  --brand-400: #8CA990;
+  --brand-500: #6B9071;
+  --brand-600: #517252;
+  --brand-700: #375534;
+  --brand-800: #233F28;
+  --brand-900: #0F2A1D;
 }
 
 .dark {
