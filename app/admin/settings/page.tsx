@@ -97,7 +97,7 @@ export default function SettingsPage() {
             <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-brand-900">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-lg shadow-brand-900/20">
+                        <div className="p-2 rounded-xl bg-brand-900 shadow-lg shadow-brand-900/20">
                             <UtensilsCrossed className="w-6 h-6 text-white" />
                         </div>
                         Configurações da Cozinha

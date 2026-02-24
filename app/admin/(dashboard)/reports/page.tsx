@@ -150,7 +150,7 @@ export default function ReportsPage() {
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
                 <div className="space-y-1">
                     <h1 className="text-2xl font-bold text-brand-900 tracking-tight flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-lg shadow-brand-900/20">
+                        <div className="p-2 rounded-xl bg-brand-900 shadow-lg shadow-brand-900/20">
                             <BarChart3 className="w-6 h-6 text-white" />
                         </div>
                         Relatórios de Eficiência
