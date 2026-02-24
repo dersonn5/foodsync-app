@@ -13,8 +13,8 @@ function AdminHeader() {
     return (
         <header className="sticky top-0 z-40 bg-white/60 backdrop-blur-xl border-b border-slate-200/60 px-8 py-4 flex items-center justify-between">
             <div>
-                <h1 className="text-xl font-bold text-brand-500 tracking-tight">Bom dia, Anderson</h1>
-                <p className="text-xs text-brand-300 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
+                <h1 className="text-xl font-bold text-brand-900 tracking-tight">Bom dia, Anderson</h1>
+                <p className="text-xs text-brand-600 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
             </div>
             <NotificationBell />
         </header>
