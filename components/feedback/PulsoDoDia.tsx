@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Star, MessageSquare, Loader2, TrendingUp, AlertTriangle } from 'lucide-react'
+import { Star, MessageSquare, Loader2, TrendingUp, AlertTriangle, Smile, Meh, Frown } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { getTodayMetrics, type TodayMetrics } from '@/lib/feedbackService'
@@ -43,11 +43,10 @@ export function PulsoDoDia() {
         )
     }
 
-    const getEmoji = (rating: number) => {
-        if (rating >= 4.5) return '🌟'
-        if (rating >= 4) return '😊'
-        if (rating >= 3) return '😐'
-        return '😔'
+    const renderFaceIcon = (rating: number) => {
+        if (rating >= 4) return <Smile className="w-12 h-12 text-emerald-500" />
+        if (rating >= 3) return <Meh className="w-12 h-12 text-amber-500" />
+        return <Frown className="w-12 h-12 text-red-500" />
     }
 
     if (loading) {
@@ -91,8 +90,8 @@ export function PulsoDoDia() {
                                         {metrics.totalFeedbacks} {metrics.totalFeedbacks === 1 ? 'avaliação' : 'avaliações'}
                                     </p>
                                 </div>
-                                <div className="text-4xl ml-auto">
-                                    {getEmoji(metrics.averageRating)}
+                                <div className="ml-auto flex items-center justify-center">
+                                    {renderFaceIcon(metrics.averageRating)}
                                 </div>
                             </div>
                         ) : (

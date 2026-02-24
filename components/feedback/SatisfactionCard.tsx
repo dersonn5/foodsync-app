@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Star, MessageSquare, Loader2 } from 'lucide-react'
+import { Star, MessageSquare, Loader2, Smile, Meh, Frown } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -93,9 +93,13 @@ export function SatisfactionCard({ date }: SatisfactionCardProps) {
                                 averageRating >= 3 ? 'bg-amber-100 text-amber-600' :
                                     'bg-red-100 text-red-600'
                                 }`}>
-                                <span className="text-2xl">
-                                    {averageRating >= 4 ? '😊' : averageRating >= 3 ? '😐' : '😔'}
-                                </span>
+                                {averageRating >= 4 ? (
+                                    <Smile className="w-8 h-8" />
+                                ) : averageRating >= 3 ? (
+                                    <Meh className="w-8 h-8" />
+                                ) : (
+                                    <Frown className="w-8 h-8" />
+                                )}
                             </div>
                         </div>
 

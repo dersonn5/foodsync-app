@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Star, Loader2, ArrowUpRight } from 'lucide-react'
+import { Star, Loader2, ArrowUpRight, Smile, Meh, Frown } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { getTodayMetrics, type TodayMetrics } from '@/lib/feedbackService'
 import { useRouter } from 'next/navigation'
@@ -78,10 +78,13 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
                                 metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100/80 border border-red-200/50' : 'bg-white/60 border border-slate-200/50'
                             }`}>
                             {metrics && metrics.totalFeedbacks > 0 ? (
-                                <span className="text-xl">
-                                    {metrics.averageRating >= 4 ? '😊' :
-                                        metrics.averageRating >= 3 ? '😐' : '😔'}
-                                </span>
+                                metrics.averageRating >= 4 ? (
+                                    <Smile className="w-5 h-5 text-green-600" />
+                                ) : metrics.averageRating >= 3 ? (
+                                    <Meh className="w-5 h-5 text-amber-600" />
+                                ) : (
+                                    <Frown className="w-5 h-5 text-red-600" />
+                                )
                             ) : (
                                 <Star className="w-5 h-5 text-brand-200" />
                             )}
