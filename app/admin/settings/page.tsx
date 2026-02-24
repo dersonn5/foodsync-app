@@ -96,7 +96,7 @@ export default function SettingsPage() {
             {/* Header */}
             <header className="mb-4 flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight justify-center lg:justify-start" style={{ color: '#0F2A1D' }}>
+                    <h1 className="text-2xl font-bold tracking-tight flex flex-col items-center gap-2 lg:flex-row lg:gap-3" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <UtensilsCrossed className="w-6 h-6 text-white" />
                         </div>

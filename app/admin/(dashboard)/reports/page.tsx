@@ -149,7 +149,7 @@ export default function ReportsPage() {
             {/* Header - Premium Styling */}
             <div className="flex-none flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-2xl font-bold tracking-tight flex items-center gap-3 justify-center lg:justify-start" style={{ color: '#0F2A1D' }}>
+                    <h1 className="text-2xl font-bold tracking-tight flex flex-col items-center gap-2 lg:flex-row lg:gap-3" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
                             <BarChart3 className="w-6 h-6 text-white" />
                         </div>
