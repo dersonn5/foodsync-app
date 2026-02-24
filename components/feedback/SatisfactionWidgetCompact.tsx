@@ -92,26 +92,26 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
                             {metrics && metrics.totalFeedbacks > 0 ? (
                                 <>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-2xl font-bold text-brand-500">
+                                        <span className="text-2xl font-bold text-brand-900">
                                             {metrics.averageRating.toFixed(1)}
                                         </span>
                                         {renderStars(metrics.averageRating)}
                                     </div>
-                                    <p className="text-xs text-brand-300">
+                                    <p className="text-xs text-brand-600">
                                         {metrics.totalFeedbacks} {metrics.totalFeedbacks === 1 ? 'avaliação' : 'avaliações'} {dateLabel}
                                     </p>
                                 </>
                             ) : (
                                 <>
-                                    <p className="text-sm font-medium text-brand-400">Satisfação</p>
-                                    <p className="text-xs text-brand-300">Sem avaliações {dateLabel}</p>
+                                    <p className="text-sm font-medium text-brand-800">Satisfação</p>
+                                    <p className="text-xs text-brand-600">Sem avaliações {dateLabel}</p>
                                 </>
                             )}
                         </div>
                     </div>
 
                     {/* Arrow Icon */}
-                    <ArrowUpRight className="w-4 h-4 text-brand-200 group-hover:text-brand-400 transition-colors" />
+                    <ArrowUpRight className="w-4 h-4 text-brand-600 group-hover:text-brand-800 transition-colors" />
                 </div>
             </CardContent>
         </Card>

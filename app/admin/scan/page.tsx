@@ -164,7 +164,7 @@ export default function ScanPage() {
                                 maxLength={6}
                                 onChange={(e) => setManualCode(e.target.value.toUpperCase())}
                             />
-                            <Button onClick={() => fetchOrderDetails(manualCode)} className="w-full bg-brand-500 hover:bg-brand-600 text-white rounded-2xl h-14 font-black text-lg shadow-xl shadow-brand-500/20">
+                            <Button onClick={() => fetchOrderDetails(manualCode)} className="w-full bg-brand-800 hover:bg-brand-900 text-white rounded-2xl h-14 font-black text-lg shadow-xl shadow-brand-900/40">
                                 VALIDAR TICKET
                             </Button>
                         </div>
@@ -220,24 +220,24 @@ export default function ScanPage() {
             {orderData && (
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-40">
                     <Card className="w-full bg-white/95 backdrop-blur-xl border border-slate-200/60 shadow-2xl animate-in slide-in-from-bottom-full duration-700 rounded-[3rem] overflow-hidden">
-                        <div className="h-3 bg-brand-500 w-full" />
+                        <div className="h-3 bg-brand-800 w-full" />
                         <CardHeader className="text-center pb-2 pt-10">
-                            <div className="bg-brand-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-brand-100/50">
-                                <CheckCircle2 className="h-10 w-10 text-brand-500" />
+                            <div className="bg-brand-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-brand-200">
+                                <CheckCircle2 className="h-10 w-10 text-brand-800" />
                             </div>
-                            <CardTitle className="text-4xl font-black text-brand-500 tracking-tighter uppercase italic">Liberado!</CardTitle>
-                            <p className="text-brand-300 font-bold tracking-widest text-[10px] mt-2">PEDIDO AUTORIZADO</p>
+                            <CardTitle className="text-4xl font-black text-brand-900 tracking-tighter uppercase italic">Liberado!</CardTitle>
+                            <p className="text-brand-600 font-bold tracking-widest text-[10px] mt-2">PEDIDO AUTORIZADO</p>
                         </CardHeader>
                         <CardContent className="space-y-8 pt-6 pb-10 px-8">
-                            <div className="bg-brand-50/50 p-8 rounded-[2rem] text-center border border-brand-100/50 shadow-inner space-y-2">
-                                <h3 className="font-black text-2xl text-brand-500 leading-tight">{orderData.menu_items?.name}</h3>
-                                <p className="text-sm font-bold text-brand-500 bg-white inline-block px-4 py-1 rounded-full shadow-sm">{orderData.users?.email}</p>
-                                <div className="pt-4 mt-4 border-t border-brand-100/50">
-                                    <p className="text-xs font-bold text-brand-300 uppercase tracking-widest mb-1">Identificador</p>
-                                    <p className="text-2xl font-mono font-black text-brand-400 tracking-[0.2em]">{orderData.short_id}</p>
+                            <div className="bg-brand-50 p-8 rounded-[2rem] text-center border border-brand-200 shadow-inner space-y-2">
+                                <h3 className="font-black text-2xl text-brand-900 leading-tight">{orderData.menu_items?.name}</h3>
+                                <p className="text-sm font-bold text-brand-800 bg-white inline-block px-4 py-1 rounded-full shadow-sm">{orderData.users?.email}</p>
+                                <div className="pt-4 mt-4 border-t border-brand-200">
+                                    <p className="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">Identificador</p>
+                                    <p className="text-2xl font-mono font-black text-brand-800 tracking-[0.2em]">{orderData.short_id}</p>
                                 </div>
                             </div>
-                            <Button onClick={resetScan} className="w-full h-20 text-2xl font-black bg-brand-500 hover:bg-brand-600 text-white rounded-[1.5rem] shadow-xl shadow-brand-500/20 hover:scale-[1.02] transition-all active:scale-95 uppercase tracking-tighter">
+                            <Button onClick={resetScan} className="w-full h-20 text-2xl font-black bg-brand-800 hover:bg-brand-900 text-white rounded-[1.5rem] shadow-xl shadow-brand-900/20 hover:scale-[1.02] transition-all active:scale-95 uppercase tracking-tighter">
                                 Ler Próximo
                             </Button>
                         </CardContent>

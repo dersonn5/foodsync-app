@@ -234,14 +234,14 @@ function AdminPageContent() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
                 <div className="flex flex-wrap items-center gap-4 md:gap-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-brand-500 tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-lg shadow-brand-500/20">
+                        <h1 className="text-2xl font-bold text-brand-900 tracking-tight flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-lg shadow-brand-900/20">
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Cockpit Operacional
                         </h1>
-                        <p className="text-brand-300 text-sm mt-1.5 ml-[52px]">
-                            Visão do dia <span className="font-semibold text-brand-500 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-brand-600 text-sm mt-1.5 ml-[52px]">
+                            Visão do dia <span className="font-semibold text-brand-900 capitalize">{formatDateDisplay(currentDateStr)}</span>
                         </p>
                     </div>
 
@@ -251,13 +251,13 @@ function AdminPageContent() {
                             variant="ghost"
                             size="icon"
                             onClick={handlePrevDay}
-                            className="h-8 w-8 hover:bg-brand-50 text-brand-400 hover:text-brand-500 rounded-xl transition-all"
+                            className="h-8 w-8 hover:bg-brand-50 text-brand-600 hover:text-brand-900 rounded-xl transition-all"
                         >
                             <ChevronLeft className="w-4 h-4" />
                         </Button>
 
-                        <div className="flex items-center gap-2 px-3 font-medium text-brand-500 min-w-[120px] justify-center">
-                            <CalendarIcon className="w-4 h-4 text-brand-400" />
+                        <div className="flex items-center gap-2 px-3 font-medium text-brand-900 min-w-[120px] justify-center">
+                            <CalendarIcon className="w-4 h-4 text-brand-700" />
                             <span className="capitalize text-sm">{formatDateDisplay(currentDateStr)}</span>
                         </div>
 
@@ -265,7 +265,7 @@ function AdminPageContent() {
                             variant="ghost"
                             size="icon"
                             onClick={handleNextDay}
-                            className="h-8 w-8 hover:bg-brand-50 text-brand-400 hover:text-brand-500 rounded-xl transition-all"
+                            className="h-8 w-8 hover:bg-brand-50 text-brand-600 hover:text-brand-900 rounded-xl transition-all"
                         >
                             <ChevronRight className="w-4 h-4" />
                         </Button>
@@ -273,7 +273,7 @@ function AdminPageContent() {
                         {dateParam && (
                             <button
                                 onClick={handleToday}
-                                className="px-3 py-1 text-xs text-brand-500 hover:bg-brand-50 rounded-lg font-semibold transition-colors"
+                                className="px-3 py-1 text-xs text-brand-800 hover:bg-brand-50 rounded-lg font-semibold transition-colors"
                             >
                                 Hoje
                             </button>
@@ -287,15 +287,15 @@ function AdminPageContent() {
                         variant="outline"
                         size="sm"
                         onClick={exportToCSV}
-                        className="h-9 text-xs text-brand-400 hover:text-brand-500 hover:bg-brand-50 border-brand-100 rounded-xl transition-all"
+                        className="h-9 text-xs text-brand-600 hover:text-brand-900 hover:bg-brand-50 border-brand-100 rounded-xl transition-all"
                         disabled={loadingFeed || recentOrders.length === 0}
                     >
                         <Printer className="w-4 h-4 mr-2" />
                         Baixar Lista
                     </Button>
                     <div className="flex gap-1.5">
-                        <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-brand-400'}`} title="Status KPIs" />
-                        <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-brand-400'}`} title="Status Feed" />
+                        <div className={`w-2 h-2 rounded-full ${loadingKPIs ? 'bg-amber-400 animate-pulse' : errorKPIs ? 'bg-red-500' : 'bg-brand-600'}`} title="Status KPIs" />
+                        <div className={`w-2 h-2 rounded-full ${loadingFeed ? 'bg-amber-400 animate-pulse' : errorFeed ? 'bg-red-500' : 'bg-brand-600'}`} title="Status Feed" />
                     </div>
                 </div>
             </div>
@@ -306,14 +306,14 @@ function AdminPageContent() {
                 <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Total de Pedidos</p>
+                            <p className="text-xs font-medium text-brand-600 uppercase tracking-wider mb-1">Total de Pedidos</p>
                             {loadingKPIs ? (
                                 <div className="h-9 w-16 bg-slate-200/50 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className="text-4xl font-bold text-brand-500 tracking-tight">{stats.total_today}</h3>
+                                <h3 className="text-4xl font-bold text-brand-900 tracking-tight">{stats.total_today}</h3>
                             )}
                         </div>
-                        <div className="p-3 bg-gradient-to-br from-brand-500 to-brand-400 rounded-xl shadow-md shadow-brand-500/20">
+                        <div className="p-3 bg-gradient-to-br from-brand-800 to-brand-700 rounded-xl shadow-md shadow-brand-900/20">
                             <ShoppingBag className="w-6 h-6 text-white" />
                         </div>
                     </CardContent>
@@ -323,11 +323,11 @@ function AdminPageContent() {
                 <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Cancelamentos</p>
+                            <p className="text-xs font-medium text-brand-600 uppercase tracking-wider mb-1">Cancelamentos</p>
                             {loadingKPIs ? (
                                 <div className="h-9 w-16 bg-slate-200/50 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className="text-4xl font-bold text-brand-500 tracking-tight">{stats.canceled_today}</h3>
+                                <h3 className="text-4xl font-bold text-brand-900 tracking-tight">{stats.canceled_today}</h3>
                             )}
                         </div>
                         <div className="p-3 bg-red-50/80 rounded-xl">
@@ -343,19 +343,19 @@ function AdminPageContent() {
                     }`}>
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
-                            <p className={`text-xs font-medium uppercase tracking-wider mb-1 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-300'}`}>
+                            <p className={`text-xs font-medium uppercase tracking-wider mb-1 ${stats.pending_today > 0 ? 'text-amber-700' : 'text-brand-600'}`}>
                                 Fila Pendente
                             </p>
                             {loadingKPIs ? (
                                 <div className="h-9 w-16 bg-slate-200/50 animate-pulse rounded-lg" />
                             ) : (
-                                <h3 className={`text-4xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-500'}`}>
+                                <h3 className={`text-4xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-900'}`}>
                                     {stats.pending_today}
                                 </h3>
                             )}
                         </div>
-                        <div className={`p-3 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-100/80' : 'bg-brand-50/50'}`}>
-                            <Clock className={`w-6 h-6 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-300'}`} />
+                        <div className={`p-3 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-100/80' : 'bg-brand-100/50'}`}>
+                            <Clock className={`w-6 h-6 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-600'}`} />
                         </div>
                     </CardContent>
                 </Card>
@@ -367,16 +367,16 @@ function AdminPageContent() {
                 {/* Left: Feed */}
                 <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
                     <div className="p-4 border-b border-slate-200/60 flex items-center justify-between shrink-0 bg-white/40">
-                        <h2 className="font-semibold text-brand-500 flex items-center gap-2 text-sm">
+                        <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-sm">
                             <div className="p-1.5 rounded-lg bg-white/60 shadow-sm border border-slate-200/50">
-                                <Utensils className="w-4 h-4 text-brand-400" />
+                                <Utensils className="w-4 h-4 text-brand-700" />
                             </div>
                             Feed em Tempo Real
                         </h2>
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 text-xs text-brand-400 hover:text-brand-500 hover:bg-white/60 rounded-lg"
+                            className="h-8 text-xs text-brand-600 hover:text-brand-900 hover:bg-white/60 rounded-lg"
                             onClick={() => router.push('/admin/orders')}
                         >
                             Expandir <ArrowUpRight className="w-3 h-3 ml-1" />
@@ -402,15 +402,15 @@ function AdminPageContent() {
                                 return (
                                     <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-slate-200/60 bg-white/40 hover:bg-white/60 hover:border-slate-300 transition-all shadow-sm">
                                         <Avatar className="h-10 w-10 border border-slate-200 shadow-sm">
-                                            <AvatarFallback className="bg-white text-brand-500 font-bold text-xs">
+                                            <AvatarFallback className="bg-brand-50 text-brand-800 font-bold text-xs">
                                                 {userName.charAt(0)}
                                             </AvatarFallback>
                                         </Avatar>
 
                                         <div className="flex-1 min-w-0">
                                             <div className="flex justify-between items-center">
-                                                <h4 className="font-semibold text-brand-500 text-sm truncate">{userName}</h4>
-                                                <span className="text-[10px] font-medium text-brand-300 whitespace-nowrap">
+                                                <h4 className="font-semibold text-brand-900 text-sm truncate">{userName}</h4>
+                                                <span className="text-[10px] font-medium text-brand-600 whitespace-nowrap">
                                                     {format(new Date(order.created_at), 'HH:mm')}
                                                 </span>
                                             </div>
@@ -418,11 +418,11 @@ function AdminPageContent() {
                                                 <Badge variant="secondary" className={`
                                                     text-[10px] font-semibold px-1.5 py-0.5 rounded-md border
                                                     ${status === 'pending' ? 'bg-amber-100/80 border-amber-200/60 text-amber-700' :
-                                                        status === 'confirmed' ? 'bg-green-100/80 border-green-200/60 text-green-700' : 'bg-red-100/80 border-red-200/60 text-red-600'}
+                                                        status === 'confirmed' ? 'bg-green-100/80 border-green-200/60 text-green-800' : 'bg-red-100/80 border-red-200/60 text-red-700'}
                                                 `}>
                                                     {status === 'pending' ? 'PENDENTE' : status === 'confirmed' ? 'CONFIRMADO' : 'CANCELADO'}
                                                 </Badge>
-                                                <span className="text-xs text-brand-400 truncate max-w-[150px]">
+                                                <span className="text-xs text-brand-600 truncate max-w-[150px]">
                                                     {menuItemName}
                                                 </span>
                                             </div>
@@ -431,7 +431,7 @@ function AdminPageContent() {
                                 )
                             })
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full text-center text-brand-300">
+                            <div className="flex flex-col items-center justify-center h-full text-center text-brand-600">
                                 <Coffee className="w-10 h-10 mb-2 opacity-30" />
                                 <p className="text-sm">Sem pedidos recentes</p>
                             </div>
@@ -448,12 +448,12 @@ function AdminPageContent() {
                     {/* Production Breakdown */}
                     <div className="flex flex-col h-auto min-h-[300px] bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden">
                         <div className="p-4 border-b border-slate-200/60 shrink-0 bg-white/40">
-                            <h2 className="font-semibold text-brand-500 flex items-center gap-2 text-sm">
+                            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-sm">
                                 <div className="p-1.5 rounded-lg bg-white/60 shadow-sm border border-slate-200/50">
-                                    <ChefHat className="w-4 h-4 text-brand-400" />
+                                    <ChefHat className="w-4 h-4 text-brand-700" />
                                 </div>
                                 Resumo de Produção
-                                <Badge variant="secondary" className="bg-white/80 border border-slate-200/50 shadow-sm text-brand-500 ml-auto font-mono text-xs">
+                                <Badge variant="secondary" className="bg-white/80 border border-slate-200/50 shadow-sm text-brand-900 ml-auto font-mono text-xs">
                                     {totalProduction} un
                                 </Badge>
                             </h2>
@@ -472,16 +472,16 @@ function AdminPageContent() {
                                         return (
                                             <div key={index} className="group">
                                                 <div className="flex items-center justify-between mb-1">
-                                                    <span className="text-sm font-medium text-brand-500 truncate pr-2 max-w-[70%]">
+                                                    <span className="text-sm font-medium text-brand-900 truncate pr-2 max-w-[70%]">
                                                         {item.name}
                                                     </span>
-                                                    <Badge className="bg-brand-500 text-white shadow-md shadow-brand-500/20 font-mono text-xs px-2 h-6">
+                                                    <Badge className="bg-brand-800 text-white shadow-md shadow-brand-900/20 font-mono text-xs px-2 h-6">
                                                         {item.count}
                                                     </Badge>
                                                 </div>
                                                 <div className="h-1.5 w-full bg-slate-200/60 rounded-full overflow-hidden shadow-inner">
                                                     <div
-                                                        className="h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full transition-all duration-500"
+                                                        className="h-full bg-gradient-to-r from-brand-800 to-brand-700 rounded-full transition-all duration-500"
                                                         style={{ width: `${percentage}%` }}
                                                     />
                                                 </div>
@@ -490,7 +490,7 @@ function AdminPageContent() {
                                     })}
                                 </div>
                             ) : (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-brand-300">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-brand-600">
                                     <ListChecks className="w-8 h-8 mb-2 opacity-30" />
                                     <p className="text-xs">Produção zerada</p>
                                 </div>

@@ -149,20 +149,20 @@ export default function ReportsPage() {
             {/* Header - Premium Styling */}
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-bold text-brand-500 tracking-tight flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-lg shadow-brand-500/20">
+                    <h1 className="text-2xl font-bold text-brand-900 tracking-tight flex items-center gap-3">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-lg shadow-brand-900/20">
                             <BarChart3 className="w-6 h-6 text-white" />
                         </div>
                         Relatórios de Eficiência
                     </h1>
-                    <p className="text-brand-300 text-sm ml-[52px]">
+                    <p className="text-brand-600 text-sm ml-[52px]">
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-auto">
                     <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger className="w-full md:w-[180px] bg-white/60 backdrop-blur-xl border-slate-200/60 rounded-xl shadow-sm focus:ring-brand-500">
-                            <Calendar className="w-4 h-4 mr-2 text-brand-500" />
+                        <SelectTrigger className="w-full md:w-[180px] bg-white/60 backdrop-blur-xl border-slate-200/60 rounded-xl shadow-sm focus:ring-brand-800 text-brand-900">
+                            <Calendar className="w-4 h-4 mr-2 text-brand-700" />
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border border-slate-200/60 bg-white/90 backdrop-blur-xl">
@@ -176,7 +176,7 @@ export default function ReportsPage() {
 
             {loading ? (
                 <div className="flex-1 flex items-center justify-center">
-                    <Loader2 className="w-8 h-8 text-brand-500 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-brand-800 animate-spin" />
                 </div>
             ) : metrics ? (
                 <>
@@ -185,17 +185,17 @@ export default function ReportsPage() {
                         <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:bg-white/70 hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Taxa de Eficiência</p>
+                                    <p className="text-xs font-medium text-brand-600 uppercase tracking-wider mb-1">Taxa de Eficiência</p>
                                     <div className="flex items-end gap-2">
-                                        <span className={`text-3xl font-bold ${metrics.efficiency >= 90 ? 'text-brand-500' : 'text-amber-500'}`}>
+                                        <span className={`text-3xl font-bold ${metrics.efficiency >= 90 ? 'text-brand-900' : 'text-amber-600'}`}>
                                             {metrics.efficiency.toFixed(1)}%
                                         </span>
-                                        <Badge variant="outline" className={metrics.efficiency >= 90 ? 'bg-brand-50 text-brand-500 border-brand-200/50' : 'bg-amber-50 text-amber-600 border-amber-200'}>
+                                        <Badge variant="outline" className={metrics.efficiency >= 90 ? 'bg-brand-50 text-brand-800 border-brand-200/50' : 'bg-amber-50 text-amber-700 border-amber-200'}>
                                             {metrics.efficiency >= 90 ? 'Excelente' : 'Atenção'}
                                         </Badge>
                                     </div>
                                 </div>
-                                <div className={`p-3 rounded-xl ${metrics.efficiency >= 90 ? 'bg-gradient-to-br from-brand-500 to-brand-400 shadow-md shadow-brand-500/20' : 'bg-amber-100'}`}>
+                                <div className={`p-3 rounded-xl shadow-md ${metrics.efficiency >= 90 ? 'bg-gradient-to-br from-brand-800 to-brand-700 shadow-brand-900/20' : 'bg-amber-100 shadow-amber-500/10'}`}>
                                     {metrics.efficiency >= 90 ? <TrendingUp className="w-6 h-6 text-white" /> : <AlertCircle className="w-6 h-6 text-amber-600" />}
                                 </div>
                             </CardContent>
@@ -204,16 +204,16 @@ export default function ReportsPage() {
                         <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:bg-white/70 hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Desperdício Evitado</p>
+                                    <p className="text-xs font-medium text-brand-600 uppercase tracking-wider mb-1">Desperdício Evitado</p>
                                     <div className="flex items-end gap-2">
-                                        <span className="text-3xl font-bold text-brand-500">
+                                        <span className="text-3xl font-bold text-brand-900">
                                             {metrics.wasteCount}
                                         </span>
-                                        <span className="text-sm text-brand-300 mb-1">itens cancelados</span>
+                                        <span className="text-sm text-brand-600 mb-1">itens cancelados</span>
                                     </div>
                                 </div>
                                 <div className="p-3 rounded-xl bg-red-50/80">
-                                    <XCircle className="w-6 h-6 text-red-500" />
+                                    <XCircle className="w-6 h-6 text-red-600" />
                                 </div>
                             </CardContent>
                         </Card>
@@ -221,15 +221,15 @@ export default function ReportsPage() {
                         <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:bg-white/70 hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Produção Total</p>
+                                    <p className="text-xs font-medium text-brand-600 uppercase tracking-wider mb-1">Produção Total</p>
                                     <div className="flex items-end gap-2">
-                                        <span className="text-3xl font-bold text-brand-500">
+                                        <span className="text-3xl font-bold text-brand-900">
                                             {metrics.productionTotal}
                                         </span>
-                                        <span className="text-sm text-brand-300 mb-1">pratos a servir</span>
+                                        <span className="text-sm text-brand-600 mb-1">pratos a servir</span>
                                     </div>
                                 </div>
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-md shadow-brand-500/20">
+                                <div className="p-3 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-md shadow-brand-900/20">
                                     <ChefHat className="w-6 h-6 text-white" />
                                 </div>
                             </CardContent>
@@ -242,7 +242,7 @@ export default function ReportsPage() {
                         {/* Radar de Rejeição */}
                         <Card className="flex flex-col border border-slate-200/60 shadow-sm min-h-[300px] bg-white/60 backdrop-blur-xl rounded-2xl overflow-hidden">
                             <CardHeader className="bg-white/40 border-b border-slate-200/60 pb-3">
-                                <CardTitle className="text-brand-500 flex items-center gap-2 text-md font-semibold">
+                                <CardTitle className="text-brand-900 flex items-center gap-2 text-md font-semibold">
                                     <div className="p-1.5 rounded-lg bg-red-50/80">
                                         <TrendingDown className="w-4 h-4 text-red-500" />
                                     </div>
@@ -252,8 +252,8 @@ export default function ReportsPage() {
                             </CardHeader>
                             <CardContent className="flex-1 overflow-y-auto p-0 scrollbar-thin scrollbar-thumb-brand-100">
                                 {metrics.rejectionList.length === 0 ? (
-                                    <div className="h-full flex flex-col items-center justify-center text-brand-300 p-6">
-                                        <CheckCircle2 className="w-12 h-12 mb-2 text-brand-200" />
+                                    <div className="h-full flex flex-col items-center justify-center text-brand-600 p-6">
+                                        <CheckCircle2 className="w-12 h-12 mb-2 text-brand-300" />
                                         <p>Sem cancelamentos no período!</p>
                                     </div>
                                 ) : (
@@ -261,7 +261,7 @@ export default function ReportsPage() {
                                         {metrics.rejectionList.map((item, idx) => (
                                             <div key={item.name} className="p-4 hover:bg-white/40 transition-colors">
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <span className="font-medium text-brand-500 text-sm">
+                                                    <span className="font-medium text-brand-900 text-sm">
                                                         {idx + 1}. {item.name}
                                                     </span>
                                                     <Badge variant="secondary" className="bg-destructive/10 text-destructive hover:bg-destructive/15">
@@ -269,8 +269,8 @@ export default function ReportsPage() {
                                                     </Badge>
                                                 </div>
                                                 <div className="flex items-center gap-3">
-                                                    <Progress value={(item.cancelled / item.total) * 100} className="h-2 bg-slate-100/50 [&>div]:bg-red-400" />
-                                                    <span className="text-xs text-brand-300 w-12 text-right">
+                                                    <Progress value={(item.cancelled / item.total) * 100} className="h-2 bg-slate-100/50 [&>div]:bg-red-500" />
+                                                    <span className="text-xs text-brand-600 w-12 text-right">
                                                         {Math.round((item.cancelled / item.total) * 100)}%
                                                     </span>
                                                 </div>
@@ -284,13 +284,13 @@ export default function ReportsPage() {
                         {/* Guia de Produção */}
                         <Card className="flex flex-col border border-slate-200/60 bg-white/60 backdrop-blur-xl rounded-2xl shadow-sm min-h-[300px] overflow-hidden">
                             <CardHeader className="bg-white/40 border-b border-slate-200/60 pb-3 flex flex-row items-center justify-between space-y-0">
-                                <CardTitle className="text-brand-500 flex items-center gap-2 text-md font-semibold">
+                                <CardTitle className="text-brand-900 flex items-center gap-2 text-md font-semibold">
                                     <div className="p-1.5 rounded-lg bg-brand-50/50">
-                                        <Utensils className="w-4 h-4 text-brand-500" />
+                                        <Utensils className="w-4 h-4 text-brand-800" />
                                     </div>
                                     Guia de Produção
                                 </CardTitle>
-                                <Button size="sm" variant="ghost" className="h-8 text-brand-500 hover:bg-white/60">
+                                <Button size="sm" variant="ghost" className="h-8 text-brand-800 hover:text-brand-900 hover:bg-white/60">
                                     <Download className="w-4 h-4 mr-1" />
                                     PDF
                                 </Button>
@@ -300,21 +300,21 @@ export default function ReportsPage() {
                                     {metrics.productionList.map((item, idx) => (
                                         <div key={item.name} className="p-4 flex items-center justify-between hover:bg-white/40 transition-colors">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-brand-50/50 flex items-center justify-center text-brand-500 font-bold text-xs border border-brand-100/30">
+                                                <div className="w-8 h-8 rounded-full bg-brand-50/50 flex items-center justify-center text-brand-800 font-bold text-xs border border-brand-100/30">
                                                     {idx + 1}
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-brand-500 text-sm">{item.name}</p>
-                                                    <p className="text-xs text-brand-300">Total Confirmado</p>
+                                                    <p className="font-medium text-brand-900 text-sm">{item.name}</p>
+                                                    <p className="text-xs text-brand-600">Total Confirmado</p>
                                                 </div>
                                             </div>
-                                            <span className="text-lg font-bold text-brand-500">
-                                                {item.confirmed} <span className="text-xs font-normal text-brand-300">un</span>
+                                            <span className="text-lg font-bold text-brand-900">
+                                                {item.confirmed} <span className="text-xs font-normal text-brand-600">un</span>
                                             </span>
                                         </div>
                                     ))}
                                     {metrics.productionList.length === 0 && (
-                                        <div className="p-8 text-center text-brand-300 text-sm">
+                                        <div className="p-8 text-center text-brand-600 text-sm">
                                             Nenhum pedido confirmado para produzir.
                                         </div>
                                     )}
@@ -325,7 +325,7 @@ export default function ReportsPage() {
 
                     {/* CEO Satisfaction Metrics Section */}
                     <div className="mt-6">
-                        <h2 className="text-xl font-bold text-brand-500 mb-4 flex items-center gap-2">
+                        <h2 className="text-xl font-bold text-brand-900 mb-4 flex items-center gap-2">
                             Métricas de Satisfação
                         </h2>
                         <SatisfactionMetrics
@@ -335,9 +335,9 @@ export default function ReportsPage() {
                     </div>
                 </>
             ) : (
-                <div className="flex-1 flex flex-col items-center justify-center text-brand-300 gap-2 font-medium">
+                <div className="flex-1 flex flex-col items-center justify-center text-brand-600 gap-2 font-medium">
                     <p>Sem dados para o período!</p>
-                    <p className="text-xs text-brand-200">
+                    <p className="text-xs text-brand-400">
                         ({rawData.length} pedidos encontrados no total, mas {rawData.length > 0 ? 'nenhum neste range' : 'banco vazio'})
                     </p>
                 </div>
