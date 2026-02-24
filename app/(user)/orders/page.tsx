@@ -54,15 +54,15 @@ export default function OrdersPage() {
     return (
         <div className="min-h-screen bg-transparent font-sans">
             {/* Header */}
-            <header className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-sm border-b border-stone-200/60">
+            <header className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-sm border-b border-slate-200/60">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                        <div className="p-2.5 rounded-xl shadow-lg shadow-brand-900/10" style={{ backgroundColor: '#0F2A1D' }}>
                             <TicketIcon className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-stone-800 tracking-tight">Meus Pedidos</h1>
-                            <p className="text-xs text-stone-500">Sua carteira de refeições</p>
+                            <h1 className="text-xl font-bold tracking-tight" style={{ color: '#0F2A1D' }}>Meus Pedidos</h1>
+                            <p className="text-xs" style={{ color: '#517252' }}>Sua carteira de refeições</p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@ export default function OrdersPage() {
                 {loading ? (
                     <div className="space-y-4 pt-4">
                         {[1, 2].map(i => (
-                            <div key={i} className="h-24 bg-white rounded-2xl animate-pulse border border-stone-200/60" />
+                            <div key={i} className="h-24 bg-white/60 rounded-2xl animate-pulse border border-slate-200/60" />
                         ))}
                     </div>
                 ) : orders.length > 0 ? (
@@ -100,27 +100,30 @@ export default function OrdersPage() {
                                     setIsTicketOpen(true)
                                 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="bg-white p-4 rounded-2xl border border-stone-200/60 cursor-pointer group hover:shadow-md hover:border-stone-300 transition-all flex items-center gap-4 relative overflow-hidden"
+                                className="bg-white/60 backdrop-blur-xl p-4 rounded-2xl border border-slate-200/60 cursor-pointer group hover:shadow-md hover:border-slate-300 transition-all flex items-center gap-4 relative overflow-hidden"
                             >
                                 {/* Active Strip Indicator */}
-                                <div className={`absolute left-0 top-0 bottom-0 w-1 ${order.status === 'confirmed' ? 'bg-gradient-to-b from-emerald-500 to-teal-600' : 'bg-amber-400'}`} />
+                                <div
+                                    className={`absolute left-0 top-0 bottom-0 w-1 ${order.status !== 'confirmed' && 'bg-amber-400'}`}
+                                    style={order.status === 'confirmed' ? { backgroundColor: '#0F2A1D' } : {}}
+                                />
 
-                                <div className="h-14 w-auto px-4 bg-stone-50 rounded-xl flex items-center justify-center flex-shrink-0 border border-stone-100 group-hover:bg-white group-hover:shadow-sm transition-all ml-2">
-                                    <span className="text-sm font-bold text-stone-700 capitalize leading-none">
+                                <div className="h-14 w-auto px-4 bg-slate-50/80 rounded-xl flex items-center justify-center flex-shrink-0 border border-slate-100 group-hover:bg-white group-hover:shadow-sm transition-all ml-2">
+                                    <span className="text-sm font-bold text-slate-700 capitalize leading-none">
                                         {formatDateDisplay(order.consumption_date)}
                                     </span>
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="font-bold text-stone-800 truncate leading-tight mb-1.5">{order.menu_items?.name || 'Prato Desconhecido'}</h3>
+                                    <h3 className="font-bold truncate leading-tight mb-1.5" style={{ color: '#0F2A1D' }}>{order.menu_items?.name || 'Prato Desconhecido'}</h3>
                                     <div className="flex items-center gap-2">
                                         {order.status === 'confirmed' ? (
-                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wide border border-emerald-100">
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-brand-50 text-brand-800 text-[10px] font-bold uppercase tracking-wide border border-brand-200">
                                                 <Sparkles className="w-3 h-3" />
                                                 Confirmado
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide border border-amber-100">
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide border border-amber-200">
                                                 <CalendarClock className="w-3 h-3" />
                                                 Pendente
                                             </span>
@@ -132,11 +135,11 @@ export default function OrdersPage() {
                     </motion.div>
                 ) : (
                     <div className="text-center py-24 flex flex-col items-center">
-                        <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center mb-4">
-                            <UtensilsCrossed className="w-10 h-10 text-stone-300" />
+                        <div className="w-20 h-20 bg-slate-100/80 rounded-2xl flex items-center justify-center mb-4 border border-slate-200/60">
+                            <UtensilsCrossed className="w-10 h-10 text-slate-300" />
                         </div>
-                        <h3 className="text-lg font-bold text-stone-600 tracking-tight mb-1">Vazio por aqui</h3>
-                        <p className="text-sm text-stone-400 max-w-[220px]">Você ainda não reservou nenhuma refeição futura.</p>
+                        <h3 className="text-lg font-bold tracking-tight mb-1" style={{ color: '#0F2A1D' }}>Vazio por aqui</h3>
+                        <p className="text-sm max-w-[220px]" style={{ color: '#517252' }}>Você ainda não reservou nenhuma refeição futura.</p>
                     </div>
                 )}
 
