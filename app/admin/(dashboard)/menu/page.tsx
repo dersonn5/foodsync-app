@@ -187,7 +187,7 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        <div className="h-[calc(100vh-2rem)] flex flex-col p-6 md:p-8 w-full font-sans overflow-hidden bg-transparent">
+        <div className="h-[calc(100vh-2rem)] flex flex-col pt-4 px-6 pb-6 md:pt-4 md:px-8 md:pb-8 w-full font-sans overflow-hidden bg-transparent">
             <Toaster position="top-right" richColors />
 
             {/* Header */}

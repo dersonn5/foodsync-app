@@ -90,7 +90,7 @@ export default function SettingsPage() {
     if (!user) return null
 
     return (
-        <div className="min-h-screen bg-transparent p-6 pb-24 font-sans md:p-8 md:pb-8">
+        <div className="min-h-screen bg-transparent pt-4 px-6 pb-24 font-sans md:pt-4 md:px-8 md:pb-8">
             <Toaster position="bottom-right" />
 
             {/* Header */}
