@@ -234,8 +234,8 @@ function AdminPageContent() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 shrink-0">
                 <div className="flex flex-wrap items-center gap-4 md:gap-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-brand-900 tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-brand-900 shadow-lg shadow-brand-900/20">
+                        <h1 className="text-2xl font-bold text-[#0F2A1D] tracking-tight flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Cockpit Operacional

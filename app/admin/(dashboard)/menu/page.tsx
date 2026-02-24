@@ -193,8 +193,8 @@ export default function AdminMenuPage() {
             {/* Header */}
             <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-brand-900">
-                        <div className="p-2 rounded-xl bg-brand-900 shadow-lg shadow-brand-900/20">
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-[#0F2A1D]">
+                        <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
                             <ChefHat className="w-6 h-6 text-white" />
                         </div>
                         Planejamento de Cardápio

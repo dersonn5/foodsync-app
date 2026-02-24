@@ -155,8 +155,8 @@ function AdminOrdersPageContent() {
 
                     {/* Title Block */}
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-bold text-brand-900 tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-brand-900 shadow-lg shadow-brand-900/20">
+                        <h1 className="text-2xl font-bold text-[#0F2A1D] tracking-tight flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Gestão de Pedidos

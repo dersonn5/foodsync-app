@@ -149,8 +149,8 @@ export default function ReportsPage() {
             {/* Header - Premium Styling */}
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-bold text-brand-900 tracking-tight flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-brand-900 shadow-lg shadow-brand-900/20">
+                    <h1 className="text-2xl font-bold text-[#0F2A1D] tracking-tight flex items-center gap-3">
+                        <div className="p-2 rounded-xl bg-[#0F2A1D] shadow-lg shadow-brand-900/20">
                             <BarChart3 className="w-6 h-6 text-white" />
                         </div>
                         Relatórios de Eficiência
