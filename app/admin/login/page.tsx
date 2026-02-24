@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Toaster, toast } from 'sonner'
 import { Logo } from '@/components/ui/logo'
+import { FallingIngredients } from '@/components/ui/falling-ingredients'
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('')
@@ -62,19 +63,16 @@ export default function AdminLogin() {
         <div className="min-h-screen w-full flex items-center justify-center bg-brand-50 relative overflow-hidden font-sans selection:bg-brand-500/30 selection:text-brand-100">
             <Toaster position="top-right" theme="dark" richColors />
 
-            {/* Ambient Background Effects (Video) */}
-            <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover scale-105"
-                    src="https://cdn.coverr.co/videos/coverr-preparing-a-pizza-5164/1080p.mp4"
-                />
-                <div className="absolute inset-0 bg-brand-500/60 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-black/40" />
-            </div>
+            {/* Dynamic Animated Falling Ingredients */}
+            <FallingIngredients />
+
+            {/* Ambient Background Effects */}
+            <div className="absolute inset-0 bg-brand-50/50" />
+            <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-brand-300/10 rounded-full blur-[100px] pointer-events-none" />
+
+            {/* Subtle Grid */}
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" style={{ opacity: 0.03 }} />
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}

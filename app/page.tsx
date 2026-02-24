@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { User, Phone, FileDigit, Loader2, ChefHat, ArrowRight, CheckCircle, Utensils } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
+import { FallingIngredients } from '@/components/ui/falling-ingredients'
 
 // --- HELPER: CPF MASK ---
 const maskCPF = (value: string) => {
@@ -125,20 +126,13 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-brand-50 flex items-center justify-center p-4 font-sans selection:bg-brand-500/30 selection:text-brand-100 relative overflow-hidden">
-      {/* Background Video Component */}
-      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover scale-105"
-          src="https://cdn.coverr.co/videos/coverr-preparing-a-pizza-5164/1080p.mp4"
-        />
-        {/* Dark overlay to ensure readability */}
-        <div className="absolute inset-0 bg-brand-500/40 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+      {/* Dynamic Animated Falling Ingredients */}
+      <FallingIngredients />
+
+      {/* Background Decor */}
+      <div className="absolute inset-0 bg-brand-50/50" />
+      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-brand-300/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       {/* Floating Icons */}
       <motion.div
