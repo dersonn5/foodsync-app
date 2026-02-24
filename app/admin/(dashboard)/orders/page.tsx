@@ -146,7 +146,7 @@ function AdminOrdersPageContent() {
 
     return (
         // Main Fixed Container with premium gradient
-        <div className="h-[calc(100vh-1rem)] flex flex-col pt-4 px-6 pb-6 md:pt-4 md:px-8 md:pb-8 font-sans overflow-hidden bg-transparent">
+        <div className="min-h-[100dvh] md:h-[calc(100vh-1rem)] flex flex-col pt-4 px-6 pb-6 md:pt-4 md:px-8 md:pb-8 font-sans md:overflow-hidden bg-transparent">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
@@ -279,7 +279,7 @@ function AdminOrdersPageContent() {
             </div>
 
             {/* Scrollable Order List */}
-            <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 pb-8">
+            <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 pb-24 md:pb-8">
                 {loading ? (
                     <div className="text-center py-12 text-brand-600">Carregando pedidos...</div>
                 ) : filteredOrders.length > 0 ? (
