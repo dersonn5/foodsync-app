@@ -187,39 +187,39 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
+        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-transparent">
             <Toaster position="top-right" richColors />
 
             {/* Header */}
             <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-stone-800">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-brand-500">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-lg shadow-brand-500/20">
                             <ChefHat className="w-6 h-6 text-white" />
                         </div>
                         Planejamento de Cardápio
                     </h1>
-                    <p className="text-stone-500 text-sm mt-1.5 ml-[52px]">
+                    <p className="text-brand-300 text-sm mt-1.5 ml-[52px]">
                         Organize a excelência gastronômica da semana
                     </p>
                 </div>
 
                 {/* Week Navigation - Glassmorphism */}
-                <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-white/50 rounded-2xl px-3 py-2 hidden md:flex items-center gap-3">
+                <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 hidden md:flex items-center gap-3">
                     <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => navigateWeek(-1)}
-                        className="hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl w-9 h-9 transition-all"
+                        className="hover:bg-white/60 text-brand-400 hover:text-brand-500 rounded-xl w-9 h-9 transition-all"
                     >
                         <ChevronLeft className="w-5 h-5" />
                     </Button>
 
                     <div className="text-center min-w-[160px] px-2">
-                        <span className="block text-sm font-semibold text-stone-800 tracking-wide">
+                        <span className="block text-sm font-semibold text-brand-500 tracking-wide">
                             {format(currentWeekStart, "dd MMM", { locale: ptBR })} — {format(addDays(currentWeekStart, 4), "dd MMM", { locale: ptBR })}
                         </span>
-                        <span className="text-[10px] text-stone-400 uppercase tracking-wider">
+                        <span className="text-[10px] text-brand-300 uppercase tracking-wider">
                             Semana {format(currentWeekStart, "w", { locale: ptBR })}
                         </span>
                     </div>
@@ -251,8 +251,8 @@ export default function AdminMenuPage() {
                                 flex flex-col h-[97%] my-auto rounded-2xl transition-all duration-300 overflow-hidden shrink-0 min-w-[280px] snap-center md:min-w-0 md:w-auto md:shrink relative
                                 ${isLastColumn ? 'md:mr-4' : ''}
                                 ${isToday
-                                    ? 'bg-white shadow-xl shadow-emerald-500/10 border-2 border-emerald-400/30'
-                                    : 'bg-white/80 hover:bg-white border border-stone-200/60 shadow-sm hover:shadow-md'
+                                    ? 'bg-white/80 backdrop-blur-2xl shadow-lg shadow-brand-500/10 border-2 border-brand-400/50'
+                                    : 'bg-white/60 backdrop-blur-xl hover:bg-white/70 border border-slate-200/60 shadow-sm hover:shadow-md hover:border-slate-300'
                                 }
                             `}
                         >
@@ -260,53 +260,53 @@ export default function AdminMenuPage() {
                             <div className={`
                                 flex-none px-4 py-3 flex items-center justify-between
                                 ${isToday
-                                    ? 'bg-gradient-to-r from-emerald-50 to-teal-50/50 border-b border-emerald-100'
-                                    : 'bg-stone-50/50 border-b border-stone-100'
+                                    ? 'bg-brand-50/70 border-b border-brand-200/50'
+                                    : 'bg-white/40 border-b border-slate-200/60'
                                 }
                             `}>
                                 <div className="flex items-center gap-3">
                                     <div className={`
                                         w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg
                                         ${isToday
-                                            ? 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/30'
-                                            : 'bg-stone-200/60 text-stone-600'
+                                            ? 'bg-gradient-to-br from-brand-500 to-brand-400 text-white shadow-md shadow-brand-500/30'
+                                            : 'bg-white text-brand-400 shadow-sm border border-slate-200/60'
                                         }
                                     `}>
                                         {format(date, 'dd')}
                                     </div>
                                     <div>
-                                        <span className={`block text-xs font-medium uppercase tracking-wider ${isToday ? 'text-emerald-600' : 'text-stone-400'}`}>
+                                        <span className={`block text-xs font-medium uppercase tracking-wider ${isToday ? 'text-brand-500' : 'text-brand-300'}`}>
                                             {format(date, 'EEEE', { locale: ptBR }).split('-')[0]}
                                         </span>
-                                        <span className={`block text-[10px] ${isToday ? 'text-emerald-500/80' : 'text-stone-300'}`}>
+                                        <span className={`block text-[10px] ${isToday ? 'text-brand-400' : 'text-brand-200'}`}>
                                             {format(date, 'MMM yyyy', { locale: ptBR })}
                                         </span>
                                     </div>
                                 </div>
                                 {isToday && (
-                                    <span className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider bg-emerald-500 text-white rounded-md shadow-sm">
+                                    <span className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider bg-brand-500 text-white rounded-md shadow-sm">
                                         Hoje
                                     </span>
                                 )}
                             </div>
 
                             {/* Cards Container */}
-                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-stone-200 scrollbar-track-transparent">
+                            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-brand-100 scrollbar-track-transparent">
                                 {loading ? (
                                     <div className="space-y-3">
-                                        <div className="h-28 rounded-xl bg-stone-100 animate-pulse" />
-                                        <div className="h-28 rounded-xl bg-stone-100 animate-pulse delay-75" />
+                                        <div className="h-28 rounded-xl bg-white/50 animate-pulse border border-slate-200/60" />
+                                        <div className="h-28 rounded-xl bg-white/50 animate-pulse delay-75 border border-slate-200/60" />
                                     </div>
                                 ) : (
                                     <>
                                         {dayItems.map(item => (
                                             <Card
                                                 key={item.id}
-                                                className="group border border-stone-100 bg-white shadow-sm hover:shadow-lg hover:border-stone-200/80 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer overflow-hidden rounded-xl"
+                                                className="group border border-slate-200/60 bg-white/80 backdrop-blur-md shadow-sm hover:shadow-md hover:border-slate-300 hover:bg-white hover:-translate-y-0.5 transition-all duration-300 cursor-pointer overflow-hidden rounded-xl"
                                             >
                                                 <CardContent className="p-0">
                                                     {/* Image Area */}
-                                                    <div className="relative h-24 bg-gradient-to-br from-stone-100 to-stone-50 overflow-hidden">
+                                                    <div className="relative h-24 bg-gradient-to-br from-slate-100/50 to-white/50 overflow-hidden">
                                                         {item.photo_url ? (
                                                             // eslint-disable-next-line @next/next/no-img-element
                                                             <img src={item.photo_url} alt="" className="h-full w-full object-cover" />
@@ -320,11 +320,11 @@ export default function AdminMenuPage() {
 
                                                         {/* Type Badge - Subtle */}
                                                         <div className={`
-                                                            absolute bottom-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-medium backdrop-blur-sm
+                                                            absolute bottom-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-medium backdrop-blur-sm shadow-sm
                                                             ${item.type === 'main'
-                                                                ? 'bg-white/90 text-stone-700'
+                                                                ? 'bg-white/90 text-brand-500'
                                                                 : item.type === 'fit'
-                                                                    ? 'bg-emerald-500/90 text-white'
+                                                                    ? 'bg-brand-500/90 text-white'
                                                                     : 'bg-amber-500/90 text-white'
                                                             }
                                                         `}>
@@ -335,14 +335,14 @@ export default function AdminMenuPage() {
                                                         <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0">
                                                             <Button
                                                                 size="icon"
-                                                                className="h-7 w-7 bg-white/95 text-stone-600 hover:bg-emerald-500 hover:text-white shadow-lg rounded-lg transition-all"
+                                                                className="h-7 w-7 bg-white/90 backdrop-blur-md text-brand-400 hover:bg-brand-500 hover:text-white shadow-sm border border-slate-200/60 rounded-lg transition-all"
                                                                 onClick={(e) => { e.stopPropagation(); setEditingItem(item); setIsDialogOpen(true) }}
                                                             >
                                                                 <Edit2 className="w-3.5 h-3.5" />
                                                             </Button>
                                                             <Button
                                                                 size="icon"
-                                                                className="h-7 w-7 bg-white/95 text-stone-600 hover:bg-red-500 hover:text-white shadow-lg rounded-lg transition-all"
+                                                                className="h-7 w-7 bg-white/90 backdrop-blur-md text-red-400 hover:bg-red-500 hover:text-white shadow-sm border border-slate-200/60 rounded-lg transition-all"
                                                                 onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }}
                                                             >
                                                                 <Trash2 className="w-3.5 h-3.5" />
@@ -352,10 +352,10 @@ export default function AdminMenuPage() {
 
                                                     {/* Content */}
                                                     <div className="p-3">
-                                                        <h4 className="font-semibold text-stone-800 text-sm leading-tight mb-1 line-clamp-1">
+                                                        <h4 className="font-semibold text-brand-500 text-sm leading-tight mb-1 line-clamp-1">
                                                             {item.name}
                                                         </h4>
-                                                        <p className="text-[11px] text-stone-500 line-clamp-2 leading-relaxed">
+                                                        <p className="text-[11px] text-brand-300 line-clamp-2 leading-relaxed">
                                                             {item.description || "Sem descrição disponível"}
                                                         </p>
                                                     </div>
@@ -369,9 +369,9 @@ export default function AdminMenuPage() {
                                                 setTargetDateForAdd(date)
                                                 setIsDialogOpen(true)
                                             }}
-                                            className="w-full py-4 border-2 border-dashed border-stone-200 rounded-xl flex items-center justify-center text-stone-400 hover:text-emerald-600 hover:bg-emerald-50/50 hover:border-emerald-300 transition-all cursor-pointer gap-2 group"
+                                            className="w-full py-4 border-2 border-dashed border-slate-200/80 bg-white/40 backdrop-blur-sm rounded-xl flex items-center justify-center text-brand-300 hover:text-brand-500 hover:bg-white/70 hover:border-brand-300 transition-all cursor-pointer gap-2 group shadow-sm"
                                         >
-                                            <div className="w-7 h-7 rounded-lg bg-stone-100 group-hover:bg-emerald-100 flex items-center justify-center transition-all group-hover:scale-110">
+                                            <div className="w-7 h-7 rounded-lg bg-white group-hover:bg-brand-50 flex items-center justify-center shadow-sm border border-slate-200/50 transition-all group-hover:scale-110">
                                                 <Plus className="w-4 h-4" />
                                             </div>
                                             <span className="text-xs font-medium">Adicionar prato</span>
@@ -386,15 +386,15 @@ export default function AdminMenuPage() {
 
             {/* Dialog Form - Premium Styling */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-[480px] bg-white rounded-2xl border border-stone-200/80 shadow-2xl z-[100] p-0 overflow-hidden">
+                <DialogContent className="sm:max-w-[480px] bg-white/95 backdrop-blur-xl rounded-2xl border border-slate-200/80 shadow-2xl z-[100] p-0 overflow-hidden">
                     {/* Header with subtle gradient */}
-                    <div className="bg-gradient-to-r from-stone-50 to-stone-100/50 px-6 py-4 border-b border-stone-100">
+                    <div className="bg-gradient-to-r from-white/60 to-brand-50/30 px-6 py-4 border-b border-slate-200/60">
                         <DialogHeader className="p-0">
-                            <DialogTitle className="text-lg font-semibold text-stone-800 flex items-center gap-3">
-                                <div className={`p-2 rounded-lg ${editingItem ? 'bg-amber-100' : 'bg-emerald-100'}`}>
+                            <DialogTitle className="text-lg font-semibold text-brand-500 flex items-center gap-3">
+                                <div className={`p-2 rounded-lg ${editingItem ? 'bg-amber-100/80 border border-amber-200/50' : 'bg-brand-100/50 border border-brand-200/50'}`}>
                                     {editingItem
                                         ? <Edit2 className="w-4 h-4 text-amber-600" />
-                                        : <Plus className="w-4 h-4 text-emerald-600" />
+                                        : <Plus className="w-4 h-4 text-brand-500" />
                                     }
                                 </div>
                                 {editingItem ? 'Editar Prato' : 'Adicionar ao Menu'}
@@ -404,9 +404,9 @@ export default function AdminMenuPage() {
 
                     <div className="px-6 py-5">
                         {targetDateForAdd && !editingItem && (
-                            <div className="pb-4 mb-4 border-b border-stone-100">
-                                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium">
-                                    <CalendarDays className="w-4 h-4" />
+                            <div className="pb-4 mb-4 border-b border-slate-100/50">
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-50/50 text-brand-500 rounded-lg border border-brand-100/50 text-sm font-medium">
+                                    <CalendarDays className="w-4 h-4 text-brand-400" />
                                     {format(targetDateForAdd, "EEEE, dd 'de' MMMM", { locale: ptBR })}
                                 </div>
                             </div>
@@ -414,33 +414,33 @@ export default function AdminMenuPage() {
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                             <div className="space-y-1.5">
-                                <Label className="text-stone-700 font-medium text-sm">Nome do Prato</Label>
+                                <Label className="text-brand-500 font-medium text-sm">Nome do Prato</Label>
                                 <Input
                                     {...register('name', { required: true })}
                                     placeholder="Ex: Risoto de Funghi"
-                                    className="rounded-lg border-stone-200 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 bg-white h-11"
+                                    className="rounded-lg border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500 bg-white/60 h-11"
                                 />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <Label className="text-stone-700 font-medium text-sm">Categoria</Label>
+                                    <Label className="text-brand-500 font-medium text-sm">Categoria</Label>
                                     <Select
                                         onValueChange={(val) => setValue('type', val)}
                                         defaultValue={editingItem?.type || 'main'}
                                     >
-                                        <SelectTrigger className="rounded-lg border-stone-200 bg-white h-11">
+                                        <SelectTrigger className="rounded-lg border-slate-200/60 bg-white/60 h-11 focus:ring-brand-500">
                                             <SelectValue placeholder="Selecione" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="main">
                                                 <div className="flex items-center gap-2">
-                                                    <Utensils className="w-4 h-4 text-stone-500" /> Padrão
+                                                    <Utensils className="w-4 h-4 text-brand-300" /> Padrão
                                                 </div>
                                             </SelectItem>
                                             <SelectItem value="fit">
                                                 <div className="flex items-center gap-2">
-                                                    <Leaf className="w-4 h-4 text-emerald-500" /> Fit / Saudável
+                                                    <Leaf className="w-4 h-4 text-brand-500" /> Fit / Saudável
                                                 </div>
                                             </SelectItem>
                                             <SelectItem value="snack">
@@ -453,24 +453,24 @@ export default function AdminMenuPage() {
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <Label className="text-stone-700 font-medium text-sm">Foto URL</Label>
+                                    <Label className="text-brand-500 font-medium text-sm">Foto URL</Label>
                                     <div className="relative">
-                                        <ImageIcon className="absolute left-3 top-3.5 h-4 w-4 text-stone-400" />
+                                        <ImageIcon className="absolute left-3 top-3.5 h-4 w-4 text-brand-300" />
                                         <Input
                                             {...register('photo_url')}
                                             placeholder="https://..."
-                                            className="pl-9 rounded-lg border-stone-200 bg-white h-11"
+                                            className="pl-9 rounded-lg border-slate-200/60 bg-white/60 focus-visible:ring-brand-500 focus-visible:border-brand-500 h-11"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="space-y-1.5">
-                                <Label className="text-stone-700 font-medium text-sm">Ingredientes / Descrição</Label>
+                                <Label className="text-brand-500 font-medium text-sm">Ingredientes / Descrição</Label>
                                 <Textarea
                                     {...register('description')}
                                     placeholder="Descreva os ingredientes principais..."
-                                    className="rounded-lg border-stone-200 bg-white min-h-[100px] resize-none focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
+                                    className="rounded-lg border-slate-200/60 bg-white/60 min-h-[100px] resize-none focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                 />
                             </div>
 
@@ -479,14 +479,14 @@ export default function AdminMenuPage() {
                                     type="button"
                                     variant="ghost"
                                     onClick={() => setIsDialogOpen(false)}
-                                    className="rounded-lg text-stone-600 hover:bg-stone-100"
+                                    className="rounded-lg text-brand-400 hover:text-brand-500 hover:bg-white/60"
                                 >
                                     Cancelar
                                 </Button>
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                                    className="rounded-lg bg-brand-500 hover:bg-brand-600 text-white shadow-md shadow-brand-500/20"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
                                     Salvar Prato

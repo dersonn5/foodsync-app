@@ -90,31 +90,33 @@ export default function SettingsPage() {
     if (!user) return null
 
     return (
-        <div className="min-h-screen bg-[var(--brand-cream)] p-6 pb-24 font-sans text-[var(--brand-warm)]">
+        <div className="min-h-screen bg-transparent p-6 pb-24 font-sans text-brand-500">
             <Toaster position="bottom-right" />
 
             {/* Header */}
             <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-2">
-                        <UtensilsCrossed className="w-6 h-6 text-[var(--brand-primary)]" />
+                    <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight text-brand-500">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-lg shadow-brand-500/20">
+                            <UtensilsCrossed className="w-6 h-6 text-white" />
+                        </div>
                         Configurações da Cozinha
                     </h1>
-                    <p className="text-muted-foreground text-sm mt-1">Gerencie as regras operacionais e preferencias do sistema.</p>
+                    <p className="text-brand-300 text-sm mt-1 ml-[52px]">Gerencie as regras operacionais e preferencias do sistema.</p>
                 </div>
-                <Button onClick={handleSave} disabled={loading} className="w-full md:w-auto shadow-md">
+                <Button onClick={handleSave} disabled={loading} className="w-full md:w-auto shadow-md bg-brand-500 hover:bg-brand-600 text-white rounded-xl">
                     <Save className="w-4 h-4 mr-2" />
                     {loading ? "Salvando..." : "Salvar Alterações"}
                 </Button>
             </header>
 
             {/* Custom Tabs */}
-            <div className="flex flex-wrap gap-2 mb-8 border-b border-[var(--brand-primary)]/10 pb-1">
+            <div className="flex flex-wrap gap-2 mb-8 border-b border-slate-200/60 pb-1">
                 <button
                     onClick={() => setActiveTab('unit')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all text-sm font-medium border-b-2 ${activeTab === 'unit'
-                        ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
-                        : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
+                        ? 'border-brand-500 text-brand-500 bg-brand-50/50'
+                        : 'border-transparent text-brand-300 hover:text-brand-500 hover:bg-white/40'
                         }`}
                 >
                     <Store className="w-4 h-4" /> Unidade & Operação
@@ -122,8 +124,8 @@ export default function SettingsPage() {
                 <button
                     onClick={() => setActiveTab('system')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all text-sm font-medium border-b-2 ${activeTab === 'system'
-                        ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
-                        : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
+                        ? 'border-brand-500 text-brand-500 bg-brand-50/50'
+                        : 'border-transparent text-brand-300 hover:text-brand-500 hover:bg-white/40'
                         }`}
                 >
                     <Palette className="w-4 h-4" /> Aparência & Sistema
@@ -131,8 +133,8 @@ export default function SettingsPage() {
                 <button
                     onClick={() => setActiveTab('profile')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all text-sm font-medium border-b-2 ${activeTab === 'profile'
-                        ? 'border-[var(--brand-primary)] text-[var(--brand-primary)] bg-[var(--brand-primary)]/5'
-                        : 'border-transparent text-muted-foreground hover:text-[var(--brand-primary)] hover:bg-black/5'
+                        ? 'border-brand-500 text-brand-500 bg-brand-50/50'
+                        : 'border-transparent text-brand-300 hover:text-brand-500 hover:bg-white/40'
                         }`}
                 >
                     <Shield className="w-4 h-4" /> Perfil & Segurança
@@ -146,76 +148,76 @@ export default function SettingsPage() {
                 {activeTab === 'unit' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         {/* Dados da Cozinha */}
-                        <Card className="border-none shadow-sm rounded-2xl">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
-                                    <ChefHat className="w-5 h-5 text-[var(--brand-primary)]" />
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
+                                    <ChefHat className="w-5 h-5 text-brand-500" />
                                     Dados da Cozinha
                                 </CardTitle>
-                                <CardDescription>Informações visíveis para os funcionários.</CardDescription>
+                                <CardDescription className="text-brand-300">Informações visíveis para os funcionários.</CardDescription>
                             </CardHeader>
                             <CardContent className="pt-6 grid gap-6 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="unitName">Nome da Unidade</Label>
+                                    <Label htmlFor="unitName" className="text-brand-500">Nome da Unidade</Label>
                                     <Input
                                         id="unitName"
                                         value={formData.unitName}
                                         onChange={(e) => setFormData({ ...formData, unitName: e.target.value })}
-                                        className="bg-muted/20"
+                                        className="bg-white/60 border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="phone">Telefone de Suporte</Label>
+                                    <Label htmlFor="phone" className="text-brand-500">Telefone de Suporte</Label>
                                     <Input
                                         id="phone"
                                         value={formData.supportPhone}
                                         onChange={(e) => setFormData({ ...formData, supportPhone: e.target.value })}
-                                        className="bg-muted/20"
+                                        className="bg-white/60 border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                     />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
-                                    <Label htmlFor="email">E-mail de Contato</Label>
+                                    <Label htmlFor="email" className="text-brand-500">E-mail de Contato</Label>
                                     <Input
                                         id="email"
                                         value={formData.supportEmail}
                                         onChange={(e) => setFormData({ ...formData, supportEmail: e.target.value })}
-                                        className="bg-muted/20"
+                                        className="bg-white/60 border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                     />
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* Regras Operacionais */}
-                        <Card className="border-none shadow-sm rounded-2xl">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
-                                    <Clock className="w-5 h-5 text-[var(--brand-accent)]" />
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
+                                    <Clock className="w-5 h-5 text-amber-500" />
                                     Regras de Pedidos
                                 </CardTitle>
-                                <CardDescription>Defina os limites para realização de pedidos.</CardDescription>
+                                <CardDescription className="text-brand-300">Defina os limites para realização de pedidos.</CardDescription>
                             </CardHeader>
                             <CardContent className="pt-6 grid gap-6 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="cutoff">Horário Limite (Cut-off)</Label>
+                                    <Label htmlFor="cutoff" className="text-brand-500">Horário Limite (Cut-off)</Label>
                                     <div className="relative">
-                                        <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                                        <Clock className="absolute left-3 top-2.5 h-4 w-4 text-brand-300" />
                                         <Input
                                             id="cutoff"
                                             type="time"
                                             value={formData.orderCutoff}
                                             onChange={(e) => setFormData({ ...formData, orderCutoff: e.target.value })}
-                                            className="pl-9 bg-muted/20"
+                                            className="pl-9 bg-white/60 border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                         />
                                     </div>
-                                    <p className="text-xs text-muted-foreground">Hora máxima para solicitar almoço do dia.</p>
+                                    <p className="text-xs text-brand-300">Hora máxima para solicitar almoço do dia.</p>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Antecedência Mínima</Label>
+                                    <Label className="text-brand-500">Antecedência Mínima</Label>
                                     <Select
                                         value={formData.minNotice}
                                         onValueChange={(val) => setFormData({ ...formData, minNotice: val })}
                                     >
-                                        <SelectTrigger className="bg-muted/20">
+                                        <SelectTrigger className="bg-white/60 border-slate-200/60 focus:ring-brand-500">
                                             <SelectValue placeholder="Selecione" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -229,23 +231,23 @@ export default function SettingsPage() {
                         </Card>
 
                         {/* Aviso do Dia */}
-                        <Card className="border-none shadow-sm rounded-2xl">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
-                                    <Bell className="w-5 h-5 text-yellow-600" />
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
+                                    <Bell className="w-5 h-5 text-yellow-500" />
                                     Aviso do Dia
                                 </CardTitle>
-                                <CardDescription>Mensagem exibida no topo do painel dos funcionários.</CardDescription>
+                                <CardDescription className="text-brand-300">Mensagem exibida no topo do painel dos funcionários.</CardDescription>
                             </CardHeader>
                             <CardContent className="pt-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="message">Mensagem Personalizada</Label>
+                                    <Label htmlFor="message" className="text-brand-500">Mensagem Personalizada</Label>
                                     <Textarea
                                         id="message"
                                         rows={3}
                                         value={formData.dagMessage}
                                         onChange={(e) => setFormData({ ...formData, dagMessage: e.target.value })}
-                                        className="bg-muted/20 resize-none"
+                                        className="bg-white/60 border-slate-200/60 resize-none focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                         placeholder="Ex: Bom almoço a todos!"
                                     />
                                 </div>
@@ -257,24 +259,24 @@ export default function SettingsPage() {
                 {/* === TAB: APARÊNCIA & SISTEMA === */}
                 {activeTab === 'system' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <Card className="border-none shadow-sm rounded-2xl">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
-                                    <Globe className="w-5 h-5 text-blue-600" />
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
+                                    <Globe className="w-5 h-5 text-blue-500" />
                                     Regionalização
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="pt-6 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-0.5">
-                                        <Label className="text-base">Idioma do Sistema</Label>
-                                        <p className="text-sm text-muted-foreground">Defina o idioma padrão da interface admin.</p>
+                                        <Label className="text-base text-brand-500">Idioma do Sistema</Label>
+                                        <p className="text-sm text-brand-300">Defina o idioma padrão da interface admin.</p>
                                     </div>
                                     <Select
                                         value={formData.language}
                                         onValueChange={(val) => setFormData({ ...formData, language: val })}
                                     >
-                                        <SelectTrigger className="w-[180px] bg-muted/20">
+                                        <SelectTrigger className="w-[180px] bg-white/60 border-slate-200/60 focus:ring-brand-500">
                                             <SelectValue placeholder="Selecione" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -287,22 +289,22 @@ export default function SettingsPage() {
                             </CardContent>
                         </Card>
 
-                        <Card className="border-none shadow-sm rounded-2xl">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
-                                    <Palette className="w-5 h-5 text-purple-600" />
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
+                                    <Palette className="w-5 h-5 text-purple-500" />
                                     Tema Visual
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="pt-6 space-y-4">
                                 <div className="flex items-center justify-between pt-2">
                                     <div className="space-y-0.5">
-                                        <Label className="text-base">Modo Escuro (Dark Mode)</Label>
-                                        <p className="text-sm text-muted-foreground">Alternar entre tema claro e escuro.</p>
+                                        <Label className="text-base text-brand-500">Modo Escuro (Dark Mode)</Label>
+                                        <p className="text-sm text-brand-300">Alternar entre tema claro e escuro.</p>
                                     </div>
                                     <Switch disabled checked={false} onCheckedChange={() => { }} />
                                 </div>
-                                <p className="text-xs text-muted-foreground italic">Opção gerenciada pelo sistema automaticamente por enquanto.</p>
+                                <p className="text-xs text-brand-300 italic">Opção gerenciada pelo sistema automaticamente por enquanto.</p>
                             </CardContent>
                         </Card>
                     </div>
@@ -311,48 +313,48 @@ export default function SettingsPage() {
                 {/* === TAB: PERFIL & SEGURANÇA === */}
                 {activeTab === 'profile' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <Card className="border-none shadow-sm rounded-2xl">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
-                                    <User className="w-5 h-5 text-[var(--brand-primary)]" />
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
+                                    <User className="w-5 h-5 text-brand-500" />
                                     Dados do Usuário
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="pt-6 grid gap-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="managerName">Nome Completo</Label>
+                                    <Label htmlFor="managerName" className="text-brand-500">Nome Completo</Label>
                                     <Input
                                         id="managerName"
                                         value={formData.managerName}
                                         onChange={(e) => setFormData({ ...formData, managerName: e.target.value })}
-                                        className="bg-muted/20"
+                                        className="bg-white/60 border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="managerEmail">E-mail Corporativo</Label>
+                                    <Label htmlFor="managerEmail" className="text-brand-500">E-mail Corporativo</Label>
                                     <Input
                                         id="managerEmail"
                                         value={formData.managerEmail}
                                         onChange={(e) => setFormData({ ...formData, managerEmail: e.target.value })}
-                                        className="bg-muted/20"
+                                        className="bg-white/60 border-slate-200/60 focus-visible:ring-brand-500 focus-visible:border-brand-500"
                                     />
                                 </div>
                             </CardContent>
                         </Card>
 
-                        <Card className="border-none shadow-sm rounded-2xl border-l-4 border-l-red-500">
-                            <CardHeader className="border-b border-border/50 pb-4">
-                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-[var(--brand-warm)]">
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl border-l-4 border-l-red-500">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-500">
                                     <Lock className="w-5 h-5 text-red-500" />
                                     Segurança
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
                                 <div className="space-y-1">
-                                    <h4 className="font-medium text-foreground">Redefinir Senha</h4>
-                                    <p className="text-sm text-muted-foreground">Enviaremos um link de redefinição para seu e-mail.</p>
+                                    <h4 className="font-medium text-brand-500">Redefinir Senha</h4>
+                                    <p className="text-sm text-brand-300">Enviaremos um link de redefinição para seu e-mail.</p>
                                 </div>
-                                <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700">
+                                <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 bg-white/60">
                                     Solicitar Troca de Senha
                                 </Button>
                             </CardContent>

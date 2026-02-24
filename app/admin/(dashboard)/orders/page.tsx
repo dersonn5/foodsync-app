@@ -146,7 +146,7 @@ function AdminOrdersPageContent() {
 
     return (
         // Main Fixed Container with premium gradient
-        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 font-sans overflow-hidden bg-gradient-to-br from-stone-50 via-white to-stone-100">
+        <div className="h-[calc(100vh-1rem)] flex flex-col p-4 md:p-6 font-sans overflow-hidden bg-transparent">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
@@ -155,16 +155,16 @@ function AdminOrdersPageContent() {
 
                     {/* Title Block */}
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-bold text-stone-800 tracking-tight flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                        <h1 className="text-2xl font-bold text-brand-500 tracking-tight flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 shadow-lg shadow-brand-500/20">
                                 <ShoppingBag className="w-6 h-6 text-white" />
                             </div>
                             Gestão de Pedidos
                         </h1>
-                        <p className="text-stone-500 text-sm flex items-center gap-2 ml-[52px]">
-                            Fila para <span className="font-semibold text-stone-700 capitalize">{formatDateDisplay(currentDateStr)}</span>
+                        <p className="text-brand-300 text-sm flex items-center gap-2 ml-[52px]">
+                            Fila para <span className="font-semibold text-brand-500 capitalize">{formatDateDisplay(currentDateStr)}</span>
                             {dateParam && (
-                                <button onClick={handleToday} className="text-xs text-emerald-600 hover:underline font-medium">
+                                <button onClick={handleToday} className="text-xs text-brand-400 hover:underline font-medium">
                                     (Voltar para hoje)
                                 </button>
                             )}
@@ -174,18 +174,18 @@ function AdminOrdersPageContent() {
                     {/* Actions Block */}
                     <div className="flex flex-col gap-3 md:flex-row md:items-center">
                         {/* Date Navigation - Glassmorphism */}
-                        <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-white/50 rounded-2xl px-3 py-2 flex items-center gap-3">
+                        <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
                             <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={handlePrevDay}
-                                className="h-8 w-8 hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl transition-all"
+                                className="h-8 w-8 hover:bg-white/60 text-brand-400 hover:text-brand-500 rounded-xl transition-all"
                             >
                                 <ChevronLeft className="w-4 h-4" />
                             </Button>
 
-                            <div className="flex items-center gap-2 px-3 font-medium text-stone-700 min-w-[120px] justify-center">
-                                <CalendarIcon className="w-4 h-4 text-emerald-500" />
+                            <div className="flex items-center gap-2 px-3 font-medium text-brand-500 min-w-[120px] justify-center">
+                                <CalendarIcon className="w-4 h-4 text-brand-400" />
                                 <span className="capitalize text-sm">{formatDateDisplay(currentDateStr)}</span>
                             </div>
 
@@ -193,14 +193,14 @@ function AdminOrdersPageContent() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={handleNextDay}
-                                className="h-8 w-8 hover:bg-stone-100 text-stone-600 hover:text-stone-900 rounded-xl transition-all"
+                                className="h-8 w-8 hover:bg-white/60 text-brand-400 hover:text-brand-500 rounded-xl transition-all"
                             >
                                 <ChevronRight className="w-4 h-4" />
                             </Button>
                         </div>
 
                         {/* Status Filter - Premium */}
-                        <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm p-1 rounded-xl border border-stone-200/60 shadow-sm">
+                        <div className="flex items-center gap-1 bg-white/60 backdrop-blur-xl p-1 rounded-xl border border-slate-200/60 shadow-sm">
                             {(['all', 'pending', 'confirmed'] as const).map((status) => (
                                 <button
                                     key={status}
@@ -208,8 +208,8 @@ function AdminOrdersPageContent() {
                                     className={`
                                         px-3 py-1.5 rounded-lg text-xs font-medium transition-all
                                         ${filterStatus === status
-                                            ? 'bg-stone-800 text-white shadow-md'
-                                            : 'text-stone-500 hover:text-stone-900 hover:bg-stone-100'
+                                            ? 'bg-brand-500 text-white shadow-md'
+                                            : 'text-brand-400 hover:text-brand-500 hover:bg-white/60'
                                         }
                                     `}
                                 >
@@ -222,23 +222,23 @@ function AdminOrdersPageContent() {
 
                 {/* KPI Grid - Premium Design */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
+                    <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-medium text-stone-500 uppercase tracking-wider mb-0.5">Total</p>
-                                <h3 className="text-2xl font-bold text-stone-800">{stats.total}</h3>
+                                <p className="text-[10px] font-medium text-brand-300 uppercase tracking-wider mb-0.5">Total</p>
+                                <h3 className="text-2xl font-bold text-brand-500">{stats.total}</h3>
                             </div>
-                            <div className="h-10 w-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md shadow-emerald-500/20">
+                            <div className="h-10 w-10 bg-gradient-to-br from-brand-500 to-brand-400 rounded-xl flex items-center justify-center shadow-md shadow-brand-500/20">
                                 <ShoppingBag className="w-5 h-5 text-white" />
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="border border-stone-200/60 shadow-sm bg-white hover:shadow-md transition-all overflow-hidden rounded-2xl">
+                    <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-medium text-stone-500 uppercase tracking-wider mb-0.5">Cancelados</p>
-                                <h3 className="text-2xl font-bold text-stone-800">{stats.canceled}</h3>
+                                <p className="text-[10px] font-medium text-brand-300 uppercase tracking-wider mb-0.5">Cancelados</p>
+                                <h3 className="text-2xl font-bold text-brand-500">{stats.canceled}</h3>
                             </div>
                             <div className="h-10 w-10 bg-red-50 rounded-xl flex items-center justify-center">
                                 <Ban className="w-5 h-5 text-red-500" />
@@ -247,31 +247,31 @@ function AdminOrdersPageContent() {
                     </Card>
 
                     <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending > 0
-                        ? 'bg-amber-50/50 border-amber-200'
-                        : 'bg-white border-stone-200/60'
+                        ? 'bg-amber-50/60 backdrop-blur-xl border-amber-200/60 shadow-amber-500/10'
+                        : 'bg-white/60 backdrop-blur-xl border-slate-200/60 hover:bg-white/70 hover:shadow-md'
                         }`}>
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className={`text-[10px] font-medium uppercase tracking-wider mb-0.5 ${stats.pending > 0 ? 'text-amber-600' : 'text-stone-500'}`}>
+                                <p className={`text-[10px] font-medium uppercase tracking-wider mb-0.5 ${stats.pending > 0 ? 'text-amber-600' : 'text-brand-300'}`}>
                                     Pendente
                                 </p>
-                                <h3 className={`text-2xl font-bold ${stats.pending > 0 ? 'text-amber-600' : 'text-stone-800'}`}>
+                                <h3 className={`text-2xl font-bold ${stats.pending > 0 ? 'text-amber-600' : 'text-brand-500'}`}>
                                     {stats.pending}
                                 </h3>
                             </div>
-                            <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${stats.pending > 0 ? 'bg-amber-100' : 'bg-stone-100'}`}>
-                                <Clock className={`w-5 h-5 ${stats.pending > 0 ? 'text-amber-600' : 'text-stone-400'}`} />
+                            <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${stats.pending > 0 ? 'bg-amber-100/80' : 'bg-brand-50/50'}`}>
+                                <Clock className={`w-5 h-5 ${stats.pending > 0 ? 'text-amber-600' : 'text-brand-300'}`} />
                             </div>
                         </CardContent>
                     </Card>
                 </div>
 
                 {/* Search Bar - Premium */}
-                <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-stone-200/60 shadow-sm w-full max-w-sm">
-                    <Search className="w-4 h-4 text-stone-400" />
+                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-xl px-4 py-3 rounded-xl border border-slate-200/60 shadow-sm w-full max-w-sm">
+                    <Search className="w-4 h-4 text-brand-300" />
                     <Input
                         placeholder="Filtrar por nome ou prato..."
-                        className="border-0 shadow-none focus-visible:ring-0 bg-transparent h-auto py-0 text-sm"
+                        className="border-0 shadow-none focus-visible:ring-0 bg-transparent h-auto py-0 text-sm placeholder:text-brand-200"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -279,42 +279,42 @@ function AdminOrdersPageContent() {
             </div>
 
             {/* Scrollable Order List */}
-            <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3">
+            <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 pb-8">
                 {loading ? (
-                    <div className="text-center py-12 text-stone-400">Carregando pedidos...</div>
+                    <div className="text-center py-12 text-brand-300">Carregando pedidos...</div>
                 ) : filteredOrders.length > 0 ? (
                     filteredOrders.map(order => (
                         <div
                             key={order.id}
                             className={`
-                                group flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 rounded-2xl bg-white border transition-all hover:shadow-lg
+                                group flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 rounded-2xl border transition-all hover:shadow-md
                                 ${order.status === 'pending'
-                                    ? 'border-amber-200 shadow-md shadow-amber-500/5'
-                                    : 'border-stone-200/60 shadow-sm hover:border-stone-200'
+                                    ? 'border-amber-200/60 bg-white/80 backdrop-blur-xl shadow-sm shadow-amber-500/5'
+                                    : 'bg-white/60 backdrop-blur-xl border-slate-200/60 shadow-sm hover:border-slate-300 hover:bg-white/70'
                                 }
                             `}
                         >
                             {/* Left: User Info */}
                             <div className="flex items-center gap-3 min-w-[200px]">
-                                <Avatar className="h-11 w-11 border-2 border-emerald-100 shadow-sm">
-                                    <AvatarFallback className="bg-emerald-50 text-emerald-600 font-bold text-sm">
+                                <Avatar className="h-11 w-11 border-2 border-slate-100 shadow-sm">
+                                    <AvatarFallback className="bg-white text-brand-500 font-bold text-sm">
                                         {order.users?.name.charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <h4 className="font-semibold text-stone-800 text-sm">{order.users?.name}</h4>
-                                    <p className="text-[10px] text-stone-400 font-medium">Colaborador</p>
+                                    <h4 className="font-semibold text-brand-500 text-sm">{order.users?.name}</h4>
+                                    <p className="text-[10px] text-brand-300 font-medium">Colaborador</p>
                                 </div>
                             </div>
 
                             {/* Center: Order Info */}
                             <div className="flex-1 flex items-center gap-3">
-                                <div className={`p-2 rounded-lg ${order.status === 'confirmed' ? 'bg-emerald-50' : 'bg-stone-50'}`}>
-                                    <Utensils className={`w-4 h-4 ${order.status === 'confirmed' ? 'text-emerald-600' : 'text-stone-500'}`} />
+                                <div className={`p-2 rounded-lg ${order.status === 'confirmed' ? 'bg-brand-50/50' : 'bg-white/60'}`}>
+                                    <Utensils className={`w-4 h-4 ${order.status === 'confirmed' ? 'text-brand-500' : 'text-brand-300'}`} />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-semibold text-stone-800">{order.menu_items?.name}</p>
-                                    <div className="flex items-center gap-2 text-[10px] text-stone-400 mt-0.5">
+                                    <p className="text-sm font-semibold text-brand-500">{order.menu_items?.name}</p>
+                                    <div className="flex items-center gap-2 text-[10px] text-brand-300 mt-0.5">
                                         <span>
                                             {format(new Date(order.created_at), "HH:mm '•' dd MMM", { locale: ptBR })}
                                         </span>
@@ -342,7 +342,7 @@ function AdminOrdersPageContent() {
                                         <Button
                                             size="sm"
                                             onClick={() => handleUpdateStatus(order.id, 'confirmed')}
-                                            className="bg-emerald-500 hover:bg-emerald-600 text-white h-9 px-5 text-xs rounded-xl shadow-md shadow-emerald-500/20 font-semibold"
+                                            className="bg-brand-500 hover:bg-brand-600 text-white h-9 px-5 text-xs rounded-xl shadow-md shadow-brand-500/20 font-semibold"
                                         >
                                             Confirmar
                                         </Button>
@@ -350,14 +350,14 @@ function AdminOrdersPageContent() {
                                 )}
 
                                 {order.status === 'confirmed' && (
-                                    <div className="flex items-center gap-1.5 text-emerald-600 font-semibold bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 text-xs">
+                                    <div className="flex items-center gap-1.5 text-brand-500 font-semibold bg-brand-50/50 px-4 py-2 rounded-xl border border-brand-100/50 text-xs">
                                         <CheckCircle2 className="w-4 h-4" />
                                         <span>Confirmado</span>
                                     </div>
                                 )}
 
                                 {order.status === 'canceled' && (
-                                    <div className="flex items-center gap-1.5 text-red-500 font-semibold bg-red-50 px-4 py-2 rounded-xl border border-red-100 text-xs">
+                                    <div className="flex items-center gap-1.5 text-red-500 font-semibold bg-red-50/80 px-4 py-2 rounded-xl border border-red-100/50 text-xs">
                                         <XCircle className="w-4 h-4" />
                                         <span>Cancelado</span>
                                     </div>
@@ -365,23 +365,23 @@ function AdminOrdersPageContent() {
 
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="h-9 w-9 text-stone-400 hover:bg-stone-100 rounded-xl">
+                                        <Button variant="ghost" size="icon" className="h-9 w-9 text-brand-300 hover:bg-white/60 rounded-xl">
                                             <MoreHorizontal className="w-4 h-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="rounded-xl">
-                                        <DropdownMenuItem>Ver Detalhes</DropdownMenuItem>
-                                        <DropdownMenuItem className="text-red-500">Excluir Registro</DropdownMenuItem>
+                                    <DropdownMenuContent align="end" className="rounded-xl border border-slate-200/60 bg-white/90 backdrop-blur-xl">
+                                        <DropdownMenuItem className="text-brand-500 focus:bg-white/60">Ver Detalhes</DropdownMenuItem>
+                                        <DropdownMenuItem className="text-red-500 focus:bg-red-50 focus:text-red-600">Excluir Registro</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div className="h-full flex flex-col items-center justify-center text-center py-20 bg-white/50 rounded-2xl border-2 border-dashed border-stone-200">
-                        <ShoppingBag className="w-12 h-12 mb-3 text-stone-300" />
-                        <h3 className="text-base font-semibold text-stone-500">Nenhum pedido para {formatDateDisplay(currentDateStr)}</h3>
-                        <p className="text-xs text-stone-400 max-w-xs mx-auto mt-1">Sua cozinha está livre neste dia.</p>
+                    <div className="h-full flex flex-col items-center justify-center text-center py-20 bg-white/40 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-sm">
+                        <ShoppingBag className="w-12 h-12 mb-3 text-brand-200" />
+                        <h3 className="text-base font-semibold text-brand-400">Nenhum pedido para {formatDateDisplay(currentDateStr)}</h3>
+                        <p className="text-xs text-brand-300 max-w-xs mx-auto mt-1">Sua cozinha está livre neste dia.</p>
                     </div>
                 )}
             </div>
