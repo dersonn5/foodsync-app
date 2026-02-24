@@ -56,8 +56,8 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
 
     if (loading) {
         return (
-            <Card className="border-brand-100 shadow-sm bg-white/90 backdrop-blur-sm">
-                <CardContent className="p-4 flex items-center justify-center">
+            <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                <CardContent className="p-4 flex items-center justify-center min-h-[100px]">
                     <Loader2 className="w-5 h-5 text-amber-500 animate-spin" />
                 </CardContent>
             </Card>
@@ -66,16 +66,16 @@ export function SatisfactionWidgetCompact({ date }: { date?: string }) {
 
     return (
         <Card
-            className="border-brand-100 shadow-sm bg-white/90 backdrop-blur-sm hover:bg-brand-50/50 transition-colors cursor-pointer group"
+            className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:bg-white/70 hover:shadow-md transition-all cursor-pointer group rounded-2xl"
             onClick={handleClick}
         >
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         {/* Star Icon */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${metrics && metrics.averageRating >= 4 ? 'bg-green-100' :
-                            metrics && metrics.averageRating >= 3 ? 'bg-amber-100' :
-                                metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100' : 'bg-brand-50'
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${metrics && metrics.averageRating >= 4 ? 'bg-green-100/80 border border-green-200/50' :
+                            metrics && metrics.averageRating >= 3 ? 'bg-amber-100/80 border border-amber-200/50' :
+                                metrics && metrics.totalFeedbacks > 0 ? 'bg-red-100/80 border border-red-200/50' : 'bg-white/60 border border-slate-200/50'
                             }`}>
                             {metrics && metrics.totalFeedbacks > 0 ? (
                                 <span className="text-xl">

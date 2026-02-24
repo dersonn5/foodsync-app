@@ -227,7 +227,7 @@ function AdminPageContent() {
 
     return (
         // Main Container with premium gradient
-        <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden bg-brand-50">
+        <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden bg-transparent relative z-10">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
@@ -246,7 +246,7 @@ function AdminPageContent() {
                     </div>
 
                     {/* Date Navigation - Glassmorphism */}
-                    <div className="bg-white/70 backdrop-blur-xl shadow-lg shadow-black/5 border border-brand-100/50 rounded-2xl px-3 py-2 flex items-center gap-3">
+                    <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
                         <Button
                             variant="ghost"
                             size="icon"
@@ -303,12 +303,12 @@ function AdminPageContent() {
             {/* KPI Cards - Premium Design */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0">
                 {/* Total Orders */}
-                <Card className="border border-brand-100/60 shadow-sm bg-white/90 backdrop-blur-sm hover:shadow-md transition-all overflow-hidden rounded-2xl">
+                <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
                             <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Total de Pedidos</p>
                             {loadingKPIs ? (
-                                <div className="h-9 w-16 bg-brand-100/50 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-slate-200/50 animate-pulse rounded-lg" />
                             ) : (
                                 <h3 className="text-4xl font-bold text-brand-500 tracking-tight">{stats.total_today}</h3>
                             )}
@@ -320,17 +320,17 @@ function AdminPageContent() {
                 </Card>
 
                 {/* Cancellations */}
-                <Card className="border border-brand-100/60 shadow-sm bg-white/90 backdrop-blur-sm hover:shadow-md transition-all overflow-hidden rounded-2xl">
+                <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
                             <p className="text-xs font-medium text-brand-300 uppercase tracking-wider mb-1">Cancelamentos</p>
                             {loadingKPIs ? (
-                                <div className="h-9 w-16 bg-brand-100/50 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-slate-200/50 animate-pulse rounded-lg" />
                             ) : (
                                 <h3 className="text-4xl font-bold text-brand-500 tracking-tight">{stats.canceled_today}</h3>
                             )}
                         </div>
-                        <div className="p-3 bg-red-50 rounded-xl">
+                        <div className="p-3 bg-red-50/80 rounded-xl">
                             <Ban className="w-6 h-6 text-red-500" />
                         </div>
                     </CardContent>
@@ -338,8 +338,8 @@ function AdminPageContent() {
 
                 {/* Pending Queue */}
                 <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending_today > 0
-                    ? 'bg-amber-50/50 border-amber-200 shadow-amber-500/10'
-                    : 'bg-white/90 backdrop-blur-sm border-brand-100/60'
+                    ? 'bg-amber-50/60 backdrop-blur-xl border-amber-200/60 shadow-amber-500/10'
+                    : 'bg-white/60 backdrop-blur-xl border-slate-200/60 hover:bg-white/70 hover:shadow-md'
                     }`}>
                     <CardContent className="p-5 flex items-center justify-between">
                         <div>
@@ -347,14 +347,14 @@ function AdminPageContent() {
                                 Fila Pendente
                             </p>
                             {loadingKPIs ? (
-                                <div className="h-9 w-16 bg-brand-100/50 animate-pulse rounded-lg" />
+                                <div className="h-9 w-16 bg-slate-200/50 animate-pulse rounded-lg" />
                             ) : (
                                 <h3 className={`text-4xl font-bold tracking-tight ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-500'}`}>
                                     {stats.pending_today}
                                 </h3>
                             )}
                         </div>
-                        <div className={`p-3 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-100' : 'bg-brand-50'}`}>
+                        <div className={`p-3 rounded-xl ${stats.pending_today > 0 ? 'bg-amber-100/80' : 'bg-brand-50/50'}`}>
                             <Clock className={`w-6 h-6 ${stats.pending_today > 0 ? 'text-amber-600' : 'text-brand-300'}`} />
                         </div>
                     </CardContent>
@@ -365,10 +365,10 @@ function AdminPageContent() {
             <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:h-full md:min-h-0 flex-1">
 
                 {/* Left: Feed */}
-                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white/90 backdrop-blur-sm border border-brand-100/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
-                    <div className="p-4 border-b border-brand-100/50 flex items-center justify-between shrink-0 bg-brand-50/50">
+                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
+                    <div className="p-4 border-b border-slate-200/60 flex items-center justify-between shrink-0 bg-white/40">
                         <h2 className="font-semibold text-brand-500 flex items-center gap-2 text-sm">
-                            <div className="p-1.5 rounded-lg bg-brand-50">
+                            <div className="p-1.5 rounded-lg bg-white/60 shadow-sm border border-slate-200/50">
                                 <Utensils className="w-4 h-4 text-brand-400" />
                             </div>
                             Feed em Tempo Real
@@ -376,7 +376,7 @@ function AdminPageContent() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 text-xs text-brand-400 hover:text-brand-500 hover:bg-brand-50 rounded-lg"
+                            className="h-8 text-xs text-brand-400 hover:text-brand-500 hover:bg-white/60 rounded-lg"
                             onClick={() => router.push('/admin/orders')}
                         >
                             Expandir <ArrowUpRight className="w-3 h-3 ml-1" />
@@ -391,7 +391,7 @@ function AdminPageContent() {
                             </div>
                         ) : loadingFeed ? (
                             <div className="space-y-3">
-                                {[1, 2, 3, 4].map(i => <div key={i} className="h-16 bg-brand-100/50 animate-pulse rounded-xl" />)}
+                                {[1, 2, 3, 4].map(i => <div key={i} className="h-16 bg-slate-200/50 animate-pulse rounded-xl" />)}
                             </div>
                         ) : recentOrders.length > 0 ? (
                             recentOrders.map((order) => {
@@ -400,9 +400,9 @@ function AdminPageContent() {
                                 const status = (order.status || '').toLowerCase()
 
                                 return (
-                                    <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-brand-100/50 hover:bg-brand-50/50 hover:border-brand-200 transition-all">
-                                        <Avatar className="h-10 w-10 border-2 border-brand-100 shadow-sm">
-                                            <AvatarFallback className="bg-brand-50 text-brand-500 font-bold text-xs">
+                                    <div key={order.id} className="flex items-center gap-3 p-3 rounded-xl border border-slate-200/60 bg-white/40 hover:bg-white/60 hover:border-slate-300 transition-all shadow-sm">
+                                        <Avatar className="h-10 w-10 border border-slate-200 shadow-sm">
+                                            <AvatarFallback className="bg-white text-brand-500 font-bold text-xs">
                                                 {userName.charAt(0)}
                                             </AvatarFallback>
                                         </Avatar>
@@ -416,13 +416,13 @@ function AdminPageContent() {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Badge variant="secondary" className={`
-                                                    text-[10px] font-semibold px-1.5 py-0.5 rounded-md
-                                                    ${status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                                                        status === 'confirmed' ? 'bg-brand-50 text-brand-500' : 'bg-red-100 text-red-600'}
+                                                    text-[10px] font-semibold px-1.5 py-0.5 rounded-md border
+                                                    ${status === 'pending' ? 'bg-amber-100/80 border-amber-200/60 text-amber-700' :
+                                                        status === 'confirmed' ? 'bg-green-100/80 border-green-200/60 text-green-700' : 'bg-red-100/80 border-red-200/60 text-red-600'}
                                                 `}>
                                                     {status === 'pending' ? 'PENDENTE' : status === 'confirmed' ? 'CONFIRMADO' : 'CANCELADO'}
                                                 </Badge>
-                                                <span className="text-xs text-brand-300 truncate max-w-[150px]">
+                                                <span className="text-xs text-brand-400 truncate max-w-[150px]">
                                                     {menuItemName}
                                                 </span>
                                             </div>
@@ -431,8 +431,8 @@ function AdminPageContent() {
                                 )
                             })
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full text-center text-brand-200">
-                                <Coffee className="w-10 h-10 mb-2 opacity-50" />
+                            <div className="flex flex-col items-center justify-center h-full text-center text-brand-300">
+                                <Coffee className="w-10 h-10 mb-2 opacity-30" />
                                 <p className="text-sm">Sem pedidos recentes</p>
                             </div>
                         )}
@@ -446,14 +446,14 @@ function AdminPageContent() {
                     <SatisfactionWidgetCompact date={currentDateStr} />
 
                     {/* Production Breakdown */}
-                    <div className="flex flex-col h-auto min-h-[300px] bg-white/90 backdrop-blur-sm border border-brand-100/60 rounded-2xl shadow-sm overflow-hidden">
-                        <div className="p-4 border-b border-brand-100/50 shrink-0 bg-brand-50/50">
+                    <div className="flex flex-col h-auto min-h-[300px] bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden">
+                        <div className="p-4 border-b border-slate-200/60 shrink-0 bg-white/40">
                             <h2 className="font-semibold text-brand-500 flex items-center gap-2 text-sm">
-                                <div className="p-1.5 rounded-lg bg-brand-50">
+                                <div className="p-1.5 rounded-lg bg-white/60 shadow-sm border border-slate-200/50">
                                     <ChefHat className="w-4 h-4 text-brand-400" />
                                 </div>
                                 Resumo de Produção
-                                <Badge variant="secondary" className="bg-brand-50 text-brand-400 ml-auto font-mono text-xs">
+                                <Badge variant="secondary" className="bg-white/80 border border-slate-200/50 shadow-sm text-brand-500 ml-auto font-mono text-xs">
                                     {totalProduction} un
                                 </Badge>
                             </h2>
@@ -462,7 +462,7 @@ function AdminPageContent() {
                         <div className="flex-1 overflow-y-auto p-4 min-h-0 relative">
                             {loadingFeed ? (
                                 <div className="space-y-3">
-                                    {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-brand-100/50 animate-pulse rounded-lg" />)}
+                                    {[1, 2, 3].map(i => <div key={i} className="h-10 w-full bg-slate-200/50 animate-pulse rounded-lg" />)}
                                 </div>
                             ) : productionList.length > 0 ? (
                                 <div className="space-y-3">
@@ -472,14 +472,14 @@ function AdminPageContent() {
                                         return (
                                             <div key={index} className="group">
                                                 <div className="flex items-center justify-between mb-1">
-                                                    <span className="text-sm font-medium text-brand-400 truncate pr-2 max-w-[70%]">
+                                                    <span className="text-sm font-medium text-brand-500 truncate pr-2 max-w-[70%]">
                                                         {item.name}
                                                     </span>
-                                                    <Badge className="bg-brand-500 text-white font-mono text-xs px-2 h-6">
+                                                    <Badge className="bg-brand-500 text-white shadow-md shadow-brand-500/20 font-mono text-xs px-2 h-6">
                                                         {item.count}
                                                     </Badge>
                                                 </div>
-                                                <div className="h-1.5 w-full bg-brand-100/50 rounded-full overflow-hidden">
+                                                <div className="h-1.5 w-full bg-slate-200/60 rounded-full overflow-hidden shadow-inner">
                                                     <div
                                                         className="h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full transition-all duration-500"
                                                         style={{ width: `${percentage}%` }}
@@ -490,8 +490,8 @@ function AdminPageContent() {
                                     })}
                                 </div>
                             ) : (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-brand-200">
-                                    <ListChecks className="w-8 h-8 mb-2 opacity-50" />
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-brand-300">
+                                    <ListChecks className="w-8 h-8 mb-2 opacity-30" />
                                     <p className="text-xs">Produção zerada</p>
                                 </div>
                             )}

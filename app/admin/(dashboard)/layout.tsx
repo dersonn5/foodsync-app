@@ -11,7 +11,7 @@ import { LayoutDashboard, ListChecks, ScanLine, UtensilsCrossed, BarChart3 } fro
 
 function AdminHeader() {
     return (
-        <header className="sticky top-0 z-40 bg-brand-50/80 backdrop-blur-xl border-b border-brand-100/60 px-8 py-4 flex items-center justify-between">
+        <header className="sticky top-0 z-40 bg-white/60 backdrop-blur-xl border-b border-slate-200/60 px-8 py-4 flex items-center justify-between">
             <div>
                 <h1 className="text-xl font-bold text-brand-500 tracking-tight">Bom dia, Anderson</h1>
                 <p className="text-xs text-brand-300 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
@@ -33,7 +33,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
     }, [pathname])
 
     return (
-        <div className="min-h-screen bg-brand-50 flex flex-col md:flex-row font-sans md:h-screen md:overflow-hidden">
+        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans md:h-screen md:overflow-hidden relative">
+            {/* Ambient Background Blur to enhance glassmorphism */}
+            <div className="absolute top-0 left-0 w-full h-[500px] bg-brand-50/30 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
             {/* Desktop Sidebar */}
             <div className="hidden md:flex">
                 <AdminSidebar />
@@ -74,7 +76,7 @@ function AdminBottomNav() {
     const pathname = usePathname()
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-brand-50 border-t border-brand-100 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.08)]">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-slate-200/60 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-sm">
 
             <Link
                 href="/admin"
