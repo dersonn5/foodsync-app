@@ -325,7 +325,7 @@ export default function ReportsPage() {
 
                     {/* CEO Satisfaction Metrics Section */}
                     <div className="mt-6">
-                        <h2 className="text-xl font-bold text-brand-900 mb-4 flex items-center gap-2">
+                        <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: '#0F2A1D' }}>
                             Métricas de Satisfação
                         </h2>
                         <SatisfactionMetrics
