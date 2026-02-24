@@ -227,7 +227,7 @@ function AdminPageContent() {
 
     return (
         // Main Container with premium gradient
-        <div className="flex flex-col h-auto gap-6 p-4 md:p-8 overflow-visible md:h-full md:overflow-hidden bg-transparent relative z-10">
+        <div className="flex flex-col h-auto gap-6 p-6 md:p-8 overflow-visible md:h-full md:overflow-hidden bg-transparent relative z-10">
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}

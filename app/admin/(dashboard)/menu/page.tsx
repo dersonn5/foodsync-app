@@ -187,11 +187,11 @@ export default function AdminMenuPage() {
     }, {} as Record<string, MenuItem[]>)
 
     return (
-        <div className="h-[calc(100vh-2rem)] flex flex-col px-6 py-4 w-full font-sans overflow-hidden bg-transparent">
+        <div className="h-[calc(100vh-2rem)] flex flex-col p-6 md:p-8 w-full font-sans overflow-hidden bg-transparent">
             <Toaster position="top-right" richColors />
 
             {/* Header */}
-            <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+            <div className="flex-none flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
                 <div>
                     <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>

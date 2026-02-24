@@ -90,11 +90,11 @@ export default function SettingsPage() {
     if (!user) return null
 
     return (
-        <div className="min-h-screen bg-transparent p-6 pb-24 font-sans text-brand-500">
+        <div className="min-h-screen bg-transparent p-6 pb-24 font-sans md:p-8 md:pb-8">
             <Toaster position="bottom-right" />
 
             {/* Header */}
-            <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <header className="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold flex items-center gap-3 tracking-tight" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>

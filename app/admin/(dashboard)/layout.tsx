@@ -13,8 +13,8 @@ function AdminHeader() {
     return (
         <header className="sticky top-0 z-40 bg-white/60 backdrop-blur-xl border-b border-slate-200/60 px-8 py-4 flex items-center justify-between">
             <div>
-                <h1 className="text-xl font-bold text-brand-900 tracking-tight">Bom dia, Anderson</h1>
-                <p className="text-xs text-brand-600 font-medium mt-0.5">Aqui está o resumo de hoje.</p>
+                <h1 className="text-xl font-bold tracking-tight" style={{ color: '#0F2A1D' }}>Bom dia, Anderson</h1>
+                <p className="text-xs font-medium mt-0.5" style={{ color: '#517252' }}>Aqui está o resumo de hoje.</p>
             </div>
             <NotificationBell />
         </header>
@@ -34,8 +34,8 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans md:h-screen md:overflow-hidden relative">
-            {/* Ambient Background Blur to enhance glassmorphism */}
-            <div className="absolute top-0 left-0 w-full h-[500px] bg-brand-50/30 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
+            {/* Ambient Background Blur to enhance glassmorphism — z-[-1] to stay behind page content */}
+            <div className="absolute top-0 left-0 w-full h-[500px] bg-brand-50/30 rounded-full blur-3xl -translate-y-1/2 pointer-events-none z-[-1]" />
             {/* Desktop Sidebar */}
             <div className="hidden md:flex">
                 <AdminSidebar />

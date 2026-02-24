@@ -144,7 +144,7 @@ export default function ReportsPage() {
     }, [rawData, start, end, period])
 
     return (
-        <div className="min-h-screen flex flex-col p-4 pb-32 gap-6 md:p-6 md:pb-8 bg-transparent">
+        <div className="min-h-screen flex flex-col p-6 pb-32 gap-6 md:p-8 md:pb-8 bg-transparent">
 
             {/* Header - Premium Styling */}
             <div className="flex-none flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
