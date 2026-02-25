@@ -61,7 +61,21 @@ export default function AdminLogin() {
 
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-brand-50 relative overflow-hidden font-sans selection:bg-brand-500/30 selection:text-brand-100">
-            <Toaster position="top-right" theme="dark" richColors />
+            <Toaster
+                position="top-right"
+                toastOptions={{
+                    unstyled: true,
+                    classNames: {
+                        toast: 'flex items-center gap-3 w-full px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/20 font-sans',
+                        success: 'bg-gradient-to-r from-brand-600/90 to-brand-500/90 text-white',
+                        error: 'bg-gradient-to-r from-red-600/90 to-red-500/90 text-white',
+                        info: 'bg-gradient-to-r from-brand-700/90 to-brand-600/90 text-white',
+                        title: 'text-sm font-semibold',
+                        description: 'text-xs opacity-80',
+                        icon: 'text-white',
+                    },
+                }}
+            />
 
             {/* Background Video */}
             <div className="absolute inset-0 w-full h-full z-0">
