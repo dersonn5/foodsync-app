@@ -246,7 +246,7 @@ function AdminPageContent() {
                     </div>
 
                     {/* Date Navigation - Glassmorphism */}
-                    <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
+                    <div id="tour-date-nav" className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
                         <Button
                             variant="ghost"
                             size="icon"
@@ -284,6 +284,7 @@ function AdminPageContent() {
                 <div className="flex items-center gap-3 self-end md:self-auto">
                     {/* Export Button */}
                     <Button
+                        id="tour-export"
                         variant="outline"
                         size="sm"
                         onClick={exportToCSV}
@@ -301,7 +302,7 @@ function AdminPageContent() {
             </div>
 
             {/* KPI Cards - Premium Design */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0">
+            <div id="tour-kpi-cards" className="grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0">
                 {/* Total Orders */}
                 <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                     <CardContent className="p-5 flex items-center justify-between">
@@ -365,7 +366,7 @@ function AdminPageContent() {
             <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:h-full md:min-h-0 flex-1">
 
                 {/* Left: Feed */}
-                <div className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
+                <div id="tour-feed" className="order-1 md:order-none w-full lg:col-span-2 flex flex-col h-[400px] md:h-full md:min-h-0 bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm md:flex-1 overflow-hidden">
                     <div className="p-4 border-b border-slate-200/60 flex items-center justify-between shrink-0 bg-white/40">
                         <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-sm">
                             <div className="p-1.5 rounded-lg bg-white/60 shadow-sm border border-slate-200/50">
@@ -443,10 +444,10 @@ function AdminPageContent() {
                 <div className="order-2 md:order-none w-full md:w-80 lg:w-96 flex flex-col gap-6 h-auto md:h-full md:min-h-0 md:overflow-y-auto">
 
                     {/* Compact Satisfaction Widget */}
-                    <SatisfactionWidgetCompact date={currentDateStr} />
+                    <div id="tour-satisfaction"><SatisfactionWidgetCompact date={currentDateStr} /></div>
 
                     {/* Production Breakdown */}
-                    <div className="flex flex-col h-auto min-h-[300px] bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden">
+                    <div id="tour-production" className="flex flex-col h-auto min-h-[300px] bg-white/60 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-sm overflow-hidden">
                         <div className="p-4 border-b border-slate-200/60 shrink-0 bg-white/40">
                             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-sm">
                                 <div className="p-1.5 rounded-lg bg-white/60 shadow-sm border border-slate-200/50">

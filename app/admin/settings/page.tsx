@@ -15,7 +15,8 @@ import {
     Lock,
     Globe,
     CheckCircle2,
-    ChefHat
+    ChefHat,
+    HelpCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -25,6 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { Toaster, toast } from 'sonner'
+import { resetOnboardingTour } from '@/components/admin/OnboardingTour'
 
 export default function SettingsPage() {
     const router = useRouter()
@@ -305,6 +307,36 @@ export default function SettingsPage() {
                                     <Switch disabled checked={false} onCheckedChange={() => { }} />
                                 </div>
                                 <p className="text-xs text-brand-600 italic">Opção gerenciada pelo sistema automaticamente por enquanto.</p>
+                            </CardContent>
+                        </Card>
+
+                        {/* Tour Replay */}
+                        <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
+                            <CardHeader className="border-b border-slate-200/60 pb-4">
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold text-brand-900">
+                                    <HelpCircle className="w-5 h-5 text-brand-600" />
+                                    Tutorial do Sistema
+                                </CardTitle>
+                                <CardDescription className="text-brand-600">Reveja o tour guiado que mostra todas as funcionalidades.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                                <div className="space-y-1">
+                                    <h4 className="font-medium text-brand-900">Repetir Tutorial</h4>
+                                    <p className="text-sm text-brand-600">Inicie o tour interativo novamente para explorar todas as áreas do painel.</p>
+                                </div>
+                                <Button
+                                    onClick={() => {
+                                        resetOnboardingTour()
+                                        router.push('/admin')
+                                        toast.success('Tutorial reiniciado! Redirecionando...', {
+                                            icon: <HelpCircle className="w-5 h-5 text-brand-600" />,
+                                        })
+                                    }}
+                                    className="whitespace-nowrap bg-brand-800 hover:bg-brand-900 text-white rounded-xl shadow-md"
+                                >
+                                    <HelpCircle className="w-4 h-4 mr-2" />
+                                    Iniciar Tour
+                                </Button>
                             </CardContent>
                         </Card>
                     </div>

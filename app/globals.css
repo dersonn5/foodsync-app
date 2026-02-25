@@ -283,3 +283,105 @@
 #html5qr-code-full-region video {
   display: block !important;
 }
+
+/* === KitchenOS Onboarding Tour (driver.js) === */
+.kitchenos-tour-popover.driver-popover {
+  background: linear-gradient(135deg, rgba(15, 42, 29, 0.95) 0%, rgba(35, 63, 40, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  max-width: 360px;
+  color: #ffffff;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.kitchenos-tour-popover .driver-popover-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.kitchenos-tour-popover .driver-popover-description {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(227, 238, 212, 0.85);
+  font-weight: 400;
+}
+
+.kitchenos-tour-popover .driver-popover-progress-text {
+  font-size: 11px;
+  color: rgba(227, 238, 212, 0.5);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.kitchenos-tour-popover .driver-popover-navigation-btns {
+  gap: 8px;
+}
+
+.kitchenos-tour-popover .driver-popover-prev-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(227, 238, 212, 0.9);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-shadow: none;
+}
+
+.kitchenos-tour-popover .driver-popover-prev-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.kitchenos-tour-popover .driver-popover-next-btn,
+.kitchenos-tour-popover .driver-popover-close-btn-text {
+  background: linear-gradient(135deg, #6B9071 0%, #517252 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px -2px rgba(107, 144, 113, 0.4);
+  text-shadow: none;
+}
+
+.kitchenos-tour-popover .driver-popover-next-btn:hover,
+.kitchenos-tour-popover .driver-popover-close-btn-text:hover {
+  background: linear-gradient(135deg, #8CA990 0%, #6B9071 100%);
+  box-shadow: 0 6px 16px -2px rgba(107, 144, 113, 0.5);
+  transform: translateY(-1px);
+}
+
+.kitchenos-tour-popover .driver-popover-arrow-side-left .driver-popover-arrow,
+.kitchenos-tour-popover .driver-popover-arrow-side-right .driver-popover-arrow,
+.kitchenos-tour-popover .driver-popover-arrow-side-top .driver-popover-arrow,
+.kitchenos-tour-popover .driver-popover-arrow-side-bottom .driver-popover-arrow {
+  border-color: rgba(15, 42, 29, 0.95);
+}
+
+.kitchenos-tour-popover .driver-popover-close-btn {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 18px;
+  top: 12px;
+  right: 12px;
+  transition: all 0.2s;
+}
+
+.kitchenos-tour-popover .driver-popover-close-btn:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.kitchenos-tour-popover .driver-popover-footer {
+  margin-top: 16px;
+}

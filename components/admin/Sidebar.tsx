@@ -51,7 +51,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             </div>
 
             {/* Navigation */}
-            <nav className={`flex-1 space-y-1 overflow-y-auto relative z-10 py-6 ${collapsed ? 'px-2' : 'px-4'}`}>
+            <nav id="tour-sidebar-nav" className={`flex-1 space-y-1 overflow-y-auto relative z-10 py-6 ${collapsed ? 'px-2' : 'px-4'}`}>
                 {menuItems.map((item) => {
                     const isActive = item.href === '/admin'
                         ? pathname === '/admin'
@@ -84,7 +84,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                 })}
 
                 {/* CEO Dashboard Link */}
-                <div className={`pt-4 mt-4 border-t border-white/10`}>
+                <div id="tour-ceo-link" className={`pt-4 mt-4 border-t border-white/10`}>
                     <Link
                         href="/ceo"
                         onClick={onClose}
@@ -145,7 +145,7 @@ export function AdminSidebar() {
     const { collapsed, toggleSidebar } = useSidebar()
 
     return (
-        <aside className={`fixed left-0 top-0 h-full hidden md:flex flex-col z-50 shadow-xl transition-all duration-300 ease-out ${collapsed ? 'w-20' : 'w-72'}`}>
+        <aside id="tour-sidebar" className={`fixed left-0 top-0 h-full hidden md:flex flex-col z-50 shadow-xl transition-all duration-300 ease-out ${collapsed ? 'w-20' : 'w-72'}`}>
             <SidebarContent />
             {/* Toggle Button - outside overflow-hidden, overlaps sidebar edge */}
             <button

@@ -7,16 +7,17 @@ import { usePathname } from 'next/navigation'
 import { NotificationProvider } from '@/contexts/notification-context'
 import { NotificationBell } from '@/components/admin/notification-bell'
 import { SidebarProvider, useSidebar } from '@/contexts/SidebarContext'
+import { OnboardingTour } from '@/components/admin/OnboardingTour'
 import { LayoutDashboard, ListChecks, ScanLine, UtensilsCrossed, BarChart3 } from 'lucide-react'
 
 function AdminHeader() {
     return (
-        <header className="sticky top-0 z-40 bg-white/60 backdrop-blur-xl border-b border-slate-200/60 px-8 py-4 flex items-center justify-between">
+        <header id="tour-header" className="sticky top-0 z-40 bg-white/60 backdrop-blur-xl border-b border-slate-200/60 px-8 py-4 flex items-center justify-between">
             <div>
                 <h1 className="text-xl font-bold tracking-tight" style={{ color: '#0F2A1D' }}>Bom dia, Anderson</h1>
                 <p className="text-xs font-medium mt-0.5" style={{ color: '#517252' }}>Aqui está o resumo de hoje.</p>
             </div>
-            <NotificationBell />
+            <div id="tour-notification"><NotificationBell /></div>
         </header>
     )
 }
@@ -47,6 +48,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
                 className={`flex-1 flex flex-col transition-[margin-left] duration-300 ease-out pb-24 md:pb-0 h-auto md:h-screen overflow-visible md:overflow-y-auto ${collapsed ? 'md:ml-20' : 'md:ml-72'}`}
             >
                 <AdminHeader />
+                <OnboardingTour />
                 <main className="flex-1 h-full w-full">
                     {children}
                 </main>
