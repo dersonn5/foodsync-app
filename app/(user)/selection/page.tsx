@@ -154,7 +154,7 @@ function SelectionContent() {
         <div className="flex flex-col h-[100dvh] bg-transparent">
 
             {/* HEADER */}
-            <header className="flex-none bg-white/80 backdrop-blur-xl shadow-sm z-20 relative border-b border-slate-200/60">
+            <header id="tour-emp-header" className="flex-none bg-white/80 backdrop-blur-xl shadow-sm z-20 relative border-b border-slate-200/60">
                 {/* Top Brand Bar */}
                 <div className="h-1 w-full" style={{ backgroundColor: '#0F2A1D' }} />
 
@@ -174,7 +174,7 @@ function SelectionContent() {
                 </div>
 
                 {/* Calendar Pills */}
-                <div className="pb-5 pl-6 overflow-x-auto hide-scrollbar flex gap-2 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                <div id="tour-emp-calendar" className="pb-5 pl-6 overflow-x-auto hide-scrollbar flex gap-2 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                     {calendarDays.map((date) => {
                         const isSelected = isSameDay(date, selectedDate)
 
@@ -213,7 +213,7 @@ function SelectionContent() {
                 <div className="px-6 py-6 pb-32 space-y-6">
 
                     {/* Filter Chips */}
-                    <div className="flex gap-2 overflow-x-auto hide-scrollbar -mx-6 px-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <div id="tour-emp-filters" className="flex gap-2 overflow-x-auto hide-scrollbar -mx-6 px-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                         {[
                             { id: 'all', label: 'Todos' },
                             { id: 'main', label: 'Padrão' },
@@ -237,7 +237,7 @@ function SelectionContent() {
                     </div>
 
                     {/* Section Title */}
-                    <div className="flex items-center justify-between">
+                    <div id="tour-emp-menu-title" className="flex items-center justify-between">
                         <h2 className="text-lg font-bold flex items-center gap-2" style={{ color: '#0F2A1D' }}>
                             <div className="p-1.5 rounded-lg shadow-sm" style={{ backgroundColor: '#0F2A1D' }}>
                                 <Utensils className="w-4 h-4 text-white" />
@@ -250,7 +250,7 @@ function SelectionContent() {
                     </div>
 
                     {/* Menu Cards */}
-                    <div className="space-y-4">
+                    <div id="tour-emp-menu-cards" className="space-y-4">
                         <AnimatePresence mode="wait">
                             {loadingMenu ? (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">

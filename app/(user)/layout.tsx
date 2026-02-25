@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Utensils, Ticket, User, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { EmployeeTour } from '@/components/employee/EmployeeTour'
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
@@ -35,11 +36,12 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
         <div className="min-h-screen relative bg-gradient-to-br from-slate-50 via-white to-slate-50">
             {/* Main Content Area */}
             <div className="pb-28">
+                <EmployeeTour />
                 {children}
             </div>
 
             {/* Bottom Navigation - Premium Glassmorphism */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-2xl border-t border-slate-200/50 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] px-2 py-3 pb-6 z-50 grid grid-cols-4 items-center">
+            <nav id="tour-emp-bottom-nav" className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-2xl border-t border-slate-200/50 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] px-2 py-3 pb-6 z-50 grid grid-cols-4 items-center">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href || (item.href !== '/selection' && pathname.startsWith(item.href))
                     const Icon = item.icon

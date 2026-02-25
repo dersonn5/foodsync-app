@@ -211,7 +211,7 @@ export default function FeedbackPage() {
     return (
         <div className="flex flex-col min-h-screen bg-transparent">
             {/* Header */}
-            <header className="bg-white/80 backdrop-blur-xl shadow-sm px-6 pt-12 pb-6 border-b border-slate-200/60">
+            <header id="tour-emp-feedback-header" className="bg-white/80 backdrop-blur-xl shadow-sm px-6 pt-12 pb-6 border-b border-slate-200/60">
                 <button onClick={() => router.back()} className="flex items-center gap-2 text-slate-400 mb-4 hover:text-slate-600 transition-colors">
                     <ArrowLeft className="w-5 h-5" />
                     <span className="text-sm font-medium">Voltar</span>
@@ -231,7 +231,7 @@ export default function FeedbackPage() {
             <main className="flex-1 flex flex-col p-6 pb-32">
                 <div className="flex-1 flex flex-col items-center justify-center space-y-10">
                     {/* Stars */}
-                    <div className="text-center">
+                    <div id="tour-emp-feedback-stars" className="text-center">
                         <p className="font-medium mb-6" style={{ color: '#0F2A1D' }}>Como foi a refeição de hoje?</p>
                         <StarRating
                             value={rating}
@@ -241,7 +241,7 @@ export default function FeedbackPage() {
                     </div>
 
                     {/* Comment - Always Visible */}
-                    <div className="w-full max-w-md">
+                    <div id="tour-emp-feedback-comment" className="w-full max-w-md">
                         <label className="block text-sm font-medium mb-2" style={{ color: '#0F2A1D' }}>
                             Deixe um comentário (opcional)
                         </label>

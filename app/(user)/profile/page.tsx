@@ -66,7 +66,7 @@ export default function ProfilePage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 pb-32 font-sans">
             {/* Header with gradient */}
-            <header className="bg-white/80 backdrop-blur-xl px-6 py-6 pt-12 sticky top-0 z-30 border-b border-slate-200/60">
+            <header id="tour-emp-profile-header" className="bg-white/80 backdrop-blur-xl px-6 py-6 pt-12 sticky top-0 z-30 border-b border-slate-200/60">
                 <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl shadow-lg shadow-brand-900/10" style={{ backgroundColor: '#0F2A1D' }}>
                         <User className="w-5 h-5 text-white" />
@@ -85,7 +85,7 @@ export default function ProfilePage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
                 >
-                    <Card className="border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/60 backdrop-blur-xl rounded-[2rem] overflow-hidden relative">
+                    <Card id="tour-emp-profile-card" className="border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/60 backdrop-blur-xl rounded-[2rem] overflow-hidden relative">
                         {/* Header gradient */}
                         <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-br from-slate-50 via-white to-slate-50" />
 
@@ -149,6 +149,7 @@ export default function ProfilePage() {
 
                 {/* Actions */}
                 <motion.div
+                    id="tour-emp-profile-actions"
                     className="space-y-3"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

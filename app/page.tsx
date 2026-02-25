@@ -11,6 +11,7 @@ import { User, Phone, FileDigit, Loader2, ChefHat, ArrowRight, CheckCircle, Uten
 import { motion, AnimatePresence } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
 import { FallingIngredients } from '@/components/ui/falling-ingredients'
+import { resetEmployeeTour } from '@/components/employee/EmployeeTour'
 
 // --- HELPER: CPF MASK ---
 const maskCPF = (value: string) => {
@@ -74,6 +75,7 @@ export default function LoginPage() {
       if (user) {
         console.log('User found, logging in:', user)
         localStorage.setItem('kitchenos_user', JSON.stringify(user))
+        resetEmployeeTour()
         router.push('/selection')
       } else {
         console.log('User not found, show signup fields')
@@ -115,6 +117,7 @@ export default function LoginPage() {
       if (error) throw error
 
       localStorage.setItem('kitchenos_user', JSON.stringify(data))
+      resetEmployeeTour()
       router.push('/selection')
 
     } catch (err: any) {

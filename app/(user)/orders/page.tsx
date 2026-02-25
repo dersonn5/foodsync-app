@@ -54,7 +54,7 @@ export default function OrdersPage() {
     return (
         <div className="min-h-screen bg-transparent font-sans">
             {/* Header */}
-            <header className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-sm border-b border-slate-200/60">
+            <header id="tour-emp-orders-header" className="bg-white/80 backdrop-blur-xl px-6 py-4 pt-12 sticky top-0 z-20 shadow-sm border-b border-slate-200/60">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-2.5 rounded-xl shadow-lg shadow-brand-900/10" style={{ backgroundColor: '#0F2A1D' }}>
@@ -68,7 +68,7 @@ export default function OrdersPage() {
                 </div>
             </header>
 
-            <main className="p-6 pb-32 space-y-4">
+            <main id="tour-emp-orders-list" className="p-6 pb-32 space-y-4">
                 {loading ? (
                     <div className="space-y-4 pt-4">
                         {[1, 2].map(i => (
