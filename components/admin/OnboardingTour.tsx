@@ -72,8 +72,8 @@ const mobileNavSteps: DriveStep[] = [
     },
 ]
 
-// Steps common to all screen sizes
-const dashboardCommonSteps: DriveStep[] = [
+// Desktop-only common steps (full set, elements may be side-by-side)
+const desktopCommonSteps: DriveStep[] = [
     {
         element: '#tour-header',
         popover: {
@@ -93,48 +93,12 @@ const dashboardCommonSteps: DriveStep[] = [
         },
     },
     {
-        element: '#tour-kpi-cards',
-        popover: {
-            title: '📈 Indicadores do Dia (KPIs)',
-            description: 'Três métricas essenciais: Total de Pedidos, Cancelamentos e Fila Pendente. Atualizados automaticamente em tempo real.',
-            side: 'bottom' as const,
-            align: 'center' as const,
-        },
-    },
-    {
         element: '#tour-date-nav',
         popover: {
             title: '📅 Navegação por Data',
             description: 'Use as setas para navegar entre dias e ver o histórico de pedidos. O botão "Hoje" retorna ao dia atual instantaneamente.',
             side: 'bottom' as const,
             align: 'center' as const,
-        },
-    },
-    {
-        element: '#tour-feed',
-        popover: {
-            title: '🍽️ Feed em Tempo Real',
-            description: 'Acompanhe todos os pedidos à medida que chegam. Cada card mostra o colaborador, prato escolhido, status e horário.',
-            side: 'top' as const,
-            align: 'start' as const,
-        },
-    },
-    {
-        element: '#tour-satisfaction',
-        popover: {
-            title: '⭐ Satisfação dos Colaboradores',
-            description: 'Widget compacto que mostra o nível de satisfação do dia com base nos feedbacks dos colaboradores sobre as refeições.',
-            side: 'top' as const,
-            align: 'center' as const,
-        },
-    },
-    {
-        element: '#tour-production',
-        popover: {
-            title: '👨‍🍳 Resumo de Produção',
-            description: 'Visão completa da cozinha: quantidade de cada prato a ser produzido, com barras de progresso proporcionais.',
-            side: 'top' as const,
-            align: 'start' as const,
         },
     },
     {
@@ -146,13 +110,99 @@ const dashboardCommonSteps: DriveStep[] = [
             align: 'end' as const,
         },
     },
+    {
+        element: '#tour-kpi-cards',
+        popover: {
+            title: '📈 Indicadores do Dia (KPIs)',
+            description: 'Três métricas essenciais: Total de Pedidos, Cancelamentos e Fila Pendente. Atualizados automaticamente em tempo real.',
+            side: 'bottom' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-feed',
+        popover: {
+            title: '🍽️ Feed em Tempo Real',
+            description: 'Acompanhe todos os pedidos à medida que chegam. Cada card mostra o colaborador, prato escolhido, status e horário.',
+            side: 'left' as const,
+            align: 'start' as const,
+        },
+    },
+    {
+        element: '#tour-satisfaction',
+        popover: {
+            title: '⭐ Satisfação dos Colaboradores',
+            description: 'Widget compacto que mostra o nível de satisfação do dia com base nos feedbacks dos colaboradores sobre as refeições.',
+            side: 'left' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-production',
+        popover: {
+            title: '👨‍🍳 Resumo de Produção',
+            description: 'Visão completa da cozinha: quantidade de cada prato a ser produzido, com barras de progresso proporcionais.',
+            side: 'left' as const,
+            align: 'start' as const,
+        },
+    },
+]
+
+// Mobile-only common steps (simplified, follows top-to-bottom scroll order)
+const mobileCommonSteps: DriveStep[] = [
+    {
+        element: '#tour-header',
+        popover: {
+            title: '👋 Cabeçalho',
+            description: 'Saudação e acesso rápido às Notificações 🔔 e Configurações ⚙️ no canto superior direito.',
+            side: 'bottom' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-kpi-cards',
+        popover: {
+            title: '📈 Indicadores do Dia',
+            description: 'Total de Pedidos, Cancelamentos e Fila Pendente. Atualizados em tempo real. Role para baixo para ver o feed e a produção.',
+            side: 'bottom' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-feed',
+        popover: {
+            title: '🍽️ Feed de Pedidos',
+            description: 'Acompanhe os pedidos do dia em tempo real. Cada card mostra o nome, prato e status.',
+            side: 'top' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-satisfaction',
+        popover: {
+            title: '⭐ Satisfação',
+            description: 'Nota de satisfação dos colaboradores baseada nos feedbacks do dia.',
+            side: 'top' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-production',
+        popover: {
+            title: '👨‍🍳 Produção',
+            description: 'Resumo de cada prato a ser produzido com quantidades e barras de progresso.',
+            side: 'top' as const,
+            align: 'center' as const,
+        },
+    },
 ]
 
 // Build dashboard steps dynamically based on screen size
 function getDashboardSteps(): DriveStep[] {
     const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768
     const navSteps = isDesktop ? desktopNavSteps : mobileNavSteps
-    return [...navSteps, ...dashboardCommonSteps]
+    const commonSteps = isDesktop ? desktopCommonSteps : mobileCommonSteps
+    return [...navSteps, ...commonSteps]
 }
 
 // =============================================
