@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Toaster, toast } from 'sonner'
 import { Logo } from '@/components/ui/logo'
 import { FallingIngredients } from '@/components/ui/falling-ingredients'
+import { resetOnboardingTour } from '@/components/admin/OnboardingTour'
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('')
@@ -47,7 +48,8 @@ export default function AdminLogin() {
                 throw new Error('Acesso negado. Apenas administradores.')
             }
 
-            // 3. Success
+            // 3. Success — reset tours so they replay on this session
+            resetOnboardingTour()
             toast.success('Login realizado com sucesso!')
             router.push('/admin')
             router.refresh()
