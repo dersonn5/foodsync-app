@@ -150,7 +150,7 @@ function AdminOrdersPageContent() {
             <Toaster position="top-right" richColors />
 
             {/* Header Section - Premium Styling */}
-            <div className="flex-none space-y-4 mb-4">
+            <div id="tour-orders-header" className="flex-none space-y-4 mb-4">
                 <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
 
                     {/* Title Block */}
@@ -174,7 +174,7 @@ function AdminOrdersPageContent() {
                     {/* Actions Block */}
                     <div className="flex flex-col items-center gap-3 w-full lg:w-auto lg:flex-row lg:items-center">
                         {/* Date Navigation - Glassmorphism */}
-                        <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3 justify-center">
+                        <div id="tour-orders-date-nav" className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3 justify-center">
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -200,7 +200,7 @@ function AdminOrdersPageContent() {
                         </div>
 
                         {/* Status Filter - Premium */}
-                        <div className="flex items-center gap-1 bg-white/60 backdrop-blur-xl p-1 rounded-xl border border-slate-200/60 shadow-sm">
+                        <div id="tour-orders-filter" className="flex items-center gap-1 bg-white/60 backdrop-blur-xl p-1 rounded-xl border border-slate-200/60 shadow-sm">
                             {(['all', 'pending', 'confirmed'] as const).map((status) => (
                                 <button
                                     key={status}
@@ -221,7 +221,7 @@ function AdminOrdersPageContent() {
                 </div>
 
                 {/* KPI Grid - Premium Design */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div id="tour-orders-kpis" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all overflow-hidden rounded-2xl">
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
@@ -267,7 +267,7 @@ function AdminOrdersPageContent() {
                 </div>
 
                 {/* Search Bar - Premium */}
-                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-xl px-4 py-3 rounded-xl border border-slate-200/60 shadow-sm w-full max-w-sm">
+                <div id="tour-orders-search" className="flex items-center gap-3 bg-white/60 backdrop-blur-xl px-4 py-3 rounded-xl border border-slate-200/60 shadow-sm w-full max-w-sm">
                     <Search className="w-4 h-4 text-brand-600" />
                     <Input
                         placeholder="Filtrar por nome ou prato..."
@@ -279,7 +279,7 @@ function AdminOrdersPageContent() {
             </div>
 
             {/* Scrollable Order List */}
-            <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 pb-24 md:pb-8">
+            <div id="tour-orders-list" className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 pb-24 md:pb-8">
                 {loading ? (
                     <div className="text-center py-12 text-brand-600">Carregando pedidos...</div>
                 ) : filteredOrders.length > 0 ? (

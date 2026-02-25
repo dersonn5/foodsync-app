@@ -147,7 +147,7 @@ export default function ReportsPage() {
         <div className="min-h-screen flex flex-col pt-4 px-6 pb-32 gap-6 md:pt-4 md:px-8 md:pb-8 bg-transparent">
 
             {/* Header - Premium Styling */}
-            <div className="flex-none flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
+            <div id="tour-reports-header" className="flex-none flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
                 <div className="text-center lg:text-left">
                     <h1 className="text-2xl font-bold tracking-tight flex flex-col items-center gap-2 lg:flex-row lg:gap-3" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
@@ -159,7 +159,7 @@ export default function ReportsPage() {
                         Controle de desperdício e planejamento de produção.
                     </p>
                 </div>
-                <div className="flex items-center gap-3 w-full lg:w-auto">
+                <div id="tour-reports-period" className="flex items-center gap-3 w-full lg:w-auto">
                     <Select value={period} onValueChange={setPeriod}>
                         <SelectTrigger className="w-full lg:w-[180px] bg-white/60 backdrop-blur-xl border-slate-200/60 rounded-xl shadow-sm focus:ring-brand-800 text-brand-900">
                             <Calendar className="w-4 h-4 mr-2 text-brand-700" />
@@ -181,7 +181,7 @@ export default function ReportsPage() {
             ) : metrics ? (
                 <>
                     {/* KPIs - Premium Design */}
-                    <div className="flex-none grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="tour-reports-kpis" className="flex-none grid grid-cols-1 md:grid-cols-3 gap-4">
                         <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:bg-white/70 hover:shadow-md transition-all overflow-hidden rounded-2xl">
                             <CardContent className="p-6 flex items-center justify-between">
                                 <div>
@@ -240,7 +240,7 @@ export default function ReportsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         {/* Radar de Rejeição */}
-                        <Card className="flex flex-col border border-slate-200/60 shadow-sm min-h-[300px] bg-white/60 backdrop-blur-xl rounded-2xl overflow-hidden">
+                        <Card id="tour-reports-rejection" className="flex flex-col border border-slate-200/60 shadow-sm min-h-[300px] bg-white/60 backdrop-blur-xl rounded-2xl overflow-hidden">
                             <CardHeader className="bg-white/40 border-b border-slate-200/60 pb-3">
                                 <CardTitle className="text-brand-900 flex items-center gap-2 text-md font-semibold">
                                     <div className="p-1.5 rounded-lg bg-red-50/80">
@@ -282,7 +282,7 @@ export default function ReportsPage() {
                         </Card>
 
                         {/* Guia de Produção */}
-                        <Card className="flex flex-col border border-slate-200/60 bg-white/60 backdrop-blur-xl rounded-2xl shadow-sm min-h-[300px] overflow-hidden">
+                        <Card id="tour-reports-production" className="flex flex-col border border-slate-200/60 bg-white/60 backdrop-blur-xl rounded-2xl shadow-sm min-h-[300px] overflow-hidden">
                             <CardHeader className="bg-white/40 border-b border-slate-200/60 pb-3 flex flex-row items-center justify-between space-y-0">
                                 <CardTitle className="text-brand-900 flex items-center gap-2 text-md font-semibold">
                                     <div className="p-1.5 rounded-lg bg-brand-50/50">
@@ -324,7 +324,7 @@ export default function ReportsPage() {
                     </div>
 
                     {/* CEO Satisfaction Metrics Section */}
-                    <div className="mt-6">
+                    <div id="tour-reports-satisfaction" className="mt-6">
                         <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: '#0F2A1D' }}>
                             Métricas de Satisfação
                         </h2>

@@ -191,7 +191,7 @@ export default function AdminMenuPage() {
             <Toaster position="top-right" richColors />
 
             {/* Header */}
-            <div className="flex-none flex flex-col items-center lg:items-start lg:flex-row justify-between gap-4 mb-4">
+            <div id="tour-menu-header" className="flex-none flex flex-col items-center lg:items-start lg:flex-row justify-between gap-4 mb-4">
                 <div className="text-center lg:text-left">
                     <h1 className="text-2xl font-bold tracking-tight flex flex-col items-center gap-2 lg:flex-row lg:gap-3" style={{ color: '#0F2A1D' }}>
                         <div className="p-2 rounded-xl shadow-lg" style={{ backgroundColor: '#0F2A1D' }}>
@@ -205,7 +205,7 @@ export default function AdminMenuPage() {
                 </div>
 
                 {/* Week Navigation - Glassmorphism */}
-                <div className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
+                <div id="tour-menu-week-nav" className="bg-white/60 backdrop-blur-xl shadow-sm border border-slate-200/60 rounded-2xl px-3 py-2 flex items-center gap-3">
                     <Button
                         variant="ghost"
                         size="icon"
@@ -236,7 +236,7 @@ export default function AdminMenuPage() {
             </div>
 
             {/* Pipeline Grid - Fixed scrollbar clipping with proper padding */}
-            <div className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-4 pt-2 md:px-0 md:pb-2 md:grid md:grid-cols-5 md:gap-5 hide-scrollbar">
+            <div id="tour-menu-pipeline" className="flex-1 min-h-0 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-4 pt-2 md:px-0 md:pb-2 md:grid md:grid-cols-5 md:gap-5 hide-scrollbar">
                 {weekDays.map((date, index) => {
                     const dateStr = date.toISOString().split('T')[0]
                     const dayItems = itemsByDate[dateStr] || []
@@ -255,6 +255,7 @@ export default function AdminMenuPage() {
                                     : 'bg-white/60 backdrop-blur-xl hover:bg-white/70 border border-slate-200/60 shadow-sm hover:shadow-md hover:border-slate-300'
                                 }
                             `}
+                            {...(index === 0 ? { id: 'tour-menu-day-card' } : {})}
                         >
                             {/* Day Header - Clean & Minimal */}
                             <div className={`
@@ -369,6 +370,7 @@ export default function AdminMenuPage() {
                                                 setTargetDateForAdd(date)
                                                 setIsDialogOpen(true)
                                             }}
+                                            {...(index === 0 ? { id: 'tour-menu-add-btn' } : {})}
                                             className="w-full py-4 border-2 border-dashed border-slate-200/80 bg-white/40 backdrop-blur-sm rounded-xl flex items-center justify-center text-brand-400 hover:text-brand-900 hover:bg-white/70 hover:border-brand-400 transition-all cursor-pointer gap-2 group shadow-sm"
                                         >
                                             <div className="w-7 h-7 rounded-lg bg-white group-hover:bg-brand-50 flex items-center justify-center shadow-sm border border-slate-200/50 transition-all group-hover:scale-110">
