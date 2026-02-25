@@ -11,6 +11,7 @@ const TOUR_KEYS: Record<string, string> = {
     '/admin/menu': 'kitchenos_tour_menu',
     '/admin/orders': 'kitchenos_tour_orders',
     '/admin/reports': 'kitchenos_tour_reports',
+    '/ceo': 'kitchenos_tour_ceo',
 }
 
 // =============================================
@@ -289,12 +290,82 @@ const reportsSteps: DriveStep[] = [
     },
 ]
 
+// =============================================
+// CEO COCKPIT TOUR
+// =============================================
+const ceoSteps: DriveStep[] = [
+    {
+        element: '#tour-ceo-header',
+        popover: {
+            title: '🏢 Cockpit Executivo',
+            description: 'Painel estratégico exclusivo para a diretoria. Visualize KPIs financeiros, eficiência operacional e tendências — tudo em tempo real.',
+            side: 'bottom' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-ceo-filters',
+        popover: {
+            title: '🎛️ Filtros Estratégicos',
+            description: 'Selecione a unidade (Visão Global ou filiais) e o período (Hoje, Semana, Mês, 30 dias) para analisar dados segmentados.',
+            side: 'bottom' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-ceo-export',
+        popover: {
+            title: '📄 Exportar Relatório',
+            description: 'Gere um PDF executivo com todos os indicadores para compartilhar em reuniões de diretoria.',
+            side: 'bottom' as const,
+            align: 'end' as const,
+        },
+    },
+    {
+        element: '#tour-ceo-kpis',
+        popover: {
+            title: '📊 KPIs Estratégicos',
+            description: 'Quatro indicadores-chave: CMV Projetado (custo por refeição vs meta), Taxa de Rejeição, Volume de Refeições Servidas e Índice NPS de satisfação.',
+            side: 'bottom' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-ceo-trend-chart',
+        popover: {
+            title: '📈 Evolução Custo vs Qualidade',
+            description: 'Gráfico de tendência dos últimos 30 dias mostrando a relação entre investimento por prato e nota de qualidade. Ideal para identificar correlações.',
+            side: 'top' as const,
+            align: 'start' as const,
+        },
+    },
+    {
+        element: '#tour-ceo-heroes',
+        popover: {
+            title: '🏆 Heróis e Vilões do Cardápio',
+            description: 'Top 3 pratos mais pedidos (Campeões) e os mais rejeitados (Vilões). Use para ajustar o cardápio e maximizar a satisfação.',
+            side: 'top' as const,
+            align: 'end' as const,
+        },
+    },
+    {
+        element: '#tour-ceo-leaderboard',
+        popover: {
+            title: '🏅 Ranking de Performance',
+            description: 'Tabela comparativa entre unidades: total de pedidos, taxa de rejeição, custo estimado e status. Identifique unidades que precisam de atenção.',
+            side: 'top' as const,
+            align: 'center' as const,
+        },
+    },
+]
+
 // Map pages to their steps
 const PAGE_TOURS: Record<string, DriveStep[]> = {
     '/admin': dashboardSteps,
     '/admin/menu': menuSteps,
     '/admin/orders': ordersSteps,
     '/admin/reports': reportsSteps,
+    '/ceo': ceoSteps,
 }
 
 export function resetOnboardingTour() {

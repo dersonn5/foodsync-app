@@ -55,6 +55,7 @@ import {
 } from 'recharts'
 import { format, parseISO, subDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { OnboardingTour } from '@/components/admin/OnboardingTour'
 
 // --- Mock Data Constants ---
 const UNITS = [
@@ -252,9 +253,10 @@ export default function CEODashboard() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100 font-sans">
+            <OnboardingTour />
 
             {/* 1. Header & Navigation - Clean Kitchen Theme */}
-            <div className="bg-white/80 backdrop-blur-xl border-b border-stone-200/50 sticky top-0 z-50 shadow-sm">
+            <div id="tour-ceo-header" className="bg-white/80 backdrop-blur-xl border-b border-stone-200/50 sticky top-0 z-50 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         {/* Brand */}
@@ -297,7 +299,7 @@ export default function CEODashboard() {
                     </div>
 
                     {/* Filter Bar - Glassmorphism */}
-                    <div className="mt-5 flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-100">
+                    <div id="tour-ceo-filters" className="mt-5 flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-100">
                         <div className="flex items-center gap-3 w-full md:w-auto">
 
                             {/* Unit Selector - Clean */}
@@ -340,6 +342,7 @@ export default function CEODashboard() {
 
                         {/* Export Button */}
                         <Button
+                            id="tour-ceo-export"
                             variant="ghost"
                             className="text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 w-full md:w-auto rounded-xl"
                         >
@@ -360,7 +363,7 @@ export default function CEODashboard() {
                     <div className="space-y-8">
 
                         {/* 2.1 Strategic KPIs - Clean Kitchen Theme */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div id="tour-ceo-kpis" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 
                             {/* Financial CMV */}
                             <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl group hover:shadow-xl hover:border-emerald-200 transition-all">
@@ -485,7 +488,7 @@ export default function CEODashboard() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                             {/* Quality vs Cost Chart */}
-                            <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl">
+                            <Card id="tour-ceo-trend-chart" className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl">
                                 <CardHeader>
                                     <CardTitle className="text-lg flex items-center gap-3 text-stone-800">
                                         <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/20">
@@ -569,7 +572,7 @@ export default function CEODashboard() {
                             </Card>
 
                             {/* Heroes vs Villains */}
-                            <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl flex flex-col">
+                            <Card id="tour-ceo-heroes" className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl flex flex-col">
                                 <CardHeader>
                                     <CardTitle className="text-lg flex items-center gap-3 text-stone-800">
                                         <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-md shadow-cyan-500/20">
@@ -640,7 +643,7 @@ export default function CEODashboard() {
                         </div>
 
                         {/* 2.3 Unit Leaderboard - Clean Kitchen Theme */}
-                        <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 overflow-hidden rounded-2xl">
+                        <Card id="tour-ceo-leaderboard" className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 overflow-hidden rounded-2xl">
                             <CardHeader className="bg-stone-50/50 border-b border-stone-100">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
