@@ -31,6 +31,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { DishPhotoPicker } from '@/components/admin/DishPhotoPicker'
 
 interface MenuItem {
     id: string
@@ -53,7 +54,11 @@ export default function AdminMenuPage() {
     // Day Refs for Auto-Scroll
     const dayRefs = useRef<(HTMLDivElement | null)[]>([])
 
-    const { register, handleSubmit, reset, setValue, formState: { isSubmitting } } = useForm<any>()
+    const { register, handleSubmit, reset, setValue, watch, formState: { isSubmitting } } = useForm<any>()
+
+    // Watch name for auto-suggestions
+    const watchedName = watch('name')
+    const watchedPhotoUrl = watch('photo_url')
 
     // Fetch items when week changes
     useEffect(() => {
@@ -454,17 +459,17 @@ export default function AdminMenuPage() {
                                     </Select>
                                 </div>
 
-                                <div className="space-y-1.5">
-                                    <Label className="text-brand-900 font-medium text-sm">Foto URL</Label>
-                                    <div className="relative">
-                                        <ImageIcon className="absolute left-3 top-3.5 h-4 w-4 text-brand-400" />
-                                        <Input
-                                            {...register('photo_url')}
-                                            placeholder="https://..."
-                                            className="pl-9 rounded-lg border-slate-200/60 bg-white/60 focus-visible:ring-brand-800 focus-visible:border-brand-800 h-11 text-brand-900"
-                                        />
-                                    </div>
-                                </div>
+                            </div>
+
+                            <div className="space-y-1.5 flex flex-col">
+                                <Label className="text-brand-900 font-medium text-sm">Foto do Prato</Label>
+                                <DishPhotoPicker
+                                    value={watchedPhotoUrl}
+                                    onChange={(url) => setValue('photo_url', url, { shouldDirty: true })}
+                                    suggestedName={watchedName}
+                                />
+                                {/* Esconder o input real do react-hook-form mas mantê-lo registrado */}
+                                <input type="hidden" {...register('photo_url')} />
                             </div>
 
                             <div className="space-y-1.5">
@@ -496,8 +501,8 @@ export default function AdminMenuPage() {
                             </DialogFooter>
                         </form>
                     </div>
-                </DialogContent>
-            </Dialog>
-        </div>
+                </DialogContent >
+            </Dialog >
+        </div >
     )
 }
