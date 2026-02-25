@@ -8,7 +8,7 @@ import { NotificationProvider } from '@/contexts/notification-context'
 import { NotificationBell } from '@/components/admin/notification-bell'
 import { SidebarProvider, useSidebar } from '@/contexts/SidebarContext'
 import { OnboardingTour } from '@/components/admin/OnboardingTour'
-import { LayoutDashboard, ListChecks, ScanLine, UtensilsCrossed, BarChart3 } from 'lucide-react'
+import { LayoutDashboard, ListChecks, ScanLine, UtensilsCrossed, BarChart3, Settings } from 'lucide-react'
 
 function AdminHeader() {
     return (
@@ -17,7 +17,16 @@ function AdminHeader() {
                 <h1 className="text-xl font-bold tracking-tight" style={{ color: '#0F2A1D' }}>Bom dia, Anderson</h1>
                 <p className="text-xs font-medium mt-0.5" style={{ color: '#517252' }}>Aqui está o resumo de hoje.</p>
             </div>
-            <div id="tour-notification"><NotificationBell /></div>
+            <div className="flex items-center gap-2">
+                <div id="tour-notification"><NotificationBell /></div>
+                <Link
+                    href="/admin/settings"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-brand-800 hover:bg-white/80 transition-all border border-transparent hover:border-slate-200/60"
+                    title="Configurações"
+                >
+                    <Settings className="w-5 h-5" />
+                </Link>
+            </div>
         </header>
     )
 }
