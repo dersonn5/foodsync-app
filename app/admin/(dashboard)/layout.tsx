@@ -78,7 +78,7 @@ function AdminBottomNav() {
     const pathname = usePathname()
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-slate-200/60 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-sm">
+        <div id="tour-mobile-nav" className="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-slate-200/60 px-6 py-3 flex justify-between items-end z-50 pb-6 shadow-sm">
 
             <Link
                 href="/admin"
@@ -97,7 +97,7 @@ function AdminBottomNav() {
             </Link>
 
             <div className="relative -top-5">
-                <Link href="/admin/scan">
+                <Link id="tour-mobile-scan" href="/admin/scan">
                     <div className="h-14 w-14 bg-brand-500 rounded-full flex items-center justify-center shadow-lg shadow-brand-500/30 text-white hover:scale-105 transition-transform border-4 border-brand-50">
                         <ScanLine size={24} />
                     </div>

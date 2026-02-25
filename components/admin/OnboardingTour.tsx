@@ -15,9 +15,12 @@ const TOUR_KEYS: Record<string, string> = {
 }
 
 // =============================================
-// DASHBOARD TOUR
+// DASHBOARD TOUR — Responsive
+// Desktop: sidebar steps | Mobile/Tablet: bottom nav steps
 // =============================================
-const dashboardSteps: DriveStep[] = [
+
+// Steps that only exist on DESKTOP (sidebar visible ≥768px)
+const desktopNavSteps: DriveStep[] = [
     {
         element: '#tour-sidebar',
         popover: {
@@ -45,6 +48,32 @@ const dashboardSteps: DriveStep[] = [
             align: 'center' as const,
         },
     },
+]
+
+// Steps that only exist on MOBILE / TABLET (bottom nav visible <768px)
+const mobileNavSteps: DriveStep[] = [
+    {
+        element: '#tour-mobile-nav',
+        popover: {
+            title: '📋 Menu de Navegação',
+            description: 'Esta é a barra de navegação na parte inferior. Use para acessar Home, Pedidos, Cardápio e Gestão rapidamente.',
+            side: 'top' as const,
+            align: 'center' as const,
+        },
+    },
+    {
+        element: '#tour-mobile-scan',
+        popover: {
+            title: '📱 Scanner QR Code',
+            description: 'O botão central abre o leitor de QR Code. Use-o para escanear o ticket do colaborador e confirmar a retirada do prato.',
+            side: 'top' as const,
+            align: 'center' as const,
+        },
+    },
+]
+
+// Steps common to all screen sizes
+const dashboardCommonSteps: DriveStep[] = [
     {
         element: '#tour-header',
         popover: {
@@ -86,7 +115,7 @@ const dashboardSteps: DriveStep[] = [
         popover: {
             title: '🍽️ Feed em Tempo Real',
             description: 'Acompanhe todos os pedidos à medida que chegam. Cada card mostra o colaborador, prato escolhido, status e horário.',
-            side: 'left' as const,
+            side: 'top' as const,
             align: 'start' as const,
         },
     },
@@ -95,7 +124,7 @@ const dashboardSteps: DriveStep[] = [
         popover: {
             title: '⭐ Satisfação dos Colaboradores',
             description: 'Widget compacto que mostra o nível de satisfação do dia com base nos feedbacks dos colaboradores sobre as refeições.',
-            side: 'left' as const,
+            side: 'top' as const,
             align: 'center' as const,
         },
     },
@@ -104,7 +133,7 @@ const dashboardSteps: DriveStep[] = [
         popover: {
             title: '👨‍🍳 Resumo de Produção',
             description: 'Visão completa da cozinha: quantidade de cada prato a ser produzido, com barras de progresso proporcionais.',
-            side: 'left' as const,
+            side: 'top' as const,
             align: 'start' as const,
         },
     },
@@ -118,6 +147,13 @@ const dashboardSteps: DriveStep[] = [
         },
     },
 ]
+
+// Build dashboard steps dynamically based on screen size
+function getDashboardSteps(): DriveStep[] {
+    const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768
+    const navSteps = isDesktop ? desktopNavSteps : mobileNavSteps
+    return [...navSteps, ...dashboardCommonSteps]
+}
 
 // =============================================
 // MENU (CARDÁPIO) TOUR
@@ -359,13 +395,17 @@ const ceoSteps: DriveStep[] = [
     },
 ]
 
-// Map pages to their steps
-const PAGE_TOURS: Record<string, DriveStep[]> = {
-    '/admin': dashboardSteps,
+// Map pages to their steps (dashboard resolved dynamically)
+const STATIC_PAGE_TOURS: Record<string, DriveStep[]> = {
     '/admin/menu': menuSteps,
     '/admin/orders': ordersSteps,
     '/admin/reports': reportsSteps,
     '/ceo': ceoSteps,
+}
+
+function getStepsForPage(pathname: string): DriveStep[] | undefined {
+    if (pathname === '/admin') return getDashboardSteps()
+    return STATIC_PAGE_TOURS[pathname]
 }
 
 export function resetOnboardingTour() {
@@ -401,12 +441,13 @@ export function OnboardingTour() {
 
     useEffect(() => {
         const storageKey = TOUR_KEYS[pathname]
-        const steps = PAGE_TOURS[pathname]
-
-        if (!storageKey || !steps) return
+        if (!storageKey) return
 
         const hasCompletedTour = localStorage.getItem(storageKey)
         if (hasCompletedTour) return
+
+        const steps = getStepsForPage(pathname)
+        if (!steps) return
 
         // Wait for page data to load before starting
         const timer = setTimeout(() => {
@@ -418,3 +459,4 @@ export function OnboardingTour() {
 
     return null
 }
+
