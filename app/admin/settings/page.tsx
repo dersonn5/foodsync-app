@@ -16,7 +16,8 @@ import {
     Globe,
     CheckCircle2,
     ChefHat,
-    HelpCircle
+    HelpCircle,
+    LogOut
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -87,6 +88,12 @@ export default function SettingsPage() {
                 }
             })
         }, 800)
+    }
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut()
+        router.push('/admin/login')
+        router.refresh()
     }
 
     if (!user) return null
@@ -388,6 +395,26 @@ export default function SettingsPage() {
                                 </div>
                                 <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 bg-white/60">
                                     Solicitar Troca de Senha
+                                </Button>
+                            </CardContent>
+                        </Card>
+
+                        {/* Logout */}
+                        <Card className="border border-red-200/60 shadow-sm bg-red-50/30 backdrop-blur-xl rounded-2xl">
+                            <CardContent className="pt-6 pb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                                <div className="space-y-1 text-center md:text-left">
+                                    <h4 className="font-semibold text-red-700 flex items-center gap-2 justify-center md:justify-start">
+                                        <LogOut className="w-5 h-5" />
+                                        Sair do Sistema
+                                    </h4>
+                                    <p className="text-sm text-red-600/80">Encerrar sessão e voltar para a tela de login.</p>
+                                </div>
+                                <Button
+                                    onClick={handleLogout}
+                                    className="w-full md:w-auto bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-md font-bold"
+                                >
+                                    <LogOut className="w-4 h-4 mr-2" />
+                                    Sair do App
                                 </Button>
                             </CardContent>
                         </Card>
