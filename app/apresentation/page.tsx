@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence, Variants } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt } from 'lucide-react'
@@ -9,12 +9,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 // Animate items on scroll
-const fadeUpVariants = {
+const fadeUpVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 }
 
-const staggerContainer = {
+const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
@@ -125,18 +125,18 @@ export default function PresentationPage() {
                         {[
                             {
                                 icon: Clock,
-                                title: "-40% Tempo de Espera",
-                                desc: "Pedidos digitais direto da mesa para a cozinha. Operação incrivelmente mais rápida."
+                                title: "Agilidade na Linha",
+                                desc: "Gestão inteligente de fluxos e acesso digital aceleram a distribuição nos refeitórios industriais."
                             },
                             {
                                 icon: TrendingUp,
-                                title: "+25% Faturamento Médio",
-                                desc: "Upsell inteligente e facilidade de pagamento geram tickets médios significativamente maiores."
+                                title: "Controle de Desperdício",
+                                desc: "Acompanhamento preciso de consumo e sobras otimizam a rentabilidade em contratos fixos."
                             },
                             {
                                 icon: BarChart3,
-                                title: "Visão 360º em Tempo Real",
-                                desc: "Métricas exatas de vendas, custos e performance, acessíveis de qualquer lugar na palma da mão."
+                                title: "Visão 360º da Operação",
+                                desc: "Métricas de custo por refeição, acessos e feedback de qualidade consolidadas em tempo real."
                             }
                         ].map((metric, i) => (
                             <motion.div key={i} variants={fadeUpVariants} className="bg-white rounded-3xl p-8 food-shadow-card border border-brand-100/50 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-300">
