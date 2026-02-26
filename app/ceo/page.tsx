@@ -692,7 +692,6 @@ export default function CEODashboard() {
                                             </TableCell>
                                             <TableCell>
                                                 <div className="font-semibold text-brand-900">{unit.name}</div>
-                                                <div className="text-xs text-brand-500">ID: {unit.id.toUpperCase()}</div>
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <span className="font-bold text-brand-900 text-lg">{unit.total.toLocaleString('pt-BR')}</span>
