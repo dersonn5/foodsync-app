@@ -139,7 +139,7 @@ export default function PresentationPage() {
                         </motion.h1>
 
                         <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/90 font-medium leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-                            KitchenOS é a plataforma que digitaliza o fluxo de pedidos, elimina filas e entrega controle total ao gestor em tempo&nbsp;real.
+                            KitchenOS é a plataforma que digitaliza o fluxo de pedidos, elimina filas e entrega controle total ao gestor em tempo real.
                         </motion.p>
 
                         <motion.div variants={fadeUp} className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-5">
@@ -173,17 +173,17 @@ export default function PresentationPage() {
                             {
                                 icon: Clock,
                                 title: 'Agilidade na Operação',
-                                desc: 'Fluxos digitais aceleram o atendimento e eliminam etapas manuais nos&nbsp;refeitórios.'
+                                desc: 'Fluxos digitais aceleram o atendimento e eliminam etapas manuais nos refeitórios.'
                             },
                             {
                                 icon: TrendingUp,
                                 title: 'Controle de Desperdício',
-                                desc: 'Previsibilidade de consumo reduz a sobreprovisão e otimiza os insumos&nbsp;comprados.'
+                                desc: 'Previsibilidade de consumo reduz a sobreprovisão e otimiza os insumos comprados.'
                             },
                             {
                                 icon: BarChart3,
                                 title: 'Visão 360° em Tempo Real',
-                                desc: 'Métricas de custo, satisfação e volume consolidadas em dashboards&nbsp;executivos.'
+                                desc: 'Métricas de custo, satisfação e volume consolidadas em dashboards executivos.'
                             }
                         ].map((metric, i) => (
                             <motion.div key={i} variants={fadeUp} className="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300">
@@ -212,10 +212,10 @@ export default function PresentationPage() {
                         </div>
                         <h2 className="text-3xl md:text-5xl font-bold text-white mb-5 tracking-tight">
                             Adeus papel e caneta.<br />
-                            <span className="text-emerald-400">Olá fluxo&nbsp;digital.</span>
+                            <span className="text-emerald-400">Olá fluxo digital.</span>
                         </h2>
                         <p className="text-lg text-white/60 font-normal leading-relaxed">
-                            O processo manual gerava filas e desperdício. Acompanhe a&nbsp;transformação.
+                            O processo manual gerava filas e desperdício. Acompanhe a transformação.
                         </p>
                     </div>
 
@@ -241,7 +241,7 @@ export default function PresentationPage() {
                                         <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> Rotina Manual
                                     </h4>
                                     <p className="text-white/40 font-normal leading-relaxed text-sm">
-                                        O funcionário precisava ir até a cozinha para consultar o cardápio e <strong className="text-red-400/80">anotar à caneta no papel</strong> qual prato alternativo desejava para o dia&nbsp;seguinte.
+                                        O funcionário precisava ir até a cozinha para consultar o cardápio e <strong className="text-red-400/80">anotar à caneta no papel</strong> qual prato alternativo desejava para o dia seguinte.
                                     </p>
                                 </motion.div>
 
@@ -258,7 +258,7 @@ export default function PresentationPage() {
                                             Cardápio na Palma da Mão
                                         </h4>
                                         <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            O colaborador faz um breve cadastro e acessa o App. Ele visualiza o cardápio e seleciona suas alternativas <strong className="text-emerald-400">de qualquer&nbsp;lugar</strong>.
+                                            O colaborador faz um breve cadastro e acessa o App. Ele visualiza o cardápio e seleciona suas alternativas <strong className="text-emerald-400">de qualquer lugar</strong>.
                                         </p>
                                     </div>
                                 </motion.div>
@@ -280,7 +280,7 @@ export default function PresentationPage() {
                                         <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> Produção às Cegas
                                     </h4>
                                     <p className="text-white/40 font-normal leading-relaxed text-sm">
-                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-red-400/80">desperdício e impossibilitava o planejamento</strong> exato de compras e&nbsp;insumos.
+                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-red-400/80">desperdício e impossibilitava o planejamento</strong> exato de compras e insumos.
                                     </p>
                                 </motion.div>
 
@@ -297,7 +297,7 @@ export default function PresentationPage() {
                                             Integração Instantânea
                                         </h4>
                                         <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            A cozinha recebe os pedidos <strong className="text-emerald-400">instantaneamente no Dashboard</strong>. O sistema mapeia os totais para que a equipe saiba exatamente o quanto&nbsp;produzir.
+                                            A cozinha recebe os pedidos <strong className="text-emerald-400">instantaneamente no Dashboard</strong>. O sistema mapeia os totais para que a equipe saiba exatamente o quanto produzir.
                                         </p>
                                     </div>
                                 </motion.div>
@@ -319,7 +319,7 @@ export default function PresentationPage() {
                                         <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> O Gargalo da Roleta
                                     </h4>
                                     <p className="text-white/40 font-normal leading-relaxed text-sm">
-                                        Funcionárias perdiam tempo folheando papéis para encontrar nomes na hora de servir, <strong className="text-red-400/80">causando filas extremas</strong> no pico&nbsp;operacional.
+                                        Funcionárias perdiam tempo folheando papéis para encontrar nomes na hora de servir, <strong className="text-red-400/80">causando filas extremas</strong> no pico operacional.
                                     </p>
                                 </motion.div>
 
@@ -336,7 +336,7 @@ export default function PresentationPage() {
                                             Catraca Expressa
                                         </h4>
                                         <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            O funcionário exibe seu QR Code e a cozinha <strong className="text-emerald-400">escaneia e valida em milissegundos</strong>. Zero papéis. Zero&nbsp;atritos.
+                                            O funcionário exibe seu QR Code e a cozinha <strong className="text-emerald-400">escaneia e valida em milissegundos</strong>. Zero papéis. Zero atritos.
                                         </p>
                                     </div>
                                 </motion.div>
@@ -375,7 +375,7 @@ export default function PresentationPage() {
                                 Controle total na <span className="text-[#0F2A1D]">palma da mão.</span>
                             </h2>
                             <p className="text-base text-slate-500 font-normal leading-relaxed">
-                                Faturamento, produtos mais vendidos, margens e satisfação em uma interface desenhada para decisões&nbsp;rápidas.
+                                Faturamento, produtos mais vendidos, margens e satisfação em uma interface desenhada para decisões rápidas.
                             </p>
                             <ul className="space-y-3 pt-2">
                                 {['Métricas financeiras em tempo real', 'Gráficos interativos e exportação de relatórios', 'Ticket Médio e Satisfação (NPS)'].map((item, i) => (
@@ -576,7 +576,7 @@ export default function PresentationPage() {
                                 Gestão do dia a dia <span className="text-[#0F2A1D]">sem complicação.</span>
                             </h2>
                             <p className="text-base text-slate-500 font-normal leading-relaxed">
-                                Dashboard operacional com pedidos do dia, cardápio dinâmico, feed de atividades e controle total do&nbsp;fluxo.
+                                Dashboard operacional com pedidos do dia, cardápio dinâmico, feed de atividades e controle total do fluxo.
                             </p>
                         </motion.div>
 
@@ -780,7 +780,7 @@ export default function PresentationPage() {
                                 Cardápio dinâmico e <span className="text-[#0F2A1D]">experiência fluida.</span>
                             </h2>
                             <p className="text-base text-slate-500 font-normal leading-relaxed">
-                                Design premium otimizado para mobile. O colaborador acessa, seleciona e confirma em&nbsp;segundos.
+                                Design premium otimizado para mobile. O colaborador acessa, seleciona e confirma em segundos.
                             </p>
                         </motion.div>
 
@@ -906,7 +906,7 @@ export default function PresentationPage() {
                                 Validação por QR Code <span className="text-[#0F2A1D]">em milissegundos.</span>
                             </h2>
                             <p className="text-base text-slate-500 font-normal leading-relaxed">
-                                O tablet na cozinha escaneia o QR Code do funcionário e valida instantaneamente. Zero busca por nomes. Zero&nbsp;filas.
+                                O tablet na cozinha escaneia o QR Code do funcionário e valida instantaneamente. Zero busca por nomes. Zero filas.
                             </p>
                         </motion.div>
 
@@ -964,16 +964,16 @@ export default function PresentationPage() {
             <section id="tecnologia" className="py-24 bg-[#0F2A1D] relative">
                 <div className="container mx-auto px-6">
                     <div className="text-center max-w-3xl mx-auto mb-14">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Construído com tecnologia de&nbsp;ponta.</h2>
-                        <p className="text-base text-white/50 font-normal">Não é apenas um site. É um sistema real-time, suportado pelas mesmas tecnologias usadas por big&nbsp;techs.</p>
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Construído com tecnologia de ponta.</h2>
+                        <p className="text-base text-white/50 font-normal">Não é apenas um site. É um sistema real-time, suportado pelas mesmas tecnologias usadas por big techs.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                         {[
-                            { icon: Zap, title: 'Next.js & React', desc: 'Performance absurda e renderização&nbsp;instantânea.' },
-                            { icon: ShieldCheck, title: 'Supabase', desc: 'Banco de dados real-time e autenticação&nbsp;segura.' },
-                            { icon: Smartphone, title: 'Mobile-First', desc: 'Experiência perfeita em celulares e&nbsp;tablets.' },
-                            { icon: ChefHat, title: 'Integração IA', desc: 'Geração de imagens e insights via modelos&nbsp;avançados.' }
+                            { icon: Zap, title: 'Next.js & React', desc: 'Performance absurda e renderização instantânea.' },
+                            { icon: ShieldCheck, title: 'Supabase', desc: 'Banco de dados real-time e autenticação segura.' },
+                            { icon: Smartphone, title: 'Mobile-First', desc: 'Experiência perfeita em celulares e tablets.' },
+                            { icon: ChefHat, title: 'Integração IA', desc: 'Geração de imagens e insights via modelos avançados.' }
                         ].map((tech, i) => (
                             <motion.div
                                 key={i}
@@ -996,8 +996,8 @@ export default function PresentationPage() {
             {/* ═══════════ CTA FINAL ═══════════ */}
             <section className="py-24 bg-white text-center">
                 <div className="container mx-auto px-6 max-w-3xl space-y-6">
-                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">O próximo nível do seu&nbsp;negócio.</h2>
-                    <p className="text-lg text-slate-500 font-normal">Experimente o sistema e entenda como transformar a operação de ponta a&nbsp;ponta.</p>
+                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">O próximo nível do seu negócio.</h2>
+                    <p className="text-lg text-slate-500 font-normal">Experimente o sistema e entenda como transformar a operação de ponta a ponta.</p>
                     <div className="pt-6">
                         <Link href="/">
                             <Button className="h-auto py-5 px-12 text-[17px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
