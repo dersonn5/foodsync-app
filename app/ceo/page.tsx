@@ -255,34 +255,34 @@ export default function CEODashboard() {
         <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100 font-sans">
             <OnboardingTour />
 
-            {/* 1. Header & Navigation - Clean Kitchen Theme */}
-            <div id="tour-ceo-header" className="bg-white/80 backdrop-blur-xl border-b border-stone-200/50 sticky top-0 z-50 shadow-sm">
+            {/* 1. Header & Navigation — Professional Brand Style */}
+            <div id="tour-ceo-header" className="bg-white/80 backdrop-blur-xl border-b border-slate-200/50 sticky top-0 z-50 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         {/* Brand */}
                         <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/20">
+                            <div className="p-3 rounded-2xl shadow-lg shadow-brand-900/20" style={{ backgroundColor: '#0F2A1D' }}>
                                 <ChefHat className="w-7 h-7 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-xl font-bold text-stone-800 tracking-tight flex items-center gap-2">
+                                <h1 className="text-xl font-bold text-brand-900 tracking-tight flex items-center gap-2">
                                     Cockpit Executivo
                                     {/* Live Indicator */}
-                                    <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                                    <span className="flex items-center gap-1.5 text-xs font-medium text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-200">
                                         <span className="relative flex h-2 w-2">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
                                         </span>
                                         LIVE
                                     </span>
                                 </h1>
-                                <p className="text-sm text-stone-500">Visão Estratégica & Operacional</p>
+                                <p className="text-sm text-brand-600">Visão Estratégica & Operacional</p>
                             </div>
                         </div>
 
                         {/* Actions */}
                         <div className="flex items-center gap-3">
-                            <span className="text-xs text-stone-400 hidden md:flex items-center gap-1.5">
+                            <span className="text-xs text-brand-500 hidden md:flex items-center gap-1.5">
                                 <Clock className="w-3.5 h-3.5" />
                                 Atualizado às {format(new Date(), "HH:mm", { locale: ptBR })}
                             </span>
@@ -290,7 +290,7 @@ export default function CEODashboard() {
                                 variant="outline"
                                 size="sm"
                                 onClick={() => router.push('/admin')}
-                                className="border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-800 rounded-xl"
+                                className="border-brand-200 text-brand-700 hover:bg-brand-50 hover:text-brand-900 rounded-xl"
                             >
                                 <LogOut className="w-4 h-4 mr-2" />
                                 Voltar para Admin
@@ -298,23 +298,23 @@ export default function CEODashboard() {
                         </div>
                     </div>
 
-                    {/* Filter Bar - Glassmorphism */}
-                    <div id="tour-ceo-filters" className="mt-5 flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-100">
+                    {/* Filter Bar */}
+                    <div id="tour-ceo-filters" className="mt-5 flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200/50">
                         <div className="flex items-center gap-3 w-full md:w-auto">
 
-                            {/* Unit Selector - Clean */}
+                            {/* Unit Selector */}
                             <div className="relative">
-                                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 z-10" />
+                                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500 z-10" />
                                 <Select value={selectedUnit} onValueChange={setSelectedUnit}>
-                                    <SelectTrigger className="w-full md:w-[200px] pl-10 bg-white border-stone-200 text-stone-700 rounded-xl hover:border-stone-300 transition-all shadow-sm">
+                                    <SelectTrigger className="w-full md:w-[200px] pl-10 bg-white border-slate-200 text-brand-800 rounded-xl hover:border-brand-300 transition-all shadow-sm">
                                         <SelectValue placeholder="Selecione a Unidade" />
                                     </SelectTrigger>
-                                    <SelectContent className="bg-white border-stone-200 rounded-xl shadow-lg">
+                                    <SelectContent className="bg-white border-slate-200 rounded-xl shadow-lg">
                                         {UNITS.map(u => (
                                             <SelectItem
                                                 key={u.id}
                                                 value={u.id}
-                                                className="text-stone-700 focus:bg-emerald-50 focus:text-emerald-700"
+                                                className="text-brand-800 focus:bg-brand-50 focus:text-brand-900"
                                             >
                                                 {u.name}
                                             </SelectItem>
@@ -323,18 +323,18 @@ export default function CEODashboard() {
                                 </Select>
                             </div>
 
-                            {/* Period Selector - Clean */}
+                            {/* Period Selector */}
                             <div className="relative">
-                                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 z-10" />
+                                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500 z-10" />
                                 <Select value={period} onValueChange={setPeriod}>
-                                    <SelectTrigger className="w-full md:w-[180px] pl-10 bg-white border-stone-200 text-stone-700 rounded-xl hover:border-stone-300 transition-all shadow-sm">
+                                    <SelectTrigger className="w-full md:w-[180px] pl-10 bg-white border-slate-200 text-brand-800 rounded-xl hover:border-brand-300 transition-all shadow-sm">
                                         <SelectValue placeholder="Período" />
                                     </SelectTrigger>
-                                    <SelectContent className="bg-white border-stone-200 rounded-xl shadow-lg">
-                                        <SelectItem value="today" className="text-stone-700 focus:bg-emerald-50 focus:text-emerald-700">Hoje</SelectItem>
-                                        <SelectItem value="this_week" className="text-stone-700 focus:bg-emerald-50 focus:text-emerald-700">Esta Semana</SelectItem>
-                                        <SelectItem value="this_month" className="text-stone-700 focus:bg-emerald-50 focus:text-emerald-700">Este Mês</SelectItem>
-                                        <SelectItem value="last_30" className="text-stone-700 focus:bg-emerald-50 focus:text-emerald-700">Últimos 30 dias</SelectItem>
+                                    <SelectContent className="bg-white border-slate-200 rounded-xl shadow-lg">
+                                        <SelectItem value="today" className="text-brand-800 focus:bg-brand-50 focus:text-brand-900">Hoje</SelectItem>
+                                        <SelectItem value="this_week" className="text-brand-800 focus:bg-brand-50 focus:text-brand-900">Esta Semana</SelectItem>
+                                        <SelectItem value="this_month" className="text-brand-800 focus:bg-brand-50 focus:text-brand-900">Este Mês</SelectItem>
+                                        <SelectItem value="last_30" className="text-brand-800 focus:bg-brand-50 focus:text-brand-900">Últimos 30 dias</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -344,7 +344,7 @@ export default function CEODashboard() {
                         <Button
                             id="tour-ceo-export"
                             variant="ghost"
-                            className="text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 w-full md:w-auto rounded-xl"
+                            className="text-brand-700 hover:bg-brand-50 hover:text-brand-900 w-full md:w-auto rounded-xl"
                         >
                             <Download className="w-4 h-4 mr-2" />
                             Exportar Relatório PDF
@@ -357,25 +357,25 @@ export default function CEODashboard() {
             <main className="max-w-7xl mx-auto px-6 py-8 pb-32">
                 {loading || !metrics ? (
                     <div className="flex items-center justify-center min-h-[400px]">
-                        <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
+                        <Loader2 className="w-10 h-10 text-brand-600 animate-spin" />
                     </div>
                 ) : (
                     <div className="space-y-8">
 
-                        {/* 2.1 Strategic KPIs - Clean Kitchen Theme */}
+                        {/* 2.1 Strategic KPIs — Unified Brand Palette */}
                         <div id="tour-ceo-kpis" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 
                             {/* Financial CMV */}
-                            <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl group hover:shadow-xl hover:border-emerald-200 transition-all">
+                            <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all rounded-2xl group">
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
-                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">CMV Projetado</CardDescription>
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/20">
+                                        <CardDescription className="text-brand-600 text-xs font-medium uppercase tracking-wider">CMV Projetado</CardDescription>
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-md shadow-brand-900/20">
                                             <DollarSign className="w-4 h-4 text-white" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-3xl font-bold text-stone-800 flex items-baseline gap-1">
-                                        <span className="text-sm font-normal text-stone-400">R$</span>
+                                    <CardTitle className="text-3xl font-bold text-brand-900 flex items-baseline gap-1">
+                                        <span className="text-sm font-normal text-brand-500">R$</span>
                                         {metrics.financial.cmv.toFixed(2)}
                                     </CardTitle>
                                 </CardHeader>
@@ -383,18 +383,18 @@ export default function CEODashboard() {
                                     <div className="flex items-center gap-2 text-sm mb-3">
                                         <span className={`font-semibold px-2 py-0.5 rounded-md text-xs ${metrics.financial.cmv > metrics.financial.target
                                             ? "text-red-600 bg-red-50 border border-red-100"
-                                            : "text-emerald-600 bg-emerald-50 border border-emerald-100"
+                                            : "text-brand-700 bg-brand-50 border border-brand-200"
                                             }`}>
                                             {metrics.financial.cmv > metrics.financial.target ? "+" : "-"}
                                             {Math.abs(metrics.financial.cmv - metrics.financial.target).toFixed(2)}
                                         </span>
-                                        <span className="text-stone-400 text-xs">vs Meta R$ {metrics.financial.target.toFixed(2)}</span>
+                                        <span className="text-brand-500 text-xs">vs Meta R$ {metrics.financial.target.toFixed(2)}</span>
                                     </div>
-                                    <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                                         <div
                                             className={`h-full rounded-full transition-all ${metrics.financial.cmv > metrics.financial.target
                                                 ? 'bg-gradient-to-r from-red-500 to-red-400'
-                                                : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+                                                : 'bg-gradient-to-r from-brand-700 to-brand-500'
                                                 }`}
                                             style={{ width: `${(metrics.financial.cmv / (metrics.financial.target * 1.2)) * 100}%` }}
                                         />
@@ -403,15 +403,15 @@ export default function CEODashboard() {
                             </Card>
 
                             {/* Efficiency */}
-                            <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl group hover:shadow-xl hover:border-amber-200 transition-all">
+                            <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all rounded-2xl group">
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
-                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">Taxa de Rejeição</CardDescription>
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md shadow-amber-500/20">
-                                            <TrendingDown className="w-4 h-4 text-white" />
+                                        <CardDescription className="text-brand-600 text-xs font-medium uppercase tracking-wider">Taxa de Rejeição</CardDescription>
+                                        <div className="p-2 rounded-xl bg-red-50/80">
+                                            <TrendingDown className="w-4 h-4 text-red-500" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-3xl font-bold text-stone-800">
+                                    <CardTitle className="text-3xl font-bold text-brand-900">
                                         {metrics.efficiency.wasteRate.toFixed(1)}%
                                     </CardTitle>
                                 </CardHeader>
@@ -420,11 +420,11 @@ export default function CEODashboard() {
                                         <Badge variant="secondary" className="bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 text-xs">
                                             {metrics.efficiency.wasteCount} cancelados
                                         </Badge>
-                                        <span className="text-stone-400 text-xs">no período</span>
+                                        <span className="text-brand-500 text-xs">no período</span>
                                     </div>
-                                    <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500"
+                                            className="h-full rounded-full bg-gradient-to-r from-red-400 to-red-300"
                                             style={{ width: `${Math.min(metrics.efficiency.wasteRate * 3, 100)}%` }}
                                         />
                                     </div>
@@ -432,51 +432,51 @@ export default function CEODashboard() {
                             </Card>
 
                             {/* Volume */}
-                            <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl group hover:shadow-xl hover:border-cyan-200 transition-all">
+                            <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all rounded-2xl group">
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
-                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">Refeições Servidas</CardDescription>
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-md shadow-cyan-500/20">
-                                            <Utensils className="w-4 h-4 text-white" />
+                                        <CardDescription className="text-brand-600 text-xs font-medium uppercase tracking-wider">Refeições Servidas</CardDescription>
+                                        <div className="p-2 rounded-xl bg-brand-100/50">
+                                            <Utensils className="w-4 h-4 text-brand-700" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-3xl font-bold text-stone-800">
+                                    <CardTitle className="text-3xl font-bold text-brand-900">
                                         {metrics.volume.total.toLocaleString('pt-BR')}
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex items-center gap-2 text-sm mb-3">
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                                        <span className="text-stone-400 text-xs">Confirmadas e preparadas</span>
+                                        <CheckCircle2 className="w-4 h-4 text-brand-600" />
+                                        <span className="text-brand-500 text-xs">Confirmadas e preparadas</span>
                                     </div>
-                                    <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
-                                        <div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 w-full" />
+                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                        <div className="h-full rounded-full bg-gradient-to-r from-brand-700 to-brand-500 w-full" />
                                     </div>
                                 </CardContent>
                             </Card>
 
                             {/* Satisfaction NPS */}
-                            <Card className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl group hover:shadow-xl hover:border-yellow-200 transition-all">
+                            <Card className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl hover:shadow-md hover:bg-white/70 transition-all rounded-2xl group">
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
-                                        <CardDescription className="text-stone-500 text-xs font-medium uppercase tracking-wider">Índice NPS</CardDescription>
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500 to-amber-600 shadow-md shadow-yellow-500/20">
-                                            <Award className="w-4 h-4 text-white" />
+                                        <CardDescription className="text-brand-600 text-xs font-medium uppercase tracking-wider">Índice NPS</CardDescription>
+                                        <div className="p-2 rounded-xl bg-brand-50">
+                                            <Award className="w-4 h-4 text-brand-700" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-3xl font-bold text-stone-800">
+                                    <CardTitle className="text-3xl font-bold text-brand-900">
                                         {metrics.satisfaction.nps}
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex items-center gap-2 text-sm mb-3">
-                                        <Badge variant="secondary" className="bg-yellow-50 text-yellow-700 border border-yellow-200 text-xs">
-                                            {metrics.satisfaction.nps >= 70 ? '✨ Excelente' : metrics.satisfaction.nps >= 50 ? '👍 Bom' : '⚠️ Atenção'}
+                                        <Badge variant="secondary" className="bg-brand-50 text-brand-800 border border-brand-200 text-xs">
+                                            {metrics.satisfaction.nps >= 70 ? '✦ Excelente' : metrics.satisfaction.nps >= 50 ? '● Bom' : '▲ Atenção'}
                                         </Badge>
                                     </div>
-                                    <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-gradient-to-r from-yellow-500 to-amber-500"
+                                            className="h-full rounded-full bg-gradient-to-r from-brand-700 to-brand-500"
                                             style={{ width: `${metrics.satisfaction.nps}%` }}
                                         />
                                     </div>
@@ -484,35 +484,35 @@ export default function CEODashboard() {
                             </Card>
                         </div>
 
-                        {/* 2.2 Charts Section - Clean Kitchen Theme */}
+                        {/* 2.2 Charts Section — Unified Brand */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                             {/* Quality vs Cost Chart */}
-                            <Card id="tour-ceo-trend-chart" className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl">
+                            <Card id="tour-ceo-trend-chart" className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl">
                                 <CardHeader>
-                                    <CardTitle className="text-lg flex items-center gap-3 text-stone-800">
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/20">
+                                    <CardTitle className="text-lg flex items-center gap-3 text-brand-900">
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-md shadow-brand-900/20">
                                             <TrendingUp className="w-4 h-4 text-white" />
                                         </div>
                                         Evolução: Custo vs Qualidade
                                     </CardTitle>
-                                    <CardDescription className="text-stone-500">Relação entre investimento por prato e satisfação (30 dias)</CardDescription>
+                                    <CardDescription className="text-brand-600">Relação entre investimento por prato e satisfação (30 dias)</CardDescription>
                                 </CardHeader>
                                 <CardContent className="h-[350px]">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <ComposedChart data={metrics.charts.trendData}>
-                                            <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
+                                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                                             <XAxis
                                                 dataKey="dateDisplay"
-                                                tick={{ fontSize: 11, fill: '#78716c' }}
+                                                tick={{ fontSize: 11, fill: '#517252' }}
                                                 tickLine={false}
                                                 axisLine={false}
                                             />
                                             <YAxis
                                                 yAxisId="left"
                                                 domain={[10, 15]}
-                                                tick={{ fontSize: 11, fill: '#78716c' }}
-                                                label={{ value: 'Custo (R$)', angle: -90, position: 'insideLeft', style: { fill: '#78716c', fontSize: 11 } }}
+                                                tick={{ fontSize: 11, fill: '#517252' }}
+                                                label={{ value: 'Custo (R$)', angle: -90, position: 'insideLeft', style: { fill: '#517252', fontSize: 11 } }}
                                                 tickLine={false}
                                                 axisLine={false}
                                             />
@@ -520,20 +520,20 @@ export default function CEODashboard() {
                                                 yAxisId="right"
                                                 orientation="right"
                                                 domain={[0, 5]}
-                                                tick={{ fontSize: 11, fill: '#78716c' }}
-                                                label={{ value: 'Nota (0-5)', angle: 90, position: 'insideRight', style: { fill: '#78716c', fontSize: 11 } }}
+                                                tick={{ fontSize: 11, fill: '#517252' }}
+                                                label={{ value: 'Nota (0-5)', angle: 90, position: 'insideRight', style: { fill: '#517252', fontSize: 11 } }}
                                                 tickLine={false}
                                                 axisLine={false}
                                             />
                                             <Tooltip
                                                 contentStyle={{
                                                     borderRadius: '12px',
-                                                    border: '1px solid #e7e5e4',
-                                                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+                                                    border: '1px solid #e2e8f0',
+                                                    boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
                                                     backgroundColor: '#fff',
-                                                    color: '#1c1917'
+                                                    color: '#0F2A1D'
                                                 }}
-                                                labelStyle={{ color: '#78716c' }}
+                                                labelStyle={{ color: '#517252' }}
                                             />
                                             <Legend />
                                             <Area
@@ -541,19 +541,19 @@ export default function CEODashboard() {
                                                 type="monotone"
                                                 dataKey="cost"
                                                 name="Custo Médio (R$)"
-                                                fill="url(#costGradient)"
+                                                fill="url(#costGradientBrand)"
                                                 fillOpacity={0.3}
-                                                stroke="#f59e0b"
+                                                stroke="#8CA990"
                                                 strokeWidth={2}
                                             />
                                             <defs>
-                                                <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.3} />
-                                                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
+                                                <linearGradient id="costGradientBrand" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor="#8CA990" stopOpacity={0.3} />
+                                                    <stop offset="100%" stopColor="#8CA990" stopOpacity={0} />
                                                 </linearGradient>
-                                                <linearGradient id="qualityGradient" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.3} />
-                                                    <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
+                                                <linearGradient id="qualityGradientBrand" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stopColor="#375534" stopOpacity={0.3} />
+                                                    <stop offset="100%" stopColor="#375534" stopOpacity={0} />
                                                 </linearGradient>
                                             </defs>
                                             <Line
@@ -561,10 +561,10 @@ export default function CEODashboard() {
                                                 type="monotone"
                                                 dataKey="quality"
                                                 name="Qualidade (0-5)"
-                                                stroke="#10b981"
+                                                stroke="#375534"
                                                 strokeWidth={3}
-                                                dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }}
-                                                activeDot={{ r: 6, fill: '#10b981' }}
+                                                dot={{ r: 4, fill: '#375534', strokeWidth: 2, stroke: '#fff' }}
+                                                activeDot={{ r: 6, fill: '#375534' }}
                                             />
                                         </ComposedChart>
                                     </ResponsiveContainer>
@@ -572,69 +572,69 @@ export default function CEODashboard() {
                             </Card>
 
                             {/* Heroes vs Villains */}
-                            <Card id="tour-ceo-heroes" className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 rounded-2xl flex flex-col">
+                            <Card id="tour-ceo-heroes" className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl rounded-2xl flex flex-col">
                                 <CardHeader>
-                                    <CardTitle className="text-lg flex items-center gap-3 text-stone-800">
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-md shadow-cyan-500/20">
+                                    <CardTitle className="text-lg flex items-center gap-3 text-brand-900">
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-md shadow-brand-900/20">
                                             <Utensils className="w-4 h-4 text-white" />
                                         </div>
                                         Heróis e Vilões do Cardápio
                                     </CardTitle>
-                                    <CardDescription className="text-stone-500">Top pratos mais pedidos vs mais rejeitados</CardDescription>
+                                    <CardDescription className="text-brand-600">Top pratos mais pedidos vs mais rejeitados</CardDescription>
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col gap-6">
 
                                     {/* Heroes */}
                                     <div>
-                                        <h4 className="text-sm font-semibold text-emerald-600 mb-4 flex items-center gap-2">
+                                        <h4 className="text-sm font-semibold text-brand-700 mb-4 flex items-center gap-2">
                                             <TrendingUp className="w-4 h-4" /> Campeões de Vendas
                                         </h4>
                                         <div className="space-y-4">
                                             {metrics.charts.topHeroes.map((item: any, idx: number) => (
                                                 <div key={idx} className="relative group">
                                                     <div className="flex justify-between text-sm mb-2 z-10 relative">
-                                                        <span className="font-medium text-stone-700 flex items-center gap-2">
+                                                        <span className="font-medium text-brand-800 flex items-center gap-2">
                                                             <span className="text-lg">{idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'}</span>
                                                             {item.name}
                                                         </span>
-                                                        <span className="font-bold text-emerald-600">{item.confirmed} pedidos</span>
+                                                        <span className="font-bold text-brand-700">{item.confirmed} pedidos</span>
                                                     </div>
-                                                    <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
+                                                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                                                         <div
-                                                            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all"
+                                                            className="h-full bg-gradient-to-r from-brand-700 to-brand-500 rounded-full transition-all"
                                                             style={{ width: `${(item.confirmed / (metrics.charts.topHeroes[0]?.confirmed || 1)) * 100}%` }}
                                                         />
                                                     </div>
                                                 </div>
                                             ))}
-                                            {metrics.charts.topHeroes.length === 0 && <p className="text-sm text-stone-400">Sem dados suficientes.</p>}
+                                            {metrics.charts.topHeroes.length === 0 && <p className="text-sm text-brand-500">Sem dados suficientes.</p>}
                                         </div>
                                     </div>
 
                                     {/* Villains */}
                                     <div>
-                                        <h4 className="text-sm font-semibold text-red-600 mb-4 flex items-center gap-2">
+                                        <h4 className="text-sm font-semibold text-red-500 mb-4 flex items-center gap-2">
                                             <TrendingDown className="w-4 h-4" /> Top Rejeição
                                         </h4>
                                         <div className="space-y-4">
                                             {metrics.charts.topVillains.map((item: any, idx: number) => (
                                                 <div key={idx} className="relative group">
                                                     <div className="flex justify-between text-sm mb-2 z-10 relative">
-                                                        <span className="font-medium text-stone-700 flex items-center gap-2">
+                                                        <span className="font-medium text-brand-800 flex items-center gap-2">
                                                             <span className="text-lg">{idx === 0 ? '⚠️' : idx === 1 ? '🔻' : '📉'}</span>
                                                             {item.name}
                                                         </span>
-                                                        <span className="font-bold text-red-600">{item.cancelled} canc.</span>
+                                                        <span className="font-bold text-red-500">{item.cancelled} canc.</span>
                                                     </div>
-                                                    <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
+                                                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                                                         <div
-                                                            className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all"
+                                                            className="h-full bg-gradient-to-r from-red-400 to-red-300 rounded-full transition-all"
                                                             style={{ width: `${(item.cancelled / (metrics.charts.topVillains[0]?.cancelled || 1)) * 100}%` }}
                                                         />
                                                     </div>
                                                 </div>
                                             ))}
-                                            {metrics.charts.topVillains.length === 0 && <p className="text-sm text-stone-400">Sem dados (Nenhum cancelamento).</p>}
+                                            {metrics.charts.topVillains.length === 0 && <p className="text-sm text-brand-500">Sem dados (Nenhum cancelamento).</p>}
                                         </div>
                                     </div>
 
@@ -642,24 +642,24 @@ export default function CEODashboard() {
                             </Card>
                         </div>
 
-                        {/* 2.3 Unit Leaderboard - Clean Kitchen Theme */}
-                        <Card id="tour-ceo-leaderboard" className="bg-white/70 backdrop-blur-xl border-stone-200/50 shadow-lg shadow-black/5 overflow-hidden rounded-2xl">
-                            <CardHeader className="bg-stone-50/50 border-b border-stone-100">
+                        {/* 2.3 Unit Leaderboard — Professional Brand */}
+                        <Card id="tour-ceo-leaderboard" className="border border-slate-200/60 shadow-sm bg-white/60 backdrop-blur-xl overflow-hidden rounded-2xl">
+                            <CardHeader className="bg-white/40 border-b border-slate-200/50">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-md shadow-violet-500/20">
+                                        <div className="p-2 rounded-xl bg-gradient-to-br from-brand-800 to-brand-700 shadow-md shadow-brand-900/20">
                                             <BarChart3 className="w-4 h-4 text-white" />
                                         </div>
                                         <div>
-                                            <CardTitle className="text-lg text-stone-800">Ranking de Performance</CardTitle>
-                                            <CardDescription className="text-stone-500">Comparativo de eficiência entre unidades</CardDescription>
+                                            <CardTitle className="text-lg text-brand-900">Ranking de Performance</CardTitle>
+                                            <CardDescription className="text-brand-600">Comparativo de eficiência entre unidades</CardDescription>
                                         </div>
                                     </div>
                                     <Button
                                         variant="outline"
                                         size="sm"
                                         disabled
-                                        className="border-stone-200 text-stone-400 rounded-xl"
+                                        className="border-slate-200 text-brand-500 rounded-xl"
                                     >
                                         <Filter className="w-4 h-4 mr-2" />
                                         Mais Filtros
@@ -668,63 +668,63 @@ export default function CEODashboard() {
                             </CardHeader>
                             <Table>
                                 <TableHeader>
-                                    <TableRow className="border-stone-100 hover:bg-transparent">
-                                        <TableHead className="w-[100px] text-stone-500">Posição</TableHead>
-                                        <TableHead className="text-stone-500">Unidade</TableHead>
-                                        <TableHead className="text-right text-stone-500">Total Pedidos</TableHead>
-                                        <TableHead className="text-right text-stone-500">Rejeição</TableHead>
-                                        <TableHead className="text-right text-stone-500">Custo Est.</TableHead>
-                                        <TableHead className="text-right text-stone-500">Status</TableHead>
+                                    <TableRow className="border-slate-200/50 hover:bg-transparent">
+                                        <TableHead className="w-[100px] text-brand-600">Posição</TableHead>
+                                        <TableHead className="text-brand-600">Unidade</TableHead>
+                                        <TableHead className="text-right text-brand-600">Total Pedidos</TableHead>
+                                        <TableHead className="text-right text-brand-600">Rejeição</TableHead>
+                                        <TableHead className="text-right text-brand-600">Custo Est.</TableHead>
+                                        <TableHead className="text-right text-brand-600">Status</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {metrics.rankings.map((unit: any, idx: number) => (
-                                        <TableRow key={unit.id} className="border-stone-100 hover:bg-stone-50/50 transition-colors">
+                                        <TableRow key={unit.id} className="border-slate-200/50 hover:bg-brand-50/30 transition-colors">
                                             <TableCell className="font-medium">
                                                 <div className={`flex items-center justify-center w-10 h-10 rounded-xl font-bold text-lg ${idx === 0
-                                                    ? 'bg-gradient-to-br from-yellow-500 to-amber-600 text-white shadow-md shadow-yellow-500/20'
+                                                    ? 'bg-gradient-to-br from-brand-800 to-brand-700 text-white shadow-md shadow-brand-900/20'
                                                     : idx === 1
-                                                        ? 'bg-gradient-to-br from-stone-400 to-stone-500 text-white shadow-md shadow-stone-500/20'
-                                                        : 'bg-stone-100 text-stone-500'
+                                                        ? 'bg-gradient-to-br from-brand-400 to-brand-500 text-white shadow-md shadow-brand-500/20'
+                                                        : 'bg-slate-100 text-brand-600'
                                                     }`}>
                                                     {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx + 1}
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="font-semibold text-stone-800">{unit.name}</div>
-                                                <div className="text-xs text-stone-400">ID: {unit.id.toUpperCase()}</div>
+                                                <div className="font-semibold text-brand-900">{unit.name}</div>
+                                                <div className="text-xs text-brand-500">ID: {unit.id.toUpperCase()}</div>
                                             </TableCell>
                                             <TableCell className="text-right">
-                                                <span className="font-bold text-stone-800 text-lg">{unit.total.toLocaleString('pt-BR')}</span>
+                                                <span className="font-bold text-brand-900 text-lg">{unit.total.toLocaleString('pt-BR')}</span>
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex flex-col items-end gap-1">
-                                                    <span className="font-bold text-red-600">{unit.rejected}</span>
+                                                    <span className="font-bold text-red-500">{unit.rejected}</span>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-16 h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                                                        <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                                                             <div
-                                                                className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full"
+                                                                className="h-full bg-gradient-to-r from-red-400 to-red-300 rounded-full"
                                                                 style={{ width: `${Math.min((unit.rejected / (unit.total || 1)) * 100 * 5, 100)}%` }}
                                                             />
                                                         </div>
-                                                        <span className="text-xs text-stone-400">
+                                                        <span className="text-xs text-brand-500">
                                                             {((unit.rejected / (unit.total || 1)) * 100).toFixed(1)}%
                                                         </span>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-right">
-                                                <span className="font-semibold text-stone-800">R$ {unit.cost.toFixed(2)}</span>
+                                                <span className="font-semibold text-brand-900">R$ {unit.cost.toFixed(2)}</span>
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <Badge
                                                     variant="outline"
                                                     className={unit.cost > MOCK_TARGET_CMV
-                                                        ? "bg-red-50 text-red-600 border-red-200 rounded-lg"
-                                                        : "bg-emerald-50 text-emerald-600 border-emerald-200 rounded-lg"
+                                                        ? "bg-red-50 text-red-500 border-red-200 rounded-lg"
+                                                        : "bg-brand-50 text-brand-700 border-brand-200 rounded-lg"
                                                     }
                                                 >
-                                                    {unit.cost > MOCK_TARGET_CMV ? "⚠️ Atenção" : "✓ Regular"}
+                                                    {unit.cost > MOCK_TARGET_CMV ? "⚠ Atenção" : "✓ Regular"}
                                                 </Badge>
                                             </TableCell>
                                         </TableRow>
