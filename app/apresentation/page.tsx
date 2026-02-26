@@ -503,7 +503,7 @@ export default function PresentationPage() {
 
                                 {/* Native UI Mockup: Employee App Screenshot */}
                                 <div className="absolute inset-0 z-10 w-full h-full pt-6">
-                                    <Image src="/mobile-app-screenshot.png" alt="Visão do Aplicativo (Funcionário)" fill className="object-cover rounded-[2rem]" quality={100} priority />
+                                    <Image src="/mobile-app-employee-real.png" alt="Visão do Aplicativo (Funcionário)" fill className="object-cover rounded-[2rem]" quality={100} priority />
                                 </div>
                             </div>
                         </motion.div>
