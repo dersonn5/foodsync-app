@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence, Variants } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown, LogOut, Award, Plus, Menu, X, QrCode, Scan, Users } from 'lucide-react'
+import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown, LogOut, Award, Plus, Menu, X, QrCode, Scan, Users, User, Bell, Star } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import InteractiveDemo from '@/components/presentation/InteractiveDemo'
@@ -397,73 +397,162 @@ export default function PresentationPage() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="lg:w-[55%] w-full"
                         >
-                            {/* CEO Dashboard Mockup */}
-                            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-[#0F2A1D]/10 border border-slate-200 bg-white aspect-[16/10]">
-                                {/* Browser bar */}
-                                <div className="h-10 bg-slate-50 border-b border-slate-100 flex items-center justify-between px-4">
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex gap-1.5">
-                                            <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-                                            <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-                                            <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                            {/* CEO Dashboard Mockup - Cockpit Executivo */}
+                            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-[#0F2A1D]/10 border border-slate-200 bg-[#FAFAF8]">
+                                {/* Header: Cockpit Executivo */}
+                                <div className="h-12 bg-white border-b border-slate-100 flex items-center justify-between px-4">
+                                    <div className="flex items-center gap-2.5">
+                                        <div className="w-8 h-8 rounded-xl bg-[#0F2A1D] flex items-center justify-center shadow-sm">
+                                            <ChefHat className="w-4 h-4 text-white" />
                                         </div>
-                                        <div className="ml-3 flex items-center gap-1.5">
-                                            <div className="w-5 h-5 rounded bg-[#0F2A1D] flex items-center justify-center">
-                                                <ChefHat className="w-2.5 h-2.5 text-white" />
+                                        <div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[11px] font-bold text-slate-900">Cockpit Executivo</span>
+                                                <span className="flex items-center gap-1 text-[8px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-100">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                    LIVE
+                                                </span>
                                             </div>
-                                            <span className="text-[10px] font-bold text-slate-700">Cockpit Executivo</span>
-                                            <span className="flex items-center gap-1 text-[9px] font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                LIVE
-                                            </span>
+                                            <span className="text-[8px] text-slate-400 font-medium">Visão Estratégica & Operacional</span>
                                         </div>
+                                    </div>
+                                    <div className="hidden sm:flex items-center gap-2 text-[8px] text-slate-500 font-medium">
+                                        <span>Atualizado às 19:30</span>
+                                        <span className="text-[8px] text-slate-400 px-2 py-1 rounded border border-slate-200 bg-white font-semibold">↗ Voltar para Admin</span>
                                     </div>
                                 </div>
 
+                                {/* Filters bar */}
+                                <div className="px-4 py-2.5 flex items-center justify-between border-b border-slate-50 bg-white">
+                                    <div className="flex gap-2">
+                                        <div className="text-[8px] font-semibold text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1">📊 Visão Global ▾</div>
+                                        <div className="text-[8px] font-semibold text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1">📅 Este Mês ▾</div>
+                                    </div>
+                                    <div className="text-[8px] font-semibold text-slate-500 flex items-center gap-1">↓ Exportar Relatório PDF</div>
+                                </div>
+
                                 {/* Dashboard Body */}
-                                <div className="p-5 flex flex-col gap-4">
-                                    {/* KPI Row */}
-                                    <div className="flex gap-3">
-                                        {[
-                                            { label: 'CMV Projetado', value: 'R$ 11.85', sub: '-R$ 1.15 vs Meta', icon: DollarSign, accent: 'text-emerald-600' },
-                                            { label: 'Refeições Serv.', value: '1,452', sub: 'Confirmadas', icon: Utensils, accent: 'text-emerald-600' },
-                                            { label: 'Taxa Rejeição', value: '0.8%', sub: 'Queda drástica', icon: TrendingDown, accent: 'text-red-500' },
-                                        ].map((kpi, i) => (
-                                            <div key={i} className="flex-1 bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col justify-between min-h-[80px]">
-                                                <div className="flex justify-between items-start">
-                                                    <div className="text-[8px] font-bold text-slate-500 uppercase tracking-wider">{kpi.label}</div>
-                                                    <div className="w-5 h-5 rounded bg-[#0F2A1D] flex items-center justify-center">
-                                                        <kpi.icon className="w-2.5 h-2.5 text-white" />
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-lg font-bold text-slate-900 leading-none">{kpi.value}</div>
-                                                    <div className={`text-[9px] mt-1 font-semibold ${kpi.accent}`}>{kpi.sub}</div>
+                                <div className="p-4 flex flex-col gap-3">
+                                    {/* 4 KPI Cards */}
+                                    <div className="grid grid-cols-4 gap-2.5">
+                                        {/* CMV */}
+                                        <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">CMV Projetado</span>
+                                                <div className="w-5 h-5 rounded-lg bg-[#0F2A1D] flex items-center justify-center">
+                                                    <DollarSign className="w-2.5 h-2.5 text-white" />
                                                 </div>
                                             </div>
-                                        ))}
+                                            <div className="flex items-baseline gap-1">
+                                                <span className="text-[9px] text-slate-400">R$</span>
+                                                <span className="text-xl font-bold text-slate-900 leading-none">12.76</span>
+                                            </div>
+                                            <div className="mt-1.5 flex items-center gap-1">
+                                                <span className="text-[7px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold">-0.24</span>
+                                                <span className="text-[7px] text-slate-400">vs Meta R$ 13.00</span>
+                                            </div>
+                                        </div>
+                                        {/* Rejeição */}
+                                        <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Taxa de Rejeição</span>
+                                                <div className="w-5 h-5 rounded-lg bg-red-50 flex items-center justify-center">
+                                                    <TrendingDown className="w-2.5 h-2.5 text-red-500" />
+                                                </div>
+                                            </div>
+                                            <div className="text-xl font-bold text-slate-900 leading-none">14.3%</div>
+                                            <div className="mt-1.5">
+                                                <span className="text-[7px] bg-red-50 text-red-600 px-1.5 py-0.5 rounded font-bold">3 cancelados</span>
+                                                <span className="text-[7px] text-slate-400 ml-1">no período</span>
+                                            </div>
+                                        </div>
+                                        {/* Refeições */}
+                                        <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Refeições Servidas</span>
+                                                <div className="w-5 h-5 rounded-lg bg-emerald-50 flex items-center justify-center">
+                                                    <Utensils className="w-2.5 h-2.5 text-emerald-600" />
+                                                </div>
+                                            </div>
+                                            <div className="text-xl font-bold text-slate-900 leading-none">18</div>
+                                            <div className="mt-1.5 flex items-center gap-1">
+                                                <CheckCircle2 className="w-2.5 h-2.5 text-emerald-500" />
+                                                <span className="text-[7px] text-slate-400">Confirmadas e preparadas</span>
+                                            </div>
+                                        </div>
+                                        {/* NPS */}
+                                        <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Índice NPS</span>
+                                                <div className="w-5 h-5 rounded-lg bg-emerald-50 flex items-center justify-center">
+                                                    <Award className="w-2.5 h-2.5 text-emerald-600" />
+                                                </div>
+                                            </div>
+                                            <div className="text-xl font-bold text-slate-900 leading-none">80</div>
+                                            <div className="mt-1.5">
+                                                <span className="text-[7px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold">★ Excelente</span>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {/* Chart */}
-                                    <div className="flex-1 bg-slate-50 border border-slate-100 rounded-xl p-4 relative overflow-hidden">
-                                        <div className="text-[10px] font-bold text-slate-700 mb-1 flex items-center gap-2">
-                                            <div className="w-4 h-4 rounded bg-[#0F2A1D] flex items-center justify-center">
-                                                <TrendingUp className="w-2.5 h-2.5 text-white" />
+                                    {/* Bottom Row: Chart + Heróis */}
+                                    <div className="grid grid-cols-2 gap-2.5">
+                                        {/* Evolução Chart */}
+                                        <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <div className="w-5 h-5 rounded-lg bg-emerald-50 flex items-center justify-center">
+                                                    <TrendingUp className="w-3 h-3 text-emerald-600" />
+                                                </div>
+                                                <span className="text-[9px] font-bold text-slate-800">Evolução: Custo vs Qualidade</span>
                                             </div>
-                                            Evolução Custo vs Qualidade
+                                            <div className="text-[7px] text-slate-400 mb-3">Relação entre investimento por prato e satisfação (30 dias)</div>
+                                            {/* Simplified line chart */}
+                                            <div className="h-20 relative">
+                                                <svg viewBox="0 0 200 60" className="w-full h-full" fill="none">
+                                                    <path d="M0,40 C20,35 40,38 60,30 C80,22 100,25 120,20 C140,15 160,18 180,12 L200,10" stroke="#0F2A1D" strokeWidth="1.5" fill="none" opacity="0.7" />
+                                                    <path d="M0,40 C20,35 40,38 60,30 C80,22 100,25 120,20 C140,15 160,18 180,12 L200,10 L200,60 L0,60 Z" fill="url(#chartGrad)" opacity="0.15" />
+                                                    <defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#0F2A1D" /><stop offset="100%" stopColor="#0F2A1D" stopOpacity="0" /></linearGradient></defs>
+                                                </svg>
+                                                <div className="absolute bottom-0 left-0 right-0 flex justify-between text-[6px] text-slate-300 px-1">
+                                                    <span>28/01</span><span>04/02</span><span>13/02</span><span>24/02</span><span>27/02</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-3 mt-2">
+                                                <span className="text-[7px] text-slate-400 flex items-center gap-1"><span className="w-2 h-0.5 bg-[#0F2A1D] rounded inline-block" /> Custo Médio (R$)</span>
+                                                <span className="text-[7px] text-slate-400 flex items-center gap-1"><span className="w-2 h-0.5 bg-emerald-500 rounded inline-block" /> Qualidade (0-5)</span>
+                                            </div>
                                         </div>
-                                        <div className="text-[9px] text-slate-400 font-medium mb-4">Últimos 30 dias</div>
-                                        <div className="h-28 flex items-end justify-between gap-1 px-1">
-                                            {[30, 45, 35, 55, 48, 65, 55, 75, 68, 85, 80, 95].map((h, i) => (
-                                                <motion.div
-                                                    key={i}
-                                                    className="flex-1 bg-gradient-to-t from-emerald-500/30 to-emerald-500/5 rounded-t-sm"
-                                                    initial={{ height: 0 }}
-                                                    whileInView={{ height: `${h}%` }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ delay: i * 0.04, duration: 0.4 }}
-                                                />
-                                            ))}
+
+                                        {/* Heróis e Vilões */}
+                                        <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <div className="w-5 h-5 rounded-lg bg-slate-100 flex items-center justify-center">
+                                                    <Utensils className="w-3 h-3 text-slate-600" />
+                                                </div>
+                                                <span className="text-[9px] font-bold text-slate-800">Heróis e Vilões do Cardápio</span>
+                                            </div>
+                                            <div className="text-[7px] text-slate-400 mb-2">Top pratos mais pedidos vs mais rejeitados</div>
+
+                                            <div className="text-[7px] font-bold text-slate-500 mb-1 flex items-center gap-1">↗ Campeões de Vendas</div>
+                                            <div className="space-y-1.5 mb-2.5">
+                                                {[
+                                                    { name: 'Strogonoff de Frango', count: '15 pedidos', emoji: '🍲' },
+                                                    { name: 'Salada Caesar com Frango', count: '1 pedidos', emoji: '🥗' },
+                                                    { name: 'Feijoada Light Completa', count: '1 pedidos', emoji: '🫘' },
+                                                ].map((item, i) => (
+                                                    <div key={i} className="flex items-center justify-between">
+                                                        <span className="flex items-center gap-1.5 text-[8px] text-slate-700 font-medium"><span>{item.emoji}</span> {item.name}</span>
+                                                        <span className="text-[8px] font-bold text-slate-900">{item.count}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="text-[7px] font-bold text-red-500 mb-1 flex items-center gap-1">↘ Top Rejeição</div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="flex items-center gap-1.5 text-[8px] text-slate-700 font-medium">⚠️ Strogonoff de Frango</span>
+                                                <span className="text-[8px] font-bold text-red-500">3 canc.</span>
+                                            </div>
+                                            <div className="w-full h-1 bg-red-100 rounded-full mt-1"><div className="w-2/3 h-full bg-red-400 rounded-full" /></div>
                                         </div>
                                     </div>
                                 </div>
@@ -499,58 +588,175 @@ export default function PresentationPage() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="lg:w-[55%] w-full"
                         >
-                            {/* Manager Dashboard Mockup */}
-                            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-[#0F2A1D]/10 border border-slate-200 bg-white aspect-[16/10]">
-                                <div className="h-10 bg-slate-50 border-b border-slate-100 flex items-center px-4 gap-2">
-                                    <div className="flex gap-1.5">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-                                    </div>
-                                    <div className="ml-3 flex items-center gap-1.5">
-                                        <div className="w-5 h-5 rounded bg-[#0F2A1D] flex items-center justify-center">
-                                            <ChefHat className="w-2.5 h-2.5 text-white" />
+                            {/* Manager Dashboard Mockup - Relatórios de Eficiência */}
+                            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-[#0F2A1D]/10 border border-slate-200 bg-[#FAFAF8]">
+                                <div className="flex h-[420px]">
+                                    {/* Dark Sidebar */}
+                                    <div className="w-40 bg-[#0F2A1D] flex flex-col shrink-0 hidden sm:flex">
+                                        {/* Logo */}
+                                        <div className="px-4 py-4 flex items-center gap-2">
+                                            <div className="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center">
+                                                <ChefHat className="w-3.5 h-3.5 text-white" />
+                                            </div>
+                                            <span className="text-[11px] font-bold text-white tracking-tight">KitchenOS</span>
                                         </div>
-                                        <span className="text-[10px] font-bold text-slate-700">Painel Operacional</span>
-                                    </div>
-                                </div>
 
-                                <div className="p-5 flex gap-4">
-                                    {/* Sidebar mini */}
-                                    <div className="w-12 bg-[#0F2A1D] rounded-xl flex flex-col items-center py-4 gap-4 shrink-0 hidden sm:flex">
-                                        <ChefHat className="w-4 h-4 text-white/80" />
-                                        <div className="w-6 h-px bg-white/10" />
-                                        <Utensils className="w-3.5 h-3.5 text-white/40" />
-                                        <QrCode className="w-3.5 h-3.5 text-emerald-400" />
-                                        <Receipt className="w-3.5 h-3.5 text-white/40" />
-                                        <BarChart3 className="w-3.5 h-3.5 text-white/40" />
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="flex-1 space-y-3">
-                                        <div className="flex gap-3">
-                                            <div className="flex-1 bg-emerald-50 border border-emerald-100 rounded-xl p-3">
-                                                <div className="text-[8px] font-bold text-emerald-700 uppercase">Pedidos Hoje</div>
-                                                <div className="text-xl font-bold text-slate-900 mt-1">247</div>
-                                            </div>
-                                            <div className="flex-1 bg-amber-50 border border-amber-100 rounded-xl p-3">
-                                                <div className="text-[8px] font-bold text-amber-700 uppercase">Pendentes</div>
-                                                <div className="text-xl font-bold text-slate-900 mt-1">12</div>
-                                            </div>
-                                            <div className="flex-1 bg-slate-50 border border-slate-100 rounded-xl p-3 hidden sm:block">
-                                                <div className="text-[8px] font-bold text-slate-500 uppercase">Escaneados</div>
-                                                <div className="text-xl font-bold text-slate-900 mt-1">235</div>
-                                            </div>
-                                        </div>
-                                        <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                                            <div className="text-[9px] font-bold text-slate-700 mb-2">Feed de Atividades</div>
-                                            {['João validou pedido #1247', 'Maria confirmou Strogonoff', 'Carlos escaneou QR Code'].map((item, i) => (
-                                                <div key={i} className="flex items-center gap-2 py-1.5 border-b border-slate-50 last:border-0">
-                                                    <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
-                                                    <span className="text-[9px] text-slate-600">{item}</span>
-                                                    <span className="text-[8px] text-slate-400 ml-auto">{i + 1}min</span>
+                                        {/* Nav Items */}
+                                        <div className="flex-1 px-2 space-y-0.5 mt-2">
+                                            {[
+                                                { icon: BarChart3, label: 'Dashboard', active: false },
+                                                { icon: Utensils, label: 'Cardápio', active: false },
+                                                { icon: Receipt, label: 'Pedidos', active: false },
+                                                { icon: BarChart3, label: 'Relatórios', active: true },
+                                                { icon: ShieldCheck, label: 'Configurações', active: false },
+                                            ].map((item, i) => (
+                                                <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-semibold transition-colors ${item.active ? 'bg-emerald-600 text-white' : 'text-white/50 hover:text-white/70'}`}>
+                                                    <item.icon className="w-3.5 h-3.5" />
+                                                    {item.label}
                                                 </div>
                                             ))}
+                                        </div>
+
+                                        {/* Visão CEO */}
+                                        <div className="px-2 mb-2">
+                                            <div className="flex items-center gap-2 px-3 py-2 text-[10px] font-semibold text-white/50">
+                                                <TrendingUp className="w-3.5 h-3.5" />
+                                                Visão CEO
+                                            </div>
+                                        </div>
+
+                                        {/* User card */}
+                                        <div className="px-3 py-3 border-t border-white/10">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-[8px] font-bold text-white">G</div>
+                                                <div>
+                                                    <div className="text-[9px] font-bold text-white">Gerente</div>
+                                                    <div className="text-[7px] text-white/40">admin@kitchenos.app</div>
+                                                </div>
+                                            </div>
+                                            <div className="bg-red-500/20 text-red-300 text-[8px] font-bold py-1.5 rounded-lg text-center flex items-center justify-center gap-1">
+                                                <LogOut className="w-2.5 h-2.5" /> Sair do Sistema
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Main Content */}
+                                    <div className="flex-1 flex flex-col overflow-hidden">
+                                        {/* Top bar */}
+                                        <div className="h-12 bg-white border-b border-slate-100 flex items-center justify-between px-5 shrink-0">
+                                            <div>
+                                                <div className="text-[12px] font-bold text-slate-900">Bom dia, Anderson</div>
+                                                <div className="text-[9px] text-slate-400">Aqui está o resumo de hoje.</div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[8px]">🔔</div>
+                                                <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[8px]">⚙</div>
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="p-4 flex-1 overflow-hidden space-y-3">
+                                            {/* Title */}
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-7 h-7 rounded-xl bg-[#0F2A1D] flex items-center justify-center">
+                                                        <BarChart3 className="w-4 h-4 text-white" />
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-[13px] font-bold text-slate-900">Relatórios de Eficiência</div>
+                                                        <div className="text-[8px] text-slate-400">Controle de desperdício e planejamento de produção.</div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-[8px] font-semibold text-slate-500 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1">📅 Esta Semana ▾</div>
+                                            </div>
+
+                                            {/* 3 KPI Cards */}
+                                            <div className="grid grid-cols-3 gap-2.5">
+                                                <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Taxa de Eficiência</span>
+                                                        <div className="w-5 h-5 rounded-lg bg-emerald-50 flex items-center justify-center">
+                                                            <TrendingUp className="w-2.5 h-2.5 text-emerald-600" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-baseline gap-1.5">
+                                                        <span className="text-2xl font-bold text-slate-900 leading-none">100.0%</span>
+                                                        <span className="text-[7px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold">Excelente</span>
+                                                    </div>
+                                                </div>
+                                                <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Desperdício Evitado</span>
+                                                        <div className="w-5 h-5 rounded-lg bg-red-50 flex items-center justify-center">
+                                                            <X className="w-2.5 h-2.5 text-red-500" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-baseline gap-1.5">
+                                                        <span className="text-2xl font-bold text-slate-900 leading-none">0</span>
+                                                        <span className="text-[8px] text-slate-400">itens cancelados</span>
+                                                    </div>
+                                                </div>
+                                                <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Produção Total</span>
+                                                        <div className="w-5 h-5 rounded-lg bg-[#0F2A1D] flex items-center justify-center">
+                                                            <ChefHat className="w-2.5 h-2.5 text-white" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-baseline gap-1.5">
+                                                        <span className="text-2xl font-bold text-slate-900 leading-none">5</span>
+                                                        <span className="text-[8px] text-slate-400">pratos a servir</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Bottom Row: Radar + Guia */}
+                                            <div className="grid grid-cols-2 gap-2.5">
+                                                {/* Radar de Rejeição */}
+                                                <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                                    <div className="flex items-center justify-between mb-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <TrendingDown className="w-3.5 h-3.5 text-red-400" />
+                                                            <span className="text-[9px] font-bold text-slate-800">Radar de Rejeição</span>
+                                                        </div>
+                                                        <span className="text-[7px] font-bold text-red-500">Top Cancelamentos</span>
+                                                    </div>
+                                                    <div className="flex flex-col items-center justify-center py-6 text-center">
+                                                        <CheckCircle2 className="w-8 h-8 text-emerald-200 mb-2" />
+                                                        <span className="text-[10px] text-slate-400 font-medium">Sem cancelamentos no período!</span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Guia de Produção */}
+                                                <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
+                                                    <div className="flex items-center justify-between mb-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <Utensils className="w-3.5 h-3.5 text-emerald-600" />
+                                                            <span className="text-[9px] font-bold text-slate-800">Guia de Produção</span>
+                                                        </div>
+                                                        <span className="text-[7px] font-semibold text-slate-400 flex items-center gap-1">↓ PDF</span>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        {[
+                                                            { num: 1, name: 'Strogonoff de Frango', qty: '2 un' },
+                                                            { num: 2, name: 'Salada Caesar com Frango', qty: '1 un' },
+                                                            { num: 3, name: 'Feijoada Light Completa', qty: '1 un' },
+                                                            { num: 4, name: 'Frango Grelhado com Legumes', qty: '1 un' },
+                                                        ].map((item) => (
+                                                            <div key={item.num} className="flex items-center justify-between py-1 border-b border-slate-50 last:border-0">
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className="w-4 h-4 rounded-full bg-emerald-50 text-emerald-700 text-[7px] font-bold flex items-center justify-center">{item.num}</span>
+                                                                    <div>
+                                                                        <div className="text-[9px] font-bold text-slate-800">{item.name}</div>
+                                                                        <div className="text-[7px] text-slate-400">Total Confirmado</div>
+                                                                    </div>
+                                                                </div>
+                                                                <span className="text-[10px] font-bold text-slate-900">{item.qty}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -586,12 +792,99 @@ export default function PresentationPage() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="lg:w-1/2 w-full flex justify-center"
                         >
-                            <div className="relative w-[280px] h-[570px] rounded-[40px] border-[8px] border-[#0F2A1D] bg-white overflow-hidden shadow-2xl shadow-[#0F2A1D]/15">
-                                <div className="absolute top-0 inset-x-0 h-6 bg-[#0F2A1D] rounded-b-2xl z-20 w-36 mx-auto flex justify-center items-end pb-1">
+                            <div className="relative w-[280px] h-[580px] rounded-[40px] border-[8px] border-[#0F2A1D] bg-[#f8fafc] overflow-hidden shadow-2xl shadow-[#0F2A1D]/15 flex flex-col">
+                                {/* Dynamic Island / Notch area bg */}
+                                <div className="absolute top-0 inset-x-0 h-6 bg-[#0F2A1D] rounded-b-2xl z-30 w-36 mx-auto flex justify-center items-end pb-1">
                                     <div className="w-12 h-1.5 bg-black/30 rounded-full" />
                                 </div>
-                                <div className="absolute inset-0 z-10 w-full h-full pt-6">
-                                    <Image src="/mobile-mockup-v3.png" alt="App do Funcionário" fill className="object-cover rounded-[2rem]" quality={100} priority />
+
+                                {/* App Header */}
+                                <div className="bg-white pt-8 pb-3 px-4 shadow-sm z-20 relative">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div className="flex gap-2.5 items-center">
+                                            <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                                <User className="w-4 h-4" />
+                                            </div>
+                                            <div>
+                                                <div className="text-[14px] font-bold text-slate-900 leading-tight">Olá, Anderson</div>
+                                                <div className="text-[10px] text-slate-500 font-medium tracking-tight">Terça, 27 de Fev</div>
+                                            </div>
+                                        </div>
+                                        <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center relative">
+                                            <Bell className="w-4 h-4 text-slate-600" />
+                                            <div className="absolute top-2 right-2.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white" />
+                                        </div>
+                                    </div>
+
+                                    {/* Date Scroller */}
+                                    <div className="flex gap-2 overflow-hidden -mx-2 px-2 pb-1">
+                                        {[
+                                            { d: '25', w: 'Dom' },
+                                            { d: '26', w: 'Seg' },
+                                            { d: '27', w: 'Ter', active: true },
+                                            { d: '28', w: 'Qua' },
+                                            { d: '01', w: 'Qui' }
+                                        ].map((day, i) => (
+                                            <div key={i} className={`flex-shrink-0 flex flex-col items-center justify-center w-11 py-2 rounded-xl transition-colors ${day.active ? 'bg-[#0F2A1D] text-white shadow-md shadow-[#0F2A1D]/20' : 'border border-slate-100 bg-white text-slate-400'}`}>
+                                                <span className={`text-[8px] font-bold uppercase mb-0.5 ${day.active ? 'text-emerald-400/90' : 'text-slate-400'}`}>{day.w}</span>
+                                                <span className={`text-[13px] font-bold ${day.active ? 'text-white' : 'text-slate-700'}`}>{day.d}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Body */}
+                                <div className="flex-1 overflow-hidden p-4 flex flex-col gap-4 relative z-10">
+                                    {/* Meal Types */}
+                                    <div className="flex gap-1.5 relative z-10 w-full overflow-hidden">
+                                        <div className="px-3.5 py-1.5 rounded-full bg-[#0F2A1D] text-white text-[11px] font-bold shadow-sm shrink-0">Almoço</div>
+                                        <div className="px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-500 text-[11px] font-semibold flex items-center gap-1 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Jantar</div>
+                                        <div className="px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-500 text-[11px] font-semibold shrink-0">Ceia</div>
+                                    </div>
+
+                                    {/* Cardápio Title */}
+                                    <div>
+                                        <h3 className="text-[13px] font-bold text-slate-900 mb-0.5">Cardápio do Dia</h3>
+                                        <p className="text-[10px] text-slate-500 leading-tight">Selecione sua refeição principal</p>
+                                    </div>
+
+                                    {/* Dish Card */}
+                                    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 flex-1 flex flex-col pb-3">
+                                        <div className="relative h-32 w-full bg-slate-100 border-b border-slate-50">
+                                            {/* We use a colored placeholder similar to image since the static image path might not load if not cached */}
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-orange-100/80 to-amber-50" />
+                                            <Image src="/dishes/strogonoff_frango.png" alt="Strogonoff" fill className="object-cover" />
+                                            <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-lg bg-white/90 backdrop-blur-sm text-[9px] font-bold text-slate-700 shadow-sm flex items-center gap-1">
+                                                <Star className="w-2.5 h-2.5 text-amber-500 fill-amber-500" /> 4.8
+                                            </div>
+                                        </div>
+                                        <div className="p-3.5 flex flex-col flex-1">
+                                            <div className="flex justify-between items-start mb-1.5">
+                                                <div>
+                                                    <div className="text-[10px] text-emerald-600 font-bold mb-0.5 uppercase tracking-wide">Opção Padrão</div>
+                                                    <h4 className="text-[15px] font-bold text-slate-900 leading-tight mb-2 tracking-tight">Strogonoff de Frango</h4>
+                                                </div>
+                                            </div>
+                                            <p className="text-[10px] text-slate-500 mb-3 leading-relaxed flex-1">
+                                                Acompanha arroz branco soltinho e batata palha extra crocante.
+                                            </p>
+
+                                            {/* Dietary tags */}
+                                            <div className="flex flex-wrap gap-1 mb-3.5">
+                                                <span className="px-1.5 py-0.5 rounded bg-amber-50 border border-amber-100 text-amber-700 text-[8px] font-bold flex items-center gap-0.5">🌾 Contém Glúten</span>
+                                                <span className="px-1.5 py-0.5 rounded bg-blue-50 border border-blue-100 text-blue-700 text-[8px] font-bold flex items-center gap-0.5">🥛 Lactose</span>
+                                            </div>
+
+                                            <button className="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold tracking-wide text-[12px] shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5">
+                                                <CheckCircle2 className="w-3.5 h-3.5" /> Selecionar Opção
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Bottom Nav (iOS style strip) */}
+                                <div className="absolute bottom-1 w-full flex justify-center pb-2 pt-4 bg-gradient-to-t from-white via-white to-transparent z-20">
+                                    <div className="w-32 h-1.5 bg-slate-200 rounded-full" />
                                 </div>
                             </div>
                         </motion.div>
