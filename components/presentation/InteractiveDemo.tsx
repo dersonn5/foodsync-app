@@ -489,7 +489,7 @@ function StorytellingSection() {
                     <blockquote className="relative">
                         <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-8xl text-[#1a5d1d]/10 font-serif select-none">&ldquo;</div>
                         <p className="text-2xl md:text-3xl font-bold leading-relaxed text-[#3E2723] max-w-3xl mx-auto italic">
-                            Este sistema não nasceu numa sala de reunião. Ele nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">ouvindo quem pica, cozinha e serve</span> milhares de refeições por dia. Magnólia, uma colaboradora de 15 anos da NutriSaúde, nos mostrou que o problema nunca foi a falta de tecnologia — era a falta de alguém para ouvir.
+                            Este sistema não nasceu numa sala de reunião. Ele nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">ouvindo quem pica, cozinha e serve</span> milhares de refeições por dia. Magnólia, uma colaboradora de muitos anos da NutriSaúde, nos mostrou que o problema nunca foi a falta de tecnologia — era a falta de alguém para ouvir.
                         </p>
                     </blockquote>
 

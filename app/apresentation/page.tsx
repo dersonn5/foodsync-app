@@ -375,7 +375,7 @@ export default function PresentationPage() {
                                 Controle total na <span className="text-[#0F2A1D]">palma da mão.</span>
                             </h2>
                             <p className="text-base text-slate-500 font-normal leading-relaxed">
-                                Faturamento, produtos mais vendidos, margens e satisfação em uma interface desenhada para decisões rápidas.
+                                Faturamento, itens mais pedidos, margens e satisfação em uma interface desenhada para decisões rápidas.
                             </p>
                             <ul className="space-y-3 pt-2">
                                 {['Métricas financeiras em tempo real', 'Gráficos interativos e exportação de relatórios', 'Ticket Médio e Satisfação (NPS)'].map((item, i) => (
