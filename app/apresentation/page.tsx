@@ -174,30 +174,36 @@ export default function PresentationPage() {
                         <div className="space-y-24">
 
                             {/* Step 1: O Pedido */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                className="relative flex flex-col md:flex-row items-center justify-between group"
-                            >
+                            <div className="relative flex flex-col md:flex-row items-center justify-between group">
                                 {/* Marcador Central */}
-                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-brand-200 z-10 items-center justify-center shadow-sm group-hover:border-brand-400 group-hover:scale-110 transition-all duration-300">
+                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-brand-200 z-10 items-center justify-center shadow-sm group-hover:border-brand-400 transition-all duration-300">
                                     <div className="w-3 h-3 rounded-full bg-brand-400" />
                                 </div>
 
-                                {/* O Problema */}
-                                <div className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12">
-                                    <h4 className="text-lg font-bold text-muted-foreground mb-3 uppercase tracking-wider text-sm flex items-center md:justify-end gap-2">
+                                {/* O Problema (SEMPRE NA ESQUERDA) */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: false, margin: "-100px" }}
+                                    className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12 opacity-60 hover:opacity-100 transition-opacity duration-300"
+                                >
+                                    <h4 className="text-sm font-bold text-muted-foreground/60 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
                                         Rotina Manual <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" />
                                     </h4>
                                     <p className="text-muted-foreground/80 font-medium leading-relaxed">
-                                        O funcionário precisava ir presencialmente até a cozinha para consultar o cardápio e <strong className="text-muted-foreground text-red-400">anotar à caneta no papel</strong> qual prato alternativo desejava para o dia seguinte.
+                                        O funcionário precisava ir presencialmente até a cozinha para consultar o cardápio e <strong className="text-red-400">anotar à caneta no papel</strong> qual prato alternativo desejava para o dia seguinte.
                                     </p>
-                                </div>
+                                </motion.div>
 
-                                {/* A Solução */}
-                                <div className="md:w-[45%] pl-0 md:pl-12">
-                                    <div className="bg-white rounded-3xl p-8 border border-brand-100 food-shadow-card hover:-translate-y-1 transition-transform duration-300">
+                                {/* A Solução (SEMPRE NA DIREITA) */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: 30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: false, margin: "-100px" }}
+                                    className="md:w-[45%] pl-0 md:pl-12"
+                                >
+                                    <div className="bg-white rounded-3xl p-8 border border-brand-100 shadow-xl shadow-brand-100/50 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-400 to-brand-600" />
                                         <h4 className="text-2xl font-bold text-brand-900 mb-4 flex items-center gap-3">
                                             <span className="w-8 h-8 rounded-full bg-brand-100 text-brand-700 text-sm flex items-center justify-center font-bold">1</span>
                                             Cardápio na Palma da Mão
@@ -206,70 +212,81 @@ export default function PresentationPage() {
                                             O colaborador faz um breve cadastro e acessa o App. Ele visualiza dinamicamente o cardápio e seleciona suas alternativas para o dia posterior <strong className="text-brand-600">de qualquer lugar</strong>.
                                         </p>
                                     </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </div>
 
                             {/* Step 2: A Produção */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                className="relative flex flex-col md:flex-row-reverse items-center justify-between group"
-                            >
+                            <div className="relative flex flex-col md:flex-row items-center justify-between group">
                                 {/* Marcador Central */}
-                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-brand-300 z-10 items-center justify-center shadow-sm group-hover:border-brand-500 group-hover:scale-110 transition-all duration-300">
+                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-brand-200 z-10 items-center justify-center shadow-sm group-hover:border-brand-500 transition-all duration-300">
                                     <div className="w-3 h-3 rounded-full bg-brand-500" />
                                 </div>
 
-                                {/* O Problema */}
-                                <div className="md:w-[45%] mb-8 md:mb-0 text-left pl-0 md:pl-12">
-                                    <h4 className="text-lg font-bold text-muted-foreground mb-3 uppercase tracking-wider text-sm flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" /> Produção às Cegas
+                                {/* O Problema (SEMPRE NA ESQUERDA) */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: false, margin: "-100px" }}
+                                    className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12 opacity-60 hover:opacity-100 transition-opacity duration-300"
+                                >
+                                    <h4 className="text-sm font-bold text-muted-foreground/60 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
+                                        Produção às Cegas <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" />
                                     </h4>
                                     <p className="text-muted-foreground/80 font-medium leading-relaxed">
-                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-muted-foreground text-red-400">desperdício e impossibilitava o planejamento</strong> exato de compras e insumos.
+                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-red-400">desperdício e impossibilitava o planejamento</strong> exato de compras e insumos.
                                     </p>
-                                </div>
+                                </motion.div>
 
-                                {/* A Solução */}
-                                <div className="md:w-[45%] pr-0 md:pr-12 text-left md:text-right">
-                                    <div className="bg-white rounded-3xl p-8 border border-brand-100 food-shadow-card ml-auto hover:-translate-y-1 transition-transform duration-300">
-                                        <h4 className="text-2xl font-bold text-brand-900 mb-4 flex items-center md:justify-end gap-3">
+                                {/* A Solução (SEMPRE NA DIREITA) */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: 30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: false, margin: "-100px" }}
+                                    className="md:w-[45%] pl-0 md:pl-12"
+                                >
+                                    <div className="bg-white rounded-3xl p-8 border border-brand-100 shadow-xl shadow-brand-100/50 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-400 to-brand-600" />
+                                        <h4 className="text-2xl font-bold text-brand-900 mb-4 flex items-center gap-3">
+                                            <span className="w-8 h-8 rounded-full bg-brand-100 text-brand-700 text-sm flex items-center justify-center font-bold">2</span>
                                             Integração Instantânea
-                                            <span className="w-8 h-8 rounded-full bg-brand-200 text-brand-800 text-sm flex items-center justify-center font-bold">2</span>
                                         </h4>
                                         <p className="text-brand-800 font-medium leading-relaxed">
                                             A cozinha recebe os pedidos <strong className="text-brand-600">instantaneamente no Dashboard</strong>. O sistema mapeia os totais precisos para que a equipe de compras saiba exatamente o quanto produzir.
                                         </p>
                                     </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </div>
 
                             {/* Step 3: A Validação */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                className="relative flex flex-col md:flex-row items-center justify-between group"
-                            >
+                            <div className="relative flex flex-col md:flex-row items-center justify-between group">
                                 {/* Marcador Central */}
                                 <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-brand-500 border-4 border-brand-100 z-10 items-center justify-center shadow-[0_0_20px_rgba(107,144,113,0.4)] group-hover:scale-110 transition-all duration-300">
                                     <div className="w-4 h-4 rounded-full bg-white animate-pulse" />
                                 </div>
 
-                                {/* O Problema */}
-                                <div className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12">
-                                    <h4 className="text-lg font-bold text-muted-foreground mb-3 uppercase tracking-wider text-sm flex items-center md:justify-end gap-2">
+                                {/* O Problema (SEMPRE NA ESQUERDA) */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: false, margin: "-100px" }}
+                                    className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12 opacity-60 hover:opacity-100 transition-opacity duration-300"
+                                >
+                                    <h4 className="text-sm font-bold text-muted-foreground/60 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
                                         O Gargalo da Roleta <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" />
                                     </h4>
                                     <p className="text-muted-foreground/80 font-medium leading-relaxed">
-                                        Funcionárias na roleta perdiam tempo precioso folheando papéis para encontrar nomes na hora de servir o almoço, <strong className="text-muted-foreground text-red-400">causando filas extremas</strong> no pico operacional.
+                                        Funcionárias na roleta perdiam tempo precioso folheando papéis para encontrar nomes na hora de servir o almoço, <strong className="text-red-400">causando filas extremas</strong> no pico operacional.
                                     </p>
-                                </div>
+                                </motion.div>
 
-                                {/* A Solução */}
-                                <div className="md:w-[45%] pl-0 md:pl-12">
-                                    <div className="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 border border-brand-700 shadow-2xl shadow-brand-900/20 transform hover:-translate-y-2 transition-transform duration-300 group-hover:shadow-brand-500/30">
+                                {/* A Solução (SEMPRE NA DIREITA) */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: 30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: false, margin: "-100px" }}
+                                    className="md:w-[45%] pl-0 md:pl-12"
+                                >
+                                    <div className="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 border border-brand-700 shadow-2xl shadow-brand-900/20 transform group-hover:-translate-y-2 transition-transform duration-300 group-hover:shadow-brand-500/30">
                                         <h4 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
                                             <span className="w-8 h-8 rounded-full bg-white text-brand-900 text-sm flex items-center justify-center font-bold">3</span>
                                             Catraca Expressa
@@ -278,8 +295,8 @@ export default function PresentationPage() {
                                             No refeitório o funcionário apenas exibe seu celular e a roleta <strong className="text-brand-300">escaneia o QR Code dele</strong>, aprovando a retirada do prato correto na fração de um segundo. Zero papéis. Zero atritos.
                                         </p>
                                     </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </div>
 
                         </div>
                     </div>
