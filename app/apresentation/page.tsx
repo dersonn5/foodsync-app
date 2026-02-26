@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown, LogOut, Award, Plus } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import InteractiveDemo from '@/components/presentation/InteractiveDemo'
 
 // Animate items on scroll
 const fadeUpVariants: Variants = {
@@ -302,6 +303,9 @@ export default function PresentationPage() {
                     </div>
                 </div>
             </section>
+
+            {/* ================= INTERACTIVE PRODUCT-LED DEMO ================= */}
+            <InteractiveDemo />
 
             {/* ================= SHOWCASE: SYSTEM PREVIEWS ================= */}
             <section className="py-24 bg-white relative overflow-hidden">
