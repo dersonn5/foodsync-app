@@ -328,7 +328,7 @@ function PhoneBottomNav({ active }: { active: string }) {
    ───────────────────────────────────────────── */
 function KitchenTerminal() {
     return (
-        <section className="py-28 relative overflow-hidden" style={{ background: COLORS.marrom }}>
+        <section className="py-28 relative overflow-hidden" style={{ background: '#0F2A1D' }}>
             {/* Ambient glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#1a5d1d]/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -539,7 +539,7 @@ export default function InteractiveDemo() {
                             <Smartphone className="w-4 h-4" /> Test Drive Interativo
                         </div>
 
-                        <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight" style={{ color: COLORS.marrom }}>
+                        <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight" style={{ color: '#0F2A1D' }}>
                             Não imagine.<br />
                             <span style={{ color: COLORS.verde }}>Experiencie.</span>
                         </h2>
@@ -573,7 +573,7 @@ export default function InteractiveDemo() {
 
                                     <div className="space-y-1">
                                         <p className="text-sm font-bold text-[#1a5d1d] uppercase tracking-wider">{currentData.tagline}</p>
-                                        <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight" style={{ color: COLORS.marrom }}>
+                                        <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight" style={{ color: '#0F2A1D' }}>
                                             {currentData.title}
                                         </h3>
                                     </div>
