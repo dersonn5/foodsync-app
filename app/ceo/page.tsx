@@ -526,6 +526,7 @@ export default function CEODashboard() {
                                                 axisLine={false}
                                             />
                                             <Tooltip
+                                                formatter={(value: any) => [typeof value === 'number' ? value.toFixed(2) : value]}
                                                 contentStyle={{
                                                     borderRadius: '12px',
                                                     border: '1px solid #e2e8f0',
