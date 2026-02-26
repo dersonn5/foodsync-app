@@ -151,6 +151,96 @@ export default function PresentationPage() {
                 </div>
             </section>
 
+            {/* ================= BEFORE VS AFTER OPERATIONS ================= */}
+            <section className="py-24 bg-brand-900 relative overflow-hidden text-brand-50">
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent" />
+
+                <div className="container mx-auto px-6 relative z-10">
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-800 border border-brand-700 text-brand-200 text-sm font-bold uppercase tracking-wide mb-6">
+                            <Utensils className="w-4 h-4" /> A Evolução do Refeitório
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Adeus papel e caneta. <br /> <span className="text-brand-400">Olá fluxo digital.</span></h2>
+                        <p className="text-xl text-brand-200/80">O processo manual gerava filas infernais e desperdício de produção incalculável pela falta de previsibilidade. Veja o que mudou.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
+
+                        {/* THE BEFORE */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            className="bg-brand-950 rounded-3xl p-8 border border-red-900/30 relative flex flex-col"
+                        >
+                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center border border-red-500/20">
+                                <span className="font-bold text-xl">✗</span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                                <span className="text-red-400 text-sm uppercase tracking-wider font-bold">O Problema</span>
+                                <br /> O Processo Antigo
+                            </h3>
+
+                            <ul className="space-y-6 flex-1">
+                                <li className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center flex-shrink-0 mt-1 border border-brand-800 text-brand-400 font-mono text-sm leading-none">1</div>
+                                    <p className="text-brand-200/90 leading-relaxed">O funcionário caminhava até a cozinha presencialmente para ver o cardápio e os pratos alternativos do dia seguinte.</p>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center flex-shrink-0 mt-1 border border-brand-800 text-brand-400 font-mono text-sm leading-none">2</div>
+                                    <p className="text-brand-200/90 leading-relaxed">Anotava <strong className="text-red-300">manualmente de caneta</strong> no papel qual prato alternativo desejava comer.</p>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center flex-shrink-0 mt-1 border border-brand-800 text-brand-400 font-mono text-sm leading-none">3</div>
+                                    <p className="text-brand-200/90 leading-relaxed">No dia seguinte, a funcionária da roleta <strong className="text-red-300">sofria para procurar nomes em papéis rasurados</strong>, criando filas imensas.</p>
+                                </li>
+                            </ul>
+
+                            <div className="mt-8 p-4 bg-red-950/30 rounded-2xl border border-red-900/30">
+                                <p className="text-sm text-red-300 font-medium font-bold text-center">Resultado: Fila na roleta, produção às cegas, zero confiabilidade e muito desperdício.</p>
+                            </div>
+                        </motion.div>
+
+                        {/* THE AFTER */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ delay: 0.2 }}
+                            className="bg-brand-800/50 rounded-3xl p-8 border border-brand-500/30 food-shadow-elevated relative flex flex-col backdrop-blur-md"
+                        >
+                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center shadow-lg shadow-brand-500/30">
+                                <span className="font-bold text-2xl">✓</span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                                <span className="text-brand-400 text-sm uppercase tracking-wider font-bold">A Solução</span>
+                                <br /> O Processo Limpo
+                            </h3>
+
+                            <ul className="space-y-6 flex-1">
+                                <li className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0 mt-1 text-white font-mono text-sm leading-none font-bold">1</div>
+                                    <p className="text-brand-50 leading-relaxed">O colaborador faz um breve cadastro e acessa o App na palma da mão, vendo o cardápio e alternativas do dia posterior a qualquer hora.</p>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0 mt-1 text-white font-mono text-sm leading-none font-bold">2</div>
+                                    <p className="text-brand-50 leading-relaxed">Escolhe o prato no App. A cozinha recebe o pedido <strong className="text-brand-300">instantaneamente</strong> no Dashboard e já totaliza as quantidades de amanhã.</p>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0 mt-1 text-white font-mono text-sm leading-none font-bold">3</div>
+                                    <p className="text-brand-50 leading-relaxed">No almoço, o funcionário só abre o Web-App e a roleta <strong className="text-brand-300">escaneia o QR Code dele</strong>, validando o pedido na fração de um segundo.</p>
+                                </li>
+                            </ul>
+
+                            <div className="mt-8 p-4 bg-brand-900 rounded-2xl border border-brand-700">
+                                <p className="text-sm text-brand-300 font-bold text-center">Resultado: Filas extintas na roleta, logística exata e zero papel ou erros de bandeja.</p>
+                            </div>
+                        </motion.div>
+
+                    </div>
+                </div>
+            </section>
+
             {/* ================= SHOWCASE: SYSTEM PREVIEWS ================= */}
             <section className="py-24 bg-white relative overflow-hidden">
                 {/* Background Decoration */}
