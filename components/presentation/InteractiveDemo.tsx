@@ -38,7 +38,7 @@ const stepsData = [
         badge: 'Passo 1 de 3',
         tagline: 'A Jornada do Colaborador',
         title: 'Adeus cozinha, caneta e papel.',
-        description: 'Antes, o funcionário precisava ir até a cozinha, ver o cardápio no mural e anotar à caneta o prato alternativo. Agora, ele abre o App e já vê tudo na palma da mão.',
+        description: 'Antes, o funcionário precisava ir até a cozinha, ver o cardápio no mural e anotar à caneta o prato alternativo. Agora, ele abre o App e já vê tudo na palma da&nbsp;mão.',
         highlight: 'Clique em "Fazer Pedido" no celular ao lado →',
         stat: { value: '0s', label: 'deslocamento para pedir' },
     },
@@ -47,7 +47,7 @@ const stepsData = [
         badge: 'Passo 2 de 3',
         tagline: 'Cardápio Inteligente',
         title: 'Escolha trava o custo. Previne desperdício.',
-        description: 'A cozinha recebe o pedido instantaneamente. Isso significa previsibilidade de insumos, zero sobreprovisão e controle total do CMV (Custo de Mercadoria Vendida).',
+        description: 'A cozinha recebe o pedido instantaneamente. Isso significa previsibilidade de insumos, zero sobreprovisão e controle total do CMV (Custo de Mercadoria&nbsp;Vendida).',
         highlight: 'Selecione o "Strogonoff de Frango" →',
         stat: { value: '-32%', label: 'de desperdício de insumos' },
     },
@@ -56,7 +56,7 @@ const stepsData = [
         badge: 'Passo 3 de 3',
         tagline: 'QR Code Instantâneo',
         title: 'Pedido confirmado. Zero filas.',
-        description: 'No dia seguinte, o funcionário apenas apresenta o QR Code na retirada. A cozinha escaneia e valida em milissegundos. Sem papéis, sem busca por nomes, sem filas.',
+        description: 'No dia seguinte, o funcionário apenas apresenta o QR Code na retirada. A cozinha escaneia e valida em milissegundos. Sem papéis, sem busca por nomes, sem&nbsp;filas.',
         highlight: 'Faça scroll para ver a mágica na cozinha ↓',
         stat: { value: '<1s', label: 'para validar o pedido' },
     },
@@ -90,7 +90,7 @@ function PhoneScreenHome({ onAction }: { onAction: () => void }) {
                 <div className="text-center space-y-2">
                     <h3 className="font-extrabold text-[#0F2A1D] text-lg">Cardápio Disponível</h3>
                     <p className="text-xs text-slate-500 leading-relaxed max-w-[200px] mx-auto">
-                        O cardápio de amanhã já está pronto. Escolha seu prato alternativo agora.
+                        O cardápio de amanhã já está pronto. Escolha seu prato alternativo&nbsp;agora.
                     </p>
                 </div>
 
@@ -351,7 +351,7 @@ function KitchenTerminal() {
                         <p className="text-lg text-white/70 font-medium leading-relaxed">
                             O tablet da cozinha recebe automaticamente todos os pedidos. Na hora da retirada, a equipe apenas escaneia o QR Code do funcionário e o pedido é validado instantaneamente.
                             <br /><br />
-                            Sem buscar nomes. Sem folhear papéis. Sem incerteza.
+                            Sem buscar nomes. Sem folhear papéis. Sem&nbsp;incerteza.
                         </p>
 
                         <div className="flex gap-4 pt-4">
@@ -489,7 +489,7 @@ function StorytellingSection() {
                     <blockquote className="relative">
                         <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-8xl text-[#1a5d1d]/10 font-serif select-none">&ldquo;</div>
                         <p className="text-2xl md:text-3xl font-bold leading-relaxed text-[#3E2723] max-w-3xl mx-auto italic">
-                            Este sistema não nasceu numa sala de reunião. Ele nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">ouvindo quem pica, cozinha e serve</span> milhares de refeições por dia. Magnólia, uma colaboradora de 15 anos da NutriSaúde, nos mostrou que o problema nunca foi a falta de tecnologia — era a falta de alguém para ouvir.
+                            Este sistema não nasceu numa sala de reunião. Ele nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">ouvindo quem pica, cozinha e serve</span> milhares de refeições por dia. Magnólia, uma colaboradora de 15 anos da NutriSaúde, nos mostrou que o problema nunca foi a falta de tecnologia — era a falta de alguém para&nbsp;ouvir.
                         </p>
                     </blockquote>
 
@@ -545,7 +545,7 @@ export default function InteractiveDemo() {
                         </h2>
 
                         <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto">
-                            Simule a experiência completa de um colaborador em <strong className="text-[#0F2A1D]">3 cliques</strong>. Interaja com o celular ao lado e veja como 1.500 refeições por dia são gerenciadas sem papel.
+                            Simule a experiência completa de um colaborador em <strong className="text-[#0F2A1D]">3 cliques</strong>. Interaja com o celular ao lado e veja como 1.500 refeições por dia são gerenciadas sem&nbsp;papel.
                         </p>
                     </motion.div>
                 </div>
