@@ -116,9 +116,8 @@ export default function PresentationPage() {
                 >
                     <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover hidden md:block" src="/bg-video.mp4" />
                     <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover md:hidden block" src="/bg-video-mobile.mp4" />
-                    <div className="absolute inset-0 bg-[#0F2A1D]/70" />
-                    <div className="absolute inset-0 bg-black/30" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+                    {/* Dark gradient overlay to ensure text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0F2A1D]/80 via-[#0F2A1D]/60 to-slate-50" />
                 </motion.div>
 
                 <div className="relative z-10 container mx-auto px-6 text-center">
@@ -128,18 +127,18 @@ export default function PresentationPage() {
                         variants={stagger}
                         className="max-w-4xl mx-auto space-y-7"
                     >
-                        <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-white text-[13px] font-semibold tracking-wide uppercase">
-                            <Zap className="w-3.5 h-3.5 text-emerald-300" />
+                        <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 backdrop-blur-md text-white/90 text-[13px] font-semibold tracking-wide uppercase">
+                            <Zap className="w-3.5 h-3.5 text-emerald-400" />
                             Gestão Gastronômica Inteligente
                         </motion.div>
 
-                        <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1]">
+                        <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1] drop-shadow-lg">
                             Tecnologia que{' '}
                             <br className="hidden md:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-white">transforma operações.</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200 drop-shadow-none">transforma operações.</span>
                         </motion.h1>
 
-                        <motion.p variants={fadeUp} className="text-base sm:text-lg md:text-xl text-white/80 font-normal max-w-2xl mx-auto leading-relaxed">
+                        <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/90 font-medium leading-relaxed max-w-2xl mx-auto drop-shadow-md">
                             KitchenOS é a plataforma que digitaliza o fluxo de pedidos, elimina filas e entrega controle total ao gestor em tempo real.
                         </motion.p>
 
