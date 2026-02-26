@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence, Variants } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown } from 'lucide-react'
+import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown, LogOut, Award } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -501,99 +501,144 @@ export default function PresentationPage() {
                                     <div className="w-12 h-1.5 bg-brand-950 rounded-full" />
                                 </div> {/* Notch */}
 
-                                {/* Native UI Mockup: Employee App */}
+                                {/* Native UI Mockup: Employee App (Based on real design) */}
 
                                 {/* App Header */}
-                                <div className="pt-10 pb-4 px-5 bg-gradient-to-br from-brand-900 to-brand-800 text-white shrink-0 shadow-md">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <div>
-                                            <div className="text-[10px] text-brand-200 uppercase tracking-widest font-bold">Terça, 14 Nov</div>
-                                            <div className="font-bold text-lg leading-tight">Olá, Marcos 👋</div>
+                                <div className="pt-8 pb-2 px-4 bg-white shrink-0 relative z-10 w-full">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center shadow-md">
+                                                <ChefHat className="w-5 h-5 text-white" />
+                                            </div>
+                                            <div>
+                                                <div className="text-[10px] text-brand-600 font-medium leading-none mb-1">Bom almoço,</div>
+                                                <div className="font-bold text-xl text-brand-900 leading-none">Anderson</div>
+                                            </div>
                                         </div>
-                                        <div className="w-10 h-10 rounded-full bg-brand-700 border-2 border-brand-500 flex items-center justify-center p-1 overflow-hidden">
-                                            <div className="w-full h-full bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">MS</div>
+                                        <div className="text-brand-400 mt-1">
+                                            <LogOut className="w-5 h-5 rotate-180" />
                                         </div>
                                     </div>
 
-                                    {/* Action Card (QR Code / Status) */}
-                                    <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-brand-500/30 flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
-                                                <CheckCircle2 className="w-5 h-5 text-white" />
-                                            </div>
-                                            <div>
-                                                <div className="text-xs font-bold">Pedido Confirmado</div>
-                                                <div className="text-[10px] text-brand-200">Prato Principal escolhido</div>
-                                            </div>
+                                    {/* Date Scroller */}
+                                    <div className="flex gap-2 overflow-hidden pb-2 -mx-2 px-2">
+                                        {/* Selected Date */}
+                                        <div className="bg-brand-900 text-white rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 shadow-md shrink-0 border border-brand-900">
+                                            <span className="text-[8px] font-bold tracking-wider uppercase opacity-80 mb-0.5">Quinta</span>
+                                            <span className="text-xl font-bold leading-none">26</span>
                                         </div>
-                                        <div className="w-8 h-8 bg-white rounded flex items-center justify-center shadow-lg">
-                                            <div className="w-5 h-5 border-2 border-dashed border-brand-900" />
+                                        {/* Other Dates */}
+                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
+                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Sexta</span>
+                                            <span className="text-xl font-bold leading-none">27</span>
+                                        </div>
+                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
+                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Sábado</span>
+                                            <span className="text-xl font-bold leading-none">28</span>
+                                        </div>
+                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
+                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Dom</span>
+                                            <span className="text-xl font-bold leading-none">1</span>
+                                        </div>
+                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
+                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Seg</span>
+                                            <span className="text-xl font-bold leading-none">2</span>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div className="w-full h-px bg-slate-100" />
+
                                 {/* App Body (Menu) */}
-                                <div className="flex-1 overflow-hidden bg-brand-50 p-4 flex flex-col gap-4">
-                                    <div className="flex justify-between items-end">
-                                        <h3 className="font-bold text-brand-900 text-sm">Cardápio de Amanhã</h3>
-                                        <span className="text-[10px] font-bold text-brand-600 bg-brand-100 px-2 py-0.5 rounded-full">Qua, 15 Nov</span>
+                                <div className="flex-1 overflow-hidden bg-white px-4 pt-3 pb-0 flex flex-col gap-4 relative">
+
+                                    {/* Category Pills */}
+                                    <div className="flex gap-2 w-full">
+                                        <div className="bg-brand-900 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-sm">Todos</div>
+                                        <div className="bg-white text-brand-700 border border-slate-200 text-xs font-medium px-4 py-1.5 rounded-full">Padrão</div>
+                                        <div className="bg-white text-brand-700 border border-slate-200 text-xs font-medium px-4 py-1.5 rounded-full">Fit</div>
+                                        <div className="bg-white text-brand-700 border border-slate-200 text-xs font-medium px-4 py-1.5 rounded-full">Lanche</div>
+                                    </div>
+
+                                    <div className="flex justify-between items-center mt-1">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-6 h-6 rounded-full bg-brand-900 flex items-center justify-center">
+                                                <Utensils className="w-3.5 h-3.5 text-white" />
+                                            </div>
+                                            <h3 className="font-bold text-brand-900 text-sm">Cardápio do Dia</h3>
+                                        </div>
+                                        <span className="text-[10px] font-semibold text-brand-800 bg-brand-100/80 px-2 py-1 rounded-md border border-brand-200/50">2 Opções</span>
                                     </div>
 
                                     {/* Menu Items Simulation */}
-                                    <div className="space-y-3 relative">
+                                    <div className="space-y-4 relative w-full pb-8">
+
                                         {/* Overlay to fade bottom items */}
-                                        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-brand-50 to-transparent pointer-events-none z-10" />
+                                        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none z-20" />
 
                                         {/* Dish 1: Selected */}
-                                        <div className="bg-white rounded-2xl p-3 flex gap-3 shadow-sm border-2 border-brand-500 relative overflow-hidden">
-                                            <div className="absolute top-0 right-0 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg">Selecionado</div>
-                                            <div className="w-20 h-20 rounded-xl bg-slate-200 overflow-hidden shrink-0 relative">
-                                                <Image src="/dish-1.jpg" alt="Dish" fill className="object-cover" />
+                                        <div className="bg-white rounded-[20px] p-2.5 flex gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-brand-100 relative">
+                                            <div className="w-24 h-24 rounded-2xl bg-slate-200 overflow-hidden shrink-0 relative shadow-sm border border-slate-100">
+                                                <Image src="/dish-1.jpg" alt="Strogonoff" fill className="object-cover" />
                                             </div>
-                                            <div className="flex flex-col justify-center py-1 flex-1">
-                                                <p className="text-[10px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Prato Principal</p>
-                                                <h4 className="font-bold text-brand-900 text-sm leading-tight mb-1 mt-0">Feijoada Light Completa</h4>
-                                                <p className="text-[10px] text-brand-600 leading-snug line-clamp-2">Acompanha arroz branco, couve, farofa e laranja.</p>
-                                            </div>
-                                        </div>
+                                            <div className="flex flex-col flex-1 py-1 pr-1">
+                                                <p className="text-[8px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Padrão</p>
+                                                <h4 className="font-bold text-brand-900 text-[13px] leading-tight mb-1">Strogonoff de Frango</h4>
+                                                <p className="text-[9px] text-brand-500 leading-tight line-clamp-2 pr-2">Arroz, Strogonoff de Frango, Batata Palha e Salada de...</p>
 
-                                        {/* Dish 2: Alternative */}
-                                        <div className="bg-white rounded-2xl p-3 flex gap-3 shadow-sm border border-slate-100 opacity-60">
-                                            <div className="w-20 h-20 rounded-xl bg-slate-200 overflow-hidden shrink-0 relative" />
-                                            {/* Missing Image Placeholder style */}
-                                            <div className="flex flex-col justify-center py-1 flex-1">
-                                                <p className="text-[10px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Opção Leve</p>
-                                                <h4 className="font-bold text-brand-900 text-sm leading-tight mb-1 mt-0">Frango Grelhado C/ Legumes</h4>
-                                                <div className="mt-2 w-full h-8 bg-brand-50 rounded-lg flex items-center justify-center">
-                                                    <span className="text-[11px] font-bold text-brand-700">Trocar para este</span>
+                                                <div className="flex justify-between items-center mt-auto pt-1">
+                                                    <span className="text-[10px] font-semibold text-brand-400">450kcal</span>
+                                                    <div className="w-6 h-6 rounded-full bg-brand-900 flex items-center justify-center shadow-md">
+                                                        <CheckCircle2 className="w-4 h-4 text-white" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        {/* Dish 3 (Cut off) */}
-                                        <div className="bg-white rounded-2xl p-3 flex gap-3 shadow-sm border border-slate-100 opacity-40">
-                                            <div className="w-20 h-20 rounded-xl bg-slate-200 shrink-0" />
-                                            <div className="flex flex-col gap-2 flex-1 pt-2">
-                                                <div className="h-3 w-3/4 bg-slate-100 rounded-full" />
-                                                <div className="h-2 w-1/2 bg-slate-100 rounded-full" />
+                                        {/* Dish 2: Fit Alternative */}
+                                        <div className="bg-white rounded-[20px] p-2.5 flex gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-slate-100 relative opacity-90">
+                                            <div className="w-24 h-24 rounded-2xl bg-slate-200 overflow-hidden shrink-0 relative shadow-sm border border-slate-100 text-xs flex items-center justify-center text-slate-400 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=200&q=80')" }}>
                                             </div>
+                                            <div className="flex flex-col flex-1 py-1 pr-1">
+                                                <p className="text-[8px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Padrão</p>
+                                                <h4 className="font-bold text-brand-900 text-[13px] leading-tight mb-1">Feijoada Light</h4>
+                                                <p className="text-[9px] text-brand-500 leading-tight line-clamp-2 pr-2">Feijão Preto, Linguiça, Carne de Porco, Farofa e Salada d...</p>
+
+                                                <div className="flex justify-end mt-auto pt-1">
+                                                    <div className="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center opacity-50" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Confirmation Button Floating Mockup */}
+                                    <div className="absolute bottom-4 left-4 right-4 z-30">
+                                        <div className="flex bg-brand-900 text-white rounded-2xl py-3 px-5 items-center justify-between shadow-xl border border-brand-800 shadow-brand-900/20">
+                                            <span className="font-bold text-sm">Confirmar Reserva</span>
+                                            <ArrowRight className="w-4 h-4" />
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* App Bottom Bar */}
-                                <div className="h-16 bg-white border-t border-slate-100 shrink-0 flex items-center justify-around px-2 pb-2">
-                                    <div className="flex flex-col items-center gap-1 text-brand-600">
-                                        <Utensils className="w-5 h-5" />
-                                        <span className="text-[9px] font-bold">Início</span>
+                                <div className="h-[72px] bg-white border-t border-slate-100 shrink-0 flex items-center justify-around px-2 pb-5 pt-3 z-40 relative">
+                                    <div className="flex flex-col items-center gap-1.5 text-brand-900">
+                                        <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center shadow-md">
+                                            <Utensils className="w-4 h-4 text-white" />
+                                        </div>
+                                        <span className="text-[9px] font-bold">Cardápio</span>
                                     </div>
-                                    <div className="flex flex-col items-center gap-1 text-slate-400">
-                                        <Receipt className="w-5 h-5" />
-                                        <span className="text-[9px] font-bold">Histórico</span>
+                                    <div className="flex flex-col items-center gap-1 text-brand-400">
+                                        <Award className="w-5 h-5 opacity-80" />
+                                        <span className="text-[9px] font-medium">Feedback</span>
                                     </div>
-                                    <div className="flex flex-col items-center gap-1 text-slate-400">
-                                        <div className="w-5 h-5 rounded-full border-2 border-slate-400" />
-                                        <span className="text-[9px] font-bold">Perfil</span>
+                                    <div className="flex flex-col items-center gap-1 text-brand-400">
+                                        <Receipt className="w-5 h-5 opacity-80" />
+                                        <span className="text-[9px] font-medium">Pedidos</span>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-1 text-brand-400">
+                                        <div className="w-5 h-5 rounded-full border-2 border-brand-400 opacity-80" />
+                                        <span className="text-[9px] font-medium">Perfil</span>
                                     </div>
                                 </div>
                             </div>
@@ -633,10 +678,10 @@ export default function PresentationPage() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* ================= CTA FINAL ================= */}
-            <section className="py-24 bg-white text-center">
+            < section className="py-24 bg-white text-center" >
                 <div className="container mx-auto px-6 max-w-4xl space-y-8">
                     <h2 className="text-4xl md:text-6xl font-extrabold text-brand-900 tracking-tight">O próximo nível do seu negócio.</h2>
                     <p className="text-xl text-muted-foreground">Experimente o sistema por dentro e entenda como podemos transformar a operação de ponta a ponta hoje mesmo.</p>
@@ -647,15 +692,15 @@ export default function PresentationPage() {
                         </Button>
                     </Link>
                 </div>
-            </section>
+            </section >
 
             {/* Footer */}
-            <footer className="py-8 border-t border-brand-100 bg-brand-50 text-center text-brand-800/60 font-medium text-sm">
+            < footer className="py-8 border-t border-brand-100 bg-brand-50 text-center text-brand-800/60 font-medium text-sm" >
                 <div className="flex items-center justify-center gap-2 mb-2">
                     <Logo variant="dark" className="scale-75 opacity-50 grayscale" />
                 </div>
-                © 2026 KitchenOS. Apresentação Executiva.
-            </footer>
-        </div>
+                © 2026 KitchenOS.Apresentação Executiva.
+            </footer >
+        </div >
     )
 }
