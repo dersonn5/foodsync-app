@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence, Variants } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt } from 'lucide-react'
+import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -347,21 +347,123 @@ export default function PresentationPage() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="lg:w-1/2 w-full"
                         >
-                            {/* PLACEHOLDER: Usar o admin-dashbord real aqui depois */}
-                            <div className="relative rounded-2xl overflow-hidden food-shadow-elevated border border-brand-100 bg-white aspect-[16/10] flex items-center justify-center group">
-                                <div className="absolute inset-0 bg-brand-50/50 backdrop-blur-sm z-10 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <p className="font-bold text-brand-900 text-lg">Espaço Reservado: Print do Dashboard</p>
-                                    <p className="text-brand-700 text-sm">/public/screenshots/admin-dashboard.jpg</p>
-                                </div>
-                                {/* Mockup UI de fundo para não ficar vazio */}
-                                <div className="w-full h-full p-4 flex flex-col gap-4 opacity-50">
-                                    <div className="w-full h-12 bg-gray-100 rounded-lg animate-pulse" />
-                                    <div className="flex gap-4">
-                                        <div className="w-1/3 h-24 bg-gray-100 rounded-xl animate-pulse" />
-                                        <div className="w-1/3 h-24 bg-gray-100 rounded-xl animate-pulse" />
-                                        <div className="w-1/3 h-24 bg-gray-100 rounded-xl animate-pulse" />
+                            {/* NATIVE UI MOCKUP: CEO Dashboard */}
+                            <div className="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden food-shadow-elevated border border-brand-100 bg-stone-50 aspect-[16/10] flex flex-col group select-none transition-transform hover:scale-[1.02] duration-500">
+                                {/* Decorator overlay to make it pop like a presentation graphic */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none z-20" />
+
+                                {/* Fake Browser / App Header */}
+                                <div className="h-12 bg-white/80 backdrop-blur-md border-b border-slate-200/50 flex items-center justify-between px-4 shrink-0 z-10">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded bg-[#0F2A1D] flex items-center justify-center shadow-sm">
+                                            <ChefHat className="w-3.5 h-3.5 text-white" />
+                                        </div>
+                                        <div className="text-xs font-bold text-brand-900 tracking-tight">Cockpit Executivo</div>
+                                        <div className="hidden sm:flex items-center gap-1 text-[9px] font-medium text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded-full border border-brand-200">
+                                            <span className="relative flex h-1.5 w-1.5">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-500"></span>
+                                            </span>
+                                            LIVE
+                                        </div>
                                     </div>
-                                    <div className="w-full h-48 bg-gray-100 rounded-xl animate-pulse mt-4" />
+                                    <div className="flex gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                                    </div>
+                                </div>
+
+                                {/* Mockup Internal Layout */}
+                                <div className="p-4 sm:p-5 flex-1 flex flex-col gap-4 overflow-hidden relative z-10 w-full h-full container-mockup">
+
+                                    {/* Top KPIs Row */}
+                                    <div className="flex gap-3 h-24 shrink-0 w-full">
+                                        {/* CMV Card */}
+                                        <div className="flex-1 bg-white/90 backdrop-blur-sm border border-slate-200/60 rounded-xl p-3 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                            <div className="flex justify-between items-start">
+                                                <div className="text-[9px] font-bold text-brand-600 uppercase tracking-wider">CMV Projetado</div>
+                                                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-800 to-brand-700 flex items-center justify-center shadow-sm">
+                                                    <DollarSign className="w-3 h-3 text-white" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xl font-extrabold text-brand-900 leading-none">R$ 11.85</div>
+                                                <div className="text-[10px] text-brand-500 mt-1 flex items-center gap-1 font-medium">
+                                                    <span className="text-brand-700 bg-brand-50 px-1 rounded">-R$ 1.15</span> vs Meta
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Volume Card */}
+                                        <div className="flex-1 bg-white/90 backdrop-blur-sm border border-slate-200/60 rounded-xl p-3 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                            <div className="flex justify-between items-start">
+                                                <div className="text-[9px] font-bold text-brand-600 uppercase tracking-wider">Refeições Serv.</div>
+                                                <div className="w-6 h-6 rounded-md bg-brand-100 flex items-center justify-center shadow-sm">
+                                                    <Utensils className="w-3 h-3 text-brand-700" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xl font-extrabold text-brand-900 leading-none">1,452</div>
+                                                <div className="text-[10px] text-brand-500 mt-1 flex items-center gap-1 font-medium">
+                                                    <CheckCircle2 className="w-3 h-3 text-brand-600" /> Confirmadas
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Reject Card (Hidden on very small screens to keep layout clean) */}
+                                        <div className="hidden sm:flex flex-1 bg-white/90 backdrop-blur-sm border border-slate-200/60 rounded-xl p-3 flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                            <div className="flex justify-between items-start">
+                                                <div className="text-[9px] font-bold text-brand-600 uppercase tracking-wider">Taxa Rejeição</div>
+                                                <div className="w-6 h-6 rounded-md bg-red-50 flex items-center justify-center shadow-sm">
+                                                    <TrendingDown className="w-3 h-3 text-red-500" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xl font-extrabold text-brand-900 leading-none">0.8%</div>
+                                                <div className="text-[10px] mt-1 text-red-600 font-medium">Queda drástica</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Main Chart Area Simulation */}
+                                    <div className="flex-1 w-full bg-white/90 backdrop-blur-sm border border-slate-200/60 rounded-xl p-4 flex flex-col shadow-[0_2px_12px_rgba(0,0,0,0.03)] relative overflow-hidden">
+                                        <div className="text-xs font-bold text-brand-900 mb-1 flex items-center gap-2">
+                                            <div className="w-5 h-5 rounded bg-brand-800 flex items-center justify-center">
+                                                <TrendingUp className="w-3 h-3 text-white" />
+                                            </div>
+                                            Evolução Custo vs Qualidade
+                                        </div>
+                                        <div className="text-[10px] text-brand-500 font-medium mb-4">Dados analíticos (Últimos 30 dias)</div>
+
+                                        {/* CSS-based Fake Area Chart that looks like Recharts */}
+                                        <div className="flex-1 w-full relative flex items-end justify-between px-2 pt-6">
+                                            {/* Grid lines (horizontal) */}
+                                            <div className="absolute top-[20%] left-0 w-full h-px border-t border-dashed border-slate-200" />
+                                            <div className="absolute top-[50%] left-0 w-full h-px border-t border-dashed border-slate-200" />
+                                            <div className="absolute top-[80%] left-0 w-full h-px border-t border-dashed border-slate-200" />
+                                            <div className="absolute bottom-0 left-0 w-full h-px border-t border-slate-200" />
+
+                                            {/* Animated bars simulating an area chart */}
+                                            {[30, 45, 35, 55, 48, 65, 55, 75, 68, 85, 80, 95].map((h, i) => (
+                                                <motion.div
+                                                    key={i}
+                                                    className="relative w-[6%] group h-full flex items-end justify-center"
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    whileInView={{ height: '100%', opacity: 1 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ delay: i * 0.05, duration: 0.5, ease: "easeOut" }}
+                                                >
+                                                    {/* Area Fill */}
+                                                    <div className="w-full bg-gradient-to-t from-brand-500/30 to-brand-500/5 rounded-t-sm transition-all duration-300 group-hover:from-brand-500/40" style={{ height: `${h}%` }} />
+
+                                                    {/* Top Line Point (Visual trick) */}
+                                                    <div className="absolute bottom-0 w-full h-[2px] bg-brand-600 rounded-full" style={{ bottom: `${h}%` }} />
+                                                    <div className="absolute bottom-0 w-2 h-2 rounded-full border-2 border-white bg-brand-700 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity" style={{ bottom: `calc(${h}% - 3px)` }} />
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -394,27 +496,105 @@ export default function PresentationPage() {
                             className="lg:w-1/2 w-full flex justify-center"
                         >
                             {/* Mobile Mockup Holder */}
-                            <div className="relative w-[300px] h-[600px] rounded-[40px] border-[8px] border-brand-900 bg-white overflow-hidden food-shadow-elevated group flex items-center justify-center">
-                                <div className="absolute top-0 inset-x-0 h-6 bg-brand-900 rounded-b-xl z-20 w-40 mx-auto" /> {/* Notch */}
+                            <div className="relative w-[300px] h-[600px] rounded-[40px] border-[8px] border-brand-900 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] group flex flex-col transition-transform hover:-translate-y-2 duration-500">
+                                <div className="absolute top-0 inset-x-0 h-6 bg-brand-900 rounded-b-2xl z-20 w-36 mx-auto flex justify-center items-end pb-1">
+                                    <div className="w-12 h-1.5 bg-brand-950 rounded-full" />
+                                </div> {/* Notch */}
 
-                                <div className="absolute inset-0 bg-brand-50/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center text-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <p className="font-bold text-brand-900 text-lg mb-2">Espaço Reservado: Print do Cardápio</p>
-                                    <p className="text-brand-700 text-sm font-mono">/screenshots/menu-mobile.jpg</p>
-                                </div>
+                                {/* Native UI Mockup: Employee App */}
 
-                                {/* Mockup UI de Menu */}
-                                <div className="w-full h-full p-4 pt-10 flex flex-col gap-4 bg-brand-50 opacity-50">
-                                    <div className="w-24 h-6 bg-brand-200 rounded-full mb-4 animate-pulse" />
-                                    {[1, 2, 3, 4].map(i => (
-                                        <div key={i} className="w-full h-32 bg-white rounded-2xl flex p-3 gap-3 shadow-sm">
-                                            <div className="w-24 h-full bg-brand-100 rounded-xl animate-pulse" />
-                                            <div className="flex-1 space-y-2 py-1">
-                                                <div className="w-full h-4 bg-brand-100 rounded-full animate-pulse" />
-                                                <div className="w-2/3 h-3 bg-brand-50 rounded-full animate-pulse" />
-                                                <div className="w-16 h-5 bg-brand-500/20 rounded-md animate-pulse mt-auto" />
+                                {/* App Header */}
+                                <div className="pt-10 pb-4 px-5 bg-gradient-to-br from-brand-900 to-brand-800 text-white shrink-0 shadow-md">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div>
+                                            <div className="text-[10px] text-brand-200 uppercase tracking-widest font-bold">Terça, 14 Nov</div>
+                                            <div className="font-bold text-lg leading-tight">Olá, Marcos 👋</div>
+                                        </div>
+                                        <div className="w-10 h-10 rounded-full bg-brand-700 border-2 border-brand-500 flex items-center justify-center p-1 overflow-hidden">
+                                            <div className="w-full h-full bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">MS</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Action Card (QR Code / Status) */}
+                                    <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-brand-500/30 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
+                                                <CheckCircle2 className="w-5 h-5 text-white" />
+                                            </div>
+                                            <div>
+                                                <div className="text-xs font-bold">Pedido Confirmado</div>
+                                                <div className="text-[10px] text-brand-200">Prato Principal escolhido</div>
                                             </div>
                                         </div>
-                                    ))}
+                                        <div className="w-8 h-8 bg-white rounded flex items-center justify-center shadow-lg">
+                                            <div className="w-5 h-5 border-2 border-dashed border-brand-900" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* App Body (Menu) */}
+                                <div className="flex-1 overflow-hidden bg-brand-50 p-4 flex flex-col gap-4">
+                                    <div className="flex justify-between items-end">
+                                        <h3 className="font-bold text-brand-900 text-sm">Cardápio de Amanhã</h3>
+                                        <span className="text-[10px] font-bold text-brand-600 bg-brand-100 px-2 py-0.5 rounded-full">Qua, 15 Nov</span>
+                                    </div>
+
+                                    {/* Menu Items Simulation */}
+                                    <div className="space-y-3 relative">
+                                        {/* Overlay to fade bottom items */}
+                                        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-brand-50 to-transparent pointer-events-none z-10" />
+
+                                        {/* Dish 1: Selected */}
+                                        <div className="bg-white rounded-2xl p-3 flex gap-3 shadow-sm border-2 border-brand-500 relative overflow-hidden">
+                                            <div className="absolute top-0 right-0 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg">Selecionado</div>
+                                            <div className="w-20 h-20 rounded-xl bg-slate-200 overflow-hidden shrink-0 relative">
+                                                <Image src="/dish-1.jpg" alt="Dish" fill className="object-cover" />
+                                            </div>
+                                            <div className="flex flex-col justify-center py-1 flex-1">
+                                                <p className="text-[10px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Prato Principal</p>
+                                                <h4 className="font-bold text-brand-900 text-sm leading-tight mb-1 mt-0">Feijoada Light Completa</h4>
+                                                <p className="text-[10px] text-brand-600 leading-snug line-clamp-2">Acompanha arroz branco, couve, farofa e laranja.</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Dish 2: Alternative */}
+                                        <div className="bg-white rounded-2xl p-3 flex gap-3 shadow-sm border border-slate-100 opacity-60">
+                                            <div className="w-20 h-20 rounded-xl bg-slate-200 overflow-hidden shrink-0 relative" />
+                                            {/* Missing Image Placeholder style */}
+                                            <div className="flex flex-col justify-center py-1 flex-1">
+                                                <p className="text-[10px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Opção Leve</p>
+                                                <h4 className="font-bold text-brand-900 text-sm leading-tight mb-1 mt-0">Frango Grelhado C/ Legumes</h4>
+                                                <div className="mt-2 w-full h-8 bg-brand-50 rounded-lg flex items-center justify-center">
+                                                    <span className="text-[11px] font-bold text-brand-700">Trocar para este</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Dish 3 (Cut off) */}
+                                        <div className="bg-white rounded-2xl p-3 flex gap-3 shadow-sm border border-slate-100 opacity-40">
+                                            <div className="w-20 h-20 rounded-xl bg-slate-200 shrink-0" />
+                                            <div className="flex flex-col gap-2 flex-1 pt-2">
+                                                <div className="h-3 w-3/4 bg-slate-100 rounded-full" />
+                                                <div className="h-2 w-1/2 bg-slate-100 rounded-full" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* App Bottom Bar */}
+                                <div className="h-16 bg-white border-t border-slate-100 shrink-0 flex items-center justify-around px-2 pb-2">
+                                    <div className="flex flex-col items-center gap-1 text-brand-600">
+                                        <Utensils className="w-5 h-5" />
+                                        <span className="text-[9px] font-bold">Início</span>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-1 text-slate-400">
+                                        <Receipt className="w-5 h-5" />
+                                        <span className="text-[9px] font-bold">Histórico</span>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-1 text-slate-400">
+                                        <div className="w-5 h-5 rounded-full border-2 border-slate-400" />
+                                        <span className="text-[9px] font-bold">Perfil</span>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
