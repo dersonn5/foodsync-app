@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence, Variants } from 'framer-motion'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown, LogOut, Award } from 'lucide-react'
+import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, ChevronRight, TrendingUp, Utensils, Receipt, DollarSign, CheckCircle2, TrendingDown, LogOut, Award, Plus } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -504,91 +504,89 @@ export default function PresentationPage() {
                                 {/* Native UI Mockup: Employee App (Based on real design) */}
 
                                 {/* App Header */}
-                                <div className="pt-8 pb-2 px-4 bg-white shrink-0 relative z-10 w-full">
-                                    <div className="flex justify-between items-start mb-4">
+                                <div className="pt-8 pb-4 px-5 bg-white shrink-0 relative z-10 w-full border-b border-slate-100">
+                                    <div className="flex justify-between items-start mb-6">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center shadow-md">
+                                            <div className="w-10 h-10 rounded-xl bg-[#0F2A1D] flex items-center justify-center shadow-md">
                                                 <ChefHat className="w-5 h-5 text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-[10px] text-brand-600 font-medium leading-none mb-1">Bom almoço,</div>
-                                                <div className="font-bold text-xl text-brand-900 leading-none">Anderson</div>
+                                                <div className="text-[11px] text-[#517252] font-semibold leading-none mb-1">Bom almoço,</div>
+                                                <div className="font-extrabold text-[#0F2A1D] text-xl leading-none">Anderson</div>
                                             </div>
                                         </div>
-                                        <div className="text-brand-400 mt-1">
+                                        <div className="text-slate-400 mt-1">
                                             <LogOut className="w-5 h-5 rotate-180" />
                                         </div>
                                     </div>
 
                                     {/* Date Scroller */}
-                                    <div className="flex gap-2 overflow-hidden pb-2 -mx-2 px-2">
+                                    <div className="flex gap-2 overflow-hidden pb-1 -mx-3 px-3">
                                         {/* Selected Date */}
-                                        <div className="bg-brand-900 text-white rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 shadow-md shrink-0 border border-brand-900">
-                                            <span className="text-[8px] font-bold tracking-wider uppercase opacity-80 mb-0.5">Quinta</span>
-                                            <span className="text-xl font-bold leading-none">26</span>
+                                        <div className="bg-[#0F2A1D] text-white rounded-3xl min-w-[56px] flex flex-col items-center justify-center py-2.5 shadow-lg shadow-[#0F2A1D]/20 shrink-0">
+                                            <span className="text-[9px] font-bold tracking-widest uppercase text-white/70 mb-0.5">Quinta</span>
+                                            <span className="text-2xl font-black leading-none">26</span>
                                         </div>
                                         {/* Other Dates */}
-                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
-                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Sexta</span>
-                                            <span className="text-xl font-bold leading-none">27</span>
+                                        <div className="bg-white text-slate-700 rounded-3xl min-w-[56px] flex flex-col items-center justify-center py-2.5 border border-slate-200 shrink-0 opacity-90">
+                                            <span className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-0.5">Sexta</span>
+                                            <span className="text-2xl font-black leading-none">27</span>
                                         </div>
-                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
-                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Sábado</span>
-                                            <span className="text-xl font-bold leading-none">28</span>
+                                        <div className="bg-white text-slate-700 rounded-3xl min-w-[56px] flex flex-col items-center justify-center py-2.5 border border-slate-200 shrink-0 opacity-90">
+                                            <span className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-0.5">Sábado</span>
+                                            <span className="text-2xl font-black leading-none">28</span>
                                         </div>
-                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
-                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Dom</span>
-                                            <span className="text-xl font-bold leading-none">1</span>
+                                        <div className="bg-white text-slate-700 rounded-3xl min-w-[56px] flex flex-col items-center justify-center py-2.5 border border-slate-200 shrink-0 opacity-90">
+                                            <span className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-0.5">Domingo</span>
+                                            <span className="text-2xl font-black leading-none">1</span>
                                         </div>
-                                        <div className="bg-white text-brand-900 rounded-2xl min-w-[50px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
-                                            <span className="text-[8px] font-bold tracking-wider uppercase text-brand-500 mb-0.5">Seg</span>
-                                            <span className="text-xl font-bold leading-none">2</span>
+                                        <div className="bg-white text-slate-700 rounded-3xl min-w-[56px] flex flex-col items-center justify-center py-2.5 border border-slate-200 shrink-0 opacity-90">
+                                            <span className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-0.5">Segunda</span>
+                                            <span className="text-2xl font-black leading-none">2</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="w-full h-px bg-slate-100" />
-
                                 {/* App Body (Menu) */}
-                                <div className="flex-1 overflow-hidden bg-white px-4 pt-3 pb-0 flex flex-col gap-4 relative">
+                                <div className="flex-1 overflow-hidden bg-white px-5 pt-5 pb-0 flex flex-col gap-6 relative">
 
                                     {/* Category Pills */}
-                                    <div className="flex gap-2 w-full">
-                                        <div className="bg-brand-900 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-sm">Todos</div>
-                                        <div className="bg-white text-brand-700 border border-slate-200 text-xs font-medium px-4 py-1.5 rounded-full">Padrão</div>
-                                        <div className="bg-white text-brand-700 border border-slate-200 text-xs font-medium px-4 py-1.5 rounded-full">Fit</div>
-                                        <div className="bg-white text-brand-700 border border-slate-200 text-xs font-medium px-4 py-1.5 rounded-full">Lanche</div>
+                                    <div className="flex gap-2 w-full mt-1">
+                                        <div className="bg-[#0F2A1D] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm">Todos</div>
+                                        <div className="bg-white text-slate-600 border border-slate-200 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm">Padrão</div>
+                                        <div className="bg-white text-slate-600 border border-slate-200 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm">Fit</div>
+                                        <div className="bg-white text-slate-600 border border-slate-200 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm">Lanche</div>
                                     </div>
 
-                                    <div className="flex justify-between items-center mt-1">
+                                    <div className="flex justify-between items-center -mb-2">
                                         <div className="flex items-center gap-2">
-                                            <div className="w-6 h-6 rounded-full bg-brand-900 flex items-center justify-center">
-                                                <Utensils className="w-3.5 h-3.5 text-white" />
+                                            <div className="w-7 h-7 rounded-lg bg-[#0F2A1D] flex items-center justify-center shadow-sm">
+                                                <Utensils className="w-4 h-4 text-white" />
                                             </div>
-                                            <h3 className="font-bold text-brand-900 text-sm">Cardápio do Dia</h3>
+                                            <h3 className="font-extrabold text-[#0F2A1D] text-sm">Cardápio do Dia</h3>
                                         </div>
-                                        <span className="text-[10px] font-semibold text-brand-800 bg-brand-100/80 px-2 py-1 rounded-md border border-brand-200/50">2 Opções</span>
+                                        <span className="text-[10px] font-bold text-[#3B5B3E] bg-[#E8F0E9] px-3 py-1.5 rounded-lg border border-[#C5D8C6]">5 Opções</span>
                                     </div>
 
                                     {/* Menu Items Simulation */}
-                                    <div className="space-y-4 relative w-full pb-8">
+                                    <div className="space-y-4 relative w-full pb-32">
 
                                         {/* Overlay to fade bottom items */}
-                                        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none z-20" />
+                                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-20" />
 
                                         {/* Dish 1: Selected */}
-                                        <div className="bg-white rounded-[20px] p-2.5 flex gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-brand-100 relative">
-                                            <div className="w-24 h-24 rounded-2xl bg-slate-200 overflow-hidden shrink-0 relative shadow-sm border border-slate-100">
+                                        <div className="bg-white rounded-3xl p-3 flex gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border-2 border-[#0F2A1D]/10 relative transition-transform hover:-translate-y-1 duration-300">
+                                            <div className="w-[100px] h-[100px] rounded-[20px] bg-slate-200 overflow-hidden shrink-0 relative shadow-inner">
                                                 <Image src="/dish-1.jpg" alt="Strogonoff" fill className="object-cover" />
                                             </div>
                                             <div className="flex flex-col flex-1 py-1 pr-1">
-                                                <p className="text-[8px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Padrão</p>
-                                                <h4 className="font-bold text-brand-900 text-[13px] leading-tight mb-1">Strogonoff de Frango</h4>
-                                                <p className="text-[9px] text-brand-500 leading-tight line-clamp-2 pr-2">Arroz, Strogonoff de Frango, Batata Palha e Salada de...</p>
+                                                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-1">Padrão</p>
+                                                <h4 className="font-extrabold text-[#0F2A1D] text-sm leading-tight mb-1.5">Strogonoff de Frango</h4>
+                                                <p className="text-[9px] text-slate-500 leading-[1.3] line-clamp-2 pr-2">Arroz, Strogonoff de Frango, Batata Palha e Salada de...</p>
 
                                                 <div className="flex justify-between items-center mt-auto pt-1">
-                                                    <span className="text-[10px] font-semibold text-brand-400">450kcal</span>
-                                                    <div className="w-6 h-6 rounded-full bg-brand-900 flex items-center justify-center shadow-md">
+                                                    <span className="text-[10px] font-bold text-slate-400">450kcal</span>
+                                                    <div className="w-7 h-7 rounded-xl bg-[#0F2A1D] flex items-center justify-center shadow-md shadow-[#0F2A1D]/30">
                                                         <CheckCircle2 className="w-4 h-4 text-white" />
                                                     </div>
                                                 </div>
@@ -596,26 +594,29 @@ export default function PresentationPage() {
                                         </div>
 
                                         {/* Dish 2: Fit Alternative */}
-                                        <div className="bg-white rounded-[20px] p-2.5 flex gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-slate-100 relative opacity-90">
-                                            <div className="w-24 h-24 rounded-2xl bg-slate-200 overflow-hidden shrink-0 relative shadow-sm border border-slate-100 text-xs flex items-center justify-center text-slate-400 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=200&q=80')" }}>
+                                        <div className="bg-white rounded-3xl p-3 flex gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-slate-100 relative opacity-95">
+                                            <div className="w-[100px] h-[100px] rounded-[20px] bg-slate-200 overflow-hidden shrink-0 relative shadow-inner flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=200&q=80')" }}>
                                             </div>
                                             <div className="flex flex-col flex-1 py-1 pr-1">
-                                                <p className="text-[8px] text-brand-500 font-bold uppercase tracking-wider mb-0.5">Padrão</p>
-                                                <h4 className="font-bold text-brand-900 text-[13px] leading-tight mb-1">Feijoada Light</h4>
-                                                <p className="text-[9px] text-brand-500 leading-tight line-clamp-2 pr-2">Feijão Preto, Linguiça, Carne de Porco, Farofa e Salada d...</p>
+                                                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-1">Padrão</p>
+                                                <h4 className="font-extrabold text-[#0F2A1D] text-sm leading-tight mb-1.5">Feijoada Light</h4>
+                                                <p className="text-[9px] text-slate-500 leading-[1.3] line-clamp-2 pr-2">Feijão Preto, Linguiça, Carne de Porco, Farofa e Salada d...</p>
 
-                                                <div className="flex justify-end mt-auto pt-1">
-                                                    <div className="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center opacity-50" />
+                                                <div className="flex justify-between items-center mt-auto pt-1">
+                                                    <span className="text-[10px] font-bold text-slate-400">620kcal</span>
+                                                    <div className="w-7 h-7 rounded-xl border-2 border-slate-200 flex items-center justify-center bg-slate-50">
+                                                        <Plus className="w-3 h-3 text-slate-400" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Confirmation Button Floating Mockup */}
-                                    <div className="absolute bottom-4 left-4 right-4 z-30">
-                                        <div className="flex bg-brand-900 text-white rounded-2xl py-3 px-5 items-center justify-between shadow-xl border border-brand-800 shadow-brand-900/20">
-                                            <span className="font-bold text-sm">Confirmar Reserva</span>
-                                            <ArrowRight className="w-4 h-4" />
+                                    <div className="absolute bottom-6 left-5 right-5 z-30">
+                                        <div className="flex bg-[#0F2A1D] text-white rounded-2xl h-14 px-6 items-center justify-between shadow-2xl shadow-[#0F2A1D]/40 hover:bg-[#163B29] transition-colors cursor-pointer">
+                                            <span className="font-extrabold text-[15px]">Confirmar Reserva</span>
+                                            <ArrowRight className="w-5 h-5 text-white/90" />
                                         </div>
                                     </div>
                                 </div>
@@ -623,22 +624,22 @@ export default function PresentationPage() {
                                 {/* App Bottom Bar */}
                                 <div className="h-[72px] bg-white border-t border-slate-100 shrink-0 flex items-center justify-around px-2 pb-5 pt-3 z-40 relative">
                                     <div className="flex flex-col items-center gap-1.5 text-brand-900">
-                                        <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center shadow-md">
+                                        <div className="w-8 h-8 rounded-full bg-[#0F2A1D] flex items-center justify-center shadow-md">
                                             <Utensils className="w-4 h-4 text-white" />
                                         </div>
-                                        <span className="text-[9px] font-bold">Cardápio</span>
+                                        <span className="text-[9px] font-bold text-[#0F2A1D]">Cardápio</span>
                                     </div>
-                                    <div className="flex flex-col items-center gap-1 text-brand-400">
-                                        <Award className="w-5 h-5 opacity-80" />
-                                        <span className="text-[9px] font-medium">Feedback</span>
+                                    <div className="flex flex-col items-center gap-1.5 text-slate-400">
+                                        <Award className="w-5 h-5" />
+                                        <span className="text-[9px] font-semibold">Feedback</span>
                                     </div>
-                                    <div className="flex flex-col items-center gap-1 text-brand-400">
-                                        <Receipt className="w-5 h-5 opacity-80" />
-                                        <span className="text-[9px] font-medium">Pedidos</span>
+                                    <div className="flex flex-col items-center gap-1.5 text-slate-400">
+                                        <Receipt className="w-5 h-5" />
+                                        <span className="text-[9px] font-semibold">Pedidos</span>
                                     </div>
-                                    <div className="flex flex-col items-center gap-1 text-brand-400">
-                                        <div className="w-5 h-5 rounded-full border-2 border-brand-400 opacity-80" />
-                                        <span className="text-[9px] font-medium">Perfil</span>
+                                    <div className="flex flex-col items-center gap-1.5 text-slate-400">
+                                        <div className="w-5 h-5 rounded-full border-2 border-slate-300" />
+                                        <span className="text-[9px] font-semibold">Perfil</span>
                                     </div>
                                 </div>
                             </div>
