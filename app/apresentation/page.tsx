@@ -142,15 +142,27 @@ export default function PresentationPage() {
                             KitchenOS é a plataforma que digitaliza o fluxo de pedidos, elimina filas e entrega controle total ao gestor em tempo real.
                         </motion.p>
 
-                        <motion.div variants={fadeUp} className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-5">
+                        <motion.div variants={fadeUp} className="pt-8 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
                             <Link href="/">
-                                <Button className="h-auto py-4 px-10 text-[16px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1">
-                                    Testar Plataforma <ArrowRight className="ml-2 w-5 h-5" />
+                                <Button className="h-auto py-4 px-8 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
+                                    <Smartphone className="mr-2 w-5 h-5" /> Colaborador
                                 </Button>
                             </Link>
+                            <Link href="/admin">
+                                <Button className="h-auto py-4 px-8 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
+                                    <Users className="mr-2 w-5 h-5" /> Gerente
+                                </Button>
+                            </Link>
+                            <Link href="/ceo">
+                                <Button className="h-auto py-4 px-8 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
+                                    <BarChart3 className="mr-2 w-5 h-5" /> CEO
+                                </Button>
+                            </Link>
+                        </motion.div>
+                        <motion.div variants={fadeUp} className="pt-6 flex justify-center">
                             <a href="#experiencia">
-                                <Button variant="outline" className="h-auto py-4 px-10 text-[16px] font-bold bg-transparent text-white border-white/30 hover:bg-white/10 rounded-full transition-all hover:border-white/50">
-                                    Ver Demonstração
+                                <Button variant="outline" className="h-auto py-3 px-8 text-[14px] font-bold bg-transparent text-white border-white/30 hover:bg-white/10 rounded-full transition-all hover:border-white/50">
+                                    Ver Demonstração <ArrowRight className="ml-2 w-4 h-4" />
                                 </Button>
                             </a>
                         </motion.div>
@@ -998,10 +1010,20 @@ export default function PresentationPage() {
                 <div className="container mx-auto px-6 max-w-3xl space-y-6">
                     <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">O próximo nível do seu negócio.</h2>
                     <p className="text-lg text-slate-500 font-normal">Experimente o sistema e entenda como transformar a operação de ponta a ponta.</p>
-                    <div className="pt-6">
+                    <div className="pt-10 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-5">
                         <Link href="/">
-                            <Button className="h-auto py-5 px-12 text-[17px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
-                                Abrir Plataforma KitchenOS <ArrowRight className="ml-3 w-5 h-5" />
+                            <Button className="h-auto py-5 px-10 text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
+                                <Smartphone className="mr-2 w-6 h-6 opacity-80" /> Colaborador
+                            </Button>
+                        </Link>
+                        <Link href="/admin">
+                            <Button className="h-auto py-5 px-10 text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
+                                <Users className="mr-2 w-6 h-6 opacity-80" /> Gerente
+                            </Button>
+                        </Link>
+                        <Link href="/ceo">
+                            <Button className="h-auto py-5 px-10 text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
+                                <BarChart3 className="mr-2 w-6 h-6 opacity-80" /> CEO
                             </Button>
                         </Link>
                     </div>
