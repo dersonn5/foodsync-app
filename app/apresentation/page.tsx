@@ -151,92 +151,137 @@ export default function PresentationPage() {
                 </div>
             </section>
 
-            {/* ================= BEFORE VS AFTER OPERATIONS ================= */}
-            <section className="py-24 bg-brand-900 relative overflow-hidden text-brand-50">
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent" />
+            {/* ================= TIMELINE: O ANTES E O DEPOIS ================= */}
+            <section className="py-32 bg-brand-50 relative overflow-hidden">
+                {/* Subtle Background Elements */}
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-white/50 rounded-full blur-[100px] pointer-events-none" />
 
                 <div className="container mx-auto px-6 relative z-10">
-                    <div className="text-center max-w-3xl mx-auto mb-16">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-800 border border-brand-700 text-brand-200 text-sm font-bold uppercase tracking-wide mb-6">
-                            <Utensils className="w-4 h-4" /> A Evolução do Refeitório
+                    <div className="text-center max-w-3xl mx-auto mb-20">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-brand-100 text-brand-800 text-sm font-bold uppercase tracking-wide mb-6 shadow-sm">
+                            <Utensils className="w-4 h-4" /> Evolução da Operação
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Adeus papel e caneta. <br /> <span className="text-brand-400">Olá fluxo digital.</span></h2>
-                        <p className="text-xl text-brand-200/80">O processo manual gerava filas infernais e desperdício de produção incalculável pela falta de previsibilidade. Veja o que mudou.</p>
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-brand-900 mb-6 tracking-tight">Adeus papel e caneta. <br /> <span className="text-brand-500">Olá fluxo digital.</span></h2>
+                        <p className="text-xl text-muted-foreground font-medium">O processo manual gerava filas e desperdício incalculável de insumos pela falta de previsibilidade. Acompanhe a transformação.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
+                    <div className="max-w-5xl mx-auto relative px-4 md:px-0">
 
-                        {/* THE BEFORE */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            className="bg-brand-950 rounded-3xl p-8 border border-red-900/30 relative flex flex-col"
-                        >
-                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center border border-red-500/20">
-                                <span className="font-bold text-xl">✗</span>
-                            </div>
-                            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                                <span className="text-red-400 text-sm uppercase tracking-wider font-bold">O Problema</span>
-                                <br /> O Processo Antigo
-                            </h3>
+                        {/* Linha Central Vertical */}
+                        <div className="absolute left-8 md:left-1/2 top-4 bottom-4 w-1 bg-brand-200/50 transform md:-translate-x-1/2 rounded-full hidden md:block" />
 
-                            <ul className="space-y-6 flex-1">
-                                <li className="flex items-start gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center flex-shrink-0 mt-1 border border-brand-800 text-brand-400 font-mono text-sm leading-none">1</div>
-                                    <p className="text-brand-200/90 leading-relaxed">O funcionário caminhava até a cozinha presencialmente para ver o cardápio e os pratos alternativos do dia seguinte.</p>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center flex-shrink-0 mt-1 border border-brand-800 text-brand-400 font-mono text-sm leading-none">2</div>
-                                    <p className="text-brand-200/90 leading-relaxed">Anotava <strong className="text-red-300">manualmente de caneta</strong> no papel qual prato alternativo desejava comer.</p>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-brand-900 flex items-center justify-center flex-shrink-0 mt-1 border border-brand-800 text-brand-400 font-mono text-sm leading-none">3</div>
-                                    <p className="text-brand-200/90 leading-relaxed">No dia seguinte, a funcionária da roleta <strong className="text-red-300">sofria para procurar nomes em papéis rasurados</strong>, criando filas imensas.</p>
-                                </li>
-                            </ul>
+                        <div className="space-y-24">
 
-                            <div className="mt-8 p-4 bg-red-950/30 rounded-2xl border border-red-900/30">
-                                <p className="text-sm text-red-300 font-medium font-bold text-center">Resultado: Fila na roleta, produção às cegas, zero confiabilidade e muito desperdício.</p>
-                            </div>
-                        </motion.div>
+                            {/* Step 1: O Pedido */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                className="relative flex flex-col md:flex-row items-center justify-between group"
+                            >
+                                {/* Marcador Central */}
+                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-brand-200 z-10 items-center justify-center shadow-sm group-hover:border-brand-400 group-hover:scale-110 transition-all duration-300">
+                                    <div className="w-3 h-3 rounded-full bg-brand-400" />
+                                </div>
 
-                        {/* THE AFTER */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ delay: 0.2 }}
-                            className="bg-brand-800/50 rounded-3xl p-8 border border-brand-500/30 food-shadow-elevated relative flex flex-col backdrop-blur-md"
-                        >
-                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center shadow-lg shadow-brand-500/30">
-                                <span className="font-bold text-2xl">✓</span>
-                            </div>
-                            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                                <span className="text-brand-400 text-sm uppercase tracking-wider font-bold">A Solução</span>
-                                <br /> O Processo Limpo
-                            </h3>
+                                {/* O Problema */}
+                                <div className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12">
+                                    <h4 className="text-lg font-bold text-muted-foreground mb-3 uppercase tracking-wider text-sm flex items-center md:justify-end gap-2">
+                                        Rotina Manual <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" />
+                                    </h4>
+                                    <p className="text-muted-foreground/80 font-medium leading-relaxed">
+                                        O funcionário precisava ir presencialmente até a cozinha para consultar o cardápio e <strong className="text-muted-foreground text-red-400">anotar à caneta no papel</strong> qual prato alternativo desejava para o dia seguinte.
+                                    </p>
+                                </div>
 
-                            <ul className="space-y-6 flex-1">
-                                <li className="flex items-start gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0 mt-1 text-white font-mono text-sm leading-none font-bold">1</div>
-                                    <p className="text-brand-50 leading-relaxed">O colaborador faz um breve cadastro e acessa o App na palma da mão, vendo o cardápio e alternativas do dia posterior a qualquer hora.</p>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0 mt-1 text-white font-mono text-sm leading-none font-bold">2</div>
-                                    <p className="text-brand-50 leading-relaxed">Escolhe o prato no App. A cozinha recebe o pedido <strong className="text-brand-300">instantaneamente</strong> no Dashboard e já totaliza as quantidades de amanhã.</p>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center flex-shrink-0 mt-1 text-white font-mono text-sm leading-none font-bold">3</div>
-                                    <p className="text-brand-50 leading-relaxed">No almoço, o funcionário só abre o Web-App e a roleta <strong className="text-brand-300">escaneia o QR Code dele</strong>, validando o pedido na fração de um segundo.</p>
-                                </li>
-                            </ul>
+                                {/* A Solução */}
+                                <div className="md:w-[45%] pl-0 md:pl-12">
+                                    <div className="bg-white rounded-3xl p-8 border border-brand-100 food-shadow-card hover:-translate-y-1 transition-transform duration-300">
+                                        <h4 className="text-2xl font-bold text-brand-900 mb-4 flex items-center gap-3">
+                                            <span className="w-8 h-8 rounded-full bg-brand-100 text-brand-700 text-sm flex items-center justify-center font-bold">1</span>
+                                            Cardápio na Palma da Mão
+                                        </h4>
+                                        <p className="text-brand-800 font-medium leading-relaxed">
+                                            O colaborador faz um breve cadastro e acessa o App. Ele visualiza dinamicamente o cardápio e seleciona suas alternativas para o dia posterior <strong className="text-brand-600">de qualquer lugar</strong>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
 
-                            <div className="mt-8 p-4 bg-brand-900 rounded-2xl border border-brand-700">
-                                <p className="text-sm text-brand-300 font-bold text-center">Resultado: Filas extintas na roleta, logística exata e zero papel ou erros de bandeja.</p>
-                            </div>
-                        </motion.div>
+                            {/* Step 2: A Produção */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                className="relative flex flex-col md:flex-row-reverse items-center justify-between group"
+                            >
+                                {/* Marcador Central */}
+                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-brand-300 z-10 items-center justify-center shadow-sm group-hover:border-brand-500 group-hover:scale-110 transition-all duration-300">
+                                    <div className="w-3 h-3 rounded-full bg-brand-500" />
+                                </div>
 
+                                {/* O Problema */}
+                                <div className="md:w-[45%] mb-8 md:mb-0 text-left pl-0 md:pl-12">
+                                    <h4 className="text-lg font-bold text-muted-foreground mb-3 uppercase tracking-wider text-sm flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" /> Produção às Cegas
+                                    </h4>
+                                    <p className="text-muted-foreground/80 font-medium leading-relaxed">
+                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-muted-foreground text-red-400">desperdício e impossibilitava o planejamento</strong> exato de compras e insumos.
+                                    </p>
+                                </div>
+
+                                {/* A Solução */}
+                                <div className="md:w-[45%] pr-0 md:pr-12 text-left md:text-right">
+                                    <div className="bg-white rounded-3xl p-8 border border-brand-100 food-shadow-card ml-auto hover:-translate-y-1 transition-transform duration-300">
+                                        <h4 className="text-2xl font-bold text-brand-900 mb-4 flex items-center md:justify-end gap-3">
+                                            Integração Instantânea
+                                            <span className="w-8 h-8 rounded-full bg-brand-200 text-brand-800 text-sm flex items-center justify-center font-bold">2</span>
+                                        </h4>
+                                        <p className="text-brand-800 font-medium leading-relaxed">
+                                            A cozinha recebe os pedidos <strong className="text-brand-600">instantaneamente no Dashboard</strong>. O sistema mapeia os totais precisos para que a equipe de compras saiba exatamente o quanto produzir.
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Step 3: A Validação */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                className="relative flex flex-col md:flex-row items-center justify-between group"
+                            >
+                                {/* Marcador Central */}
+                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-brand-500 border-4 border-brand-100 z-10 items-center justify-center shadow-[0_0_20px_rgba(107,144,113,0.4)] group-hover:scale-110 transition-all duration-300">
+                                    <div className="w-4 h-4 rounded-full bg-white animate-pulse" />
+                                </div>
+
+                                {/* O Problema */}
+                                <div className="md:w-[45%] mb-8 md:mb-0 text-left md:text-right pr-0 md:pr-12">
+                                    <h4 className="text-lg font-bold text-muted-foreground mb-3 uppercase tracking-wider text-sm flex items-center md:justify-end gap-2">
+                                        O Gargalo da Roleta <span className="w-2 h-2 rounded-full bg-muted-foreground/30 inline-block" />
+                                    </h4>
+                                    <p className="text-muted-foreground/80 font-medium leading-relaxed">
+                                        Funcionárias na roleta perdiam tempo precioso folheando papéis para encontrar nomes na hora de servir o almoço, <strong className="text-muted-foreground text-red-400">causando filas extremas</strong> no pico operacional.
+                                    </p>
+                                </div>
+
+                                {/* A Solução */}
+                                <div className="md:w-[45%] pl-0 md:pl-12">
+                                    <div className="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 border border-brand-700 shadow-2xl shadow-brand-900/20 transform hover:-translate-y-2 transition-transform duration-300 group-hover:shadow-brand-500/30">
+                                        <h4 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                                            <span className="w-8 h-8 rounded-full bg-white text-brand-900 text-sm flex items-center justify-center font-bold">3</span>
+                                            Catraca Expressa
+                                        </h4>
+                                        <p className="text-brand-50 font-medium leading-relaxed">
+                                            No refeitório o funcionário apenas exibe seu celular e a roleta <strong className="text-brand-300">escaneia o QR Code dele</strong>, aprovando a retirada do prato correto na fração de um segundo. Zero papéis. Zero atritos.
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                        </div>
                     </div>
                 </div>
             </section>
