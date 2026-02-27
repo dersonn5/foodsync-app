@@ -8,6 +8,7 @@ import { ArrowRight, BarChart3, Clock, ChefHat, Smartphone, Zap, ShieldCheck, Ch
 import Link from 'next/link'
 import Image from 'next/image'
 import InteractiveDemo from '@/components/presentation/InteractiveDemo'
+import EmployeeAppDemo from '@/components/presentation/EmployeeAppDemo'
 
 // Animations
 const fadeUp: Variants = {
@@ -825,101 +826,7 @@ export default function PresentationPage() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="lg:w-1/2 w-full flex justify-center"
                         >
-                            <div className="relative w-[280px] h-[580px] rounded-[40px] border-[8px] border-[#0F2A1D] bg-[#f8fafc] overflow-hidden shadow-2xl shadow-[#0F2A1D]/15 flex flex-col">
-                                {/* Dynamic Island / Notch area bg */}
-                                <div className="absolute top-0 inset-x-0 h-6 bg-[#0F2A1D] rounded-b-2xl z-30 w-36 mx-auto flex justify-center items-end pb-1">
-                                    <div className="w-12 h-1.5 bg-black/30 rounded-full" />
-                                </div>
-
-                                {/* App Header */}
-                                <div className="bg-white pt-8 pb-3 px-4 shadow-sm z-20 relative">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <div className="flex gap-2.5 items-center">
-                                            <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                                                <User className="w-4 h-4" />
-                                            </div>
-                                            <div>
-                                                <div className="text-[14px] font-bold text-slate-900 leading-tight">Olá, Anderson</div>
-                                                <div className="text-[10px] text-slate-500 font-medium tracking-tight">Terça, 27 de Fev</div>
-                                            </div>
-                                        </div>
-                                        <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center relative">
-                                            <Bell className="w-4 h-4 text-slate-600" />
-                                            <div className="absolute top-2 right-2.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white" />
-                                        </div>
-                                    </div>
-
-                                    {/* Date Scroller */}
-                                    <div className="flex gap-2 overflow-hidden -mx-2 px-2 pb-1">
-                                        {[
-                                            { d: '25', w: 'Dom' },
-                                            { d: '26', w: 'Seg' },
-                                            { d: '27', w: 'Ter', active: true },
-                                            { d: '28', w: 'Qua' },
-                                            { d: '01', w: 'Qui' }
-                                        ].map((day, i) => (
-                                            <div key={i} className={`flex-shrink-0 flex flex-col items-center justify-center w-11 py-2 rounded-xl transition-colors ${day.active ? 'bg-[#0F2A1D] text-white shadow-md shadow-[#0F2A1D]/20' : 'border border-slate-100 bg-white text-slate-400'}`}>
-                                                <span className={`text-[8px] font-bold uppercase mb-0.5 ${day.active ? 'text-emerald-400/90' : 'text-slate-400'}`}>{day.w}</span>
-                                                <span className={`text-[13px] font-bold ${day.active ? 'text-white' : 'text-slate-700'}`}>{day.d}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Body */}
-                                <div className="flex-1 overflow-hidden p-4 flex flex-col gap-4 relative z-10">
-                                    {/* Meal Types */}
-                                    <div className="flex gap-1.5 relative z-10 w-full overflow-hidden">
-                                        <div className="px-3.5 py-1.5 rounded-full bg-[#0F2A1D] text-white text-[11px] font-bold shadow-sm shrink-0">Almoço</div>
-                                        <div className="px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-500 text-[11px] font-semibold flex items-center gap-1 shrink-0"><span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Jantar</div>
-                                        <div className="px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-500 text-[11px] font-semibold shrink-0">Ceia</div>
-                                    </div>
-
-                                    {/* Cardápio Title */}
-                                    <div>
-                                        <h3 className="text-[13px] font-bold text-slate-900 mb-0.5">Cardápio do Dia</h3>
-                                        <p className="text-[10px] text-slate-500 leading-tight">Selecione sua refeição principal</p>
-                                    </div>
-
-                                    {/* Dish Card */}
-                                    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 flex-1 flex flex-col pb-3">
-                                        <div className="relative h-32 w-full bg-slate-100 border-b border-slate-50">
-                                            {/* We use a colored placeholder similar to image since the static image path might not load if not cached */}
-                                            <div className="absolute inset-0 bg-gradient-to-tr from-orange-100/80 to-amber-50" />
-                                            <Image src="/dishes/strogonoff_frango.png" alt="Strogonoff" fill className="object-cover" />
-                                            <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-lg bg-white/90 backdrop-blur-sm text-[9px] font-bold text-slate-700 shadow-sm flex items-center gap-1">
-                                                <Star className="w-2.5 h-2.5 text-amber-500 fill-amber-500" /> 4.8
-                                            </div>
-                                        </div>
-                                        <div className="p-3.5 flex flex-col flex-1">
-                                            <div className="flex justify-between items-start mb-1.5">
-                                                <div>
-                                                    <div className="text-[10px] text-emerald-600 font-bold mb-0.5 uppercase tracking-wide">Opção Padrão</div>
-                                                    <h4 className="text-[15px] font-bold text-slate-900 leading-tight mb-2 tracking-tight">Strogonoff de Frango</h4>
-                                                </div>
-                                            </div>
-                                            <p className="text-[10px] text-slate-500 mb-3 leading-relaxed flex-1">
-                                                Acompanha arroz branco soltinho e batata palha extra crocante.
-                                            </p>
-
-                                            {/* Dietary tags */}
-                                            <div className="flex flex-wrap gap-1 mb-3.5">
-                                                <span className="px-1.5 py-0.5 rounded bg-amber-50 border border-amber-100 text-amber-700 text-[8px] font-bold flex items-center gap-0.5">🌾 Contém Glúten</span>
-                                                <span className="px-1.5 py-0.5 rounded bg-blue-50 border border-blue-100 text-blue-700 text-[8px] font-bold flex items-center gap-0.5">🥛 Lactose</span>
-                                            </div>
-
-                                            <button className="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold tracking-wide text-[12px] shadow-sm shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5">
-                                                <CheckCircle2 className="w-3.5 h-3.5" /> Selecionar Opção
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Bottom Nav (iOS style strip) */}
-                                <div className="absolute bottom-1 w-full flex justify-center pb-2 pt-4 bg-gradient-to-t from-white via-white to-transparent z-20">
-                                    <div className="w-32 h-1.5 bg-slate-200 rounded-full" />
-                                </div>
-                            </div>
+                            <EmployeeAppDemo />
                         </motion.div>
                     </div>
 
@@ -991,11 +898,11 @@ export default function PresentationPage() {
                     </div>
 
                 </div>
-            </section>
+            </section >
 
 
             {/* ═══════════ TECHNOLOGY ═══════════ */}
-            <section id="tecnologia" className="py-24 bg-[#0F2A1D] relative">
+            < section id="tecnologia" className="py-24 bg-[#0F2A1D] relative" >
                 <div className="container mx-auto px-6">
                     <div className="text-center max-w-3xl mx-auto mb-14">
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Construído com tecnologia de ponta.</h2>
@@ -1024,11 +931,11 @@ export default function PresentationPage() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
 
             {/* ═══════════ CTA FINAL ═══════════ */}
-            <section className="py-24 bg-white text-center">
+            < section className="py-24 bg-white text-center" >
                 <div className="container mx-auto px-6 max-w-3xl space-y-6">
                     <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">O próximo nível do seu negócio.</h2>
                     <p className="text-lg text-slate-500 font-normal">Experimente o sistema e entenda como transformar a operação de ponta a ponta.</p>
@@ -1050,16 +957,16 @@ export default function PresentationPage() {
                         </Link>
                     </div>
                 </div>
-            </section>
+            </section >
 
 
             {/* ═══════════ FOOTER ═══════════ */}
-            <footer className="py-8 border-t border-slate-100 bg-white text-center text-slate-400 font-normal text-sm">
+            < footer className="py-8 border-t border-slate-100 bg-white text-center text-slate-400 font-normal text-sm" >
                 <div className="flex items-center justify-center gap-2 mb-2">
                     <Logo variant="dark" className="scale-75 opacity-40 grayscale" />
                 </div>
                 © 2026 KitchenOS • Apresentação Executiva.
-            </footer>
-        </div>
+            </footer >
+        </div >
     )
 }
