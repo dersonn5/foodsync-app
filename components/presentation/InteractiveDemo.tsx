@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -16,9 +16,9 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Design Tokens
-   ───────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const COLORS = {
     creme: '#FAFAF8',
     verde: '#1a5d1d',
@@ -29,42 +29,42 @@ const COLORS = {
     branco: '#ffffff',
 }
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Step data
-   ───────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const stepsData = [
     {
         id: 1,
         badge: 'Passo 1 de 3',
-        tagline: 'Cardápio Inteligente',
-        title: <>Escolha trava o{'\u00A0'}custo.<br />Previne desperdício.</>,
-        description: 'O funcionário acessa o app de qualquer lugar e escolhe o prato. A cozinha sabe exatamente quanto producing, reduzindo o CMV (Custo de Mercadoria Vendida).',
-        highlight: 'Selecione o "Strogonoff" no celular ao lado →',
-        stat: { value: '-32%', label: 'de desperdício de insumos' },
+        tagline: 'CardÃ¡pio Inteligente',
+        title: <>Escolha trava o{'\u00A0'}custo.<br />Previne desperdÃ­cio.</>,
+        description: 'O funcionÃ¡rio acessa o app de qualquer lugar e escolhe o prato. A cozinha sabe exatamente quanto producing, reduzindo o CMV (Custo de MercadoriaÂ Vendida).',
+        highlight: 'Selecione o "Strogonoff" no celular ao lado â†’',
+        stat: { value: '-32%', label: 'de desperdÃ­cio de insumos' },
     },
     {
         id: 2,
         badge: 'Passo 2 de 3',
         tagline: 'Check-in Matinal',
         title: 'Previsibilidade absoluta.',
-        description: 'No dia do consumo, o colaborador abre o app e clica em um botão para confirmar que fará a refeição. Números sempre exatos e atualizados para a operação.',
-        highlight: 'Clique em "Confirmar Presença" →',
-        stat: { value: '100%', label: 'precisão na produção diária' },
+        description: 'No dia do consumo, o colaborador abre o app e clica em um botÃ£o para confirmar que farÃ¡ a refeiÃ§Ã£o. NÃºmeros sempre exatos e atualizados para aÂ operaÃ§Ã£o.',
+        highlight: 'Clique em "Confirmar PresenÃ§a" â†’',
+        stat: { value: '100%', label: 'precisÃ£o na produÃ§Ã£o diÃ¡ria' },
     },
     {
         id: 3,
         badge: 'Passo 3 de 3',
-        tagline: 'QR Code Instantâneo',
+        tagline: 'QR Code InstantÃ¢neo',
         title: 'Pedido confirmado. Zero filas.',
-        description: 'Na hora do refeitório, o funcionário apenas apresenta o QR Code. A cozinha escaneia e valida em milissegundos. Sem papéis, sem busca por nomes, sem filas.',
-        highlight: 'Faça scroll para ver a mágica na cozinha ↓',
+        description: 'Na hora do refeitÃ³rio, o funcionÃ¡rio apenas apresenta o QR Code. A cozinha escaneia e valida em milissegundos. Sem papÃ©is, sem busca por nomes, semÂ filas.',
+        highlight: 'FaÃ§a scroll para ver a mÃ¡gica na cozinha â†“',
         stat: { value: '<1s', label: 'para validar o pedido' },
     },
 ]
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Phone Screen Components
-   ───────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function PhoneScreenHome({ onAction }: { onAction: () => void }) {
     return (
@@ -76,7 +76,7 @@ function PhoneScreenHome({ onAction }: { onAction: () => void }) {
                         <ChefHat className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <p className="text-[11px] text-[#517252] font-semibold leading-none">Bom almoço,</p>
+                        <p className="text-[11px] text-[#517252] font-semibold leading-none">Bom almoÃ§o,</p>
                         <p className="font-extrabold text-[#0F2A1D] text-lg leading-tight">Anderson</p>
                     </div>
                 </div>
@@ -88,9 +88,9 @@ function PhoneScreenHome({ onAction }: { onAction: () => void }) {
                     <Utensils className="w-10 h-10 text-white" />
                 </div>
                 <div className="text-center space-y-2">
-                    <h3 className="font-extrabold text-[#0F2A1D] text-lg">Cardápio Disponível</h3>
+                    <h3 className="font-extrabold text-[#0F2A1D] text-lg">CardÃ¡pio DisponÃ­vel</h3>
                     <p className="text-xs text-slate-500 leading-relaxed max-w-[200px] mx-auto">
-                        O cardápio de amanhã já está pronto. Escolha seu prato alternativo agora.
+                        O cardÃ¡pio de amanhÃ£ jÃ¡ estÃ¡ pronto. Escolha seu prato alternativoÂ agora.
                     </p>
                 </div>
 
@@ -123,7 +123,7 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
                         <ChefHat className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                        <p className="text-[10px] text-[#527252] font-semibold">Bom almoço,</p>
+                        <p className="text-[10px] text-[#527252] font-semibold">Bom almoÃ§o,</p>
                         <p className="font-extrabold text-[#0F2A1D] text-base leading-tight">Anderson</p>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
                         <span className="text-[8px] font-bold uppercase text-white/70">Quinta</span>
                         <span className="text-lg font-black leading-none">26</span>
                     </div>
-                    {[{ day: 'Sexta', num: '27' }, { day: 'Sáb', num: '28' }, { day: 'Dom', num: '1' }, { day: 'Seg', num: '2' }].map(d => (
+                    {[{ day: 'Sexta', num: '27' }, { day: 'SÃ¡b', num: '28' }, { day: 'Dom', num: '1' }, { day: 'Seg', num: '2' }].map(d => (
                         <div key={d.num} className="bg-white text-slate-700 rounded-2xl min-w-[48px] flex flex-col items-center justify-center py-2 border border-slate-200 shrink-0 opacity-80">
                             <span className="text-[8px] font-bold uppercase text-slate-400">{d.day}</span>
                             <span className="text-lg font-black leading-none">{d.num}</span>
@@ -148,7 +148,7 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
             {/* Pills */}
             <div className="px-5 pt-3 pb-2 flex gap-2">
                 <div className="bg-[#0F2A1D] text-white text-[10px] font-bold px-3 py-1.5 rounded-xl">Todos</div>
-                <div className="bg-white text-slate-600 border border-slate-200 text-[10px] font-semibold px-3 py-1.5 rounded-xl">Padrão</div>
+                <div className="bg-white text-slate-600 border border-slate-200 text-[10px] font-semibold px-3 py-1.5 rounded-xl">PadrÃ£o</div>
                 <div className="bg-white text-slate-600 border border-slate-200 text-[10px] font-semibold px-3 py-1.5 rounded-xl">Fit</div>
                 <div className="bg-white text-slate-600 border border-slate-200 text-[10px] font-semibold px-3 py-1.5 rounded-xl">Lanche</div>
             </div>
@@ -159,9 +159,9 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
                     <div className="w-6 h-6 rounded-lg bg-[#0F2A1D] flex items-center justify-center">
                         <Utensils className="w-3.5 h-3.5 text-white" />
                     </div>
-                    <h3 className="font-extrabold text-[#0F2A1D] text-xs">Cardápio do Dia</h3>
+                    <h3 className="font-extrabold text-[#0F2A1D] text-xs">CardÃ¡pio do Dia</h3>
                 </div>
-                <span className="text-[9px] font-bold text-[#3B5B3E] bg-[#E8F0E9] px-2 py-1 rounded-lg border border-[#C5D8C6]">5 Opções</span>
+                <span className="text-[9px] font-bold text-[#3B5B3E] bg-[#E8F0E9] px-2 py-1 rounded-lg border border-[#C5D8C6]">5 OpÃ§Ãµes</span>
             </div>
 
             {/* Menu Items */}
@@ -177,7 +177,7 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
                         <Image src="/dishes/strogonoff_frango.png" alt="Strogonoff" fill className="object-cover" />
                     </div>
                     <div className="flex flex-col flex-1 py-0.5 pr-1">
-                        <p className="text-[7px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Padrão</p>
+                        <p className="text-[7px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">PadrÃ£o</p>
                         <h4 className="font-extrabold text-[#0F2A1D] text-[11px] leading-tight mb-1">Strogonoff de Frango</h4>
                         <p className="text-[8px] text-slate-500 leading-[1.3] line-clamp-2">Arroz, Strogonoff de Frango, Batata Palha e Salada de Alface.</p>
                         <div className="flex justify-between items-center mt-auto pt-1">
@@ -195,9 +195,9 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
                         <Image src="/dishes/feijoada.png" alt="Feijoada" fill className="object-cover" />
                     </div>
                     <div className="flex flex-col flex-1 py-0.5 pr-1">
-                        <p className="text-[7px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Padrão</p>
+                        <p className="text-[7px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">PadrÃ£o</p>
                         <h4 className="font-extrabold text-[#0F2A1D] text-[11px] leading-tight mb-1">Feijoada Light</h4>
-                        <p className="text-[8px] text-slate-500 leading-[1.3] line-clamp-2">Feijão Preto, Linguiça, Farinha e Salada.</p>
+                        <p className="text-[8px] text-slate-500 leading-[1.3] line-clamp-2">FeijÃ£o Preto, LinguiÃ§a, Farinha e Salada.</p>
                         <div className="flex justify-end mt-auto pt-1">
                             <div className="w-6 h-6 rounded-lg border border-slate-200 flex items-center justify-center bg-slate-50">
                                 <span className="text-[10px] text-slate-400">+</span>
@@ -247,7 +247,7 @@ function PhoneScreenCheckIn({ onAction }: { onAction: () => void }) {
                         </div>
                         <div className="flex flex-col justify-center">
                             <h4 className="font-extrabold text-[#0F2A1D] text-lg leading-tight mb-1">Strogonoff</h4>
-                            <p className="text-xs text-slate-500 font-medium tracking-tight">Prato Padrão</p>
+                            <p className="text-xs text-slate-500 font-medium tracking-tight">Prato PadrÃ£o</p>
                         </div>
                     </div>
 
@@ -256,7 +256,7 @@ function PhoneScreenCheckIn({ onAction }: { onAction: () => void }) {
                         className="relative w-full bg-emerald-600 text-white font-bold text-sm h-12 rounded-xl shadow-[0_8px_20px_rgba(5,150,105,0.25)] hover:bg-emerald-700 transition-colors cursor-pointer select-none"
                     >
                         <span className="absolute -inset-1 rounded-2xl animate-pulse bg-emerald-600/20 pointer-events-none" />
-                        <span className="relative z-10">Confirmar Presença Hoje</span>
+                        <span className="relative z-10">Confirmar PresenÃ§a Hoje</span>
                     </button>
                     <button className="w-full mt-2 text-xs font-semibold text-slate-400 hover:text-slate-600 h-8">
                         Cancelar Reserva
@@ -299,7 +299,7 @@ function PhoneScreenQRCode() {
 
                 <div className="text-center space-y-1">
                     <h3 className="font-extrabold text-[#0F2A1D] text-base">Reserva Confirmada!</h3>
-                    <p className="text-[10px] text-slate-500">Strogonoff de Frango • Quinta, 26</p>
+                    <p className="text-[10px] text-slate-500">Strogonoff de Frango â€¢ Quinta, 26</p>
                 </div>
 
                 {/* QR Code */}
@@ -343,7 +343,7 @@ function PhoneScreenQRCode() {
                     transition={{ delay: 1 }}
                     className="text-[10px] text-slate-400 font-medium text-center max-w-[180px]"
                 >
-                    Apresente este QR Code na retirada amanhã
+                    Apresente este QR Code na retirada amanhÃ£
                 </motion.p>
             </div>
 
@@ -359,7 +359,7 @@ function PhoneBottomNav({ active }: { active: string }) {
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center ${active === 'cardapio' ? 'bg-[#0F2A1D]' : ''}`}>
                     <Utensils className={`w-3.5 h-3.5 ${active === 'cardapio' ? 'text-white' : ''}`} />
                 </div>
-                <span className="text-[8px] font-bold">Cardápio</span>
+                <span className="text-[8px] font-bold">CardÃ¡pio</span>
             </div>
             <div className="flex flex-col items-center gap-1 text-slate-400">
                 <Star className="w-4 h-4" />
@@ -377,9 +377,9 @@ function PhoneBottomNav({ active }: { active: string }) {
     )
 }
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Kitchen Terminal Section
-   ───────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function KitchenTerminal() {
     return (
         <section className="py-16 md:py-28 relative overflow-hidden" style={{ background: '#0F2A1D' }}>
@@ -400,18 +400,18 @@ function KitchenTerminal() {
                             <Scan className="w-4 h-4" /> Na Cozinha
                         </div>
                         <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                            Validação em <span className="text-[#f8b4a0]">milissegundos.</span><br />Zero filas.
+                            ValidaÃ§Ã£o em <span className="text-[#f8b4a0]">milissegundos.</span><br />Zero filas.
                         </h2>
                         <p className="text-lg text-white/70 font-medium leading-relaxed">
-                            O tablet da cozinha recebe automaticamente todos os pedidos.<br />Na hora da retirada, a equipe apenas escaneia o QR Code do funcionário e o pedido é validado{'\u00A0'}instantaneamente.
+                            O tablet da cozinha recebe automaticamente todos os pedidos.<br />Na hora da retirada, a equipe apenas escaneia o QR Code do funcionÃ¡rio e o pedido Ã© validado{'\u00A0'}instantaneamente.
                             <br /><br />
-                            Sem buscar nomes. Sem folhear papéis. Sem incerteza.
+                            Sem buscar nomes. Sem folhear papÃ©is. SemÂ incerteza.
                         </p>
 
                         <div className="flex flex-nowrap gap-2 md:gap-3 pt-4">
                             <div className="bg-white/10 rounded-xl px-3 py-3 md:px-5 md:py-4 border border-white/10 backdrop-blur-sm">
                                 <div className="text-2xl font-black text-white">&lt;1s</div>
-                                <div className="text-[10px] text-white/50 font-semibold uppercase tracking-wider mt-1">Tempo de validação</div>
+                                <div className="text-[10px] text-white/50 font-semibold uppercase tracking-wider mt-1">Tempo de validaÃ§Ã£o</div>
                             </div>
                             <div className="bg-white/10 rounded-xl px-3 py-3 md:px-5 md:py-4 border border-white/10 backdrop-blur-sm">
                                 <div className="text-2xl font-black text-[#f8b4a0]">0</div>
@@ -439,7 +439,7 @@ function KitchenTerminal() {
                                     <div className="w-5 h-5 rounded bg-[#0F2A1D] flex items-center justify-center">
                                         <ChefHat className="w-2.5 h-2.5 text-white" />
                                     </div>
-                                    <span className="text-[10px] text-white/80 font-bold">KitchenOS • Terminal</span>
+                                    <span className="text-[10px] text-white/80 font-bold">KitchenOS â€¢ Terminal</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
                                     <span className="relative flex h-2 w-2">
@@ -483,7 +483,7 @@ function KitchenTerminal() {
                                     </div>
                                     <div>
                                         <p className="text-white font-bold text-sm">Anderson Silva</p>
-                                        <p className="text-white/50 text-xs">Strogonoff de Frango • Padrão</p>
+                                        <p className="text-white/50 text-xs">Strogonoff de Frango â€¢ PadrÃ£o</p>
                                     </div>
                                 </motion.div>
 
@@ -493,12 +493,12 @@ function KitchenTerminal() {
                                     whileInView={{ opacity: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: 1.5 }}
-                                    className="w-full max-w-[300px] space-y-2 mt-2"
+                                    className="w-full max-w-[300px] space-y-2 mt-2 hidden md:block"
                                 >
-                                    <div className="text-[9px] text-white/30 font-bold uppercase tracking-wider">Últimas validações</div>
+                                    <div className="text-[9px] text-white/30 font-bold uppercase tracking-wider">Ãšltimas validaÃ§Ãµes</div>
                                     {[
-                                        { name: 'Maria Santos', prato: 'Feijoada Light', time: '2s atrás' },
-                                        { name: 'João Oliveira', prato: 'Frango Grelhado Fit', time: '15s atrás' },
+                                        { name: 'Maria Santos', prato: 'Feijoada Light', time: '2s atrÃ¡s' },
+                                        { name: 'JoÃ£o Oliveira', prato: 'Frango Grelhado Fit', time: '15s atrÃ¡s' },
                                     ].map((v, i) => (
                                         <div key={i} className="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2 border border-white/5">
                                             <div>
@@ -521,9 +521,9 @@ function KitchenTerminal() {
     )
 }
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Storytelling Quote Section
-   ───────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function StorytellingSection() {
     return (
         <section className="py-28 relative overflow-hidden" style={{ background: COLORS.creme }}>
@@ -541,9 +541,9 @@ function StorytellingSection() {
                     </div>
 
                     <blockquote className="relative">
-                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-8xl text-[#1a5d1d]/10 font-serif select-none">&ldquo;</div>
+                        <div className="absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 text-8xl md:text-9xl text-[#1a5d1d]/10 font-serif select-none">&ldquo;</div>
                         <p className="text-xl md:text-3xl font-bold leading-relaxed text-[#3E2723] max-w-3xl mx-auto italic">
-                            Este sistema não nasceu numa sala de reunião. Ele nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">ouvindo quem pica, cozinha e serve</span> milhares de refeições por dia. Magnólia, uma colaboradora de muitos anos da NutriSaúde, nos mostrou que o problema nunca foi a falta de tecnologia — era a falta de alguém para ouvir.
+                            Este sistema nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">dentro da cozinha, ao lado de quem pica, cozinha e serve</span> milhares de refeições por dia. Cada funcionalidade foi desenhada para dar voz à operação — transformando a rotina da equipe em dados que geram eficiência, qualidade e economia real.
                         </p>
                     </blockquote>
 
@@ -560,9 +560,9 @@ function StorytellingSection() {
     )
 }
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Main Interactive Demo Component
-   ───────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function InteractiveDemo() {
     const [currentStep, setCurrentStep] = useState(1)
     const sectionRef = useRef<HTMLDivElement>(null)
@@ -577,7 +577,7 @@ export default function InteractiveDemo() {
 
     return (
         <>
-            {/* ── Hero Intro ── */}
+            {/* â”€â”€ Hero Intro â”€â”€ */}
             <section className="py-14 md:py-24 relative overflow-hidden" style={{ background: COLORS.creme }}>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1a5d1d]/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -594,18 +594,18 @@ export default function InteractiveDemo() {
                         </div>
 
                         <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight" style={{ color: '#0F2A1D' }}>
-                            Não imagine.<br />
+                            NÃ£o imagine.<br />
                             <span style={{ color: COLORS.verde }}>Experiencie.</span>
                         </h2>
 
                         <p className="text-base md:text-xl text-slate-500 font-medium max-w-2xl mx-auto">
-                            Simule a experiência completa de um colaborador em <strong className="text-[#0F2A1D]">3 cliques</strong>. Interaja com o celular ao lado e veja como 1.500 refeições por dia são gerenciadas sem papel.
+                            Simule a experiÃªncia completa de um colaborador em <strong className="text-[#0F2A1D]">3 cliques</strong>. Interaja com o celular ao lado e veja como 1.500 refeiÃ§Ãµes por dia sÃ£o gerenciadas semÂ papel.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* ── Interactive App Section ── */}
+            {/* â”€â”€ Interactive App Section â”€â”€ */}
             <section ref={sectionRef} className="py-12 md:py-20 relative overflow-hidden" style={{ background: COLORS.creme }}>
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-20 max-w-6xl mx-auto">
@@ -695,10 +695,10 @@ export default function InteractiveDemo() {
                 </div>
             </section>
 
-            {/* ── Kitchen Terminal ── */}
+            {/* â”€â”€ Kitchen Terminal â”€â”€ */}
             <KitchenTerminal />
 
-            {/* ── Storytelling ── */}
+            {/* â”€â”€ Storytelling â”€â”€ */}
             <StorytellingSection />
         </>
     )
