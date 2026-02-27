@@ -203,8 +203,8 @@ export default function PresentationPage() {
 
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-[13px] font-semibold uppercase tracking-wider mb-6">
-                            <Utensils className="w-3.5 h-3.5" /> Evolução da Operação
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-white/80 text-[10px] md:text-[13px] font-semibold uppercase tracking-wider mb-4 md:mb-6">
+                            <Utensils className="w-3 h-3 md:w-3.5 md:h-3.5" /> Evolução da Operação
                         </div>
                         <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-5 tracking-tight">
                             Adeus papel e caneta.<br />
@@ -217,26 +217,26 @@ export default function PresentationPage() {
 
                     <div className="max-w-5xl mx-auto relative px-4 md:px-0">
                         {/* Vertical line */}
-                        <div className="absolute left-8 md:left-1/2 top-4 bottom-4 w-px bg-white/10 transform md:-translate-x-1/2 hidden md:block" />
+                        <div className="absolute left-1/2 top-4 bottom-4 w-px bg-white/10 transform -translate-x-1/2" />
 
-                        <div className="space-y-20">
+                        <div className="space-y-14 md:space-y-20">
 
                             {/* Step 1 */}
-                            <div className="relative flex flex-col md:flex-row items-center justify-between group">
-                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white/10 border-2 border-emerald-500/40 z-10 items-center justify-center backdrop-blur-sm">
-                                    <div className="w-3 h-3 rounded-full bg-emerald-400" />
+                            <div className="relative flex flex-row items-center justify-between group">
+                                <div className="flex absolute left-1/2 transform -translate-x-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 border-2 border-emerald-500/40 z-10 items-center justify-center backdrop-blur-sm">
+                                    <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-emerald-400" />
                                 </div>
 
                                 <motion.div
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] mb-6 md:mb-0 text-left md:text-right pr-0 md:pr-12"
+                                    className="w-[45%] text-right pr-4 md:pr-12"
                                 >
-                                    <h4 className="text-[12px] font-semibold text-red-400/80 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> Rotina Manual
+                                    <h4 className="text-[9px] md:text-[12px] font-semibold text-red-400/80 mb-1.5 md:mb-3 uppercase tracking-wider flex items-center justify-end gap-1.5 md:gap-2">
+                                        <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-red-400/60 inline-block" /> Rotina Manual
                                     </h4>
-                                    <p className="text-white/40 font-normal leading-relaxed text-sm">
+                                    <p className="text-white/40 font-normal leading-relaxed text-[10px] md:text-sm">
                                         O funcionário precisava ir até a cozinha para consultar o cardápio e <strong className="text-red-400/80">anotar à caneta no papel</strong> qual prato alternativo desejava para o dia seguinte.
                                     </p>
                                 </motion.div>
@@ -245,15 +245,15 @@ export default function PresentationPage() {
                                     initial={{ opacity: 0, x: 30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] pl-0 md:pl-12"
+                                    className="w-[45%] pl-4 md:pl-12"
                                 >
-                                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-7 border border-white/10 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+                                    <div className="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-3 md:p-7 border border-white/10 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
                                         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-emerald-500/50 to-transparent" />
-                                        <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-3">
-                                            <span className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center font-bold">1</span>
+                                        <h4 className="text-sm md:text-xl font-bold text-white mb-1.5 md:mb-3 flex items-center gap-2 md:gap-3">
+                                            <span className="w-5 h-5 md:w-7 md:h-7 rounded-lg bg-emerald-500/20 text-emerald-400 text-[10px] md:text-xs flex items-center justify-center font-bold">1</span>
                                             Cardápio na Palma da Mão
                                         </h4>
-                                        <p className="text-white/60 font-normal leading-relaxed text-sm">
+                                        <p className="text-white/60 font-normal leading-relaxed text-[10px] md:text-sm">
                                             O colaborador faz um breve cadastro e acessa o App. Ele visualiza o cardápio e seleciona suas alternativas <strong className="text-emerald-400">de qualquer lugar</strong>.
                                         </p>
                                     </div>
@@ -261,22 +261,22 @@ export default function PresentationPage() {
                             </div>
 
                             {/* Step 2 */}
-                            <div className="relative flex flex-col md:flex-row items-center justify-between group">
-                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white/10 border-2 border-emerald-500/40 z-10 items-center justify-center backdrop-blur-sm">
-                                    <div className="w-3 h-3 rounded-full bg-emerald-400" />
+                            <div className="relative flex flex-row items-center justify-between group">
+                                <div className="flex absolute left-1/2 transform -translate-x-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 border-2 border-emerald-500/40 z-10 items-center justify-center backdrop-blur-sm">
+                                    <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-emerald-400" />
                                 </div>
 
                                 <motion.div
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] mb-6 md:mb-0 text-left md:text-right pr-0 md:pr-12"
+                                    className="w-[45%] text-right pr-4 md:pr-12"
                                 >
-                                    <h4 className="text-[12px] font-semibold text-red-400/80 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> Produção às Cegas
+                                    <h4 className="text-[9px] md:text-[12px] font-semibold text-red-400/80 mb-1.5 md:mb-3 uppercase tracking-wider flex items-center justify-end gap-1.5 md:gap-2">
+                                        <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-red-400/60 inline-block" /> Produção às Cegas
                                     </h4>
-                                    <p className="text-white/40 font-normal leading-relaxed text-sm">
-                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-red-400/80">desperdício e impossibilitava o planejamento</strong> exato de compras e insumos.
+                                    <p className="text-white/40 font-normal leading-relaxed text-[10px] md:text-sm">
+                                        Basear a produção de milhares de refeições em papeladas rasuradas gerava <strong className="text-red-400/80">desperdício e impossibilitava o planejamento</strong> exato de compras e insumos.
                                     </p>
                                 </motion.div>
 
@@ -284,38 +284,38 @@ export default function PresentationPage() {
                                     initial={{ opacity: 0, x: 30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] pl-0 md:pl-12"
+                                    className="w-[45%] pl-4 md:pl-12"
                                 >
-                                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-7 border border-white/10 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
+                                    <div className="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-3 md:p-7 border border-white/10 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300">
                                         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-emerald-500/50 to-transparent" />
-                                        <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-3">
-                                            <span className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center font-bold">2</span>
+                                        <h4 className="text-sm md:text-xl font-bold text-white mb-1.5 md:mb-3 flex items-center gap-2 md:gap-3">
+                                            <span className="w-5 h-5 md:w-7 md:h-7 rounded-lg bg-emerald-500/20 text-emerald-400 text-[10px] md:text-xs flex items-center justify-center font-bold">2</span>
                                             Check-in Matinal
                                         </h4>
-                                        <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            Previsibilidade absoluta. No dia do consumo, o colaborador abre o app e <strong className="text-emerald-400">confirma a presença em 1 clique</strong>. Números sempre exatos e atualizados para a equipe da cozinha.
+                                        <p className="text-white/60 font-normal leading-relaxed text-[10px] md:text-sm">
+                                            Previsibilidade absoluta. No dia do consumo, o colaborador abre o app e <strong className="text-emerald-400">confirma a presença em 1 clique</strong>. Números sempre exatos e atualizados para a equipe da cozinha.
                                         </p>
                                     </div>
                                 </motion.div>
                             </div>
 
                             {/* Step 3 */}
-                            <div className="relative flex flex-col md:flex-row items-center justify-between group">
-                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-emerald-500/20 border-2 border-emerald-400 z-10 items-center justify-center backdrop-blur-sm shadow-[0_0_20px_rgba(52,211,153,0.2)]">
-                                    <div className="w-4 h-4 rounded-full bg-emerald-400 animate-pulse" />
+                            <div className="relative flex flex-row items-center justify-between group">
+                                <div className="flex absolute left-1/2 transform -translate-x-1/2 w-8 h-8 md:w-12 md:h-12 rounded-full bg-emerald-500/20 border-2 border-emerald-400 z-10 items-center justify-center backdrop-blur-sm shadow-[0_0_20px_rgba(52,211,153,0.2)]">
+                                    <div className="w-2 h-2 md:w-4 md:h-4 rounded-full bg-emerald-400 animate-pulse" />
                                 </div>
 
                                 <motion.div
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] mb-6 md:mb-0 text-left md:text-right pr-0 md:pr-12"
+                                    className="w-[45%] text-right pr-4 md:pr-12"
                                 >
-                                    <h4 className="text-[12px] font-semibold text-red-400/80 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> O Gargalo da Roleta
+                                    <h4 className="text-[9px] md:text-[12px] font-semibold text-red-400/80 mb-1.5 md:mb-3 uppercase tracking-wider flex items-center justify-end gap-1.5 md:gap-2">
+                                        <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-red-400/60 inline-block" /> O Gargalo da Roleta
                                     </h4>
-                                    <p className="text-white/40 font-normal leading-relaxed text-sm">
-                                        Funcionárias perdiam tempo folheando papéis para encontrar nomes na hora de servir, <strong className="text-red-400/80">causando filas extremas</strong> no pico operacional.
+                                    <p className="text-white/40 font-normal leading-relaxed text-[10px] md:text-sm">
+                                        Funcionárias perdiam tempo folheando papéis para encontrar nomes na hora de servir, <strong className="text-red-400/80">causando filas extremas</strong> no pico operacional.
                                     </p>
                                 </motion.div>
 
@@ -323,54 +323,54 @@ export default function PresentationPage() {
                                     initial={{ opacity: 0, x: 30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] pl-0 md:pl-12"
+                                    className="w-[45%] pl-4 md:pl-12"
                                 >
-                                    <div className="bg-gradient-to-br from-emerald-500/10 to-white/5 backdrop-blur-sm rounded-2xl p-7 border border-emerald-500/20 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300 shadow-[0_0_30px_rgba(52,211,153,0.06)]">
+                                    <div className="bg-gradient-to-br from-emerald-500/10 to-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-3 md:p-7 border border-emerald-500/20 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300 shadow-[0_0_30px_rgba(52,211,153,0.06)]">
                                         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-emerald-400 to-transparent" />
-                                        <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-3">
-                                            <span className="w-7 h-7 rounded-lg bg-emerald-500/30 text-emerald-300 text-xs flex items-center justify-center font-bold">3</span>
+                                        <h4 className="text-sm md:text-xl font-bold text-white mb-1.5 md:mb-3 flex items-center gap-2 md:gap-3">
+                                            <span className="w-5 h-5 md:w-7 md:h-7 rounded-lg bg-emerald-500/30 text-emerald-300 text-[10px] md:text-xs flex items-center justify-center font-bold">3</span>
                                             Catraca Expressa
                                         </h4>
-                                        <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            O funcionário exibe seu QR Code e a cozinha <strong className="text-emerald-400">escaneia e valida em milissegundos</strong>. Zero papéis. Zero atritos.
+                                        <p className="text-white/60 font-normal leading-relaxed text-[10px] md:text-sm">
+                                            O funcionário exibe seu QR Code e a cozinha <strong className="text-emerald-400">escaneia e valida em milissegundos</strong>. Zero papéis. Zero atritos.
                                         </p>
                                     </div>
                                 </motion.div>
                             </div>
 
                             {/* Step 4 */}
-                            <div className="relative flex flex-col md:flex-row items-center justify-between group mt-20">
+                            <div className="relative flex flex-row items-center justify-between group mt-0">
                                 <motion.div
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] mb-6 md:mb-0 text-left md:text-right pr-0 md:pr-12"
+                                    className="w-[45%] text-right pr-4 md:pr-12"
                                 >
-                                    <h4 className="text-[12px] font-semibold text-red-400/80 mb-3 uppercase tracking-wider flex items-center md:justify-end gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 inline-block" /> O Gargalo Feedback
+                                    <h4 className="text-[9px] md:text-[12px] font-semibold text-red-400/80 mb-1.5 md:mb-3 uppercase tracking-wider flex items-center justify-end gap-1.5 md:gap-2">
+                                        <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-red-400/60 inline-block" /> O Gargalo Feedback
                                     </h4>
-                                    <p className="text-white/40 font-normal leading-relaxed text-sm">
+                                    <p className="text-white/40 font-normal leading-relaxed text-[10px] md:text-sm">
                                         Reclamações verbais não viram dado, não medem o sucesso do prato e a gestão <strong className="text-red-400/80">opera no escuro</strong> sobre a vontade da equipe.
                                     </p>
                                 </motion.div>
 
-                                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-emerald-500/20 border-2 border-emerald-400 z-10 items-center justify-center backdrop-blur-sm shadow-[0_0_20px_rgba(52,211,153,0.2)]">
-                                    <div className="w-4 h-4 rounded-full bg-emerald-400 animate-pulse" />
+                                <div className="flex absolute left-1/2 transform -translate-x-1/2 w-8 h-8 md:w-12 md:h-12 rounded-full bg-emerald-500/20 border-2 border-emerald-400 z-10 items-center justify-center backdrop-blur-sm shadow-[0_0_20px_rgba(52,211,153,0.2)]">
+                                    <div className="w-2 h-2 md:w-4 md:h-4 rounded-full bg-emerald-400 animate-pulse" />
                                 </div>
 
                                 <motion.div
                                     initial={{ opacity: 0, x: 30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: false, margin: '-100px' }}
-                                    className="md:w-[45%] pl-0 md:pl-12"
+                                    className="w-[45%] pl-4 md:pl-12"
                                 >
-                                    <div className="bg-gradient-to-br from-emerald-500/10 to-[#0F2A1D]/5 backdrop-blur-sm rounded-2xl p-7 border border-emerald-500/20 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300 shadow-[0_0_30px_rgba(52,211,153,0.06)]">
+                                    <div className="bg-gradient-to-br from-emerald-500/10 to-[#0F2A1D]/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-3 md:p-7 border border-emerald-500/20 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-300 shadow-[0_0_30px_rgba(52,211,153,0.06)]">
                                         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-emerald-400 to-transparent" />
-                                        <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-3">
-                                            <span className="w-7 h-7 rounded-lg bg-emerald-500/30 text-emerald-300 text-xs flex items-center justify-center font-bold">4</span>
-                                            Ciclo de Qualidade Contínua
+                                        <h4 className="text-sm md:text-xl font-bold text-white mb-1.5 md:mb-3 flex items-center gap-2 md:gap-3">
+                                            <span className="w-5 h-5 md:w-7 md:h-7 rounded-lg bg-emerald-500/30 text-emerald-300 text-[10px] md:text-xs flex items-center justify-center font-bold">4</span>
+                                            Ciclo de Qualidade
                                         </h4>
-                                        <p className="text-white/60 font-normal leading-relaxed text-sm">
+                                        <p className="text-white/60 font-normal leading-relaxed text-[10px] md:text-sm">
                                             Após a refeição, o colaborador <strong className="text-emerald-400">avalia o prato em 1 clique</strong>. A equipe sabe exatamente o que agrada e o motivo de quedas no consumo.
                                         </p>
                                     </div>

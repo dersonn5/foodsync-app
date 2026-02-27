@@ -37,7 +37,7 @@ const stepsData = [
         id: 1,
         badge: 'Passo 1 de 3',
         tagline: 'Cardápio Inteligente',
-        title: <>Escolha trava o custo.<br />Previne desperdício.</>,
+        title: <>Escolha trava o{'\u00A0'}custo.<br />Previne desperdício.</>,
         description: 'O funcionário acessa o app de qualquer lugar e escolhe o prato. A cozinha sabe exatamente quanto producing, reduzindo o CMV (Custo de Mercadoria Vendida).',
         highlight: 'Selecione o "Strogonoff" no celular ao lado →',
         stat: { value: '-32%', label: 'de desperdício de insumos' },
@@ -408,16 +408,16 @@ function KitchenTerminal() {
                             Sem buscar nomes. Sem folhear papéis. Sem incerteza.
                         </p>
 
-                        <div className="flex flex-wrap gap-3 md:gap-4 pt-4">
-                            <div className="bg-white/10 rounded-xl px-5 py-4 border border-white/10 backdrop-blur-sm">
+                        <div className="flex flex-nowrap gap-2 md:gap-3 pt-4">
+                            <div className="bg-white/10 rounded-xl px-3 py-3 md:px-5 md:py-4 border border-white/10 backdrop-blur-sm">
                                 <div className="text-2xl font-black text-white">&lt;1s</div>
                                 <div className="text-[10px] text-white/50 font-semibold uppercase tracking-wider mt-1">Tempo de validação</div>
                             </div>
-                            <div className="bg-white/10 rounded-xl px-5 py-4 border border-white/10 backdrop-blur-sm">
+                            <div className="bg-white/10 rounded-xl px-3 py-3 md:px-5 md:py-4 border border-white/10 backdrop-blur-sm">
                                 <div className="text-2xl font-black text-[#f8b4a0]">0</div>
                                 <div className="text-[10px] text-white/50 font-semibold uppercase tracking-wider mt-1">Filas na retirada</div>
                             </div>
-                            <div className="bg-white/10 rounded-xl px-5 py-4 border border-white/10 backdrop-blur-sm">
+                            <div className="bg-white/10 rounded-xl px-3 py-3 md:px-5 md:py-4 border border-white/10 backdrop-blur-sm">
                                 <div className="text-2xl font-black text-white">100%</div>
                                 <div className="text-[10px] text-white/50 font-semibold uppercase tracking-wider mt-1">Rastreabilidade</div>
                             </div>
@@ -432,7 +432,7 @@ function KitchenTerminal() {
                         transition={{ duration: 0.7, delay: 0.2 }}
                         className="lg:w-1/2 flex justify-center"
                     >
-                        <div className="relative w-full max-w-[500px] aspect-[4/3] rounded-3xl border-[6px] border-slate-800 bg-[#1a1a2e] overflow-hidden shadow-2xl shadow-black/40">
+                        <div className="relative w-full max-w-[500px] aspect-[4/3] rounded-2xl md:rounded-3xl border-[4px] md:border-[6px] border-slate-800 bg-[#1a1a2e] overflow-hidden shadow-2xl shadow-black/40">
                             {/* Tablet header */}
                             <div className="h-10 bg-[#111827] flex items-center justify-between px-4">
                                 <div className="flex items-center gap-2">
@@ -451,7 +451,7 @@ function KitchenTerminal() {
                             </div>
 
                             {/* Tablet content */}
-                            <div className="p-6 flex flex-col items-center justify-center h-[calc(100%-40px)] bg-gradient-to-br from-[#111827] to-[#1f2937] gap-5">
+                            <div className="p-3 md:p-6 flex flex-col items-center justify-center h-[calc(100%-40px)] bg-gradient-to-br from-[#111827] to-[#1f2937] gap-3 md:gap-5">
                                 {/* Scanning animation */}
                                 <motion.div
                                     initial={{ opacity: 0 }}
@@ -460,8 +460,8 @@ function KitchenTerminal() {
                                     transition={{ delay: 0.5 }}
                                     className="relative"
                                 >
-                                    <div className="w-28 h-28 rounded-2xl border-2 border-dashed border-green-500/40 flex items-center justify-center">
-                                        <Scan className="w-12 h-12 text-green-400/60" />
+                                    <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl border-2 border-dashed border-green-500/40 flex items-center justify-center">
+                                        <Scan className="w-8 h-8 md:w-12 md:h-12 text-green-400/60" />
                                     </div>
                                     {/* Scan line */}
                                     <motion.div
@@ -589,8 +589,8 @@ export default function InteractiveDemo() {
                         transition={{ duration: 0.6 }}
                         className="max-w-3xl mx-auto space-y-6"
                     >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-[#1a5d1d] text-sm font-bold uppercase tracking-wider shadow-sm">
-                            <Smartphone className="w-4 h-4" /> Test Drive Interativo
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[#1a5d1d] text-[10px] md:text-sm font-bold uppercase tracking-wider shadow-sm">
+                            <Smartphone className="w-3.5 h-3.5" /> Test Drive Interativo
                         </div>
 
                         <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight" style={{ color: '#0F2A1D' }}>
