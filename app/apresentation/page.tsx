@@ -306,10 +306,10 @@ export default function PresentationPage() {
                                         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-emerald-500/50 to-transparent" />
                                         <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-3">
                                             <span className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center font-bold">2</span>
-                                            Integração Instantânea
+                                            Check-in Matinal
                                         </h4>
                                         <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            A cozinha recebe os pedidos <strong className="text-emerald-400">instantaneamente no Dashboard</strong>. O sistema mapeia os totais para que a equipe saiba exatamente o quanto produzir.
+                                            Sem automações via WhatsApp. No dia do consumo, o colaborador abre o app e <strong className="text-emerald-400">confirma a presença em 1 clique</strong>. Números sempre exatos para a operação.
                                         </p>
                                     </div>
                                 </motion.div>

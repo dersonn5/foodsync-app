@@ -36,27 +36,27 @@ const stepsData = [
     {
         id: 1,
         badge: 'Passo 1 de 3',
-        tagline: 'A Jornada do Colaborador',
-        title: 'Adeus cozinha, caneta e papel.',
-        description: 'Antes, o funcionário precisava ir até a cozinha, ver o cardápio no mural e anotar à caneta o prato alternativo. Agora, ele abre o App e já vê tudo na palma da mão.',
-        highlight: 'Clique em "Fazer Pedido" no celular ao lado →',
-        stat: { value: '0s', label: 'deslocamento para pedir' },
+        tagline: 'Cardápio Inteligente',
+        title: 'Escolha trava o custo. Previne desperdício.',
+        description: 'O funcionário acessa o app de qualquer lugar e escolhe o prato. A cozinha sabe exatamente quanto produzir, reduzindo o CMV (Custo de Mercadoria Vendida).',
+        highlight: 'Selecione o "Strogonoff" no celular ao lado →',
+        stat: { value: '-32%', label: 'de desperdício de insumos' },
     },
     {
         id: 2,
         badge: 'Passo 2 de 3',
-        tagline: 'Cardápio Inteligente',
-        title: 'Escolha trava o custo. Previne desperdício.',
-        description: 'A cozinha recebe o pedido instantaneamente. Isso significa previsibilidade de insumos, zero sobreprovisão e controle total do CMV (Custo de Mercadoria Vendida).',
-        highlight: 'Selecione o "Strogonoff de Frango" →',
-        stat: { value: '-32%', label: 'de desperdício de insumos' },
+        tagline: 'Check-in Matinal',
+        title: 'Confirmação real. Sem automações via WhatsApp.',
+        description: 'No dia do consumo, o colaborador abre o app e clica em um botão para confirmar que fará a refeição. Números sempre exatos para a operação.',
+        highlight: 'Clique em "Confirmar Presença" →',
+        stat: { value: '100%', label: 'precisão na produção diária' },
     },
     {
         id: 3,
         badge: 'Passo 3 de 3',
         tagline: 'QR Code Instantâneo',
         title: 'Pedido confirmado. Zero filas.',
-        description: 'No dia seguinte, o funcionário apenas apresenta o QR Code na retirada. A cozinha escaneia e valida em milissegundos. Sem papéis, sem busca por nomes, sem filas.',
+        description: 'Na hora do refeitório, o funcionário apenas apresenta o QR Code. A cozinha escaneia e valida em milissegundos. Sem papéis, sem busca por nomes, sem filas.',
         highlight: 'Faça scroll para ver a mágica na cozinha ↓',
         stat: { value: '<1s', label: 'para validar o pedido' },
     },
@@ -211,6 +211,60 @@ function PhoneScreenCardapio({ onAction }: { onAction: () => void }) {
             </div>
 
             <PhoneBottomNav active="cardapio" />
+        </div>
+    )
+}
+
+function PhoneScreenCheckIn({ onAction }: { onAction: () => void }) {
+    return (
+        <div className="flex flex-col h-full bg-slate-50">
+            {/* Header */}
+            <div className="px-5 pt-10 pb-4">
+                <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-[#0F2A1D] flex items-center justify-center">
+                        <ChefHat className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] text-[#527252] font-semibold">Reserva para hoje</p>
+                        <p className="font-extrabold text-[#0F2A1D] text-base leading-tight">Anderson</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 px-5 pt-5 relative">
+                <div className="bg-white rounded-3xl p-5 shadow-[0_10px_40px_rgba(0,0,0,0.05)] border border-slate-100">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-600 text-[9px] font-bold uppercase tracking-wider">
+                            <Clock className="w-3 h-3 text-amber-500" /> Pendente
+                        </div>
+                        <span className="text-[10px] font-bold text-slate-400">Quinta, 26</span>
+                    </div>
+
+                    <div className="flex gap-4 mb-6">
+                        <div className="w-16 h-16 rounded-2xl bg-amber-100 overflow-hidden shrink-0 relative">
+                            <Image src="/dishes/strogonoff_frango.png" alt="Strogonoff" fill className="object-cover" />
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <h4 className="font-extrabold text-[#0F2A1D] text-lg leading-tight mb-1">Strogonoff</h4>
+                            <p className="text-xs text-slate-500 font-medium tracking-tight">Prato Padrão</p>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={onAction}
+                        className="relative w-full bg-emerald-600 text-white font-bold text-sm h-12 rounded-xl shadow-[0_8px_20px_rgba(5,150,105,0.25)] hover:bg-emerald-700 transition-colors cursor-pointer select-none"
+                    >
+                        <span className="absolute -inset-1 rounded-2xl animate-pulse bg-emerald-600/20 pointer-events-none" />
+                        <span className="relative z-10">Confirmar Presença Hoje</span>
+                    </button>
+                    <button className="w-full mt-2 text-xs font-semibold text-slate-400 hover:text-slate-600 h-8">
+                        Cancelar Reserva
+                    </button>
+                </div>
+            </div>
+
+            <PhoneBottomNav active="pedidos" />
         </div>
     )
 }
@@ -629,8 +683,8 @@ export default function InteractiveDemo() {
                                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                                             className="absolute inset-0 z-10"
                                         >
-                                            {currentStep === 1 && <PhoneScreenHome onAction={handleAction} />}
-                                            {currentStep === 2 && <PhoneScreenCardapio onAction={handleAction} />}
+                                            {currentStep === 1 && <PhoneScreenCardapio onAction={handleAction} />}
+                                            {currentStep === 2 && <PhoneScreenCheckIn onAction={handleAction} />}
                                             {currentStep === 3 && <PhoneScreenQRCode />}
                                         </motion.div>
                                     </AnimatePresence>
