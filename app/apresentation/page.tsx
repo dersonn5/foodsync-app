@@ -370,10 +370,10 @@ export default function PresentationPage() {
                                 Controle total na <span className="text-[#0F2A1D]">palma da mão.</span>
                             </h2>
                             <p className="text-base text-slate-500 font-normal leading-relaxed">
-                                Faturamento, itens mais pedidos, margens e satisfação em uma interface desenhada para decisões rápidas.
+                                Custo de Mercadoria (CMV), volume de refeições, controle de desperdício e satisfação em uma interface desenhada para decisões rápidas.
                             </p>
                             <ul className="space-y-3 pt-2">
-                                {['Métricas financeiras em tempo real', 'Gráficos interativos e exportação de relatórios', 'Ticket Médio e Satisfação (NPS)'].map((item, i) => (
+                                {['Métricas de custo e volume em tempo real', 'Gráficos interativos e exportação de relatórios', 'Evolução de Qualidade e Satisfação (NPS)'].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3 text-slate-700 font-medium text-sm">
                                         <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
                                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
