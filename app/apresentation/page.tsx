@@ -142,27 +142,10 @@ export default function PresentationPage() {
                             KitchenOS é a plataforma que digitaliza o fluxo de pedidos, elimina filas e entrega controle total ao gestor em tempo real.
                         </motion.p>
 
-                        <motion.div variants={fadeUp} className="pt-8 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
-                            <Link href="/">
-                                <Button className="h-auto py-4 px-8 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
-                                    <Smartphone className="mr-2 w-5 h-5" /> Colaborador
-                                </Button>
-                            </Link>
-                            <Link href="/admin">
-                                <Button className="h-auto py-4 px-8 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
-                                    <Users className="mr-2 w-5 h-5" /> Gerente
-                                </Button>
-                            </Link>
-                            <Link href="/ceo">
-                                <Button className="h-auto py-4 px-8 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
-                                    <BarChart3 className="mr-2 w-5 h-5" /> CEO
-                                </Button>
-                            </Link>
-                        </motion.div>
-                        <motion.div variants={fadeUp} className="pt-6 flex justify-center">
+                        <motion.div variants={fadeUp} className="pt-8 flex justify-center">
                             <a href="#experiencia">
-                                <Button variant="outline" className="h-auto py-3 px-8 text-[14px] font-bold bg-transparent text-white border-white/30 hover:bg-white/10 rounded-full transition-all hover:border-white/50">
-                                    Ver Demonstração <ArrowRight className="ml-2 w-4 h-4" />
+                                <Button className="h-auto py-4 px-10 text-[15px] font-bold bg-white text-[#0F2A1D] hover:bg-slate-100 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
+                                    Ver Demonstração <ArrowRight className="ml-2 w-5 h-5" />
                                 </Button>
                             </a>
                         </motion.div>
