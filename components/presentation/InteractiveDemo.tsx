@@ -382,12 +382,12 @@ function PhoneBottomNav({ active }: { active: string }) {
    ───────────────────────────────────────────── */
 function KitchenTerminal() {
     return (
-        <section className="py-28 relative overflow-hidden" style={{ background: '#0F2A1D' }}>
+        <section className="py-16 md:py-28 relative overflow-hidden" style={{ background: '#0F2A1D' }}>
             {/* Ambient glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#1a5d1d]/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col lg:flex-row items-center gap-16">
+                <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-16">
                     {/* Text */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -399,7 +399,7 @@ function KitchenTerminal() {
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-sm font-bold uppercase tracking-wider backdrop-blur-sm">
                             <Scan className="w-4 h-4" /> Na Cozinha
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
                             Validação em <span className="text-[#f8b4a0]">milissegundos.</span><br />Zero filas.
                         </h2>
                         <p className="text-lg text-white/70 font-medium leading-relaxed">
@@ -408,7 +408,7 @@ function KitchenTerminal() {
                             Sem buscar nomes. Sem folhear papéis. Sem incerteza.
                         </p>
 
-                        <div className="flex gap-4 pt-4">
+                        <div className="flex flex-wrap gap-3 md:gap-4 pt-4">
                             <div className="bg-white/10 rounded-xl px-5 py-4 border border-white/10 backdrop-blur-sm">
                                 <div className="text-2xl font-black text-white">&lt;1s</div>
                                 <div className="text-[10px] text-white/50 font-semibold uppercase tracking-wider mt-1">Tempo de validação</div>
@@ -542,7 +542,7 @@ function StorytellingSection() {
 
                     <blockquote className="relative">
                         <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-8xl text-[#1a5d1d]/10 font-serif select-none">&ldquo;</div>
-                        <p className="text-2xl md:text-3xl font-bold leading-relaxed text-[#3E2723] max-w-3xl mx-auto italic">
+                        <p className="text-xl md:text-3xl font-bold leading-relaxed text-[#3E2723] max-w-3xl mx-auto italic">
                             Este sistema não nasceu numa sala de reunião. Ele nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">ouvindo quem pica, cozinha e serve</span> milhares de refeições por dia. Magnólia, uma colaboradora de muitos anos da NutriSaúde, nos mostrou que o problema nunca foi a falta de tecnologia — era a falta de alguém para ouvir.
                         </p>
                     </blockquote>
@@ -578,7 +578,7 @@ export default function InteractiveDemo() {
     return (
         <>
             {/* ── Hero Intro ── */}
-            <section className="py-24 relative overflow-hidden" style={{ background: COLORS.creme }}>
+            <section className="py-14 md:py-24 relative overflow-hidden" style={{ background: COLORS.creme }}>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1a5d1d]/5 rounded-full blur-[120px] pointer-events-none" />
 
                 <div className="container mx-auto px-6 text-center relative z-10">
@@ -593,12 +593,12 @@ export default function InteractiveDemo() {
                             <Smartphone className="w-4 h-4" /> Test Drive Interativo
                         </div>
 
-                        <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight" style={{ color: '#0F2A1D' }}>
+                        <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight" style={{ color: '#0F2A1D' }}>
                             Não imagine.<br />
                             <span style={{ color: COLORS.verde }}>Experiencie.</span>
                         </h2>
 
-                        <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto">
+                        <p className="text-base md:text-xl text-slate-500 font-medium max-w-2xl mx-auto">
                             Simule a experiência completa de um colaborador em <strong className="text-[#0F2A1D]">3 cliques</strong>. Interaja com o celular ao lado e veja como 1.500 refeições por dia são gerenciadas sem papel.
                         </p>
                     </motion.div>
@@ -606,9 +606,9 @@ export default function InteractiveDemo() {
             </section>
 
             {/* ── Interactive App Section ── */}
-            <section ref={sectionRef} className="py-20 relative overflow-hidden" style={{ background: COLORS.creme }}>
+            <section ref={sectionRef} className="py-12 md:py-20 relative overflow-hidden" style={{ background: COLORS.creme }}>
                 <div className="container mx-auto px-6 relative z-10">
-                    <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-6xl mx-auto">
+                    <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-20 max-w-6xl mx-auto">
 
                         {/* LEFT: Explanatory Text */}
                         <div className="lg:w-1/2 space-y-8">

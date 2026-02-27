@@ -156,7 +156,7 @@ export default function PresentationPage() {
 
 
             {/* ═══════════ VISÃO GERAL / METRICS ═══════════ */}
-            <section id="visao-geral" className="py-24 relative bg-white z-10">
+            <section id="visao-geral" className="py-14 md:py-24 relative bg-white z-10">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial="hidden"
@@ -196,17 +196,17 @@ export default function PresentationPage() {
 
 
             {/* ═══════════ TIMELINE: O ANTES E O DEPOIS ═══════════ */}
-            <section id="processo" className="py-28 bg-[#0F2A1D] relative overflow-hidden">
+            <section id="processo" className="py-16 md:py-28 bg-[#0F2A1D] relative overflow-hidden">
                 {/* Background decorations */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-400/5 rounded-full blur-[80px] pointer-events-none" />
 
                 <div className="container mx-auto px-6 relative z-10">
-                    <div className="text-center max-w-3xl mx-auto mb-20">
+                    <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-[13px] font-semibold uppercase tracking-wider mb-6">
                             <Utensils className="w-3.5 h-3.5" /> Evolução da Operação
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-5 tracking-tight">
+                        <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-5 tracking-tight">
                             Adeus papel e caneta.<br />
                             <span className="text-emerald-400">Olá fluxo digital.</span>
                         </h2>
@@ -389,13 +389,13 @@ export default function PresentationPage() {
 
 
             {/* ═══════════ SHOWCASE: 4 SYSTEM PREVIEWS ═══════════ */}
-            <section id="sistema" className="py-24 bg-slate-50 relative overflow-hidden">
+            <section id="sistema" className="py-14 md:py-24 bg-slate-50 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#0F2A1D]/3 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
-                <div className="container mx-auto px-6 relative z-10 space-y-28">
+                <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-16 md:space-y-28">
 
                     {/* ── 1. CEO Dashboard ── */}
-                    <div className="flex flex-col lg:flex-row items-center gap-14">
+                    <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-14">
                         <motion.div
                             initial={{ opacity: 0, x: -40 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -468,7 +468,7 @@ export default function PresentationPage() {
                                 {/* Dashboard Body */}
                                 <div className="p-4 flex flex-col gap-3">
                                     {/* 4 KPI Cards */}
-                                    <div className="grid grid-cols-4 gap-2.5">
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                         {/* CMV */}
                                         <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
                                             <div className="flex justify-between items-start mb-2">
@@ -530,7 +530,7 @@ export default function PresentationPage() {
                                     </div>
 
                                     {/* Bottom Row: Chart + Heróis */}
-                                    <div className="grid grid-cols-2 gap-2.5">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                         {/* Evolução Chart */}
                                         <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
                                             <div className="flex items-center gap-2 mb-1">
@@ -596,7 +596,7 @@ export default function PresentationPage() {
 
 
                     {/* ── 2. Manager Dashboard ── */}
-                    <div className="flex flex-col lg:flex-row-reverse items-center gap-14">
+                    <div className="flex flex-col lg:flex-row-reverse items-center gap-8 md:gap-14">
                         <motion.div
                             initial={{ opacity: 0, x: 40 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -624,7 +624,7 @@ export default function PresentationPage() {
                         >
                             {/* Manager Dashboard Mockup - Relatórios de Eficiência */}
                             <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-[#0F2A1D]/10 border border-slate-200 bg-[#FAFAF8]">
-                                <div className="flex h-[420px]">
+                                <div className="flex h-[320px] sm:h-[420px]">
                                     {/* Dark Sidebar */}
                                     <div className="w-40 bg-[#0F2A1D] flex flex-col shrink-0 hidden sm:flex">
                                         {/* Logo */}
@@ -705,7 +705,7 @@ export default function PresentationPage() {
                                             </div>
 
                                             {/* 3 KPI Cards */}
-                                            <div className="grid grid-cols-3 gap-2.5">
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                                 <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
                                                     <div className="flex justify-between items-start mb-1">
                                                         <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Taxa de Eficiência</span>
@@ -745,7 +745,7 @@ export default function PresentationPage() {
                                             </div>
 
                                             {/* Bottom Row: Radar + Guia */}
-                                            <div className="grid grid-cols-2 gap-2.5">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                                 {/* Radar de Rejeição */}
                                                 <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
                                                     <div className="flex items-center justify-between mb-3">
@@ -800,7 +800,7 @@ export default function PresentationPage() {
 
 
                     {/* ── 3. Employee Mobile App ── */}
-                    <div className="flex flex-col lg:flex-row items-center gap-14">
+                    <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-14">
                         <motion.div
                             initial={{ opacity: 0, x: -40 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -832,7 +832,7 @@ export default function PresentationPage() {
 
 
                     {/* ── 4. Kitchen Tablet ── */}
-                    <div className="flex flex-col lg:flex-row-reverse items-center gap-14">
+                    <div className="flex flex-col lg:flex-row-reverse items-center gap-8 md:gap-14">
                         <motion.div
                             initial={{ opacity: 0, x: 40 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -902,9 +902,9 @@ export default function PresentationPage() {
 
 
             {/* ═══════════ TECHNOLOGY ═══════════ */}
-            < section id="tecnologia" className="py-24 bg-[#0F2A1D] relative" >
+            <section id="tecnologia" className="py-14 md:py-24 bg-[#0F2A1D] relative" >
                 <div className="container mx-auto px-6">
-                    <div className="text-center max-w-3xl mx-auto mb-14">
+                    <div className="text-center max-w-3xl mx-auto mb-8 md:mb-14">
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Construído com tecnologia de ponta.</h2>
                         <p className="text-base text-white/50 font-normal">Não é apenas um site. É um sistema real-time, suportado pelas mesmas tecnologias usadas por big techs.</p>
                     </div>
@@ -935,23 +935,23 @@ export default function PresentationPage() {
 
 
             {/* ═══════════ CTA FINAL ═══════════ */}
-            < section className="py-24 bg-white text-center" >
+            <section className="py-14 md:py-24 bg-white text-center" >
                 <div className="container mx-auto px-6 max-w-3xl space-y-6">
-                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">O próximo nível do seu negócio.</h2>
+                    <h2 className="text-2xl md:text-5xl font-bold text-slate-900 tracking-tight">O próximo nível do seu negócio.</h2>
                     <p className="text-lg text-slate-500 font-normal">Experimente o sistema e entenda como transformar a operação de ponta a ponta.</p>
-                    <div className="pt-10 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-5">
+                    <div className="pt-6 md:pt-10 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 md:gap-5">
                         <Link href="/">
-                            <Button className="h-auto py-5 px-10 text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
+                            <Button className="h-auto py-4 px-8 md:py-5 md:px-10 text-[14px] md:text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl w-full sm:w-auto">
                                 <Smartphone className="mr-2 w-6 h-6 opacity-80" /> Colaborador
                             </Button>
                         </Link>
                         <Link href="/admin">
-                            <Button className="h-auto py-5 px-10 text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
+                            <Button className="h-auto py-4 px-8 md:py-5 md:px-10 text-[14px] md:text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl w-full sm:w-auto">
                                 <Users className="mr-2 w-6 h-6 opacity-80" /> Gerente
                             </Button>
                         </Link>
                         <Link href="/ceo">
-                            <Button className="h-auto py-5 px-10 text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl">
+                            <Button className="h-auto py-4 px-8 md:py-5 md:px-10 text-[14px] md:text-[16px] font-bold bg-[#0F2A1D] hover:bg-[#163B29] text-white rounded-full shadow-2xl shadow-[#0F2A1D]/25 transition-all hover:-translate-y-1 hover:shadow-3xl w-full sm:w-auto">
                                 <BarChart3 className="mr-2 w-6 h-6 opacity-80" /> CEO
                             </Button>
                         </Link>
