@@ -543,7 +543,7 @@ function StorytellingSection() {
                     <blockquote className="relative">
                         <div className="absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 text-8xl md:text-9xl text-[#1a5d1d]/10 font-serif select-none">&ldquo;</div>
                         <p className="text-xl md:text-3xl font-bold leading-relaxed text-[#3E2723] max-w-3xl mx-auto italic">
-                            Este sistema nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">dentro da cozinha, ao lado de quem pica, cozinha e serve</span> milhares de refeições por dia. Cada funcionalidade foi desenhada para dar voz à operação — transformando a rotina da equipe em dados que geram eficiência, qualidade e economia real.
+                            Este sistema nasceu <span className="text-[#1a5d1d] not-italic font-extrabold">dentro da cozinha, ao lado de quem pica, cozinha e serve</span> milhares de refeições por dia. Cada funcionalidade foi desenhada para dar voz à operação — transformando a rotina da equipe em dados que geram eficiência, qualidade e economia{'\u00A0'}real.
                         </p>
                     </blockquote>
 
