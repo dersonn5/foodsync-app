@@ -309,7 +309,7 @@ export default function PresentationPage() {
                                             Check-in Matinal
                                         </h4>
                                         <p className="text-white/60 font-normal leading-relaxed text-sm">
-                                            Sem automações via WhatsApp. No dia do consumo, o colaborador abre o app e <strong className="text-emerald-400">confirma a presença em 1 clique</strong>. Números sempre exatos para a operação.
+                                            Previsibilidade absoluta. No dia do consumo, o colaborador abre o app e <strong className="text-emerald-400">confirma a presença em 1 clique</strong>. Números sempre exatos e atualizados para a equipe da cozinha.
                                         </p>
                                     </div>
                                 </motion.div>
