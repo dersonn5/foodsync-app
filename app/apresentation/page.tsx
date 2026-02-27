@@ -117,7 +117,7 @@ export default function PresentationPage() {
                     <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover hidden md:block" src="/bg-video.mp4" />
                     <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover md:hidden block" src="/bg-video-mobile.mp4" />
                     {/* Dark gradient overlay to ensure text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#0F2A1D]/80 via-[#0F2A1D]/60 to-slate-50" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0F2A1D]/80 via-[#0F2A1D]/60 to-[#0F2A1D]" />
                 </motion.div>
 
                 <div className="relative z-10 container mx-auto px-6 text-center">
