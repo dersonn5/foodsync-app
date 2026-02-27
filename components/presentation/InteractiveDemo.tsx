@@ -482,7 +482,7 @@ function KitchenTerminal() {
                                         <CheckCircle2 className="w-4 h-4" /> Pedido #1247 Validado
                                     </div>
                                     <div>
-                                        <p className="text-white font-bold text-sm">Anderson Silva</p>
+                                        <p className="text-white font-bold text-sm">Anderson Dote</p>
                                         <p className="text-white/50 text-xs">Strogonoff de Frango • Padrão</p>
                                     </div>
                                 </motion.div>
@@ -548,9 +548,9 @@ function StorytellingSection() {
                     </blockquote>
 
                     <div className="flex items-center justify-center gap-3 pt-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#0F2A1D] to-[#1a5d1d] flex items-center justify-center text-white font-bold text-sm shadow-lg">AS</div>
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#0F2A1D] to-[#1a5d1d] flex items-center justify-center text-white font-bold text-sm shadow-lg">AD</div>
                         <div className="text-left">
-                            <p className="font-extrabold text-[#0F2A1D] text-sm">Anderson Silva</p>
+                            <p className="font-extrabold text-[#0F2A1D] text-sm">Anderson Dote</p>
                             <p className="text-xs text-slate-500 font-medium">Fundador, KitchenOS</p>
                         </div>
                     </div>
