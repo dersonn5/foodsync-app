@@ -403,7 +403,7 @@ function KitchenTerminal() {
                             Validação em <span className="text-[#f8b4a0]">milissegundos.</span><br />Zero filas.
                         </h2>
                         <p className="text-lg text-white/70 font-medium leading-relaxed">
-                            O tablet da cozinha recebe automaticamente todos os pedidos. Na hora da retirada, a equipe apenas escaneia o QR Code do funcionário e o pedido é validado instantaneamente.
+                            O tablet da cozinha recebe automaticamente todos os pedidos.<br />Na hora da retirada, a equipe apenas escaneia o QR Code do funcionário e o pedido é validado{'\u00A0'}instantaneamente.
                             <br /><br />
                             Sem buscar nomes. Sem folhear papéis. Sem incerteza.
                         </p>
