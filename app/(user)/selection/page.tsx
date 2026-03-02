@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState, Suspense, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { MenuItem } from '@/types'
@@ -12,6 +12,8 @@ import { sendConfirmationMessage } from '@/app/actions/whatsapp'
 import SignOutButton from '@/components/SignOutButton'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { ConfirmDialog } from '@/components/app/confirm-dialog'
+import { Toaster, toast } from 'sonner'
 
 // Helper to standardise date string for DB (YYYY-MM-DD)
 const getDateStr = (date: Date) => format(date, 'yyyy-MM-dd')
@@ -36,6 +38,13 @@ function SelectionContent() {
     const [submitting, setSubmitting] = useState(false)
     const [existingOrder, setExistingOrder] = useState<any>(null)
     const [activeTab, setActiveTab] = useState<'all' | 'main' | 'fit' | 'snack'>('all')
+
+    // Dialog state
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [dialogConfig, setDialogConfig] = useState<{
+        title: string; message: string; confirmLabel: string;
+        variant: 'danger' | 'warning'; onConfirm: () => void
+    } | null>(null)
 
     // Generate next 14 days for calendar
     const calendarDays = Array.from({ length: 14 }, (_, i) => addDays(startOfToday(), i))
@@ -124,24 +133,33 @@ function SelectionContent() {
             }
         } catch (err) {
             console.error('Order failed', err)
-            alert('Erro ao confirmar pedido.')
+            toast.error('Erro ao confirmar pedido.')
         } finally {
             setSubmitting(false)
         }
     }
 
-    const handleSwapOrder = async () => {
-        if (!confirm('Trocar seu prato para este dia?')) return
+    const executeSwap = async () => {
         try {
             await supabase.from('orders').delete().eq('id', existingOrder.id)
             setExistingOrder(null)
         } catch (err) {
-            alert('Erro ao trocar pedido')
+            toast.error('Erro ao trocar pedido')
         }
     }
 
-    const handleCancelOrder = async () => {
-        if (!confirm('Deseja cancelar seu pedido para este dia?')) return
+    const handleSwapOrder = () => {
+        setDialogConfig({
+            title: 'Trocar prato?',
+            message: 'Seu pedido atual será removido e você poderá escolher outro prato.',
+            confirmLabel: 'Trocar',
+            variant: 'warning',
+            onConfirm: () => { setDialogOpen(false); executeSwap() }
+        })
+        setDialogOpen(true)
+    }
+
+    const executeCancel = async () => {
         try {
             const { error } = await supabase
                 .from('orders')
@@ -150,8 +168,19 @@ function SelectionContent() {
             if (error) throw error
             setExistingOrder({ ...existingOrder, status: 'canceled' })
         } catch (err) {
-            alert('Erro ao cancelar pedido')
+            toast.error('Erro ao cancelar pedido')
         }
+    }
+
+    const handleCancelOrder = () => {
+        setDialogConfig({
+            title: 'Cancelar pedido?',
+            message: 'Seu pedido para este dia será cancelado. Você poderá fazer um novo pedido depois.',
+            confirmLabel: 'Sim, cancelar',
+            variant: 'danger',
+            onConfirm: () => { setDialogOpen(false); executeCancel() }
+        })
+        setDialogOpen(true)
     }
 
     // Allow actions on today or future dates
@@ -431,6 +460,23 @@ function SelectionContent() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* In-App Toasts */}
+            <Toaster position="top-center" richColors />
+
+            {/* Confirmation Dialog */}
+            {dialogConfig && (
+                <ConfirmDialog
+                    isOpen={dialogOpen}
+                    title={dialogConfig.title}
+                    message={dialogConfig.message}
+                    confirmLabel={dialogConfig.confirmLabel}
+                    cancelLabel="Voltar"
+                    variant={dialogConfig.variant}
+                    onConfirm={dialogConfig.onConfirm}
+                    onCancel={() => setDialogOpen(false)}
+                />
+            )}
         </div>
     )
 }
