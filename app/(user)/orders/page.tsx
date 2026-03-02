@@ -155,6 +155,12 @@ export default function OrdersPage() {
                 isOpen={isTicketOpen}
                 onClose={() => setIsTicketOpen(false)}
                 order={selectedOrder}
+                onOrderCanceled={(orderId) => {
+                    setOrders(prev => prev.map(o =>
+                        o.id === orderId ? { ...o, status: 'canceled' } : o
+                    ))
+                    setSelectedOrder((prev: any) => prev ? { ...prev, status: 'canceled' } : prev)
+                }}
             />
         </div>
     )

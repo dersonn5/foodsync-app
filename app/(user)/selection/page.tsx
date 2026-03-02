@@ -425,16 +425,9 @@ function SelectionContent() {
                                         <Button
                                             onClick={handleSwapOrder}
                                             variant="ghost"
-                                            className="flex-1 h-10 bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200 font-bold rounded-xl active:scale-95 transition-all text-xs"
+                                            className="h-10 px-5 bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200 font-bold rounded-xl active:scale-95 transition-all text-xs"
                                         >
                                             Trocar Prato
-                                        </Button>
-                                        <Button
-                                            onClick={handleCancelOrder}
-                                            variant="ghost"
-                                            className="h-10 px-4 bg-red-50 text-red-500 hover:bg-red-100 border border-red-100 font-bold rounded-xl active:scale-95 transition-all text-xs"
-                                        >
-                                            Cancelar
                                         </Button>
                                     </div>
                                 )}

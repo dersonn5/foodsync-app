@@ -38,7 +38,7 @@ const stepsData = [
         badge: 'Passo 1 de 3',
         tagline: 'Cardápio Inteligente',
         title: <>Escolha trava o{'\u00A0'}custo.<br />Previne desperdício.</>,
-        description: 'O funcionário acessa o app de qualquer lugar e escolhe o prato. A cozinha sabe exatamente quanto producing, reduzindo o CMV (Custo de Mercadoria Vendida).',
+        description: 'O funcionário acessa o app de qualquer lugar e escolhe o prato. A cozinha sabe exatamente quanto produzir, reduzindo o CMV (Custo de Mercadoria Vendida).',
         highlight: 'Selecione o "Strogonoff" no celular ao lado →',
         stat: { value: '-32%', label: 'de desperdício de insumos' },
     },
