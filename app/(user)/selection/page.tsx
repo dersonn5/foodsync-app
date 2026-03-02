@@ -140,8 +140,22 @@ function SelectionContent() {
         }
     }
 
-    // Check if the selected date is in the future (allows swapping)
-    const canSwap = selectedDate > startOfToday()
+    const handleCancelOrder = async () => {
+        if (!confirm('Deseja cancelar seu pedido para este dia?')) return
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'canceled' })
+                .eq('id', existingOrder.id)
+            if (error) throw error
+            setExistingOrder({ ...existingOrder, status: 'canceled' })
+        } catch (err) {
+            alert('Erro ao cancelar pedido')
+        }
+    }
+
+    // Allow actions on today or future dates
+    const canModify = selectedDate >= startOfToday()
 
     const filteredItems = activeTab === 'all'
         ? menuItems
@@ -366,23 +380,34 @@ function SelectionContent() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-slate-200/60 flex items-center justify-between gap-4">
-                                <div className="flex-1 pl-2">
-                                    <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
-                                        <Check className="w-3 h-3 text-emerald-600" /> Pedido Confirmado
-                                    </p>
-                                    <p className="text-sm font-bold line-clamp-1" style={{ color: '#0F2A1D' }}>
-                                        {existingOrder.menu_items?.name || 'Prato Reservado'}
-                                    </p>
+                            <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-slate-200/60 flex flex-col gap-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex-1 pl-2">
+                                        <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
+                                            <Check className="w-3 h-3 text-emerald-600" /> Pedido Confirmado
+                                        </p>
+                                        <p className="text-sm font-bold line-clamp-1" style={{ color: '#0F2A1D' }}>
+                                            {existingOrder.menu_items?.name || 'Prato Reservado'}
+                                        </p>
+                                    </div>
                                 </div>
-                                {canSwap && (
-                                    <Button
-                                        onClick={handleSwapOrder}
-                                        variant="ghost"
-                                        className="h-10 px-4 bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-200 font-bold rounded-xl active:scale-95 transition-all text-xs"
-                                    >
-                                        Trocar
-                                    </Button>
+                                {canModify && (
+                                    <div className="flex gap-2">
+                                        <Button
+                                            onClick={handleSwapOrder}
+                                            variant="ghost"
+                                            className="flex-1 h-10 bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200 font-bold rounded-xl active:scale-95 transition-all text-xs"
+                                        >
+                                            Trocar Prato
+                                        </Button>
+                                        <Button
+                                            onClick={handleCancelOrder}
+                                            variant="ghost"
+                                            className="h-10 px-4 bg-red-50 text-red-500 hover:bg-red-100 border border-red-100 font-bold rounded-xl active:scale-95 transition-all text-xs"
+                                        >
+                                            Cancelar
+                                        </Button>
+                                    </div>
                                 )}
                             </div>
                         )}
