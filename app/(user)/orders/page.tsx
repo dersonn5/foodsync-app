@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { formatDateUTC, formatDateDisplay } from '@/lib/utils'
-import { Loader2, Ticket as TicketIcon, CalendarClock, UtensilsCrossed, Sparkles } from 'lucide-react'
+import { Loader2, Ticket as TicketIcon, CalendarClock, UtensilsCrossed, Sparkles, Ban } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { OrderTicketDialog } from "@/components/app/order-ticket-dialog"
 
@@ -104,7 +104,7 @@ export default function OrdersPage() {
                             >
                                 {/* Active Strip Indicator */}
                                 <div
-                                    className={`absolute left-0 top-0 bottom-0 w-1 ${order.status !== 'confirmed' && 'bg-amber-400'}`}
+                                    className={`absolute left-0 top-0 bottom-0 w-1 ${order.status === 'canceled' ? 'bg-red-400' : ''}`}
                                     style={order.status === 'confirmed' ? { backgroundColor: '#0F2A1D' } : {}}
                                 />
 
@@ -122,10 +122,15 @@ export default function OrdersPage() {
                                                 <Sparkles className="w-3 h-3" />
                                                 Confirmado
                                             </span>
+                                        ) : order.status === 'canceled' ? (
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wide border border-red-200">
+                                                <Ban className="w-3 h-3" />
+                                                Cancelado
+                                            </span>
                                         ) : (
                                             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide border border-amber-200">
                                                 <CalendarClock className="w-3 h-3" />
-                                                Pendente
+                                                {order.status}
                                             </span>
                                         )}
                                     </div>

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { MenuItem } from '@/types'
 import { Button } from '@/components/ui/button'
-import { Check, Utensils, Loader2, ArrowRight, CalendarX, Plus, ChefHat } from 'lucide-react'
+import { Check, Utensils, Loader2, ArrowRight, CalendarX, Plus, ChefHat, Ban } from 'lucide-react'
 import { format, startOfToday, parseISO, isValid, addDays, isSameDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { sendConfirmationMessage } from '@/app/actions/whatsapp'
@@ -109,7 +109,7 @@ function SelectionContent() {
                     user_id: user.id,
                     menu_item_id: selectedId,
                     consumption_date: dateStr,
-                    status: 'pending'
+                    status: 'confirmed'
                 })
                 .select('*, menu_items(*)')
                 .single()
@@ -130,40 +130,18 @@ function SelectionContent() {
         }
     }
 
-    const handleCancelOrder = async () => {
-        if (!confirm('Cancelar pedido deste dia?')) return
+    const handleSwapOrder = async () => {
+        if (!confirm('Trocar seu prato para este dia?')) return
         try {
             await supabase.from('orders').delete().eq('id', existingOrder.id)
             setExistingOrder(null)
         } catch (err) {
-            alert('Erro ao cancelar')
+            alert('Erro ao trocar pedido')
         }
     }
 
-    const handleCheckIn = async () => {
-        if (!existingOrder) return
-        setSubmitting(true)
-        try {
-            const { data, error } = await supabase
-                .from('orders')
-                .update({ status: 'confirmed' })
-                .eq('id', existingOrder.id)
-                .select('*, menu_items(*)')
-                .single()
-
-            if (data) {
-                setExistingOrder(data)
-            } else if (error) {
-                console.error(error)
-                alert('Erro ao confirmar presença.')
-            }
-        } catch (err) {
-            console.error('Check-in failed', err)
-            alert('Erro ao confirmar presença.')
-        } finally {
-            setSubmitting(false)
-        }
-    }
+    // Check if the selected date is in the future (allows swapping)
+    const canSwap = selectedDate > startOfToday()
 
     const filteredItems = activeTab === 'all'
         ? menuItems
@@ -376,55 +354,36 @@ function SelectionContent() {
                         exit={{ y: 100, opacity: 0 }}
                         className="fixed bottom-24 left-4 right-4 z-40 flex flex-col gap-2"
                     >
-                        {existingOrder.status === 'pending' && isSameDay(selectedDate, startOfToday()) ? (
-                            <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-amber-200/60 flex flex-col gap-3">
-                                <div>
-                                    <p className="text-[10px] text-amber-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
-                                        <Loader2 className="w-3 h-3 text-amber-500 animate-spin" /> Check-in Pendente
+                        {existingOrder.status === 'canceled' ? (
+                            <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-red-200/60 flex items-center justify-between gap-4">
+                                <div className="flex-1 pl-2">
+                                    <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
+                                        <Ban className="w-3 h-3 text-red-500" /> Cancelado pela Cozinha
                                     </p>
-                                    <p className="text-sm font-bold line-clamp-1" style={{ color: '#0F2A1D' }}>
-                                        {existingOrder.menu_items?.name || 'Prato Reservado'}
+                                    <p className="text-sm font-bold line-clamp-1 text-slate-400 line-through">
+                                        {existingOrder.menu_items?.name || 'Prato'}
                                     </p>
-                                </div>
-                                <div className="flex gap-2">
-                                    <Button
-                                        onClick={handleCheckIn}
-                                        disabled={submitting}
-                                        className="flex-1 h-12 text-sm font-bold text-white rounded-xl shadow-lg active:scale-95 transition-all bg-emerald-600 hover:bg-emerald-700"
-                                    >
-                                        {submitting ? <Loader2 className="animate-spin text-white w-5 h-5 mx-auto" /> : 'Confirmar Presença Hoje'}
-                                    </Button>
-                                    <Button
-                                        onClick={handleCancelOrder}
-                                        variant="ghost"
-                                        className="h-12 px-4 bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 font-bold rounded-xl active:scale-95 transition-all text-xs"
-                                    >
-                                        Cancelar
-                                    </Button>
                                 </div>
                             </div>
                         ) : (
                             <div className="w-full bg-white/95 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-slate-200/60 flex items-center justify-between gap-4">
                                 <div className="flex-1 pl-2">
                                     <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest mb-0.5 flex items-center gap-1">
-                                        <Check className="w-3 h-3 text-emerald-600" /> {existingOrder.status === 'confirmed' ? 'Presença Confirmada' : 'Reserva Feita'}
+                                        <Check className="w-3 h-3 text-emerald-600" /> Pedido Confirmado
                                     </p>
                                     <p className="text-sm font-bold line-clamp-1" style={{ color: '#0F2A1D' }}>
                                         {existingOrder.menu_items?.name || 'Prato Reservado'}
                                     </p>
-                                    {existingOrder.status === 'pending' && (
-                                        <p className="text-[10px] text-slate-400 mt-1 line-clamp-1">
-                                            Lembre-se de confirmar no dia {format(selectedDate, 'dd/MM')}.
-                                        </p>
-                                    )}
                                 </div>
-                                <Button
-                                    onClick={handleCancelOrder}
-                                    variant="ghost"
-                                    className="h-10 px-4 bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-200 font-bold rounded-xl active:scale-95 transition-all text-xs"
-                                >
-                                    Trocar
-                                </Button>
+                                {canSwap && (
+                                    <Button
+                                        onClick={handleSwapOrder}
+                                        variant="ghost"
+                                        className="h-10 px-4 bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-200 font-bold rounded-xl active:scale-95 transition-all text-xs"
+                                    >
+                                        Trocar
+                                    </Button>
+                                )}
                             </div>
                         )}
                     </motion.div>

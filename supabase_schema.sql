@@ -46,13 +46,15 @@ create table public.daily_menu_items (
 );
 
 -- ORDERS TABLE
+-- Status flow: confirmed (at selection) -> consumed (after QR scan)
+-- Only kitchen staff can cancel: confirmed -> canceled
 create table public.orders (
   id uuid default uuid_generate_v4() primary key,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   user_id uuid references public.users(id) not null,
   menu_item_id uuid references public.menu_items(id) not null,
   consumption_date date not null,
-  status text not null check (status in ('pending', 'consumed', 'missed')) default 'pending'
+  status text not null check (status in ('confirmed', 'canceled', 'consumed')) default 'confirmed'
 );
 
 -- ROW LEVEL SECURITY (RLS)

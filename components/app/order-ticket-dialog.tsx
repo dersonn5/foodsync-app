@@ -75,8 +75,13 @@ export function OrderTicketDialog({ isOpen, onClose, order }: OrderTicketProps) 
 
                     {/* Dados do Pedido */}
                     <div className="text-center space-y-1">
-                        <Badge variant="outline" className="mb-2 bg-green-50 text-green-700 border-green-200 px-3 py-1">
-                            {order.status === 'confirmed' ? 'CONFIRMADO' : order.status}
+                        <Badge variant="outline" className={`mb-2 px-3 py-1 ${order.status === 'confirmed'
+                                ? 'bg-green-50 text-green-700 border-green-200'
+                                : order.status === 'canceled'
+                                    ? 'bg-red-50 text-red-600 border-red-200'
+                                    : 'bg-slate-50 text-slate-600 border-slate-200'
+                            }`}>
+                            {order.status === 'confirmed' ? 'CONFIRMADO' : order.status === 'canceled' ? 'CANCELADO' : order.status.toUpperCase()}
                         </Badge>
                         <h3 className="font-bold text-lg text-slate-900 leading-tight px-4">
                             {dishName}

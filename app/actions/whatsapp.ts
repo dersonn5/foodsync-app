@@ -60,3 +60,50 @@ export async function sendConfirmationMessage({ phone, dishName }: SendConfirmat
     }
 }
 
+interface SendCancellationParams {
+    phone: string
+    dishName: string
+    reason?: string
+}
+
+export async function sendCancellationMessage({ phone, dishName, reason }: SendCancellationParams) {
+    try {
+        const apiUrl = process.env.EVOLUTION_API_URL
+        const apiKey = process.env.EVOLUTION_API_KEY
+        const instance = process.env.EVOLUTION_INSTANCE || 'default'
+
+        if (!apiUrl || !apiKey) {
+            console.warn('Evolution API credentials not set. Skipping WhatsApp message.')
+            return
+        }
+
+        const cleanPhone = phone.replace(/\D/g, '')
+
+        const message = `⚠️ *Pedido Cancelado pela Cozinha* \n\nPrato: ${dishName} ${reason ? `\nMotivo: ${reason}` : ''}\n\nInfelizmente seu pedido foi cancelado pela equipe da cozinha. Por favor, entre em contato para mais informações.`
+
+        await axios.post(
+            `${apiUrl}/message/sendText/${instance}`,
+            {
+                number: cleanPhone,
+                options: {
+                    delay: 1200,
+                    presence: "composing",
+                    linkPreview: false
+                },
+                textMessage: {
+                    text: message
+                }
+            },
+            {
+                headers: {
+                    apikey: apiKey
+                }
+            }
+        )
+
+        console.log(`WhatsApp cancellation sent to ${cleanPhone}`)
+
+    } catch (error: any) {
+        console.error('Failed to send WhatsApp cancellation:', error.response?.data || error.message)
+    }
+}

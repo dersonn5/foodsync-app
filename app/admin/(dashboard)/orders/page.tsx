@@ -32,12 +32,13 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { formatDateDisplay } from '@/lib/utils'
+import { sendCancellationMessage } from '@/app/actions/whatsapp'
 
 interface Order {
     id: string
     created_at: string
     consumption_date: string
-    status: 'pending' | 'confirmed' | 'canceled'
+    status: 'confirmed' | 'canceled' | 'consumed'
     users: {
         name: string
         email: string
@@ -63,7 +64,7 @@ function AdminOrdersPageContent() {
 
     const [orders, setOrders] = useState<Order[]>([])
     const [loading, setLoading] = useState(true)
-    const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'confirmed'>('all')
+    const [filterStatus, setFilterStatus] = useState<'all' | 'confirmed' | 'canceled'>('all')
     const [searchQuery, setSearchQuery] = useState('')
 
     // Identify Date from URL or Default to Today
@@ -107,20 +108,30 @@ function AdminOrdersPageContent() {
         }
     }
 
-    const handleUpdateStatus = async (id: string, newStatus: string) => {
+    const handleCancelOrder = async (id: string) => {
         // Optimistic Update
-        setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus as any } : o))
+        const orderToCancel = orders.find(o => o.id === id)
+        setOrders(prev => prev.map(o => o.id === id ? { ...o, status: 'canceled' as any } : o))
 
         try {
             const { error } = await supabase
                 .from('orders')
-                .update({ status: newStatus })
+                .update({ status: 'canceled' })
                 .eq('id', id)
 
             if (error) throw error
-            toast.success(`Pedido ${newStatus === 'confirmed' ? 'confirmado' : 'cancelado'}`)
+            toast.success('Pedido cancelado')
+
+            // Send WhatsApp notification to employee
+            if (orderToCancel?.users) {
+                const phone = (orderToCancel.users as any)?.phone
+                const dishName = orderToCancel.menu_items?.name || 'Prato'
+                if (phone) {
+                    sendCancellationMessage({ phone, dishName }).catch(console.error)
+                }
+            }
         } catch (error) {
-            toast.error('Erro ao atualizar')
+            toast.error('Erro ao cancelar')
             fetchOrders(currentDateStr) // Revert
         }
     }
@@ -141,7 +152,7 @@ function AdminOrdersPageContent() {
     const stats = {
         total: orders.length,
         canceled: orders.filter(o => o.status === 'canceled').length,
-        pending: orders.filter(o => o.status === 'pending').length
+        confirmed: orders.filter(o => o.status === 'confirmed').length
     }
 
     return (
@@ -201,7 +212,7 @@ function AdminOrdersPageContent() {
 
                         {/* Status Filter - Premium */}
                         <div id="tour-orders-filter" className="flex items-center gap-1 bg-white/60 backdrop-blur-xl p-1 rounded-xl border border-slate-200/60 shadow-sm">
-                            {(['all', 'pending', 'confirmed'] as const).map((status) => (
+                            {(['all', 'confirmed', 'canceled'] as const).map((status) => (
                                 <button
                                     key={status}
                                     onClick={() => setFilterStatus(status)}
@@ -213,7 +224,7 @@ function AdminOrdersPageContent() {
                                         }
                                     `}
                                 >
-                                    {status === 'all' ? 'Todos' : status === 'pending' ? 'Pendentes' : 'Confirmados'}
+                                    {status === 'all' ? 'Todos' : status === 'confirmed' ? 'Confirmados' : 'Cancelados'}
                                 </button>
                             ))}
                         </div>
@@ -246,21 +257,18 @@ function AdminOrdersPageContent() {
                         </CardContent>
                     </Card>
 
-                    <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl ${stats.pending > 0
-                        ? 'bg-amber-50/60 backdrop-blur-xl border-amber-200/60 shadow-amber-500/10'
-                        : 'bg-white/60 backdrop-blur-xl border-slate-200/60 hover:bg-white/70 hover:shadow-md'
-                        }`}>
+                    <Card className={`border shadow-sm transition-all overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border-slate-200/60 hover:bg-white/70 hover:shadow-md`}>
                         <CardContent className="p-4 flex items-center justify-between">
                             <div>
-                                <p className={`text-[10px] font-medium uppercase tracking-wider mb-0.5 ${stats.pending > 0 ? 'text-amber-700' : 'text-brand-600'}`}>
-                                    Pendente
+                                <p className="text-[10px] font-medium text-brand-600 uppercase tracking-wider mb-0.5">
+                                    Confirmados
                                 </p>
-                                <h3 className={`text-2xl font-bold ${stats.pending > 0 ? 'text-amber-600' : 'text-brand-900'}`}>
-                                    {stats.pending}
+                                <h3 className="text-2xl font-bold text-brand-900">
+                                    {stats.confirmed}
                                 </h3>
                             </div>
-                            <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${stats.pending > 0 ? 'bg-amber-100/80' : 'bg-brand-100/50'}`}>
-                                <Clock className={`w-5 h-5 ${stats.pending > 0 ? 'text-amber-600' : 'text-brand-600'}`} />
+                            <div className="h-10 w-10 rounded-xl flex items-center justify-center bg-brand-100/50">
+                                <CheckCircle2 className="w-5 h-5 text-brand-600" />
                             </div>
                         </CardContent>
                     </Card>
@@ -288,10 +296,7 @@ function AdminOrdersPageContent() {
                             key={order.id}
                             className={`
                                 group flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 rounded-2xl border transition-all hover:shadow-md
-                                ${order.status === 'pending'
-                                    ? 'border-amber-200/60 bg-white/80 backdrop-blur-xl shadow-sm shadow-amber-500/5'
-                                    : 'bg-white/60 backdrop-blur-xl border-slate-200/60 shadow-sm hover:border-slate-300 hover:bg-white/70'
-                                }
+                                bg-white/60 backdrop-blur-xl border-slate-200/60 shadow-sm hover:border-slate-300 hover:bg-white/70
                             `}
                         >
                             {/* Left: User Info */}
@@ -318,42 +323,27 @@ function AdminOrdersPageContent() {
                                         <span>
                                             {format(new Date(order.created_at), "HH:mm '•' dd MMM", { locale: ptBR })}
                                         </span>
-                                        {order.status === 'pending' && (
-                                            <span className="text-amber-600 font-semibold bg-amber-50 px-1.5 py-0.5 rounded-md">
-                                                Aguardando
-                                            </span>
-                                        )}
                                     </div>
                                 </div>
                             </div>
 
                             {/* Right: Actions */}
                             <div className="flex items-center gap-2 justify-end">
-                                {order.status === 'pending' && (
+                                {order.status === 'confirmed' && (
                                     <>
                                         <Button
                                             size="sm"
                                             variant="outline"
-                                            onClick={() => handleUpdateStatus(order.id, 'canceled')}
+                                            onClick={() => handleCancelOrder(order.id)}
                                             className="text-red-500 hover:text-red-600 hover:bg-red-50 border-red-100 hover:border-red-200 h-9 px-4 text-xs rounded-xl"
                                         >
                                             Cancelar
                                         </Button>
-                                        <Button
-                                            size="sm"
-                                            onClick={() => handleUpdateStatus(order.id, 'confirmed')}
-                                            className="bg-brand-800 hover:bg-brand-900 text-white h-9 px-5 text-xs rounded-xl shadow-md shadow-brand-900/20 font-semibold"
-                                        >
-                                            Confirmar
-                                        </Button>
+                                        <div className="flex items-center gap-1.5 text-brand-800 font-semibold bg-brand-50/50 px-4 py-2 rounded-xl border border-brand-100/50 text-xs shadow-sm">
+                                            <CheckCircle2 className="w-4 h-4" />
+                                            <span>Confirmado</span>
+                                        </div>
                                     </>
-                                )}
-
-                                {order.status === 'confirmed' && (
-                                    <div className="flex items-center gap-1.5 text-brand-800 font-semibold bg-brand-50/50 px-4 py-2 rounded-xl border border-brand-100/50 text-xs shadow-sm">
-                                        <CheckCircle2 className="w-4 h-4" />
-                                        <span>Confirmado</span>
-                                    </div>
                                 )}
 
                                 {order.status === 'canceled' && (
