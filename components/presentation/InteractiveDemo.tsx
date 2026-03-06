@@ -45,10 +45,10 @@ const stepsData = [
     {
         id: 2,
         badge: 'Passo 2 de 3',
-        tagline: 'Check-in Matinal',
+        tagline: 'Pedido Confirmado',
         title: 'Previsibilidade absoluta.',
-        description: 'No dia do consumo, o colaborador abre o app e clica em um botão para confirmar que fará a refeição. Números sempre exatos e atualizados para a operação.',
-        highlight: 'Clique em "Confirmar Presença" →',
+        description: 'Ao escolher a refeição, a presença já é confirmada automaticamente. A cozinha recebe os números exatos e atualizados em tempo real, sem necessidade de check-ins adicionais.',
+        highlight: 'Clique em "Ver QR Code" →',
         stat: { value: '100%', label: 'precisão na produção diária' },
     },
     {
@@ -235,8 +235,8 @@ function PhoneScreenCheckIn({ onAction }: { onAction: () => void }) {
             <div className="flex-1 px-5 pt-5 relative">
                 <div className="bg-white rounded-3xl p-5 shadow-[0_10px_40px_rgba(0,0,0,0.05)] border border-slate-100">
                     <div className="flex justify-between items-start mb-4">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-600 text-[9px] font-bold uppercase tracking-wider">
-                            <Clock className="w-3 h-3 text-amber-500" /> Pendente
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200/60 text-emerald-600 text-[9px] font-bold uppercase tracking-wider">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Confirmado
                         </div>
                         <span className="text-[10px] font-bold text-slate-400">Quinta, 26</span>
                     </div>
@@ -253,10 +253,11 @@ function PhoneScreenCheckIn({ onAction }: { onAction: () => void }) {
 
                     <button
                         onClick={onAction}
-                        className="relative w-full bg-emerald-600 text-white font-bold text-sm h-12 rounded-xl shadow-[0_8px_20px_rgba(5,150,105,0.25)] hover:bg-emerald-700 transition-colors cursor-pointer select-none"
+                        className="relative w-full bg-[#0F2A1D] text-white font-bold text-sm h-12 rounded-xl shadow-[0_8px_20px_rgba(15,42,29,0.25)] hover:bg-[#163b29] transition-colors cursor-pointer select-none flex items-center justify-center gap-2"
                     >
-                        <span className="absolute -inset-1 rounded-2xl animate-pulse bg-emerald-600/20 pointer-events-none" />
-                        <span className="relative z-10">Confirmar Presença Hoje</span>
+                        <span className="absolute -inset-1 rounded-2xl animate-pulse bg-[#0F2A1D]/10 pointer-events-none" />
+                        <QrCode className="w-4 h-4 relative z-10" />
+                        <span className="relative z-10">Ver QR Code</span>
                     </button>
                     <button className="w-full mt-2 text-xs font-semibold text-slate-400 hover:text-slate-600 h-8">
                         Cancelar Reserva
